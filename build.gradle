@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = 1.8
+group = 'crowdin-java-sdk-2'
+
+version '1.0'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.28'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task buildJavaSdkJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Crowdin Java SDK',
+                'Implementation-Version': version,
+                'Main-Class': 'com.crowdin.Crowdin'
+    }
+    archivesBaseName = 'crowdin'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
