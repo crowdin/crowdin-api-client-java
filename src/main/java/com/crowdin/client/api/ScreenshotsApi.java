@@ -9,7 +9,7 @@ import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.request.StorageReference;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -20,57 +20,56 @@ public class ScreenshotsApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Screenshot>> getScreenshots(String userId, String projectId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Screenshot>> getScreenshots(String projectId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Screenshot>>() {
         })
                 .path(Path.SCREENSHOTS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> createScreenshot(String userId, String projectId, StorageReference storageReference) {
+    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> createScreenshot(String projectId, StorageReference storageReference) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Screenshot>>() {
         })
                 .path(Path.SCREENSHOTS)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId)
                 .requestBody(storageReference);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> getScreenshot(String userId, String projectId, String fileId, String screenshotId) {
+    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> getScreenshot(String projectId, String fileId, String screenshotId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Screenshot>>() {
         })
                 .path(Path.SCREENSHOT)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, fileId, projectId, screenshotId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, fileId, projectId, screenshotId);
     }
 
 
-    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> replaceScreenshot(String userId, String projectId, String fileId, String screenshotId, StorageReference storageReference) {
+    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> replaceScreenshot(String projectId, String fileId, String screenshotId, StorageReference storageReference) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Screenshot>>() {
         })
                 .path(Path.SCREENSHOT)
-                .method(HttpClient.HttpMethod.PUT)
+                .method(CrowdinHttpClient.HttpMethod.PUT)
                 .requestBody(storageReference)
-                .pathParams(userId, projectId, fileId, projectId, screenshotId);
+                .pathParams(projectId, fileId, projectId, screenshotId);
     }
 
-    public CrowdinRequestBuilder<String> deleteProject(String userId, String projectId, String fileId, String screenshotId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteProject(String projectId, String fileId, String screenshotId) {
+        return getBuilderWithSettings()
                 .path(Path.SCREENSHOT)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, projectId, fileId, projectId, screenshotId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(projectId, fileId, projectId, screenshotId);
 
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> updateProject(String userId, String projectId, String fileId, String referenceId, List<PatchOperation> updateOperations) {
+    public CrowdinRequestBuilder<SimpleResponse<Screenshot>> updateProject(String projectId, String fileId, String referenceId, List<PatchOperation> updateOperations) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Screenshot>>() {
         })
                 .path(Path.SCREENSHOT)
-                .method(HttpClient.HttpMethod.PATCH)
-                .pathParams(userId, projectId, fileId, projectId, referenceId)
+                .method(CrowdinHttpClient.HttpMethod.PATCH)
+                .pathParams(projectId, fileId, projectId, referenceId)
                 .requestBody(updateOperations);
     }
 }

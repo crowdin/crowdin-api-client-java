@@ -2,10 +2,10 @@ package com.crowdin.common.models;
 
 public class Term {
 
-    private long id;
-    private long userId;
-    private long glossaryId;
-    private long languageId;
+    private Long id;
+    private Long userId;
+    private Long glossaryId;
+    private Long languageId;
     private String text;
     private String description;
     private String partOfSpeech;
@@ -13,35 +13,35 @@ public class Term {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    public long getGlossaryId() {
+    public Long getGlossaryId() {
         return glossaryId;
     }
 
-    public void setGlossaryId(long glossaryId) {
+    public void setGlossaryId(Long glossaryId) {
         this.glossaryId = glossaryId;
     }
 
-    public long getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(long languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 

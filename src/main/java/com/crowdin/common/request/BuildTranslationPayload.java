@@ -4,17 +4,17 @@ import java.util.List;
 
 public class BuildTranslationPayload {
 
-    private long branchId;
+    private Long branchId;
     private List<Long> targetLanguagesId;
     private boolean exportTranslatedOnly;
     private boolean exportApprovedOnly;
     private boolean force;
 
-    public long getBranchId() {
+    public Long getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(long branchId) {
+    public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
 

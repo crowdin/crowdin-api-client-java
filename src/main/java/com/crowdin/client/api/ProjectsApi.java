@@ -3,14 +3,13 @@ package com.crowdin.client.api;
 import com.crowdin.client.CrowdinRequestBuilder;
 import com.crowdin.client.Path;
 import com.crowdin.common.Settings;
-import com.crowdin.common.models.Issue;
 import com.crowdin.common.models.Pageable;
 import com.crowdin.common.models.Project;
 import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.request.ProjectPayload;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -21,64 +20,63 @@ public class ProjectsApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Project>> getRootGroupProjects(String userId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Project>> getRootGroupProjects(Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Project>>() {
         })
                 .path(Path.PROJECTS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams()
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Project>> createRootGroupProject(String userId, ProjectPayload projectPayload) {
+    public CrowdinRequestBuilder<SimpleResponse<Project>> createRootGroupProject(ProjectPayload projectPayload) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
         })
                 .path(Path.PROJECTS)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams()
                 .requestBody(projectPayload);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Project>> getProject(String userId, String projectId) {
+    public CrowdinRequestBuilder<SimpleResponse<Project>> getProject(String projectId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
         })
                 .path(Path.PROJECT)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId);
     }
 
-    public CrowdinRequestBuilder<String> deleteProject(String userId, String projectId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteProject(String projectId) {
+        return getBuilderWithSettings()
                 .path(Path.PROJECT)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(projectId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Project>> updateProject(String userId, String projectId, List<PatchOperation> updateOperations) {
+    public CrowdinRequestBuilder<SimpleResponse<Project>> updateProject(String projectId, List<PatchOperation> updateOperations) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
         })
-                .path(Path.ISSUE)
-                .method(HttpClient.HttpMethod.PATCH)
-                .pathParams(userId, projectId)
+                .path(Path.PROJECT)
+                .method(CrowdinHttpClient.HttpMethod.PATCH)
+                .pathParams(projectId)
                 .requestBody(updateOperations);
     }
 
-    public CrowdinRequestBuilder<Page<Project>> getGroupProjects(String userId, String groupId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Project>> getGroupProjects(String groupId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Project>>() {
         })
                 .path(Path.GROUP_PROJECTS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, groupId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(groupId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Issue>> createGroupProject(String userId, String groupId, ProjectPayload projectPayload) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<Issue>>() {
+    public CrowdinRequestBuilder<SimpleResponse<Project>> createGroupProject(String groupId, ProjectPayload projectPayload) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
         })
                 .path(Path.GROUP_PROJECTS)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, groupId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(groupId)
                 .requestBody(projectPayload);
     }
 }

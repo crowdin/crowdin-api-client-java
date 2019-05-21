@@ -1,7 +1,7 @@
 package com.crowdin.common.models;
 
 public class Progress {
-    private long languageId;
+    private Long languageId;
     private int phrasesCount;
     private int phrasesTranslatedCount;
     private int phrasesApprovedCount;
@@ -13,11 +13,11 @@ public class Progress {
     private int wordsTranslatedProgress;
     private int wordsApprovedProgress;
 
-    public long getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(long languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 

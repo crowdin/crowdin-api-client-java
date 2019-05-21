@@ -2,9 +2,9 @@ package com.crowdin.common.models;
 
 public class CrowdinString {
 
-    private long id;
-    private long projectId;
-    private long fileId;
+    private Long id;
+    private Long projectId;
+    private Long fileId;
     private String identifier;
     private String text;
     private int type;
@@ -18,27 +18,27 @@ public class CrowdinString {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public long getFileId() {
+    public Long getFileId() {
         return fileId;
     }
 
-    public void setFileId(long fileId) {
+    public void setFileId(Long fileId) {
         this.fileId = fileId;
     }
 

@@ -6,7 +6,7 @@ import com.crowdin.common.Settings;
 import com.crowdin.common.models.Language;
 import com.crowdin.common.request.PreTranslatePayload;
 import com.crowdin.common.response.Page;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class PreTranslateApi extends Api {
@@ -15,12 +15,12 @@ public class PreTranslateApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Language>> preTranslateProjectFiles(String userId, String projectId, PreTranslatePayload preTranslatePayload) {
+    public CrowdinRequestBuilder<Page<Language>> preTranslateProjectFiles(String projectId, PreTranslatePayload preTranslatePayload) {
         return getBuilderWithSettings(new TypeReference<Page<Language>>() {
         })
                 .path(Path.PRE_TRANSLATE)
                 .requestBody(preTranslatePayload)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId);
     }
 }

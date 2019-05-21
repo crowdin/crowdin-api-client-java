@@ -2,16 +2,16 @@ package com.crowdin.common.request;
 
 public class TermPayload {
 
-    private long languageId;
+    private Long languageId;
     private String text;
     private String description;
     private String partOfSpeech;
 
-    public long getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(long languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 

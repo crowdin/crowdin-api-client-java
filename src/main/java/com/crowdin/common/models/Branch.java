@@ -4,7 +4,7 @@ import com.crowdin.common.request.Request;
 
 public class Branch implements Request {
 
-    private int id;
+    private Long id;
     private int projectId;
     private String name;
     private String title;
@@ -14,11 +14,11 @@ public class Branch implements Request {
     private String createdAt;
     private String updatedAt;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -88,9 +88,16 @@ public class Branch implements Request {
 
     @Override
     public String toString() {
-        return "BranchesApi{" +
+        return "Branch{" +
                 "id=" + id +
+                ", projectId=" + projectId +
                 ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", exportPattern='" + exportPattern + '\'' +
+                ", status=" + status +
+                ", priority=" + priority +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
                 '}';
     }
 }

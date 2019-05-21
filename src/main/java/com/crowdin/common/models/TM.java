@@ -5,27 +5,27 @@ import com.crowdin.common.dto.ProjectShortDto;
 import java.util.List;
 
 public class TM {
-    private long id;
-    private long groupId;
+    private Long id;
+    private Long groupId;
     private String name;
     private List<Long> languageIds;
     private int segmentsCount;
-    private long defaultProjectId;
+    private Long defaultProjectId;
     private List<ProjectShortDto> projects;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
@@ -53,11 +53,11 @@ public class TM {
         this.segmentsCount = segmentsCount;
     }
 
-    public long getDefaultProjectId() {
+    public Long getDefaultProjectId() {
         return defaultProjectId;
     }
 
-    public void setDefaultProjectId(long defaultProjectId) {
+    public void setDefaultProjectId(Long defaultProjectId) {
         this.defaultProjectId = defaultProjectId;
     }
 

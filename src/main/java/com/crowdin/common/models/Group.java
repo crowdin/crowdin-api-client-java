@@ -1,22 +1,22 @@
 package com.crowdin.common.models;
 
 public class Group {
-    private long id;
+    private Long id;
     private int visibility;
 
     private String name;
     private String description;
-    private long parentId;
-    private long organizationId;
-    private long userId;
+    private Long parentId;
+    private Long organizationId;
+    private Long userId;
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,27 +44,27 @@ public class Group {
         this.description = description;
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(long parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
-    public long getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(long organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

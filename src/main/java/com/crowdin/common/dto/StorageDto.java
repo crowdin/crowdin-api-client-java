@@ -2,17 +2,17 @@ package com.crowdin.common.dto;
 
 public class StorageDto {
 
-    private long storageId;
+    private Long storageId;
 
-    public StorageDto(long storageId) {
+    public StorageDto(Long storageId) {
         this.storageId = storageId;
     }
 
-    public long getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(long storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 }

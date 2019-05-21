@@ -1,5 +1,7 @@
 package com.crowdin.common.request;
 
+import java.util.List;
+
 public class LanguagePayload {
 
     private String name;
@@ -9,7 +11,7 @@ public class LanguagePayload {
     private String twoLettersCode;
     private String threeLettersCode;
     private String textDirection;
-    private String pluralCategoryNames;
+    private List<String> pluralCategoryNames;
 
     public String getName() {
         return name;
@@ -63,15 +65,16 @@ public class LanguagePayload {
         return textDirection;
     }
 
+    //todo must be array
     public void setTextDirection(String textDirection) {
         this.textDirection = textDirection;
     }
 
-    public String getPluralCategoryNames() {
+    public List<String> getPluralCategoryNames() {
         return pluralCategoryNames;
     }
 
-    public void setPluralCategoryNames(String pluralCategoryNames) {
+    public void setPluralCategoryNames(List<String> pluralCategoryNames) {
         this.pluralCategoryNames = pluralCategoryNames;
     }
 }

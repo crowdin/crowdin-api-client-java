@@ -1,15 +1,15 @@
 package com.crowdin.common.request;
 
 public class GlossaryPayload {
-    private long storageId;
+    private Long storageId;
     private String scheme;
     private boolean firstLineContainsHeader;
 
-    public long getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(long storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 

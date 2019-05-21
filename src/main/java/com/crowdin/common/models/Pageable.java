@@ -17,6 +17,10 @@ public class Pageable {
         return new Pageable(offset, limit);
     }
 
+    public static Pageable unpaged() {
+        return null;
+    }
+
     public Integer getOffset() {
         return offset;
     }

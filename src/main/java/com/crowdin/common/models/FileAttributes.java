@@ -2,7 +2,7 @@ package com.crowdin.common.models;
 
 public class FileAttributes {
     private String mimeType;
-    private long fileSize;
+    private Long fileSize;
 
     public String getMimeType() {
         return mimeType;
@@ -12,11 +12,11 @@ public class FileAttributes {
         this.mimeType = mimeType;
     }
 
-    public long getFileSize() {
+    public Long getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(long fileSize) {
+    public void setFileSize(Long fileSize) {
         this.fileSize = fileSize;
     }
 }

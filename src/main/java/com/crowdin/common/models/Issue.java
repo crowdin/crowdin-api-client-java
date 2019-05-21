@@ -3,17 +3,17 @@ package com.crowdin.common.models;
 import java.util.List;
 
 public class Issue {
-    private long id;
-    private long projectId;
-    private long creatorId;
+    private Long id;
+    private Long projectId;
+    private Long creatorId;
     private int type;
     private int status;
     private String title;
     private List<Assignee> assignees;
     private List<Long> fileIds;
     private Progress progress;
-    private long sourceLanguageId;
-    private long targetLanguageId;
+    private Long sourceLanguageId;
+    private Long targetLanguageId;
     private String description;
     private String hash;
     private String translationUrl;
@@ -26,27 +26,27 @@ public class Issue {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public long getCreatorId() {
+    public Long getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(long creatorId) {
+    public void setCreatorId(Long creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -98,19 +98,19 @@ public class Issue {
         this.progress = progress;
     }
 
-    public long getSourceLanguageId() {
+    public Long getSourceLanguageId() {
         return sourceLanguageId;
     }
 
-    public void setSourceLanguageId(long sourceLanguageId) {
+    public void setSourceLanguageId(Long sourceLanguageId) {
         this.sourceLanguageId = sourceLanguageId;
     }
 
-    public long getTargetLanguageId() {
+    public Long getTargetLanguageId() {
         return targetLanguageId;
     }
 
-    public void setTargetLanguageId(long targetLanguageId) {
+    public void setTargetLanguageId(Long targetLanguageId) {
         this.targetLanguageId = targetLanguageId;
     }
 

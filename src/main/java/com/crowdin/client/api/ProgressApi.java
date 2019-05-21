@@ -6,7 +6,7 @@ import com.crowdin.common.Settings;
 import com.crowdin.common.models.Pageable;
 import com.crowdin.common.models.Progress;
 import com.crowdin.common.response.Page;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class ProgressApi extends Api {
@@ -15,39 +15,39 @@ public class ProgressApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Progress>> getBranchesProgress(String userId, String projectId, String branchId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Progress>> getBranchesProgress(String projectId, String branchId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Progress>>() {
         })
                 .path(Path.BRANCHES_PROGRESS)
-                .method(HttpClient.HttpMethod.GET)
+                .method(CrowdinHttpClient.HttpMethod.GET)
                 .pageable(pageable)
-                .pathParams(userId, projectId, branchId);
+                .pathParams(projectId, branchId);
     }
 
-    public CrowdinRequestBuilder<Page<Progress>> getDirectoriesProgress(String userId, String projectId, String directoryId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Progress>> getDirectoriesProgress(String projectId, String directoryId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Progress>>() {
         })
                 .path(Path.DIRECTORIES_PROGRESS)
-                .method(HttpClient.HttpMethod.GET)
+                .method(CrowdinHttpClient.HttpMethod.GET)
                 .pageable(pageable)
-                .pathParams(userId, projectId, directoryId);
+                .pathParams(projectId, directoryId);
     }
 
-    public CrowdinRequestBuilder<Page<Progress>> getFilesProgress(String userId, String projectId, String fileId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Progress>> getFilesProgress(String projectId, String fileId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Progress>>() {
         })
                 .path(Path.FILES_PROGRESS)
-                .method(HttpClient.HttpMethod.GET)
+                .method(CrowdinHttpClient.HttpMethod.GET)
                 .pageable(pageable)
-                .pathParams(userId, projectId, fileId);
+                .pathParams(projectId, fileId);
     }
 
-    public CrowdinRequestBuilder<Page<Progress>> getProjectProgress(String userId, String projectId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Progress>> getProjectProgress(String projectId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Progress>>() {
         })
                 .path(Path.PROJECTS_PROGRESS)
-                .method(HttpClient.HttpMethod.GET)
+                .method(CrowdinHttpClient.HttpMethod.GET)
                 .pageable(pageable)
-                .pathParams(userId, projectId);
+                .pathParams(projectId);
     }
 }

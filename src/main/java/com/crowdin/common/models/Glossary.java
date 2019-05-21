@@ -3,21 +3,21 @@ package com.crowdin.common.models;
 import java.util.List;
 
 public class Glossary {
-    private long id;
+    private Long id;
     private String name;
-    private long organizationId;
-    private long groupId;
-    private long userId;
+    private Long organizationId;
+    private Long groupId;
+    private Long userId;
     private int terms;
     private List<Long> languageIds;
     private List<Long> projectIds;
     private String createdAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -29,27 +29,27 @@ public class Glossary {
         this.name = name;
     }
 
-    public long getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(long organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

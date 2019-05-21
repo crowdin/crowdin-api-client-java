@@ -13,7 +13,7 @@ import com.crowdin.common.request.GlossaryPayload;
 import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -23,139 +23,138 @@ public class GlossariesApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Glossary>> getAllGlossaries(String userId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Glossary>> getAllGlossaries(Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Glossary>>() {
         })
                 .path(Path.GLOSSARIES)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams()
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Glossary>> getGlossary(String userId, String glossaryId) {
+    public CrowdinRequestBuilder<SimpleResponse<Glossary>> getGlossary(String glossaryId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Glossary>>() {
         })
                 .path(Path.GLOSSARY)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, glossaryId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(glossaryId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Glossary>> deleteGlossary(String userId, String glossaryId) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<Glossary>>() {
-        })
+    public CrowdinRequestBuilder deleteGlossary(String glossaryId) {
+        return getBuilderWithSettings()
                 .path(Path.GLOSSARY)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, glossaryId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(glossaryId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Glossary>> updateGlossary(String userId, String glossaryId, List<PatchOperation> updateOperation) {
+    public CrowdinRequestBuilder<SimpleResponse<Glossary>> updateGlossary(String glossaryId, List<PatchOperation> updateOperation) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Glossary>>() {
         })
                 .path(Path.GLOSSARY)
-                .method(HttpClient.HttpMethod.PATCH)
-                .pathParams(userId, glossaryId)
+                .method(CrowdinHttpClient.HttpMethod.PATCH)
+                .pathParams(glossaryId)
                 .requestBody(updateOperation);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> exportGlossary(String userId, String glossaryId, FormatDto format) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> exportGlossary(String glossaryId, FormatDto format) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.GLOSSARY_EXPORT)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, glossaryId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(glossaryId)
                 .requestBody(format);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> importGlossary(String userId, String glossaryId, GlossaryPayload glossary) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> importGlossary(String glossaryId, GlossaryPayload glossary) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.GLOSSARY_IMPORT)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, glossaryId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(glossaryId)
                 .requestBody(glossary);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getGlossaryRaw(String userId, String glossaryId) {
+    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getGlossaryRaw(String glossaryId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<FileRaw>>() {
         })
                 .path(Path.GLOSSARY_RAW)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, glossaryId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(glossaryId);
     }
 
-    public CrowdinRequestBuilder<Page<Glossary>> getAllGlossaries(String userId, String groupId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Glossary>> getAllGlossaries(String groupId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Glossary>>() {
         })
                 .path(Path.GROUP_GLOSSARIES)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, groupId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(groupId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Glossary>> createGroupGlossary(String userId, String groupId, NameDto name) {
+    public CrowdinRequestBuilder<SimpleResponse<Glossary>> createGroupGlossary(String groupId, NameDto name) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Glossary>>() {
         })
                 .path(Path.GROUP_GLOSSARIES)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, groupId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(groupId)
                 .requestBody(name);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> exportProjectGlossary(String userId, String projectId, FormatDto format) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> exportProjectGlossary(String projectId, FormatDto format) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.PROJECT_GLOSSARIES_EXPORT)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId)
                 .requestBody(format);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> importProjectGlossary(String userId, String projectId, GlossaryPayload glossary) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> importProjectGlossary(String projectId, GlossaryPayload glossary) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.PROJECT_GLOSSARIES_IMPORT)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId)
                 .requestBody(glossary);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getProjectGlossaryRaw(String userId, String projectId) {
+    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getProjectGlossaryRaw(String projectId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<FileRaw>>() {
         })
                 .path(Path.PROJECT_GLOSSARIES_RAW)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> getGlossaryExportStatus(String userId, String glossaryId, String jobIdentifier) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> getGlossaryExportStatus(String glossaryId, String jobIdentifier) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.GLOSSARIES_EXPORT_JOBS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, glossaryId, jobIdentifier);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(glossaryId, jobIdentifier);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> getGlossaryImportStatus(String userId, String glossaryId, String jobIdentifier) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> getGlossaryImportStatus(String glossaryId, String jobIdentifier) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.GLOSSARIES_IMPORT_JOBS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, glossaryId, jobIdentifier);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(glossaryId, jobIdentifier);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> getProjectGlossaryExportStatus(String userId, String projectId, String jobIdentifier) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> getProjectGlossaryExportStatus(String projectId, String jobIdentifier) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.PROJECT_GLOSSARIES_EXPORT_JOBS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, jobIdentifier);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, jobIdentifier);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> getProjectGlossaryImportStatus(String userId, String projectId, String jobIdentifier) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> getProjectGlossaryImportStatus(String projectId, String jobIdentifier) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.PROJECT_GLOSSARIES_IMPORT_JOBS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, jobIdentifier);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, jobIdentifier);
     }
 }

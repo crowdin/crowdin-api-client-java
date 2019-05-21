@@ -1,8 +1,8 @@
 package com.crowdin.common.models;
 
 public class Revision {
-    private long id;
-    private long projectId;
+    private Long id;
+    private Long projectId;
     private int revision;
     private int revertTo;
     private int translationChunks;
@@ -10,19 +10,19 @@ public class Revision {
     private String info;
     private String date;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 

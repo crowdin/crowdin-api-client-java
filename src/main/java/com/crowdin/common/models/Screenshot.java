@@ -4,8 +4,8 @@ import java.util.List;
 
 public class Screenshot {
 
-    private long id;
-    private long userId;
+    private Long id;
+    private Long userId;
     private String url;
     private String name;
     private Size size;
@@ -14,19 +14,19 @@ public class Screenshot {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

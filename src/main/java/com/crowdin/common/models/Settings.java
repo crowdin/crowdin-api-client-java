@@ -2,7 +2,7 @@ package com.crowdin.common.models;
 
 public class Settings {
 
-    private long projectId;
+    private Long projectId;
     private int translateDuplicates;
     private boolean isMtAllowed;
     private boolean autoSubstitution;
@@ -12,15 +12,15 @@ public class Settings {
     private boolean publicDownloads;
     private boolean useGlobalTm;
     private boolean inContext;
-    private long pseudoLanguageId0;
+    private Long pseudoLanguageId0;
     private boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
@@ -96,11 +96,11 @@ public class Settings {
         this.inContext = inContext;
     }
 
-    public long getPseudoLanguageId0() {
+    public Long getPseudoLanguageId0() {
         return pseudoLanguageId0;
     }
 
-    public void setPseudoLanguageId0(long pseudoLanguageId0) {
+    public void setPseudoLanguageId0(Long pseudoLanguageId0) {
         this.pseudoLanguageId0 = pseudoLanguageId0;
     }
 

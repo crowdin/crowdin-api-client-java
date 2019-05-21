@@ -8,7 +8,7 @@ import com.crowdin.common.models.Revision;
 import com.crowdin.common.request.RevisionPayload;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class RevisionsApi extends Api {
@@ -17,29 +17,29 @@ public class RevisionsApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Revision>> getRevisions(String userId, String projectId, String fileId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Revision>> getRevisions(String projectId, String fileId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Revision>>() {
         })
                 .path(Path.REVISIONS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, fileId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, fileId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Revision>> getRevision(String userId, String projectId, String fileId, String revisionId) {
+    public CrowdinRequestBuilder<SimpleResponse<Revision>> getRevision(String projectId, String fileId, String revisionId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Revision>>() {
         })
                 .path(Path.REVISION)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, fileId, revisionId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, fileId, revisionId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Revision>> createRevision(String userId, String projectId, String fileId, RevisionPayload revisionPayload) {
+    public CrowdinRequestBuilder<SimpleResponse<Revision>> createRevision(String projectId, String fileId, RevisionPayload revisionPayload) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Revision>>() {
         })
                 .path(Path.REVISIONS)
-                .method(HttpClient.HttpMethod.POST)
+                .method(CrowdinHttpClient.HttpMethod.POST)
                 .requestBody(revisionPayload)
-                .pathParams(userId, projectId, fileId);
+                .pathParams(projectId, fileId);
     }
 }

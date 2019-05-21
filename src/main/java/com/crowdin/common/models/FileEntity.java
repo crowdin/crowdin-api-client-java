@@ -1,11 +1,11 @@
 package com.crowdin.common.models;
 
-public class File {
-    private long id;
-    private long projectId;
-    private long branchId;
-    private long directoryId;
-    private long languageId;
+public class FileEntity {
+    private Long id;
+    private Long projectId;
+    private Long branchId;
+    private Long directoryId;
+    private Long languageId;
 
     private String name;
     private String title;
@@ -20,43 +20,43 @@ public class File {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public long getBranchId() {
+    public Long getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(long branchId) {
+    public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
 
-    public long getDirectoryId() {
+    public Long getDirectoryId() {
         return directoryId;
     }
 
-    public void setDirectoryId(long directoryId) {
+    public void setDirectoryId(Long directoryId) {
         this.directoryId = directoryId;
     }
 
-    public long getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(long languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 

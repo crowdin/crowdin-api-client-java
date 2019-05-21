@@ -6,7 +6,7 @@ import com.crowdin.common.Settings;
 import com.crowdin.common.dto.StorageDto;
 import com.crowdin.common.models.Image;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class ImagesApi extends Api {
@@ -14,37 +14,35 @@ public class ImagesApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Image>> uploadBackground(String userId, String projectId, StorageDto storage) {
+    public CrowdinRequestBuilder<SimpleResponse<Image>> uploadBackground(String projectId, StorageDto storage) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Image>>() {
         })
                 .path(Path.BACKGROUND)
-                .method(HttpClient.HttpMethod.PUT)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.PUT)
+                .pathParams(projectId)
                 .requestBody(storage);
     }
 
-    public CrowdinRequestBuilder<String> deleteBackground(String userId, String projectId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteBackground(String projectId) {
+        return getBuilderWithSettings()
                 .path(Path.BACKGROUND)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(projectId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Image>> uploadLogo(String userId, String projectId, StorageDto storage) {
+    public CrowdinRequestBuilder<SimpleResponse<Image>> uploadLogo(String projectId, StorageDto storage) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Image>>() {
         })
                 .path(Path.LOGO)
-                .method(HttpClient.HttpMethod.PUT)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.PUT)
+                .pathParams(projectId)
                 .requestBody(storage);
     }
 
-    public CrowdinRequestBuilder<String> deleteLogo(String userId, String projectId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteLogo(String projectId) {
+        return getBuilderWithSettings()
                 .path(Path.LOGO)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, projectId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(projectId);
     }
 }

@@ -1,9 +1,11 @@
 package com.crowdin.common.request;
 
+import java.util.List;
+
 public class FilePayload implements Request {
-    private long branchId;
-    private long directoryId;
-    private long storageId;
+    private Long branchId;
+    private Long directoryId;
+    private Long storageId;
     private String name;
     private String title;
     private String exportPattern;
@@ -16,30 +18,38 @@ public class FilePayload implements Request {
     private boolean translateAttributes;
     private boolean contentSegmentation;
 
-    private String translatableElements;
+    private List<String> translatableElements;
     private int escapeQuotes;
 
-    public long getBranchId() {
+    public List<String> getTranslatableElements() {
+        return translatableElements;
+    }
+
+    public void setTranslatableElements(List<String> translatableElements) {
+        this.translatableElements = translatableElements;
+    }
+
+    public Long getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(long branchId) {
+    public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
 
-    public long getDirectoryId() {
+    public Long getDirectoryId() {
         return directoryId;
     }
 
-    public void setDirectoryId(long directoryId) {
+    public void setDirectoryId(Long directoryId) {
         this.directoryId = directoryId;
     }
 
-    public long getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(long storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 
@@ -121,14 +131,6 @@ public class FilePayload implements Request {
 
     public void setContentSegmentation(boolean contentSegmentation) {
         this.contentSegmentation = contentSegmentation;
-    }
-
-    public String getTranslatableElements() {
-        return translatableElements;
-    }
-
-    public void setTranslatableElements(String translatableElements) {
-        this.translatableElements = translatableElements;
     }
 
     public int getEscapeQuotes() {

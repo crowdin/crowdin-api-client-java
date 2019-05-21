@@ -3,12 +3,12 @@ package com.crowdin.common.models;
 import java.util.List;
 
 public class Project {
-    private long id;
-    private long organizationId;
-    private long groupId;
-    private long userId;
+    private Long id;
+    private Long organizationId;
+    private Long groupId;
+    private Long userId;
     private int status;
-    private long sourceLanguageId;
+    private Long sourceLanguageId;
     private List<Long> targetLanguageIds;
     private String joinPolicy;
     private String languageAccessPolicy;
@@ -27,35 +27,35 @@ public class Project {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getOrganizationId() {
+    public Long getOrganizationId() {
         return organizationId;
     }
 
-    public void setOrganizationId(long organizationId) {
+    public void setOrganizationId(Long organizationId) {
         this.organizationId = organizationId;
     }
 
-    public long getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(long groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -67,11 +67,11 @@ public class Project {
         this.status = status;
     }
 
-    public long getSourceLanguageId() {
+    public Long getSourceLanguageId() {
         return sourceLanguageId;
     }
 
-    public void setSourceLanguageId(long sourceLanguageId) {
+    public void setSourceLanguageId(Long sourceLanguageId) {
         this.sourceLanguageId = sourceLanguageId;
     }
 

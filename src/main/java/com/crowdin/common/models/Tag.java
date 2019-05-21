@@ -2,33 +2,33 @@ package com.crowdin.common.models;
 
 public class Tag {
 
-    private long id;
-    private long screenshotId;
-    private long stringId;
+    private Long id;
+    private Long screenshotId;
+    private Long stringId;
     private Position position;
     private String createdAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getScreenshotId() {
+    public Long getScreenshotId() {
         return screenshotId;
     }
 
-    public void setScreenshotId(long screenshotId) {
+    public void setScreenshotId(Long screenshotId) {
         this.screenshotId = screenshotId;
     }
 
-    public long getStringId() {
+    public Long getStringId() {
         return stringId;
     }
 
-    public void setStringId(long stringId) {
+    public void setStringId(Long stringId) {
         this.stringId = stringId;
     }
 

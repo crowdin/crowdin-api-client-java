@@ -3,11 +3,13 @@ package com.crowdin.client.api;
 import com.crowdin.client.CrowdinRequestBuilder;
 import com.crowdin.client.Path;
 import com.crowdin.common.Settings;
+import com.crowdin.common.models.Branch;
 import com.crowdin.common.models.Pageable;
+import com.crowdin.common.request.BranchPayload;
 import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -18,46 +20,45 @@ public class BranchesApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<com.crowdin.common.models.Branch>> getBranches(String userId, String projectId, Pageable pageable) {
-        return getBuilderWithSettings(new TypeReference<Page<com.crowdin.common.models.Branch>>() {
+    public CrowdinRequestBuilder<Page<Branch>> getBranches(String projectId, Pageable pageable) {
+        return getBuilderWithSettings(new TypeReference<Page<Branch>>() {
         })
                 .path(Path.BRANCHES)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<com.crowdin.common.models.Branch>> createBranch(String userId, String projectId, com.crowdin.common.models.Branch branch) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<com.crowdin.common.models.Branch>>() {
+    public CrowdinRequestBuilder<SimpleResponse<Branch>> createBranch(String projectId, BranchPayload branch) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<Branch>>() {
         })
                 .path(Path.BRANCHES)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId)
                 .requestBody(branch);
     }
 
-    public CrowdinRequestBuilder<Page<com.crowdin.common.models.Branch>> getBranch(String userId, String projectId, String branchId) {
-        return getBuilderWithSettings(new TypeReference<Page<com.crowdin.common.models.Branch>>() {
+    public CrowdinRequestBuilder<Page<Branch>> getBranch(String projectId, String branchId) {
+        return getBuilderWithSettings(new TypeReference<Page<Branch>>() {
         })
                 .path(Path.BRANCH)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, branchId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, branchId);
     }
 
-    public CrowdinRequestBuilder<String> deleteBranch(String userId, String projectId, String branchId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteBranch(String projectId, String branchId) {
+        return getBuilderWithSettings()
                 .path(Path.BRANCH)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, projectId, branchId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(projectId, branchId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<com.crowdin.common.models.Branch>> updateBranch(String userId, String projectId, String branchId, List<PatchOperation> updateOperations) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<com.crowdin.common.models.Branch>>() {
+    public CrowdinRequestBuilder<SimpleResponse<Branch>> updateBranch(String projectId, String branchId, List<PatchOperation> updateOperations) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<Branch>>() {
         })
                 .path(Path.BRANCH)
-                .method(HttpClient.HttpMethod.PATCH)
-                .pathParams(userId, projectId, branchId)
+                .method(CrowdinHttpClient.HttpMethod.PATCH)
+                .pathParams(projectId, branchId)
                 .requestBody(updateOperations);
     }
 }

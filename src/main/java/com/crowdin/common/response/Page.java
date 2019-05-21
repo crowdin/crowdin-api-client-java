@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Page<T> implements Response {
 
     private List<Data<T>> data;
-    private List<Pageable> pagination;
+    private Pageable pagination;
 
     public List<T> getContent() {
         if (data == null) return Collections.emptyList();
@@ -20,11 +20,11 @@ public class Page<T> implements Response {
         this.data = data;
     }
 
-    public List<Pageable> getPagination() {
+    public Pageable getPagination() {
         return pagination;
     }
 
-    public void setPagination(List<Pageable> pagination) {
+    public void setPagination(Pageable pagination) {
         this.pagination = pagination;
     }
 

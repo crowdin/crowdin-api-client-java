@@ -9,7 +9,7 @@ import com.crowdin.common.request.LanguagePayload;
 import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.List;
@@ -20,46 +20,45 @@ public class LanguagesApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Language>> getLanguages(String userId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Language>> getLanguages(Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Language>>() {
         })
                 .path(Path.LANGUAGES)
                 .pageable(pageable)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams();
     }
 
-    public CrowdinRequestBuilder<Page<Language>> createLanguage(String userId, LanguagePayload languagePayload) {
-        return getBuilderWithSettings(new TypeReference<Page<Language>>() {
+    public CrowdinRequestBuilder<SimpleResponse<Language>> createLanguage(LanguagePayload languagePayload) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<Language>>() {
         })
                 .path(Path.LANGUAGES)
                 .requestBody(languagePayload)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId);
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams();
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Language>> getLanguage(String userId, String languageId) {
+    public CrowdinRequestBuilder<SimpleResponse<Language>> getLanguage(String languageId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Language>>() {
         })
                 .path(Path.LANGUAGE)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, languageId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(languageId);
     }
 
-    public CrowdinRequestBuilder<String> deleteLanguage(String userId, String languageId) {
-        return getBuilderWithSettings(new TypeReference<String>() {
-        })
+    public CrowdinRequestBuilder deleteLanguage(String languageId) {
+        return getBuilderWithSettings()
                 .path(Path.LANGUAGE)
-                .method(HttpClient.HttpMethod.DELETE)
-                .pathParams(userId, languageId);
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
+                .pathParams(languageId);
     }
 
-    public CrowdinRequestBuilder<String> updateLanguage(String userId, String languageId, List<PatchOperation> updateOperation) {
+    public CrowdinRequestBuilder<String> updateLanguage(String languageId, List<PatchOperation> updateOperation) {
         return getBuilderWithSettings(new TypeReference<String>() {
         })
                 .path(Path.LANGUAGE)
                 .requestBody(updateOperation)
-                .method(HttpClient.HttpMethod.PATCH)
-                .pathParams(userId, languageId);
+                .method(CrowdinHttpClient.HttpMethod.PATCH)
+                .pathParams(languageId);
     }
 }

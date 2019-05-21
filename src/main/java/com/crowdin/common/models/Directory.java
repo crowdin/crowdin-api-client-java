@@ -2,10 +2,10 @@ package com.crowdin.common.models;
 
 public class Directory {
 
-    private long id;
-    private long projectId;
-    private long branchId;
-    private long parentId;
+    private Long id;
+    private Long projectId;
+    private Long branchId;
+    private Long parentId;
     private String name;
     private String title;
     private String exportPattern;
@@ -14,35 +14,35 @@ public class Directory {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
-    public long getBranchId() {
+    public Long getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(long branchId) {
+    public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
 
-    public long getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(long parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

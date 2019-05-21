@@ -2,13 +2,13 @@ package com.crowdin.common.request;
 
 public class RevisionPayload {
 
-    private long storageId;
+    private Long storageId;
     private String scheme;
     private boolean firstLineContainsHeader;
     private int updateOption;
     private int escapeQuotes;
 
-    public RevisionPayload(long storageId, String scheme, boolean firstLineContainsHeader, int updateOption, int escapeQuotes) {
+    public RevisionPayload(Long storageId, String scheme, boolean firstLineContainsHeader, int updateOption, int escapeQuotes) {
         this.storageId = storageId;
         this.scheme = scheme;
         this.firstLineContainsHeader = firstLineContainsHeader;
@@ -16,11 +16,11 @@ public class RevisionPayload {
         this.escapeQuotes = escapeQuotes;
     }
 
-    public long getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(long storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 

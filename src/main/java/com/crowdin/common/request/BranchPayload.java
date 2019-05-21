@@ -2,12 +2,17 @@ package com.crowdin.common.request;
 
 public class BranchPayload implements Request {
 
+
     private String name;
     private String title;
     private String exportPattern;
     private String priority;
 
-    private BranchPayload() {
+    public BranchPayload() {
+    }
+
+    public BranchPayload(String name) {
+        this.name = name;
     }
 
     public BranchPayload(String name, String title, String exportPattern, String priority) {

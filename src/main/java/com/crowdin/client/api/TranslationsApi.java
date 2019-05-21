@@ -8,10 +8,10 @@ import com.crowdin.common.models.Pageable;
 import com.crowdin.common.models.Status;
 import com.crowdin.common.models.Translation;
 import com.crowdin.common.request.BuildTranslationPayload;
-import com.crowdin.common.request.LenguageTranslationPayload;
+import com.crowdin.common.request.TranslationPayload;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
-import com.crowdin.util.HttpClient;
+import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class TranslationsApi extends Api {
@@ -20,47 +20,47 @@ public class TranslationsApi extends Api {
         super(settings);
     }
 
-    public CrowdinRequestBuilder<Page<Translation>> getTranslation(String userId, String projectId, Pageable pageable) {
+    public CrowdinRequestBuilder<Page<Translation>> getTranslations(String projectId, Pageable pageable) {
         return getBuilderWithSettings(new TypeReference<Page<Translation>>() {
         })
                 .path(Path.PROJECT_TRANSLATIONS)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId)
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<Page<Translation>> getTranslation(String userId, String projectId, BuildTranslationPayload translationPayload) {
+    public CrowdinRequestBuilder<Page<Translation>> buildTranslation(String projectId, BuildTranslationPayload translationPayload) {
         return getBuilderWithSettings(new TypeReference<Page<Translation>>() {
         })
                 .path(Path.PROJECT_TRANSLATIONS)
-                .method(HttpClient.HttpMethod.POST)
-                .pathParams(userId, projectId)
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .pathParams(projectId)
                 .requestBody(translationPayload);
     }
 
     //todo multiply result need to handle
-    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getTranslationRaw(String userId, String projectId, String buildId) {
+    public CrowdinRequestBuilder<SimpleResponse<FileRaw>> getTranslationRaw(String projectId, String buildId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<FileRaw>>() {
         })
                 .path(Path.DOWNLOAD_TRANSLATION)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, buildId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, buildId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Translation>> getTranslationInfo(String userId, String projectId, String buildId) {
+    public CrowdinRequestBuilder<SimpleResponse<Translation>> getTranslationInfo(String projectId, String buildId) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Translation>>() {
         })
                 .path(Path.PROJECT_TRANSLATION)
-                .method(HttpClient.HttpMethod.GET)
-                .pathParams(userId, projectId, buildId);
+                .method(CrowdinHttpClient.HttpMethod.GET)
+                .pathParams(projectId, buildId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Status>> uploadLanguageTranslation(String userId, String projectId, String languageId, LenguageTranslationPayload lenguageTranslationPayload) {
+    public CrowdinRequestBuilder<SimpleResponse<Status>> uploadTranslation(String projectId, String languageId, TranslationPayload translationPayload) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<Status>>() {
         })
                 .path(Path.UPLOAD_LANGUAGE_TRANSLATIONS)
-                .method(HttpClient.HttpMethod.POST)
-                .requestBody(lenguageTranslationPayload)
-                .pathParams(userId, projectId, languageId);
+                .method(CrowdinHttpClient.HttpMethod.POST)
+                .requestBody(translationPayload)
+                .pathParams(projectId, languageId);
     }
 }

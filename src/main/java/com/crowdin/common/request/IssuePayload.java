@@ -10,7 +10,7 @@ public class IssuePayload {
     private int status;
     private String title;
     private String description;
-    private long languageId;
+    private Long languageId;
     private List<Long> fileIds;
     private boolean splitFiles;
     //todo test
@@ -51,11 +51,11 @@ public class IssuePayload {
         this.description = description;
     }
 
-    public long getLanguageId() {
+    public Long getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(long languageId) {
+    public void setLanguageId(Long languageId) {
         this.languageId = languageId;
     }
 

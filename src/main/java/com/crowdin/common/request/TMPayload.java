@@ -1,21 +1,21 @@
 package com.crowdin.common.request;
 
 public class TMPayload {
-    private long storageId;
+    private Long storageId;
     private boolean firstLineContainsHeader;
     private String scheme;
 
-    public TMPayload(long storageId, boolean firstLineContainsHeader, String scheme) {
+    public TMPayload(Long storageId, boolean firstLineContainsHeader, String scheme) {
         this.storageId = storageId;
         this.firstLineContainsHeader = firstLineContainsHeader;
         this.scheme = scheme;
     }
 
-    public long getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(long storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 

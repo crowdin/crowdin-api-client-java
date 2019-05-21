@@ -2,8 +2,8 @@ package com.crowdin.common.models;
 
 public class Image {
 
-    private long id;
-    private long projectId;
+    private Long id;
+    private Long projectId;
     private String name;
     private String title;
     private String exportPattern;
@@ -12,19 +12,19 @@ public class Image {
     private String createdAt;
     private String updatedAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getProjectId() {
+    public Long getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(long projectId) {
+    public void setProjectId(Long projectId) {
         this.projectId = projectId;
     }
 
