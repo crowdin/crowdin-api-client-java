@@ -2,26 +2,26 @@ package com.crowdin.common.request;
 
 public class DirectoryPayload implements Request {
 
-    private String branchId;
-    private String parentId;
+    private Long branchId;
+    private Long parentId;
     private String name;
     private String title;
     private String exportPattern;
     private String priority;
 
-    public String getBranchId() {
+    public Long getBranchId() {
         return branchId;
     }
 
-    public void setBranchId(String branchId) {
+    public void setBranchId(Long branchId) {
         this.branchId = branchId;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 

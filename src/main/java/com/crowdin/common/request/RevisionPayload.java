@@ -1,14 +1,19 @@
 package com.crowdin.common.request;
 
+import java.util.Map;
+
 public class RevisionPayload {
 
     private Long storageId;
-    private String scheme;
-    private boolean firstLineContainsHeader;
-    private int updateOption;
-    private int escapeQuotes;
+    private Map<String, Integer> scheme;
+    private Boolean firstLineContainsHeader;
+    private Integer updateOption;
+    private Integer escapeQuotes;
 
-    public RevisionPayload(Long storageId, String scheme, boolean firstLineContainsHeader, int updateOption, int escapeQuotes) {
+    public RevisionPayload() {
+    }
+
+    public RevisionPayload(Long storageId, Map<String, Integer> scheme, Boolean firstLineContainsHeader, Integer updateOption, Integer escapeQuotes) {
         this.storageId = storageId;
         this.scheme = scheme;
         this.firstLineContainsHeader = firstLineContainsHeader;
@@ -24,35 +29,35 @@ public class RevisionPayload {
         this.storageId = storageId;
     }
 
-    public String getScheme() {
+    public Map<String, Integer> getScheme() {
         return scheme;
     }
 
-    public void setScheme(String scheme) {
+    public void setScheme(Map<String, Integer> scheme) {
         this.scheme = scheme;
     }
 
-    public boolean isFirstLineContainsHeader() {
+    public Boolean getFirstLineContainsHeader() {
         return firstLineContainsHeader;
     }
 
-    public void setFirstLineContainsHeader(boolean firstLineContainsHeader) {
+    public void setFirstLineContainsHeader(Boolean firstLineContainsHeader) {
         this.firstLineContainsHeader = firstLineContainsHeader;
     }
 
-    public int getUpdateOption() {
+    public Integer getUpdateOption() {
         return updateOption;
     }
 
-    public void setUpdateOption(int updateOption) {
+    public void setUpdateOption(Integer updateOption) {
         this.updateOption = updateOption;
     }
 
-    public int getEscapeQuotes() {
+    public Integer getEscapeQuotes() {
         return escapeQuotes;
     }
 
-    public void setEscapeQuotes(int escapeQuotes) {
+    public void setEscapeQuotes(Integer escapeQuotes) {
         this.escapeQuotes = escapeQuotes;
     }
 }

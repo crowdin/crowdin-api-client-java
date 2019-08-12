@@ -58,7 +58,7 @@ public class BadRequestResponse implements Response {
             List<Object> errors = getValueFromJsonNode(error, "errors", "error");
             errors
                     .forEach(o -> {
-                        String code = getValueFromJsonNode(o, "code");
+                        String code = getValueFromJsonNode(o, "code").toString();
                         if (code.equals("key")) {
                             badRequestMessages.name = getValueFromJsonNode(o, "message").toString();
                         } else if (code.equals("errors")) {
@@ -80,8 +80,8 @@ public class BadRequestResponse implements Response {
 
     private ParamError getParamError(Object jsonNode) {
         ParamError paramError = new ParamError();
-        paramError.errorDescription = getValueFromJsonNode(jsonNode, "code");
-        paramError.errorMessage = getValueFromJsonNode(jsonNode, "message");
+        paramError.errorDescription = getValueFromJsonNode(jsonNode, "code").toString();
+        paramError.errorMessage = getValueFromJsonNode(jsonNode, "message").toString();
         return paramError;
     }
 

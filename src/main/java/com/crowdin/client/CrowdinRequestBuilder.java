@@ -6,6 +6,8 @@ import com.crowdin.exception.CrowdinException;
 import com.crowdin.util.CrowdinHttpClient;
 import com.fasterxml.jackson.core.type.TypeReference;
 
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,17 +30,16 @@ public class CrowdinRequestBuilder<R> {
     private Object requestBody;
     private Object[] pathParams;
     private CrowdinHttpClient.HttpMethod method;
-    private String apiKey;
     private Map<String, String> requestParams;
+    private MultivaluedMap<String, Object> headers;
 
     public static <R> CrowdinRequestBuilder<R> builder(String baseUrl, TypeReference<R> responseType) {
         CrowdinRequestBuilder<R> builder = new CrowdinRequestBuilder<>();
         builder.baseUrl = baseUrl;
         builder.responseType = responseType;
         builder.requestParams = new HashMap<>();
+        builder.headers = new MultivaluedHashMap<>();
 
-        // todo remove for test
-//        builder.requestParams.put("login", "nutelka");
         return builder;
     }
 
@@ -80,12 +81,24 @@ public class CrowdinRequestBuilder<R> {
         }
 
         prepareRequest();
-        return CrowdinHttpClient.executeRequest(url, requestBody, responseType, method);
+        return CrowdinHttpClient.executeRequest(buildRequest());
     }
 
     public Response execute() {
         prepareRequest();
-        return CrowdinHttpClient.doRequestAndValidateResponse(url, requestBody, method);
+        return CrowdinHttpClient.doRequestAndValidateResponse(buildRequest());
+    }
+
+    private CrowdinHttpClient.RequestWrapper<R> buildRequest() {
+        CrowdinHttpClient.RequestWrapper<R> requestWrapper = new CrowdinHttpClient.RequestWrapper<>(url, requestBody, responseType, method);
+        requestWrapper.setHeaders(this.headers);
+        return requestWrapper;
+    }
+
+
+    public CrowdinRequestBuilder<R> header(String key, Object value) {
+        this.headers.add(key, value);
+        return this;
     }
 
     private void prepareRequest() {
@@ -129,6 +142,11 @@ public class CrowdinRequestBuilder<R> {
 
     public CrowdinRequestBuilder<R> apiKey(String apiKey) {
         this.requestParams.put("account-key", apiKey);
+        return this;
+    }
+
+    public CrowdinRequestBuilder<R> login(String login) {
+        this.requestParams.put("login", login);
         return this;
     }
 }

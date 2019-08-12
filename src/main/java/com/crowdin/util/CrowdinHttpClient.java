@@ -8,31 +8,32 @@ import com.crowdin.exception.CrowdinException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
-import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 import static com.crowdin.util.ObjectMapperUtil.mapJsonToJavaObject;
 
 public class CrowdinHttpClient {
 
-
-    public static <I, R> R executeRequest(String uri, I requestBody, TypeReference<R> responseType, HttpMethod method) {
-        InputStream responseStream = doRequestAndValidateResponse(uri, requestBody, method).readEntity(InputStream.class);
-        return mapJsonToJavaObject(responseStream, responseType);
+    public static <R> R executeRequest(RequestWrapper<R> request) {
+        InputStream responseStream = doRequestAndValidateResponse(request).readEntity(InputStream.class);
+        return mapJsonToJavaObject(responseStream, request.getResponseType());
     }
 
-    public static <I> Response doRequestAndValidateResponse(String uri, I requestBody, HttpMethod method) {
-        Response response = doRequest(uri, requestBody, method);
+    public static <I> Response doRequestAndValidateResponse(RequestWrapper<I> request) {
+        Response response = doRequest(request);
         InputStream stream = response.readEntity(InputStream.class);
         if (ResponseUtil.notSuccess(response.getStatus())) {
             handleApiError(response, stream);
@@ -42,32 +43,40 @@ public class CrowdinHttpClient {
     }
 
     public static InputStream download(String uri) {
-        return doRequest(uri, null, HttpMethod.GET)
+        return ClientBuilder.newClient()
+                .target(getUriFromString(uri))
+                .request()
+                .build(HttpMethod.GET.name(), null)
+                .invoke()
                 .readEntity(InputStream.class);
     }
 
-    private static <I> Response doRequest(String uri, I requestBody, HttpMethod method) {
+    private static <R> Response doRequest(RequestWrapper<R> request) {
+        MultivaluedMap<String, Object> headers = Optional
+                .ofNullable(request.getHeaders())
+                .orElse(new MultivaluedHashMap<>());
+        headers.add("Accept", "application/json");
+
         return ClientBuilder.newClient()
-                // todo remove for test
+                //todo remove after test
                 .register(HttpAuthenticationFeature.basic("enterprise-tester", "LvGfyutDGcSem8u5aDgQ"))
-                .target(getUriFromString(uri))
-                .register(MultiPartFeature.class)
-                .request(MediaType.APPLICATION_JSON_TYPE)
+                .target(getUriFromString(request.getUri()))
+                .request()
+                .headers(headers)
                 .property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
-                .build(method.name(), getEntity(requestBody))
+                .build(request.getMethod().name(), getEntity(request.getRequestBody()))
                 .invoke();
     }
 
     private static <I> Entity getEntity(I requestBody) {
         if (requestBody instanceof File) {
-            MultiPart multiPart = new MultiPart();
-            multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
-
-            FileDataBodyPart fileDataBodyPart = new FileDataBodyPart("file",
-                    (File) requestBody,
-                    MediaType.APPLICATION_OCTET_STREAM_TYPE);
-            multiPart.bodyPart(fileDataBodyPart);
-            return Entity.entity(multiPart, multiPart.getMediaType());
+            try {
+                File binary = (File) requestBody;
+                FileInputStream entity = new FileInputStream(binary);
+                return Entity.entity(entity, getContentType(binary));
+            } catch (FileNotFoundException e) {
+                throw new CrowdinException(e.getMessage(), e.getCause());
+            }
         }
 
         return Entity.entity(ObjectMapperUtil.getEntityAsString(requestBody), MediaType.APPLICATION_JSON);
@@ -80,7 +89,8 @@ public class CrowdinHttpClient {
             throw new CrowdinApiException(badRequestResponse.toString(), response.getStatus());
         }
 
-        ApiError error = mapJsonToJavaObject(inputStream, new TypeReference<ErrorResponse>() {}).getError();
+        ApiError error = mapJsonToJavaObject(inputStream, new TypeReference<ErrorResponse>() {
+        }).getError();
         throw new CrowdinApiException(error.getMessage(), error.getCode());
     }
 
@@ -94,5 +104,98 @@ public class CrowdinHttpClient {
 
     public enum HttpMethod {
         GET, POST, PUT, PATCH, DELETE
+    }
+
+    private static String getContentType(File file) {
+        String fileExtension = getFileExtension(file);
+
+        if (fileExtension.equalsIgnoreCase("jpeg") || fileExtension.equalsIgnoreCase("jpg")) {
+            return "image/jpeg";
+        } else if (fileExtension.equalsIgnoreCase(".csv")) {
+            return "text/csv";
+        } else if (fileExtension.equalsIgnoreCase(".tmx")) {
+            return "text/tmx";
+        } else if (fileExtension.equalsIgnoreCase(".xliff")) {
+            return "application/xliff+xm";
+        } else if (fileExtension.equalsIgnoreCase(".xml")) {
+            return MediaType.APPLICATION_XML;
+        }
+
+        return MediaType.APPLICATION_OCTET_STREAM;
+    }
+
+    private static String getFileExtension(File file) {
+        String extension = "";
+
+        try {
+            if (file != null && file.exists()) {
+                String name = file.getName();
+                extension = name.substring(name.lastIndexOf("."));
+            }
+        } catch (Exception e) {
+            extension = "";
+        }
+
+        return extension;
+
+    }
+
+    public static class RequestWrapper<R> {
+        private String uri;
+        private Object requestBody;
+        private TypeReference<R> responseType;
+        private HttpMethod method;
+        private MultivaluedMap<String, Object> headers;
+
+        public RequestWrapper(String uri, Object requestBody, TypeReference<R> responseType, HttpMethod method) {
+            this.uri = uri;
+            this.requestBody = requestBody;
+            this.responseType = responseType;
+            this.method = method;
+        }
+
+        public RequestWrapper(String uri, Object requestBody, HttpMethod method) {
+            this(uri, requestBody, null, method);
+        }
+
+        public String getUri() {
+            return uri;
+        }
+
+        public void setUri(String uri) {
+            this.uri = uri;
+        }
+
+        public Object getRequestBody() {
+            return requestBody;
+        }
+
+        public void setRequestBody(Object requestBody) {
+            this.requestBody = requestBody;
+        }
+
+        public TypeReference<R> getResponseType() {
+            return responseType;
+        }
+
+        public void setResponseType(TypeReference<R> responseType) {
+            this.responseType = responseType;
+        }
+
+        public HttpMethod getMethod() {
+            return method;
+        }
+
+        public void setMethod(HttpMethod method) {
+            this.method = method;
+        }
+
+        public MultivaluedMap<String, Object> getHeaders() {
+            return headers;
+        }
+
+        public void setHeaders(MultivaluedMap<String, Object> headers) {
+            this.headers = headers;
+        }
     }
 }

@@ -94,5 +94,4 @@ public class FilesApi extends Api {
                 .method(CrowdinHttpClient.HttpMethod.GET)
                 .pathParams(projectId, fileId);
     }
-
 }

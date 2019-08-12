@@ -29,8 +29,8 @@ public class TranslationsApi extends Api {
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<Page<Translation>> buildTranslation(String projectId, BuildTranslationPayload translationPayload) {
-        return getBuilderWithSettings(new TypeReference<Page<Translation>>() {
+    public CrowdinRequestBuilder<SimpleResponse<Translation>> buildTranslation(String projectId, BuildTranslationPayload translationPayload) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<Translation>>() {
         })
                 .path(Path.PROJECT_TRANSLATIONS)
                 .method(CrowdinHttpClient.HttpMethod.POST)

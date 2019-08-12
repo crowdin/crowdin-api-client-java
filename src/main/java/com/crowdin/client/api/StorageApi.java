@@ -28,6 +28,7 @@ public class StorageApi extends Api {
     }
 
     public CrowdinRequestBuilder<SimpleResponse<IdDto>> uploadFile(File file) {
+
         return getBuilderWithSettings(new TypeReference<SimpleResponse<IdDto>>() {
         })
                 .path(Path.STORAGES)
@@ -47,7 +48,7 @@ public class StorageApi extends Api {
     public CrowdinRequestBuilder deleteStorage(String storageId) {
         return getBuilderWithSettings()
                 .path(Path.STORAGE)
-                .method(CrowdinHttpClient.HttpMethod.GET)
+                .method(CrowdinHttpClient.HttpMethod.DELETE)
                 .pathParams(storageId);
     }
 }

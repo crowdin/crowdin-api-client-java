@@ -2,18 +2,18 @@ package com.crowdin.common.request;
 
 public class TranslationPayload {
 
-    private String storageId;
+    private Long storageId;
     private Long fileId;
     private boolean importDuplicates;
     private boolean importEqSuggestions;
     private boolean autoApproveImported;
     private String format;
 
-    public String getStorageId() {
+    public Long getStorageId() {
         return storageId;
     }
 
-    public void setStorageId(String storageId) {
+    public void setStorageId(Long storageId) {
         this.storageId = storageId;
     }
 

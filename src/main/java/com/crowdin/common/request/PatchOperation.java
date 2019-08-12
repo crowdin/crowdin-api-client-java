@@ -3,6 +3,7 @@ package com.crowdin.common.request;
 public class PatchOperation {
     private String op;
     private String path;
+    private String from;
     private Object value;
 
     private PatchOperation() {
@@ -12,6 +13,17 @@ public class PatchOperation {
         this.op = op;
         this.path = path;
         this.value = value;
+    }
+
+    public PatchOperation(String op, String path) {
+        this.op = op;
+        this.path = path;
+    }
+
+    public PatchOperation(String op, String path, String from) {
+        this.op = op;
+        this.path = path;
+        this.from = from;
     }
 
     public String getOp() {
@@ -35,6 +47,13 @@ public class PatchOperation {
     }
 
     public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public PatchOperation(String op, String path, String from, Object value) {
+        this.op = op;
+        this.path = path;
+        this.from = from;
         this.value = value;
     }
 }

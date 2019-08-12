@@ -12,11 +12,20 @@ import java.io.InputStream;
 @SuppressWarnings("WeakerAccess")
 public class ObjectMapperUtil {
 
-    static ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    public static ObjectMapper MAPPER = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public static <R> R mapJsonToJavaObject(InputStream inputStream, TypeReference<R> responseType) {
         try {
             return MAPPER.readValue(inputStream, responseType);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new CrowdinException("Can`t deserialize json to class: " + responseType);
+        }
+    }
+
+    public static <R> R mapJsonToJavaObject(String json, TypeReference<R> responseType) {
+        try {
+            return MAPPER.readValue(json, responseType);
         } catch (IOException e) {
             e.printStackTrace();
             throw new CrowdinException("Can`t deserialize json to class: " + responseType);

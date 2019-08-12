@@ -6,9 +6,9 @@ public class BuildTranslationPayload {
 
     private Long branchId;
     private List<Long> targetLanguagesId;
-    private boolean exportTranslatedOnly;
-    private boolean exportApprovedOnly;
-    private boolean force;
+    private Boolean exportTranslatedOnly;
+    private Boolean exportApprovedOnly;
+    private Boolean force;
 
     public Long getBranchId() {
         return branchId;
@@ -26,27 +26,27 @@ public class BuildTranslationPayload {
         this.targetLanguagesId = targetLanguagesId;
     }
 
-    public boolean isExportTranslatedOnly() {
+    public Boolean getExportTranslatedOnly() {
         return exportTranslatedOnly;
     }
 
-    public void setExportTranslatedOnly(boolean exportTranslatedOnly) {
+    public void setExportTranslatedOnly(Boolean exportTranslatedOnly) {
         this.exportTranslatedOnly = exportTranslatedOnly;
     }
 
-    public boolean isExportApprovedOnly() {
+    public Boolean getExportApprovedOnly() {
         return exportApprovedOnly;
     }
 
-    public void setExportApprovedOnly(boolean exportApprovedOnly) {
+    public void setExportApprovedOnly(Boolean exportApprovedOnly) {
         this.exportApprovedOnly = exportApprovedOnly;
     }
 
-    public boolean isForce() {
+    public Boolean getForce() {
         return force;
     }
 
-    public void setForce(boolean force) {
+    public void setForce(Boolean force) {
         this.force = force;
     }
 }

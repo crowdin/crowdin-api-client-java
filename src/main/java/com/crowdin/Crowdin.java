@@ -1,80 +1,26 @@
 package com.crowdin;
 
-import com.crowdin.client.CrowdinRequestBuilder;
-import com.crowdin.client.api.LanguagesApi;
 import com.crowdin.client.api.ProjectsApi;
-import com.crowdin.client.api.TranslationsApi;
 import com.crowdin.common.Settings;
-import com.crowdin.common.models.Language;
 import com.crowdin.common.models.Pageable;
-import com.crowdin.common.models.Project;
-import com.crowdin.common.models.Translation;
-import com.crowdin.common.request.LanguagePayload;
-import com.crowdin.common.request.ProjectPayload;
-import com.crowdin.common.response.Page;
-import com.crowdin.common.response.SimpleResponse;
 import com.crowdin.util.PaginationUtil;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.io.IOException;
 
 public class Crowdin {
 
-    public static void main(String[] args) {
-
-
-        Settings settings = Settings.enterprise(
-                "44ff059b37bfbf88df8db4ccf0ed1696",
-                "nutelka"
+    public static void main(String[] args) throws IOException {
+        Settings settings = Settings.withBaseUrl(
+                "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhY2Nlc3MtdG9rZW4iLCJqdGkiOiI5ZGFiYjcyNDMzOWM3ODA5MWUwNWZhOGU0OGRjY2VmMjMwYTliOTA4MDkyYzUwZTU3MDQxZTVjMzg1YTQzOTBkNzI1MTQ4YWIwNjE2NDViMSIsImlhdCI6MTU2NTU1NzY5NywibmJmIjoxNTY1NTU3Njk3LCJleHAiOjE1OTcxODAwOTcsInN1YiI6IjIiLCJkb21haW4iOiJNYW5nbyIsInNjb3BlcyI6W10sImFzc29jaWF0aW9ucyI6WyIqIl0sInNlc3Npb24iOjB9.JQ7tS_kWGtaWzdqwkw5mxWn1O2x-BH3mb5jdcqAm1n8lgZU4N966CilE3eHf8vY5ENH5LFSJkAVMiu4_hv3fpI1IduPwTFXEkHQELS8Nb715sfRTVQTyfHsJvRrljeZ91tKzx_FijruS3dvjoAxbtmTYkHLvYYdfHodMYOs_BOB5g2SQbjiIilE44DKfuH-X-EHEp5lurzfN1UUJcjgU38PE-LTpT3cmAEc5s_Jyzoor98awV2ULGaojf3FiHK4xQfeRFDycKffewqH5T4HwafXMnVQCDRY2bkPk6Atjrh5ihQAhMO8BbwUudParu19O0HMQJhsInOM2FY8ClWWc8JiEr8MwH2XfCR4uoaYYPXoPAQaQ7flU-bnbj98piCnx_A1z4P2CgnBNPAUMxRRXaITDhc7j_apLLpycbh4e0Z29ZGa84xshmRbxyyF8c_5Mcxadgg_yIANnZvmti3dYTiNZ8fklmTZVbnJbMcc6wP8Jb0z_yfSI1DguHi92OQdqhUBet65lYk7HSRnVrkZJBNr5bNULbsRcI80bnRKh9WpqNjbywDtYSv9EzgpFwpSAeLVowx3jdHxz2XqH8cTBg4cXDcrVVyxBxjAdcilQXRI9b_wQfDRSsQxUmukreufvRD2UWAgC-hZ2zO6r2KmaYans7RFNdfGK4NKO_3s4Bi8",
+                "vasyl",
+                "https://vasyl.crowdin.com/api/v2"
         );
 
-        CrowdinRequestBuilder<Page<Translation>> translations = new TranslationsApi(settings)
-                .getTranslations("10", Pageable.unpaged());
+        PaginationUtil.unpaged(new ProjectsApi(settings).getRootGroupProjects(Pageable.unpaged())).stream()
+                .forEach(project -> {
+                    System.out.println(project.getId());
+                    System.out.println(project.getName());
+                });
 
-
-        List<Translation> unpaged = PaginationUtil.unpaged(translations);
-        System.out.println(unpaged.size());
-/*
-        new TranslationsApi(settings)
-                .getTranslationInfo("10", "1")
-                .getResponseEntity()
-                .doWithEntity(fileRaw -> System.out.println(fileRaw));*/
-       /* new TranslationsApi(settings)
-                .getTranslationRaw("10")
-*/
-
-    }
-
-    private static SimpleResponse<Project> createProject(Settings settings) {
-        ProjectsApi projectsApi = new ProjectsApi(settings);
-        ProjectPayload projectPayload = new ProjectPayload();
-        projectPayload.setName("java_sdk_test_with_language");
-        projectPayload.setSourceLanguageId(1);
-        projectPayload.setTargetLanguageIds(Collections.singletonList(229L));
-        SimpleResponse<Project> responseEntity = projectsApi.createGroupProject("7", projectPayload).getResponseEntity();
-        return responseEntity;
-    }
-
-    private static void delete(Settings settings) {
-        new LanguagesApi(settings).deleteLanguage("305").execute();
-    }
-
-    private static void getAll(Settings settings) {
-        List<Language> execute = PaginationUtil.unpaged(new LanguagesApi(settings).getLanguages(Pageable.unpaged()));
-//        Page<Language> execute = new LanguagesApi(settings).getLanguages(Pageable.of(0, 500)).getResponseEntity();
-        List<Language> java = execute.stream().filter(language -> language.getName().contains("Java")).collect(Collectors.toList());
-    }
-
-    private static SimpleResponse<Language> create(Settings settings) {
-        LanguagePayload testJavaSdk = new LanguagePayload();
-        testJavaSdk.setName("testJavaSdk");
-        testJavaSdk.setCode("ENG");
-        testJavaSdk.setLocaleCode("EN");
-        testJavaSdk.setThreeLettersCode("ENG");
-        testJavaSdk.setTextDirection("ltr");
-        testJavaSdk.setPluralCategoryNames(Arrays.asList("other"));
-        return new LanguagesApi(settings).createLanguage(testJavaSdk).getResponseEntity();
     }
 }

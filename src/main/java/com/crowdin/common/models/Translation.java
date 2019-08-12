@@ -1,11 +1,13 @@
 package com.crowdin.common.models;
 
+import java.util.List;
+
 public class Translation {
 
     private Long id;
     private Long projectId;
     private Long branchId;
-    private Long languageId;
+    private List<Long> languagesId;
     private String status;
     private Progress progress;
 
@@ -33,12 +35,12 @@ public class Translation {
         this.branchId = branchId;
     }
 
-    public Long getLanguageId() {
-        return languageId;
+    public List<Long> getLanguagesId() {
+        return languagesId;
     }
 
-    public void setLanguageId(Long languageId) {
-        this.languageId = languageId;
+    public void setLanguagesId(List<Long> languagesId) {
+        this.languagesId = languagesId;
     }
 
     public String getStatus() {

@@ -14,11 +14,11 @@ abstract class Api {
 
     <R> CrowdinRequestBuilder<R> getBuilderWithSettings(TypeReference<R> responseType) {
         return CrowdinRequestBuilder.builder(settings.getBaseUrl(), responseType)
-                .apiKey(settings.getApiKey());
+                .apiKey(settings.getApiKey())
+                .login(settings.getLogin());
     }
 
     CrowdinRequestBuilder getBuilderWithSettings() {
-        return CrowdinRequestBuilder.builder(settings.getBaseUrl(), null)
-                .apiKey(settings.getApiKey());
+        return getBuilderWithSettings(null);
     }
 }

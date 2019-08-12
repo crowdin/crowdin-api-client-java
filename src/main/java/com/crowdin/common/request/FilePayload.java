@@ -1,33 +1,17 @@
 package com.crowdin.common.request;
 
-import java.util.List;
-
 public class FilePayload implements Request {
     private Long branchId;
     private Long directoryId;
     private Long storageId;
+
     private String name;
     private String title;
-    private String exportPattern;
+
     private String type;
-    private boolean firstLineContainsHeader;
-    private boolean importTranslations;
 
-    private String scheme;
-    private boolean translateContent;
-    private boolean translateAttributes;
-    private boolean contentSegmentation;
-
-    private List<String> translatableElements;
-    private int escapeQuotes;
-
-    public List<String> getTranslatableElements() {
-        return translatableElements;
-    }
-
-    public void setTranslatableElements(List<String> translatableElements) {
-        this.translatableElements = translatableElements;
-    }
+    private ImportOptions importOptions;
+    private ExportOptions exportOptions;
 
     public Long getBranchId() {
         return branchId;
@@ -69,14 +53,6 @@ public class FilePayload implements Request {
         this.title = title;
     }
 
-    public String getExportPattern() {
-        return exportPattern;
-    }
-
-    public void setExportPattern(String exportPattern) {
-        this.exportPattern = exportPattern;
-    }
-
     public String getType() {
         return type;
     }
@@ -85,59 +61,19 @@ public class FilePayload implements Request {
         this.type = type;
     }
 
-    public boolean isFirstLineContainsHeader() {
-        return firstLineContainsHeader;
+    public ImportOptions getImportOptions() {
+        return importOptions;
     }
 
-    public void setFirstLineContainsHeader(boolean firstLineContainsHeader) {
-        this.firstLineContainsHeader = firstLineContainsHeader;
+    public void setImportOptions(ImportOptions importOptions) {
+        this.importOptions = importOptions;
     }
 
-    public boolean isImportTranslations() {
-        return importTranslations;
+    public ExportOptions getExportOptions() {
+        return exportOptions;
     }
 
-    public void setImportTranslations(boolean importTranslations) {
-        this.importTranslations = importTranslations;
-    }
-
-    public String getScheme() {
-        return scheme;
-    }
-
-    public void setScheme(String scheme) {
-        this.scheme = scheme;
-    }
-
-    public boolean isTranslateContent() {
-        return translateContent;
-    }
-
-    public void setTranslateContent(boolean translateContent) {
-        this.translateContent = translateContent;
-    }
-
-    public boolean isTranslateAttributes() {
-        return translateAttributes;
-    }
-
-    public void setTranslateAttributes(boolean translateAttributes) {
-        this.translateAttributes = translateAttributes;
-    }
-
-    public boolean isContentSegmentation() {
-        return contentSegmentation;
-    }
-
-    public void setContentSegmentation(boolean contentSegmentation) {
-        this.contentSegmentation = contentSegmentation;
-    }
-
-    public int getEscapeQuotes() {
-        return escapeQuotes;
-    }
-
-    public void setEscapeQuotes(int escapeQuotes) {
-        this.escapeQuotes = escapeQuotes;
+    public void setExportOptions(ExportOptions exportOptions) {
+        this.exportOptions = exportOptions;
     }
 }

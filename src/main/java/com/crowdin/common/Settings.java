@@ -12,31 +12,34 @@ public class Settings {
     private ApiType apiType;
     private Environment environment;
     private String baseUrl;
+    private String login;
 
-    private Settings(String apiKey, String baseUrl) {
+    private Settings(String apiKey, String login, String baseUrl) {
         this.apiKey = apiKey;
         this.baseUrl = baseUrl;
+        this.login = login;
     }
 
-    private Settings(String apiKey, String userId, String organisationName, ApiType apiType, Environment environment) {
+    private Settings(String apiKey, String login, String userId, String organisationName, ApiType apiType, Environment environment) {
         this.apiKey = apiKey;
         this.userId = userId;
         this.organisationName = organisationName;
         this.apiType = apiType;
         this.environment = environment;
+        this.login = login;
     }
 
-    public static Settings enterprise(String apiKey, String organisationName) {
-        return new Settings(apiKey, null, organisationName, ApiType.ENTERPRISE, Environment.ENTERPRISE_PRODUCTION);
+    public static Settings enterprise(String apiKey, String login, String organisationName) {
+        return new Settings(apiKey, login, null, organisationName, ApiType.ENTERPRISE, Environment.ENTERPRISE_PRODUCTION);
     }
 
 
-    public static Settings withBaseUrl(String apiKey, String baseUrl) {
+    public static Settings withBaseUrl(String apiKey, String login, String baseUrl) {
         if (baseUrl == null || baseUrl.isEmpty()) {
-            throw  new CrowdinException("Base url can`t be null or empty");
+            throw new CrowdinException("Base url can`t be null or empty");
         }
 
-        return new Settings(apiKey, baseUrl);
+        return new Settings(apiKey, login, baseUrl);
     }
 
     public String getBaseUrl() {
@@ -82,6 +85,10 @@ public class Settings {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
+    }
+
+    public String getLogin() {
+        return login;
     }
 
     public enum ApiType {
