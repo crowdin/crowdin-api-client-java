@@ -6,8 +6,6 @@ public class Settings {
     private int translateDuplicates;
     private boolean isMtAllowed;
     private boolean autoSubstitution;
-    private boolean exportTranslatedOnly;
-    private boolean exportApprovedOnly;
     private boolean autoTranslateDialects;
     private boolean publicDownloads;
     private boolean useGlobalTm;
@@ -46,22 +44,6 @@ public class Settings {
 
     public void setAutoSubstitution(boolean autoSubstitution) {
         this.autoSubstitution = autoSubstitution;
-    }
-
-    public boolean isExportTranslatedOnly() {
-        return exportTranslatedOnly;
-    }
-
-    public void setExportTranslatedOnly(boolean exportTranslatedOnly) {
-        this.exportTranslatedOnly = exportTranslatedOnly;
-    }
-
-    public boolean isExportApprovedOnly() {
-        return exportApprovedOnly;
-    }
-
-    public void setExportApprovedOnly(boolean exportApprovedOnly) {
-        this.exportApprovedOnly = exportApprovedOnly;
     }
 
     public boolean isAutoTranslateDialects() {

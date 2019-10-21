@@ -14,8 +14,7 @@ abstract class Api {
 
     <R> CrowdinRequestBuilder<R> getBuilderWithSettings(TypeReference<R> responseType) {
         return CrowdinRequestBuilder.builder(settings.getBaseUrl(), responseType)
-                .apiKey(settings.getApiKey())
-                .login(settings.getLogin());
+                .token(settings.getToken());
     }
 
     CrowdinRequestBuilder getBuilderWithSettings() {

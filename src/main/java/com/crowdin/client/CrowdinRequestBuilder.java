@@ -21,6 +21,7 @@ public class CrowdinRequestBuilder<R> {
     public static final String URI_DELIMITER = "/";
     public static final String REQUEST_PARAMETERS_START_PREFIX = "?";
     public static final String REQUEST_PARAMETERS_DELIMITER = "&";
+    public static final String TOKEN_PREFIX = "Bearer ";
 
     private String url;
 
@@ -140,8 +141,8 @@ public class CrowdinRequestBuilder<R> {
         if (first.isPresent()) throw new CrowdinException("Some of path parameter is null or empty");
     }
 
-    public CrowdinRequestBuilder<R> apiKey(String apiKey) {
-        this.requestParams.put("account-key", apiKey);
+    public CrowdinRequestBuilder<R> token(String token) {
+        this.header("Authorization", TOKEN_PREFIX + token);
         return this;
     }
 

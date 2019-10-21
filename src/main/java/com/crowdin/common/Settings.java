@@ -6,40 +6,37 @@ public class Settings {
 
     private String protocol = "https";
 
-    private String apiKey;
+    private String token;
     private String userId;
     private String organisationName;
     private ApiType apiType;
     private Environment environment;
     private String baseUrl;
-    private String login;
 
-    private Settings(String apiKey, String login, String baseUrl) {
-        this.apiKey = apiKey;
+    private Settings(String token, String baseUrl) {
+        this.token = token;
         this.baseUrl = baseUrl;
-        this.login = login;
     }
 
-    private Settings(String apiKey, String login, String userId, String organisationName, ApiType apiType, Environment environment) {
-        this.apiKey = apiKey;
+    private Settings(String token, String userId, String organisationName, ApiType apiType, Environment environment) {
+        this.token = token;
         this.userId = userId;
         this.organisationName = organisationName;
         this.apiType = apiType;
         this.environment = environment;
-        this.login = login;
     }
 
-    public static Settings enterprise(String apiKey, String login, String organisationName) {
-        return new Settings(apiKey, login, null, organisationName, ApiType.ENTERPRISE, Environment.ENTERPRISE_PRODUCTION);
+    public static Settings enterprise(String token, String organisationName) {
+        return new Settings(token, null, organisationName, ApiType.ENTERPRISE, Environment.ENTERPRISE_PRODUCTION);
     }
 
 
-    public static Settings withBaseUrl(String apiKey, String login, String baseUrl) {
+    public static Settings withBaseUrl(String token, String baseUrl) {
         if (baseUrl == null || baseUrl.isEmpty()) {
             throw new CrowdinException("Base url can`t be null or empty");
         }
 
-        return new Settings(apiKey, login, baseUrl);
+        return new Settings(token, baseUrl);
     }
 
     public String getBaseUrl() {
@@ -59,8 +56,8 @@ public class Settings {
                 );
     }
 
-    public String getApiKey() {
-        return apiKey;
+    public String getToken() {
+        return token;
     }
 
     public String getUserId() {
@@ -85,10 +82,6 @@ public class Settings {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
-    }
-
-    public String getLogin() {
-        return login;
     }
 
     public enum ApiType {
