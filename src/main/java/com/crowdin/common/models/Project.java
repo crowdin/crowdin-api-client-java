@@ -8,8 +8,8 @@ public class Project {
     private Long groupId;
     private Long userId;
     private int status;
-    private Long sourceLanguageId;
-    private List<Long> targetLanguageIds;
+    private String sourceLanguageId;
+    private List<String> targetLanguageIds;
     private String joinPolicy;
     private String languageAccessPolicy;
     private int type;
@@ -67,19 +67,19 @@ public class Project {
         this.status = status;
     }
 
-    public Long getSourceLanguageId() {
+    public String getSourceLanguageId() {
         return sourceLanguageId;
     }
 
-    public void setSourceLanguageId(Long sourceLanguageId) {
+    public void setSourceLanguageId(String sourceLanguageId) {
         this.sourceLanguageId = sourceLanguageId;
     }
 
-    public List<Long> getTargetLanguageIds() {
+    public List<String> getTargetLanguageIds() {
         return targetLanguageIds;
     }
 
-    public void setTargetLanguageIds(List<Long> targetLanguageIds) {
+    public void setTargetLanguageIds(List<String> targetLanguageIds) {
         this.targetLanguageIds = targetLanguageIds;
     }
 

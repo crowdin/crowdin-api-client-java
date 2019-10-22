@@ -5,7 +5,7 @@ public class FileEntity {
     private Long projectId;
     private Long branchId;
     private Long directoryId;
-    private Long languageId;
+    private String languageId;
 
     private String name;
     private String title;
@@ -52,11 +52,11 @@ public class FileEntity {
         this.directoryId = directoryId;
     }
 
-    public Long getLanguageId() {
+    public String getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(Long languageId) {
+    public void setLanguageId(String languageId) {
         this.languageId = languageId;
     }
 

@@ -12,8 +12,8 @@ public class Issue {
     private List<Assignee> assignees;
     private List<Long> fileIds;
     private Progress progress;
-    private Long sourceLanguageId;
-    private Long targetLanguageId;
+    private String sourceLanguageId;
+    private String targetLanguageId;
     private String description;
     private String hash;
     private String translationUrl;
@@ -98,19 +98,19 @@ public class Issue {
         this.progress = progress;
     }
 
-    public Long getSourceLanguageId() {
+    public String getSourceLanguageId() {
         return sourceLanguageId;
     }
 
-    public void setSourceLanguageId(Long sourceLanguageId) {
+    public void setSourceLanguageId(String sourceLanguageId) {
         this.sourceLanguageId = sourceLanguageId;
     }
 
-    public Long getTargetLanguageId() {
+    public String getTargetLanguageId() {
         return targetLanguageId;
     }
 
-    public void setTargetLanguageId(Long targetLanguageId) {
+    public void setTargetLanguageId(String targetLanguageId) {
         this.targetLanguageId = targetLanguageId;
     }
 

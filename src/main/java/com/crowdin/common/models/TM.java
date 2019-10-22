@@ -8,7 +8,7 @@ public class TM {
     private Long id;
     private Long groupId;
     private String name;
-    private List<Long> languageIds;
+    private List<String> languageIds;
     private int segmentsCount;
     private Long defaultProjectId;
     private List<ProjectShortDto> projects;
@@ -37,11 +37,11 @@ public class TM {
         this.name = name;
     }
 
-    public List<Long> getLanguageIds() {
+    public List<String> getLanguageIds() {
         return languageIds;
     }
 
-    public void setLanguageIds(List<Long> languageIds) {
+    public void setLanguageIds(List<String> languageIds) {
         this.languageIds = languageIds;
     }
 
