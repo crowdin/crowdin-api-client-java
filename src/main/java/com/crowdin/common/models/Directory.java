@@ -10,7 +10,7 @@ public class Directory {
     private String title;
     private String exportPattern;
     private int status;
-    private int priority;
+    private String priority;
     private String createdAt;
     private String updatedAt;
 
@@ -78,11 +78,11 @@ public class Directory {
         this.status = status;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

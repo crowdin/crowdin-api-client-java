@@ -7,7 +7,6 @@ public class CrowdinStringPayload {
     private String plurals;
     private String context;
     private boolean isHidden;
-    private int type;
     private int revision;
     private int maxLength;
 
@@ -49,14 +48,6 @@ public class CrowdinStringPayload {
 
     public void setHidden(boolean hidden) {
         isHidden = hidden;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public int getRevision() {

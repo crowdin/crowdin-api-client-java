@@ -2,7 +2,6 @@ package com.crowdin.common.models;
 
 public class Group {
     private Long id;
-    private int visibility;
 
     private String name;
     private String description;
@@ -18,14 +17,6 @@ public class Group {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(int visibility) {
-        this.visibility = visibility;
     }
 
     public String getName() {

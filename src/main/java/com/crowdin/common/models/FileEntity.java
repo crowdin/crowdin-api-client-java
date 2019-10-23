@@ -12,8 +12,8 @@ public class FileEntity {
     private String type;
 
     private int revision;
-    private int status;
-    private int priority;
+    private String status;
+    private String priority;
     private FileAttributes attributes;
 
     private String exportPattern;
@@ -92,19 +92,19 @@ public class FileEntity {
         this.revision = revision;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public int getPriority() {
+    public String getPriority() {
         return priority;
     }
 
-    public void setPriority(int priority) {
+    public void setPriority(String priority) {
         this.priority = priority;
     }
 

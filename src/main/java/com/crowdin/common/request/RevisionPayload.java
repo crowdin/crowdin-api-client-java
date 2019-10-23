@@ -7,13 +7,13 @@ public class RevisionPayload {
     private Long storageId;
     private Map<String, Integer> scheme;
     private Boolean firstLineContainsHeader;
-    private Integer updateOption;
+    private String updateOption;
     private Integer escapeQuotes;
 
     public RevisionPayload() {
     }
 
-    public RevisionPayload(Long storageId, Map<String, Integer> scheme, Boolean firstLineContainsHeader, Integer updateOption, Integer escapeQuotes) {
+    public RevisionPayload(Long storageId, Map<String, Integer> scheme, Boolean firstLineContainsHeader, String updateOption, Integer escapeQuotes) {
         this.storageId = storageId;
         this.scheme = scheme;
         this.firstLineContainsHeader = firstLineContainsHeader;
@@ -45,11 +45,11 @@ public class RevisionPayload {
         this.firstLineContainsHeader = firstLineContainsHeader;
     }
 
-    public Integer getUpdateOption() {
+    public String getUpdateOption() {
         return updateOption;
     }
 
-    public void setUpdateOption(Integer updateOption) {
+    public void setUpdateOption(String updateOption) {
         this.updateOption = updateOption;
     }
 
