@@ -7,8 +7,8 @@ public class ProjectPayload {
     private String name;
     private String identifier;
     private int type;
-    private int sourceLanguageId;
-    private List<Long> targetLanguageIds;
+    private String sourceLanguageId;
+    private List<String> targetLanguageIds;
     private String joinPolicy;
     private String languageAccessPolicy;
     private String cname;
@@ -38,19 +38,19 @@ public class ProjectPayload {
         this.type = type;
     }
 
-    public int getSourceLanguageId() {
+    public String getSourceLanguageId() {
         return sourceLanguageId;
     }
 
-    public void setSourceLanguageId(int sourceLanguageId) {
+    public void setSourceLanguageId(String sourceLanguageId) {
         this.sourceLanguageId = sourceLanguageId;
     }
 
-    public List<Long> getTargetLanguageIds() {
+    public List<String> getTargetLanguageIds() {
         return targetLanguageIds;
     }
 
-    public void setTargetLanguageIds(List<Long> targetLanguageIds) {
+    public void setTargetLanguageIds(List<String> targetLanguageIds) {
         this.targetLanguageIds = targetLanguageIds;
     }
 

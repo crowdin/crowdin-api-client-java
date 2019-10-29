@@ -5,7 +5,7 @@ public class Term {
     private Long id;
     private Long userId;
     private Long glossaryId;
-    private Long languageId;
+    private String languageId;
     private String text;
     private String description;
     private String partOfSpeech;
@@ -37,11 +37,11 @@ public class Term {
         this.glossaryId = glossaryId;
     }
 
-    public Long getLanguageId() {
+    public String getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(Long languageId) {
+    public void setLanguageId(String languageId) {
         this.languageId = languageId;
     }
 

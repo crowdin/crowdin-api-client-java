@@ -5,7 +5,7 @@ import java.util.List;
 public class BuildTranslationPayload {
 
     private Long branchId;
-    private List<Long> targetLanguagesId;
+    private List<String> targetLanguageIds;
     private Boolean exportTranslatedOnly;
     private Boolean exportApprovedOnly;
     private Boolean force;
@@ -18,12 +18,12 @@ public class BuildTranslationPayload {
         this.branchId = branchId;
     }
 
-    public List<Long> getTargetLanguagesId() {
-        return targetLanguagesId;
+    public List<String> getTargetLanguageIds() {
+        return targetLanguageIds;
     }
 
-    public void setTargetLanguagesId(List<Long> targetLanguagesId) {
-        this.targetLanguagesId = targetLanguagesId;
+    public void setTargetLanguageIds(List<String> targetLanguageIds) {
+        this.targetLanguageIds = targetLanguageIds;
     }
 
     public Boolean getExportTranslatedOnly() {

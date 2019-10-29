@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PreTranslatePayload {
 
-    private List<Integer> languageIds;
+    private List<String> languageIds;
     private List<Long> fileIds;
     private String method;
     private String engine;
@@ -14,7 +14,7 @@ public class PreTranslatePayload {
     private boolean applyUntranslatedStringsOnly;
     private boolean perfectMatch;
 
-    public PreTranslatePayload(List<Integer> languageIds,
+    public PreTranslatePayload(List<String> languageIds,
                                List<Long> fileIds,
                                String method,
                                String engine,
@@ -34,11 +34,11 @@ public class PreTranslatePayload {
         this.perfectMatch = perfectMatch;
     }
 
-    public List<Integer> getLanguageIds() {
+    public List<String> getLanguageIds() {
         return languageIds;
     }
 
-    public void setLanguageIds(List<Integer> languageIds) {
+    public void setLanguageIds(List<String> languageIds) {
         this.languageIds = languageIds;
     }
 

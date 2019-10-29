@@ -9,7 +9,7 @@ public class Glossary {
     private Long groupId;
     private Long userId;
     private int terms;
-    private List<Long> languageIds;
+    private List<String> languageIds;
     private List<Long> projectIds;
     private String createdAt;
 
@@ -61,11 +61,11 @@ public class Glossary {
         this.terms = terms;
     }
 
-    public List<Long> getLanguageIds() {
+    public List<String> getLanguageIds() {
         return languageIds;
     }
 
-    public void setLanguageIds(List<Long> languageIds) {
+    public void setLanguageIds(List<String> languageIds) {
         this.languageIds = languageIds;
     }
 

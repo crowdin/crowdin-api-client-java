@@ -3,10 +3,10 @@ package com.crowdin.common.models;
 import java.util.List;
 
 public class Language {
-    private Long id;
+    private String id;
     private Long organizationId;
     private String name;
-    private int dialectOf;
+    private String dialectOf;
     private String textDirection;
     private String internalCode;
     private String editorCode;
@@ -24,11 +24,11 @@ public class Language {
     private String osxCode;
     private String osxLocale;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -48,11 +48,11 @@ public class Language {
         this.name = name;
     }
 
-    public int getDialectOf() {
+    public String getDialectOf() {
         return dialectOf;
     }
 
-    public void setDialectOf(int dialectOf) {
+    public void setDialectOf(String dialectOf) {
         this.dialectOf = dialectOf;
     }
 

@@ -7,7 +7,7 @@ public class Translation {
     private Long id;
     private Long projectId;
     private Long branchId;
-    private List<Long> languagesId;
+    private List<String> languageIds;
     private String status;
     private Progress progress;
 
@@ -35,12 +35,12 @@ public class Translation {
         this.branchId = branchId;
     }
 
-    public List<Long> getLanguagesId() {
-        return languagesId;
+    public List<String> getLanguageIds() {
+        return languageIds;
     }
 
-    public void setLanguagesId(List<Long> languagesId) {
-        this.languagesId = languagesId;
+    public void setLanguageIds(List<String> languageIds) {
+        this.languageIds = languageIds;
     }
 
     public String getStatus() {
