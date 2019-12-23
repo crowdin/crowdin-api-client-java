@@ -8,7 +8,6 @@ public class BuildTranslationPayload {
     private List<String> targetLanguageIds;
     private Boolean exportTranslatedOnly;
     private Boolean exportApprovedOnly;
-    private Boolean force;
 
     public Long getBranchId() {
         return branchId;
@@ -40,13 +39,5 @@ public class BuildTranslationPayload {
 
     public void setExportApprovedOnly(Boolean exportApprovedOnly) {
         this.exportApprovedOnly = exportApprovedOnly;
-    }
-
-    public Boolean getForce() {
-        return force;
-    }
-
-    public void setForce(Boolean force) {
-        this.force = force;
     }
 }
