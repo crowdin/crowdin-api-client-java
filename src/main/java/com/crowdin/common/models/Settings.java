@@ -10,7 +10,7 @@ public class Settings {
     private boolean publicDownloads;
     private boolean useGlobalTm;
     private boolean inContext;
-    private Long pseudoLanguageId0;
+    private String jiptPseudoLanguageId;
     private boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
 
@@ -78,12 +78,12 @@ public class Settings {
         this.inContext = inContext;
     }
 
-    public Long getPseudoLanguageId0() {
-        return pseudoLanguageId0;
+    public String getJiptPseudoLanguageId() {
+        return jiptPseudoLanguageId;
     }
 
-    public void setPseudoLanguageId0(Long pseudoLanguageId0) {
-        this.pseudoLanguageId0 = pseudoLanguageId0;
+    public void setJiptPseudoLanguageId(String jiptPseudoLanguageId) {
+        this.jiptPseudoLanguageId = jiptPseudoLanguageId;
     }
 
     public boolean isQaCheckIsActive() {
