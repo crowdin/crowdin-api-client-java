@@ -5,7 +5,7 @@ public class Directory {
     private Long id;
     private Long projectId;
     private Long branchId;
-    private Long parentId;
+    private Long directoryId;
     private String name;
     private String title;
     private String exportPattern;
@@ -38,12 +38,12 @@ public class Directory {
         this.branchId = branchId;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getDirectoryId() {
+        return directoryId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setDirectoryId(Long directoryId) {
+        this.directoryId = directoryId;
     }
 
     public String getName() {
