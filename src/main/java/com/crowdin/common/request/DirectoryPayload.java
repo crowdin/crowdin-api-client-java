@@ -3,7 +3,7 @@ package com.crowdin.common.request;
 public class DirectoryPayload implements Request {
 
     private Long branchId;
-    private Long parentId;
+    private Long directoryId;
     private String name;
     private String title;
     private String exportPattern;
@@ -17,12 +17,12 @@ public class DirectoryPayload implements Request {
         this.branchId = branchId;
     }
 
-    public Long getParentId() {
-        return parentId;
+    public Long getDirectoryId() {
+        return directoryId;
     }
 
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
+    public void setDirectoryId(Long directoryId) {
+        this.directoryId = directoryId;
     }
 
     public String getName() {
