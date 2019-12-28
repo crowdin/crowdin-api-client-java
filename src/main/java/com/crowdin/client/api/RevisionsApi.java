@@ -33,13 +33,4 @@ public class RevisionsApi extends Api {
                 .method(CrowdinHttpClient.HttpMethod.GET)
                 .pathParams(projectId, fileId, revisionId);
     }
-
-    public CrowdinRequestBuilder<SimpleResponse<Revision>> createRevision(String projectId, String fileId, RevisionPayload revisionPayload) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<Revision>>() {
-        })
-                .path(Path.REVISIONS)
-                .method(CrowdinHttpClient.HttpMethod.POST)
-                .requestBody(revisionPayload)
-                .pathParams(projectId, fileId);
-    }
 }
