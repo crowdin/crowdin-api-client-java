@@ -8,6 +8,8 @@ import com.crowdin.common.models.FileRaw;
 import com.crowdin.common.models.Pageable;
 import com.crowdin.common.request.FilePayload;
 import com.crowdin.common.request.PatchOperation;
+import com.crowdin.common.request.RestoreFilePayload;
+import com.crowdin.common.request.UpdateFilePayload;
 import com.crowdin.common.response.Page;
 import com.crowdin.common.response.SimpleResponse;
 import com.crowdin.util.CrowdinHttpClient;
@@ -78,13 +80,31 @@ public class FilesApi extends Api {
 
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<FileEntity>> updateFile(String projectId, String fileId, List<PatchOperation> updateOperations) {
+    public CrowdinRequestBuilder<SimpleResponse<FileEntity>> editFile(String projectId, String fileId, List<PatchOperation> updateOperations) {
         return getBuilderWithSettings(new TypeReference<SimpleResponse<FileEntity>>() {
         })
                 .path(Path.FILE)
                 .method(CrowdinHttpClient.HttpMethod.PATCH)
                 .pathParams(projectId, fileId)
                 .requestBody(updateOperations);
+    }
+
+    public CrowdinRequestBuilder<SimpleResponse<FileEntity>> updateFile(String projectId, String fileId, UpdateFilePayload updateFilePayload) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<FileEntity>>() {
+        })
+                .path(Path.FILE)
+                .method(CrowdinHttpClient.HttpMethod.PUT)
+                .pathParams(projectId, fileId)
+                .requestBody(updateFilePayload);
+    }
+
+    public CrowdinRequestBuilder<SimpleResponse<FileEntity>> restoreFile(String projectId, String fileId, RestoreFilePayload restoreFilePayload) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<FileEntity>>() {
+        })
+                .path(Path.FILE)
+                .method(CrowdinHttpClient.HttpMethod.PUT)
+                .pathParams(projectId, fileId)
+                .requestBody(restoreFilePayload);
     }
 
     public CrowdinRequestBuilder<SimpleResponse<FileRaw>> exportFile(String projectId, String fileId) {
