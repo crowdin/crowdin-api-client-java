@@ -33,7 +33,7 @@ Need help working with Crowdin Java client or have any questions?
 
 ## License
 <pre>
-Copyright © 2019 Crowdin
+Copyright © 2020 Crowdin
 
 The Crowdin Java client is licensed under the MIT License. 
 See the LICENSE file distributed with this work for additional 
