@@ -22,6 +22,7 @@ public class CrowdinRequestBuilder<R> {
     public static final String REQUEST_PARAMETERS_START_PREFIX = "?";
     public static final String REQUEST_PARAMETERS_DELIMITER = "&";
     public static final String TOKEN_PREFIX = "Bearer ";
+    public static final String UPLOAD_STORAGE_HEADER = "Crowdin-API-FileName";
 
     private String url;
 

@@ -27,11 +27,12 @@ public class StorageApi extends Api {
                 .pageable(pageable);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<IdDto>> uploadFile(File file) {
+    public CrowdinRequestBuilder<SimpleResponse<IdDto>> uploadFile(File file, String fileName) {
 
         return getBuilderWithSettings(new TypeReference<SimpleResponse<IdDto>>() {
         })
                 .path(Path.STORAGES)
+                .header(CrowdinRequestBuilder.UPLOAD_STORAGE_HEADER, fileName)
                 .method(CrowdinHttpClient.HttpMethod.POST)
                 .requestBody(file)
                 .pathParams();
