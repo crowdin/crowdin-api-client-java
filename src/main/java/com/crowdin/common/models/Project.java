@@ -4,28 +4,32 @@ import java.util.List;
 
 public class Project {
     private Long id;
-    private Long organizationId;
     private Long groupId;
     private Long userId;
-    private int status;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
-    private String joinPolicy;
     private String languageAccessPolicy;
-    private int type;
     private String name;
     private String cname;
     private String identifier;
     private String description;
-    private String visibility;
     private String logo;
     private String background;
     private boolean isExternal;
     private String externalType;
-    private boolean hasWorkflow;
+    private int advancedWorkflowId;
     private boolean hasCrowdsourcing;
     private String createdAt;
     private String updatedAt;
+
+    public int getAdvancedWorkflowId() {
+        return advancedWorkflowId;
+    }
+
+    public void setAdvancedWorkflowId(int advancedWorkflowId) {
+        this.advancedWorkflowId = advancedWorkflowId;
+    }
+
 
     public Long getId() {
         return id;
@@ -33,14 +37,6 @@ public class Project {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Long organizationId) {
-        this.organizationId = organizationId;
     }
 
     public Long getGroupId() {
@@ -59,14 +55,6 @@ public class Project {
         this.userId = userId;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public String getSourceLanguageId() {
         return sourceLanguageId;
     }
@@ -83,28 +71,12 @@ public class Project {
         this.targetLanguageIds = targetLanguageIds;
     }
 
-    public String getJoinPolicy() {
-        return joinPolicy;
-    }
-
-    public void setJoinPolicy(String joinPolicy) {
-        this.joinPolicy = joinPolicy;
-    }
-
     public String getLanguageAccessPolicy() {
         return languageAccessPolicy;
     }
 
     public void setLanguageAccessPolicy(String languageAccessPolicy) {
         this.languageAccessPolicy = languageAccessPolicy;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -139,14 +111,6 @@ public class Project {
         this.description = description;
     }
 
-    public String getVisibility() {
-        return visibility;
-    }
-
-    public void setVisibility(String visibility) {
-        this.visibility = visibility;
-    }
-
     public String getLogo() {
         return logo;
     }
@@ -177,14 +141,6 @@ public class Project {
 
     public void setExternalType(String externalType) {
         this.externalType = externalType;
-    }
-
-    public boolean isHasWorkflow() {
-        return hasWorkflow;
-    }
-
-    public void setHasWorkflow(boolean hasWorkflow) {
-        this.hasWorkflow = hasWorkflow;
     }
 
     public boolean isHasCrowdsourcing() {

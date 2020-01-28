@@ -1,26 +1,25 @@
 package com.crowdin.common.models;
 
-public class Settings {
+import java.util.Map;
 
-    private Long projectId;
+public class ProjectSettings extends Project {
+
     private int translateDuplicates;
     private boolean isMtAllowed;
     private boolean autoSubstitution;
+    private boolean exportTranslatedOnly;
+    private boolean exportApprovedOnly;
     private boolean autoTranslateDialects;
     private boolean publicDownloads;
     private boolean useGlobalTm;
     private boolean inContext;
-    private String jiptPseudoLanguageId;
+    private String inContextPseudoLanguageId;
     private boolean qaCheckIsActive;
+    private int lowestQualityProjectGoalId;
     private QaCheckCategories qaCheckCategories;
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
-    }
+//    When field is empty, server returns empty array instead of empty object
+//    Should have been Map<String, ProjectSettings.LanguageMapping>
+    private Object languageMapping;
 
     public int getTranslateDuplicates() {
         return translateDuplicates;
@@ -44,6 +43,22 @@ public class Settings {
 
     public void setAutoSubstitution(boolean autoSubstitution) {
         this.autoSubstitution = autoSubstitution;
+    }
+
+    public boolean isExportTranslatedOnly() {
+        return exportTranslatedOnly;
+    }
+
+    public void setExportTranslatedOnly(boolean exportTranslatedOnly) {
+        this.exportTranslatedOnly = exportTranslatedOnly;
+    }
+
+    public boolean isExportApprovedOnly() {
+        return exportApprovedOnly;
+    }
+
+    public void setExportApprovedOnly(boolean exportApprovedOnly) {
+        this.exportApprovedOnly = exportApprovedOnly;
     }
 
     public boolean isAutoTranslateDialects() {
@@ -78,12 +93,12 @@ public class Settings {
         this.inContext = inContext;
     }
 
-    public String getJiptPseudoLanguageId() {
-        return jiptPseudoLanguageId;
+    public String getInContextPseudoLanguageId() {
+        return inContextPseudoLanguageId;
     }
 
-    public void setJiptPseudoLanguageId(String jiptPseudoLanguageId) {
-        this.jiptPseudoLanguageId = jiptPseudoLanguageId;
+    public void setInContextPseudoLanguageId(String inContextPseudoLanguageId) {
+        this.inContextPseudoLanguageId = inContextPseudoLanguageId;
     }
 
     public boolean isQaCheckIsActive() {
@@ -94,12 +109,28 @@ public class Settings {
         this.qaCheckIsActive = qaCheckIsActive;
     }
 
+    public int getLowestQualityProjectGoalId() {
+        return lowestQualityProjectGoalId;
+    }
+
+    public void setLowestQualityProjectGoalId(int lowestQualityProjectGoalId) {
+        this.lowestQualityProjectGoalId = lowestQualityProjectGoalId;
+    }
+
     public QaCheckCategories getQaCheckCategories() {
         return qaCheckCategories;
     }
 
     public void setQaCheckCategories(QaCheckCategories qaCheckCategories) {
         this.qaCheckCategories = qaCheckCategories;
+    }
+
+    public Object getLanguageMapping() {
+        return languageMapping;
+    }
+
+    public void setLanguageMapping(Object languageMapping) {
+        this.languageMapping = languageMapping;
     }
 
     public class QaCheckCategories {
@@ -201,6 +232,81 @@ public class Settings {
 
         public void setIcu(boolean icu) {
             this.icu = icu;
+        }
+    }
+
+    public class LanguageMapping {
+        private String name;
+        private String twoLettersCode;
+        private String threeLettersCode;
+        private String locale;
+        private String localeWithUnderScore;
+        private String androidCode;
+        private String osxCode;
+        private String osxLocale;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getTwoLettersCode() {
+            return twoLettersCode;
+        }
+
+        public void setTwoLettersCode(String twoLettersCode) {
+            this.twoLettersCode = twoLettersCode;
+        }
+
+        public String getThreeLettersCode() {
+            return threeLettersCode;
+        }
+
+        public void setThreeLettersCode(String threeLettersCode) {
+            this.threeLettersCode = threeLettersCode;
+        }
+
+        public String getLocale() {
+            return locale;
+        }
+
+        public void setLocale(String locale) {
+            this.locale = locale;
+        }
+
+        public String getLocaleWithUnderScore() {
+            return localeWithUnderScore;
+        }
+
+        public void setLocaleWithUnderScore(String localeWithUnderScore) {
+            this.localeWithUnderScore = localeWithUnderScore;
+        }
+
+        public String getAndroidCode() {
+            return androidCode;
+        }
+
+        public void setAndroidCode(String androidCode) {
+            this.androidCode = androidCode;
+        }
+
+        public String getOsxCode() {
+            return osxCode;
+        }
+
+        public void setOsxCode(String osxCode) {
+            this.osxCode = osxCode;
+        }
+
+        public String getOsxLocale() {
+            return osxLocale;
+        }
+
+        public void setOsxLocale(String osxLocale) {
+            this.osxLocale = osxLocale;
         }
     }
 }
