@@ -5,6 +5,7 @@ import com.crowdin.client.Path;
 import com.crowdin.common.Settings;
 import com.crowdin.common.models.Pageable;
 import com.crowdin.common.models.Project;
+import com.crowdin.common.models.ProjectSettings;
 import com.crowdin.common.request.PatchOperation;
 import com.crowdin.common.request.ProjectPayload;
 import com.crowdin.common.response.Page;
@@ -38,8 +39,8 @@ public class ProjectsApi extends Api {
                 .requestBody(projectPayload);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Project>> getProject(String projectId) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
+    public CrowdinRequestBuilder<SimpleResponse<ProjectSettings>> getProject(String projectId) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<ProjectSettings>>() {
         })
                 .path(Path.PROJECT)
                 .method(CrowdinHttpClient.HttpMethod.GET)
@@ -53,8 +54,8 @@ public class ProjectsApi extends Api {
                 .pathParams(projectId);
     }
 
-    public CrowdinRequestBuilder<SimpleResponse<Project>> updateProject(String projectId, List<PatchOperation> updateOperations) {
-        return getBuilderWithSettings(new TypeReference<SimpleResponse<Project>>() {
+    public CrowdinRequestBuilder<SimpleResponse<ProjectSettings>> updateProject(String projectId, List<PatchOperation> updateOperations) {
+        return getBuilderWithSettings(new TypeReference<SimpleResponse<ProjectSettings>>() {
         })
                 .path(Path.PROJECT)
                 .method(CrowdinHttpClient.HttpMethod.PATCH)

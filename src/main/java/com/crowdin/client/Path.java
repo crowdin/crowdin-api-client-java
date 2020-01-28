@@ -79,8 +79,6 @@ public interface Path {
     String SCREENSHOTS = "/projects/%s/screenshots";
     String SCREENSHOT = "/projects/%s/screenshots/%s";
 
-    String SETTINGS = "/projects/%s/settings";
-
     String STORAGES = "/storages";
     String STORAGE = "/storages/%s";
 
