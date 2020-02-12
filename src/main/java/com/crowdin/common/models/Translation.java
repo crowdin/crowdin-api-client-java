@@ -6,10 +6,9 @@ public class Translation {
 
     private Long id;
     private Long projectId;
-    private Long branchId;
-    private List<String> languageIds;
     private String status;
-    private Progress progress;
+    private Long progress;
+    private Attributes attributes;
 
     public Long getId() {
         return id;
@@ -27,22 +26,6 @@ public class Translation {
         this.projectId = projectId;
     }
 
-    public Long getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
-    }
-
-    public List<String> getLanguageIds() {
-        return languageIds;
-    }
-
-    public void setLanguageIds(List<String> languageIds) {
-        this.languageIds = languageIds;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -51,41 +34,58 @@ public class Translation {
         this.status = status;
     }
 
-    public Progress getProgress() {
+    public Long getProgress() {
         return progress;
     }
 
-    public void setProgress(Progress progress) {
+    public void setProgress(Long progress) {
         this.progress = progress;
     }
 
-    public class Progress {
-        private int percent;
-        private String currentLanguageName;
-        private String currentFileName;
+    public Attributes getAttributes() {
+        return attributes;
+    }
 
-        public int getPercent() {
-            return percent;
+    public void setAttributes(Attributes attributes) {
+        this.attributes = attributes;
+    }
+
+    public class Attributes {
+        private Long branchId;
+        private List<String> targetLanguageIds;
+        private Boolean exportTranslatedOnly;
+        private Boolean exportApprovedOnly;
+
+        public Long getBranchId() {
+            return branchId;
         }
 
-        public void setPercent(int percent) {
-            this.percent = percent;
+        public void setBranchId(Long branchId) {
+            this.branchId = branchId;
         }
 
-        public String getCurrentLanguageName() {
-            return currentLanguageName;
+        public List<String> getTargetLanguageIds() {
+            return targetLanguageIds;
         }
 
-        public void setCurrentLanguageName(String currentLanguageName) {
-            this.currentLanguageName = currentLanguageName;
+        public void setTargetLanguageIds(List<String> targetLanguageIds) {
+            this.targetLanguageIds = targetLanguageIds;
         }
 
-        public String getCurrentFileName() {
-            return currentFileName;
+        public Boolean getExportTranslatedOnly() {
+            return exportTranslatedOnly;
         }
 
-        public void setCurrentFileName(String currentFileName) {
-            this.currentFileName = currentFileName;
+        public void setExportTranslatedOnly(Boolean exportTranslatedOnly) {
+            this.exportTranslatedOnly = exportTranslatedOnly;
+        }
+
+        public Boolean getExportApprovedOnly() {
+            return exportApprovedOnly;
+        }
+
+        public void setExportApprovedOnly(Boolean exportApprovedOnly) {
+            this.exportApprovedOnly = exportApprovedOnly;
         }
     }
 }
