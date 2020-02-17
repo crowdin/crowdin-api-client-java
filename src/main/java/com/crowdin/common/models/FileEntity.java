@@ -1,11 +1,13 @@
 package com.crowdin.common.models;
 
+import com.crowdin.common.request.GeneralFileExportOptions;
+import com.crowdin.common.request.SpreadsheetFileImportOptions;
+
 public class FileEntity {
     private Long id;
     private Long projectId;
     private Long branchId;
     private Long directoryId;
-    private String languageId;
 
     private String name;
     private String title;
@@ -14,9 +16,10 @@ public class FileEntity {
     private int revision;
     private String status;
     private String priority;
-    private FileAttributes attributes;
 
-    private String exportPattern;
+    private SpreadsheetFileImportOptions importOptions;
+    private GeneralFileExportOptions exportOptions;
+
     private String createdAt;
     private String updatedAt;
 
@@ -50,14 +53,6 @@ public class FileEntity {
 
     public void setDirectoryId(Long directoryId) {
         this.directoryId = directoryId;
-    }
-
-    public String getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(String languageId) {
-        this.languageId = languageId;
     }
 
     public String getName() {
@@ -108,20 +103,20 @@ public class FileEntity {
         this.priority = priority;
     }
 
-    public FileAttributes getAttributes() {
-        return attributes;
+    public SpreadsheetFileImportOptions getImportOptions() {
+        return importOptions;
     }
 
-    public void setAttributes(FileAttributes attributes) {
-        this.attributes = attributes;
+    public void setImportOptions(SpreadsheetFileImportOptions importOptions) {
+        this.importOptions = importOptions;
     }
 
-    public String getExportPattern() {
-        return exportPattern;
+    public GeneralFileExportOptions getExportOptions() {
+        return exportOptions;
     }
 
-    public void setExportPattern(String exportPattern) {
-        this.exportPattern = exportPattern;
+    public void setExportOptions(GeneralFileExportOptions exportOptions) {
+        this.exportOptions = exportOptions;
     }
 
     public String getCreatedAt() {
