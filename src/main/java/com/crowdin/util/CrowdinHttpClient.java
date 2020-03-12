@@ -87,11 +87,12 @@ public class CrowdinHttpClient {
             BadRequestResponse badRequestResponse = mapJsonToJavaObject(inputStream, new TypeReference<BadRequestResponse>() {
             });
             throw new CrowdinApiException(badRequestResponse.toString(), response.getStatus());
+        } else if (Response.Status.fromStatusCode(response.getStatus()).getFamily() == Response.Status.Family.SERVER_ERROR) {
+            throw new CrowdinApiException("The server encountered an internal error and was unable to complete your request", response.getStatus());
+        } else {
+            ApiError error = mapJsonToJavaObject(inputStream, new TypeReference<ErrorResponse>() {}).getError();
+            throw new CrowdinApiException(error.getMessage(), error.getCode());
         }
-
-        ApiError error = mapJsonToJavaObject(inputStream, new TypeReference<ErrorResponse>() {
-        }).getError();
-        throw new CrowdinApiException(error.getMessage(), error.getCode());
     }
 
     private static URI getUriFromString(String uri) {
