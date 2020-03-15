@@ -2,6 +2,7 @@ package crowdin.api.client.core.http.exceptions;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.var;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

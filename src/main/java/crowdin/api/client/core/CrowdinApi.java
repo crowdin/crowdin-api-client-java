@@ -4,7 +4,7 @@ import crowdin.api.client.core.model.Credentials;
 import crowdin.api.client.core.http.HttpClient;
 import crowdin.api.client.core.http.JsonTransformer;
 import crowdin.api.client.core.http.impl.JacksonJsonTransformer;
-import crowdin.api.client.core.http.impl.JavaHttpClient;
+import crowdin.api.client.core.http.impl.ApacheHttpClient;
 
 public abstract class CrowdinApi {
 
@@ -12,11 +12,11 @@ public abstract class CrowdinApi {
     protected final String url;
 
     public CrowdinApi(Credentials credentials) {
-        this(credentials, new JavaHttpClient(credentials, new JacksonJsonTransformer()));
+        this(credentials, new ApacheHttpClient(credentials, new JacksonJsonTransformer()));
     }
 
     public CrowdinApi(Credentials credentials, JsonTransformer jsonTransformer) {
-        this(credentials, new JavaHttpClient(credentials, jsonTransformer));
+        this(credentials, new ApacheHttpClient(credentials, jsonTransformer));
     }
 
     public CrowdinApi(Credentials credentials, HttpClient httpClient) {

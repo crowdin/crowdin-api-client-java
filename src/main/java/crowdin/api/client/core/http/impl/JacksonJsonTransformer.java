@@ -1,12 +1,21 @@
 package crowdin.api.client.core.http.impl;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import crowdin.api.client.core.http.JsonTransformer;
 import lombok.SneakyThrows;
 
+import java.text.SimpleDateFormat;
+
 public class JacksonJsonTransformer implements JsonTransformer {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+
+    public JacksonJsonTransformer() {
+        this.objectMapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"));
+    }
 
     @Override
     @SneakyThrows

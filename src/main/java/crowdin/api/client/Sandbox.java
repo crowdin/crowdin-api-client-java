@@ -5,6 +5,7 @@ import crowdin.api.client.core.http.exceptions.HttpException;
 import crowdin.api.client.core.model.Credentials;
 import crowdin.api.client.core.model.ResponseList;
 import crowdin.api.client.projectsgroups.model.Project;
+import lombok.var;
 
 public class Sandbox {
 
@@ -15,6 +16,7 @@ public class Sandbox {
                 var client = new Client(credentials);
                 ResponseList<Project> projects = client.getProjectsGroupsApi().listProjects(null, null, null, null);
                 System.out.println(projects);
+                projects.getData().forEach(d -> System.out.println(d.data.getCreatedAt()));
             } catch (HttpException e) {
                 System.out.println(e.getError());
             } catch (HttpBadRequestException e) {

@@ -36,7 +36,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return list of projects
      */
     public ResponseList<Project> listProjects(Integer groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = Map.of(
+        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "hasManagerAccess", Optional.ofNullable(hasManagerAccess),
                 "limit", Optional.ofNullable(limit),

@@ -36,4 +36,35 @@ public class HttpConfig {
     public void setHeaders(Map<String, ?> headers) {
         this.headers = headers;
     }
+
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+        }};
+    }
+
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1, String k2, T v2) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+            put(k2, v2);
+        }};
+    }
+
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1, String k2, T v2, String k3, T v3) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+            put(k2, v2);
+            put(k3, v3);
+        }};
+    }
+
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1, String k2, T v2, String k3, T v3, String k4, T v4) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+            put(k2, v2);
+            put(k3, v3);
+            put(k4, v4);
+        }};
+    }
+
 }
