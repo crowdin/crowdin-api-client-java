@@ -17,6 +17,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.InputStreamEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
@@ -40,39 +43,40 @@ public class ApacheHttpClient implements HttpClient {
 
     @Override
     public <T> T get(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpGet.METHOD_NAME);
+        return this.request(url, null, config, clazz, HttpGet.METHOD_NAME);
     }
 
     @Override
     public <T> T delete(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpDelete.METHOD_NAME);
+        return this.request(url, null, config, clazz, HttpDelete.METHOD_NAME);
     }
 
     @Override
     public <T> T head(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpHead.METHOD_NAME);
+        return this.request(url, null, config, clazz, HttpHead.METHOD_NAME);
     }
 
     @Override
     public <T, V> T post(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpPost.METHOD_NAME);
+        return this.request(url, data, config, clazz, HttpPost.METHOD_NAME);
     }
 
     @Override
     public <T, V> T put(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpPut.METHOD_NAME);
+        return this.request(url, data, config, clazz, HttpPut.METHOD_NAME);
     }
 
     @Override
     public <T, V> T patch(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
-        return this.request(url, config, clazz, HttpPatch.METHOD_NAME);
+        return this.request(url, data, config, clazz, HttpPatch.METHOD_NAME);
     }
 
     private <T, V> T request(String url,
+                             V data,
                              HttpConfig config,
                              Class<T> clazz,
                              String method) throws HttpException, HttpBadRequestException {
-        HttpUriRequest request = this.buildRequest(method, url, config);
+        HttpUriRequest request = this.buildRequest(method, url, data, config);
         try (CloseableHttpResponse response = HTTP_CLIENT.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode < 200 || statusCode >= 300) {
@@ -94,15 +98,26 @@ public class ApacheHttpClient implements HttpClient {
                 return null;
             }
             return this.jsonTransformer.parse(this.toString(response.getEntity()), clazz);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw HttpException.fromMessage(e.getMessage());
         }
     }
 
-    private HttpUriRequest buildRequest(String httpMethod, String url, HttpConfig config) {
+    private <V> HttpUriRequest buildRequest(String httpMethod, String url, V data, HttpConfig config) {
         RequestBuilder requestBuilder = RequestBuilder.create(httpMethod);
         requestBuilder.setUri(URI.create(this.appendUrlParams(url, config.getUrlParams())));
         requestBuilder.addHeader("Authorization", "Bearer " + this.credentials.getToken());
+        if (data != null) {
+            HttpEntity entity;
+            if (data instanceof InputStream) {
+                entity = new InputStreamEntity((InputStream) data);
+            } else if (data instanceof String) {
+                entity = new StringEntity((String) data, ContentType.APPLICATION_OCTET_STREAM);
+            } else {
+                entity = new StringEntity(this.jsonTransformer.convert(data), ContentType.APPLICATION_JSON);
+            }
+            requestBuilder.setEntity(entity);
+        }
         for (Map.Entry<String, ?> entry : config.getHeaders().entrySet()) {
             requestBuilder = requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
         }

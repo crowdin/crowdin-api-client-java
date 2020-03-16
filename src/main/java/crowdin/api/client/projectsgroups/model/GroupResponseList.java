@@ -9,18 +9,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class ProjectResponseList {
+public class GroupResponseList {
 
-    private List<ProjectResponseObject> data;
+    private List<GroupResponseObject> data;
     private Pagination pagination;
 
-    public static ResponseList<Project> to(ProjectResponseList projectResponseList) {
+    public static ResponseList<Group> to(GroupResponseList groupResponseList) {
         return ResponseList.of(
-                projectResponseList.getData().stream()
-                        .map(ProjectResponseObject::getData)
+                groupResponseList.getData().stream()
+                        .map(GroupResponseObject::getData)
                         .map(ResponseObject::of)
                         .collect(Collectors.toList()),
-                projectResponseList.getPagination()
+                groupResponseList.getPagination()
         );
     }
 }

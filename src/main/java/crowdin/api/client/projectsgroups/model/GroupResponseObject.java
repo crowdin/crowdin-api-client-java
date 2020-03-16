@@ -3,7 +3,7 @@ package crowdin.api.client.projectsgroups.model;
 import lombok.Data;
 
 @Data
-public class ProjectResponseObject {
+public class GroupResponseObject {
 
-    private Project data;
+    private Group data;
 }

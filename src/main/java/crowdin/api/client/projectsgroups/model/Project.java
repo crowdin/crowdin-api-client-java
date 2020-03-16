@@ -8,21 +8,21 @@ import java.util.List;
 @Data
 public class Project {
 
-    public int id;
-    public int groupId;
-    public int userId;
-    public String sourceLanguageId;
-    public List<String> targetLanguageIds;
-    public String name;
-    public String identifier;
-    public String description;
-    public String logo;
-    public String background;
-    public boolean isExternal;
-    public String externalType;
-    public int workflowId;
-    public boolean hasCrowdsourcing;
-    public Date createdAt;
-    public Date updatedAt;
+    private Integer id;
+    private Integer groupId;
+    private Integer userId;
+    private String sourceLanguageId;
+    private List<String> targetLanguageIds;
+    private String name;
+    private String identifier;
+    private String description;
+    private String logo;
+    private String background;
+    private boolean isExternal;
+    private String externalType;
+    private Integer workflowId;
+    private boolean hasCrowdsourcing;
+    private Date createdAt;
+    private Date updatedAt;
 
 }
