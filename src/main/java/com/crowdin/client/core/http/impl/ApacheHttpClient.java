@@ -3,9 +3,9 @@ package com.crowdin.client.core.http.impl;
 import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpConfig;
 import com.crowdin.client.core.http.JsonTransformer;
-import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.model.Credentials;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -83,9 +83,9 @@ public class ApacheHttpClient implements HttpClient {
                 String error = this.toString(response.getEntity());
                 RuntimeException exception;
                 try {
-                    exception = this.jsonTransformer.parse(error, HttpException.class);
+                    exception = this.jsonTransformer.parseError(error, HttpException.class);
                 } catch (Exception e) {
-                    exception = this.jsonTransformer.parse(error, HttpBadRequestException.class);
+                    exception = this.jsonTransformer.parseError(error, HttpBadRequestException.class);
                 }
                 throw exception;
             }

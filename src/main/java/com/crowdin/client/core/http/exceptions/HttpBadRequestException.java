@@ -9,7 +9,13 @@ import java.util.List;
 @Data
 public class HttpBadRequestException extends RuntimeException {
 
-    public List<ErrorKey> errors;
+    public List<ErrorHolder> errors;
+
+    @Data
+    public static class ErrorHolder {
+
+        public ErrorKey error;
+    }
 
     @Data
     public static class ErrorKey {

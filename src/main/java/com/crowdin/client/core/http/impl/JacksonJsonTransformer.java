@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 public class JacksonJsonTransformer implements JsonTransformer {
 
     private final ObjectMapper objectMapper;
+    private final ObjectMapper errorObjectMapper;
 
     public JacksonJsonTransformer() {
         SimpleModule module = new SimpleModule();
@@ -20,12 +21,19 @@ public class JacksonJsonTransformer implements JsonTransformer {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"))
                 .registerModule(module);
+        this.errorObjectMapper = new ObjectMapper();
     }
 
     @Override
     @SneakyThrows
     public <T> T parse(String json, Class<T> clazz) {
         return this.objectMapper.readValue(json, clazz);
+    }
+
+    @Override
+    @SneakyThrows
+    public <T> T parseError(String json, Class<T> clazz) {
+        return this.errorObjectMapper.readValue(json, clazz);
     }
 
     @Override
