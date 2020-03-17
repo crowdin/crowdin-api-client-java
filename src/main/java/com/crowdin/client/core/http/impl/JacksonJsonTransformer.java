@@ -1,6 +1,8 @@
 package com.crowdin.client.core.http.impl;
 
 import com.crowdin.client.core.http.JsonTransformer;
+import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
+import com.crowdin.client.core.http.exceptions.HttpException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -27,13 +29,10 @@ public class JacksonJsonTransformer implements JsonTransformer {
     @Override
     @SneakyThrows
     public <T> T parse(String json, Class<T> clazz) {
+        if (clazz.equals(HttpException.class) || clazz.equals(HttpBadRequestException.class)) {
+            return this.errorObjectMapper.readValue(json, clazz);
+        }
         return this.objectMapper.readValue(json, clazz);
-    }
-
-    @Override
-    @SneakyThrows
-    public <T> T parseError(String json, Class<T> clazz) {
-        return this.errorObjectMapper.readValue(json, clazz);
     }
 
     @Override

@@ -83,9 +83,9 @@ public class ApacheHttpClient implements HttpClient {
                 String error = this.toString(response.getEntity());
                 RuntimeException exception;
                 try {
-                    exception = this.jsonTransformer.parseError(error, HttpException.class);
+                    exception = this.jsonTransformer.parse(error, HttpException.class);
                 } catch (Exception e) {
-                    exception = this.jsonTransformer.parseError(error, HttpBadRequestException.class);
+                    exception = this.jsonTransformer.parse(error, HttpBadRequestException.class);
                 }
                 throw exception;
             }

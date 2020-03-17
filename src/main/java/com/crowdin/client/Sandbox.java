@@ -7,8 +7,6 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.storage.model.Storage;
 import lombok.var;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class Sandbox {
@@ -18,8 +16,8 @@ public class Sandbox {
             try {
                 Credentials credentials = new Credentials(args[0], "oliynyk");
                 var client = new Client(credentials);
-                client.getStorageApi().addStorage("qwe.txt", new FileInputStream(new File("D:\\Docs\\file.txt")));
-                ResponseList<Storage> storageResponseList = client.getStorageApi().listStorages(null, null);
+//                client.getStorageApi().addStorage("qwe.txt", new FileInputStream(new File("D:\\Docs\\file.txt")));
+                ResponseList<Storage> storageResponseList = client.getStorageApi().listStorages(90, null);
                 storageResponseList.getData().forEach(e -> System.out.println(e.getData().getId() + " : " + e.getData().getFileName()));
             } catch (HttpException e) {
                 System.out.println(e.getError());
