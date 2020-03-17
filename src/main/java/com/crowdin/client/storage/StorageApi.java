@@ -65,7 +65,10 @@ public class StorageApi extends CrowdinApi {
      * @return newly created storage
      */
     public ResponseObject<Storage> addStorage(String fileName, InputStream content) throws HttpException, HttpBadRequestException {
-        StorageResponseObject storageResponseObject = this.httpClient.post(this.url + "/storages", content, new HttpConfig(), StorageResponseObject.class);
+        StorageResponseObject storageResponseObject = this.httpClient.post(this.url + "/storages", content, new HttpConfig(
+                Collections.emptyMap(),
+                Collections.singletonMap("Crowdin-API-FileName", fileName)
+        ), StorageResponseObject.class);
         return ResponseObject.of(storageResponseObject.getData());
     }
 
