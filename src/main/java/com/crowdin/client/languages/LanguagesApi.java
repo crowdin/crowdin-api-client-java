@@ -55,7 +55,7 @@ public class LanguagesApi extends CrowdinApi {
      * @return language
      */
     public ResponseObject<Language> getLanguage(String languageId) throws HttpException, HttpBadRequestException {
-        LanguageResponseObject languageResponseObject = this.httpClient.get(this.url + "/languages" + languageId, new HttpConfig(), LanguageResponseObject.class);
+        LanguageResponseObject languageResponseObject = this.httpClient.get(this.url + "/languages/" + languageId, new HttpConfig(), LanguageResponseObject.class);
         return ResponseObject.of(languageResponseObject.getData());
     }
 
@@ -63,7 +63,7 @@ public class LanguagesApi extends CrowdinApi {
      * @param languageId project identifier
      */
     public void deleteLanguage(String languageId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/languages" + languageId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/languages/" + languageId, new HttpConfig(), Void.class);
     }
 
     /**
@@ -72,7 +72,7 @@ public class LanguagesApi extends CrowdinApi {
      * @return updated language
      */
     public ResponseObject<Language> editProject(String languageId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        LanguageResponseObject languageResponseObject = this.httpClient.patch(this.url + "/languages" + languageId, request, new HttpConfig(), LanguageResponseObject.class);
+        LanguageResponseObject languageResponseObject = this.httpClient.patch(this.url + "/languages/" + languageId, request, new HttpConfig(), LanguageResponseObject.class);
         return ResponseObject.of(languageResponseObject.getData());
     }
 }

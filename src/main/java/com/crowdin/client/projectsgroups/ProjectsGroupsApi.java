@@ -62,7 +62,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return group
      */
     public ResponseObject<Group> getGroup(Integer groupId) throws HttpException, HttpBadRequestException {
-        GroupResponseObject groupResponseObject = this.httpClient.get(this.url + "/groups" + groupId, new HttpConfig(), GroupResponseObject.class);
+        GroupResponseObject groupResponseObject = this.httpClient.get(this.url + "/groups/" + groupId, new HttpConfig(), GroupResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -70,7 +70,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param groupId group identifier
      */
     public void deleteGroup(Integer groupId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/groups" + groupId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/groups/" + groupId, new HttpConfig(), Void.class);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return updated group
      */
     public ResponseObject<Group> editGroup(Integer groupId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        GroupResponseObject groupResponseObject = this.httpClient.patch(this.url + "/groups" + groupId, request, new HttpConfig(), GroupResponseObject.class);
+        GroupResponseObject groupResponseObject = this.httpClient.patch(this.url + "/groups/" + groupId, request, new HttpConfig(), GroupResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -115,7 +115,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return project
      */
     public ResponseObject<Project> getProject(Integer projectId) throws HttpException, HttpBadRequestException {
-        ProjectResponseObject projectResponseObject = this.httpClient.get(this.url + "/projects" + projectId, new HttpConfig(), ProjectResponseObject.class);
+        ProjectResponseObject projectResponseObject = this.httpClient.get(this.url + "/projects/" + projectId, new HttpConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
 
@@ -123,7 +123,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param projectId project identifier
      */
     public void deleteProject(Integer projectId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects" + projectId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId, new HttpConfig(), Void.class);
     }
 
     /**
@@ -132,7 +132,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return updated project
      */
     public ResponseObject<Project> editProject(Integer projectId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects", request, new HttpConfig(), ProjectResponseObject.class);
+        ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId, request, new HttpConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
 }
