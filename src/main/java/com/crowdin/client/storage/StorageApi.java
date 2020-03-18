@@ -1,11 +1,10 @@
 package com.crowdin.client.storage;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpConfig;
-import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
@@ -24,12 +23,8 @@ public class StorageApi extends CrowdinApi {
         super(credentials);
     }
 
-    public StorageApi(Credentials credentials, JsonTransformer jsonTransformer) {
-        super(credentials, jsonTransformer);
-    }
-
-    public StorageApi(Credentials credentials, HttpClient httpClient) {
-        super(credentials, httpClient);
+    public StorageApi(Credentials credentials, ClientConfig clientConfig) {
+        super(credentials, clientConfig);
     }
 
     /**

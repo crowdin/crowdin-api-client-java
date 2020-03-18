@@ -1,11 +1,10 @@
 package com.crowdin.client.projectsgroups;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpConfig;
-import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.ResponseList;
@@ -29,12 +28,8 @@ public class ProjectsGroupsApi extends CrowdinApi {
         super(credentials);
     }
 
-    public ProjectsGroupsApi(Credentials credentials, JsonTransformer jsonTransformer) {
-        super(credentials, jsonTransformer);
-    }
-
-    public ProjectsGroupsApi(Credentials credentials, HttpClient httpClient) {
-        super(credentials, httpClient);
+    public ProjectsGroupsApi(Credentials credentials, ClientConfig clientConfig) {
+        super(credentials, clientConfig);
     }
 
     /**
