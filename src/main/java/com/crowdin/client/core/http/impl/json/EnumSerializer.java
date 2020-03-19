@@ -1,4 +1,4 @@
-package com.crowdin.client.core.http.impl;
+package com.crowdin.client.core.http.impl.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

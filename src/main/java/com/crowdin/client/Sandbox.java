@@ -3,8 +3,8 @@ package com.crowdin.client;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.workflows.model.WorkflowStep;
+import com.crowdin.client.core.model.DownloadLink;
+import com.crowdin.client.core.model.ResponseObject;
 import lombok.var;
 
 import java.io.FileNotFoundException;
@@ -16,8 +16,8 @@ public class Sandbox {
             try {
                 Credentials credentials = new Credentials(args[0], "oliynyk");
                 var client = new Client(credentials);
-                ResponseList<WorkflowStep> workflowStepResponseList = client.getWorkflowsApi().listWorkflowSteps(121, 50, null);
-                workflowStepResponseList.getData().forEach(w -> System.out.println(w.getData()));
+                ResponseObject<DownloadLink> downloadLinkResponseObject = client.getSourceFilesApi().downloadFile(121, 29351);
+                System.out.println(downloadLinkResponseObject.getData());
             } catch (HttpException e) {
                 System.out.println(e.getError());
             } catch (HttpBadRequestException e) {

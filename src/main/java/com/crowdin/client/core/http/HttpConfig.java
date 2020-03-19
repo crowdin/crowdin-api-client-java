@@ -67,4 +67,13 @@ public class HttpConfig {
         }};
     }
 
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1, String k2, T v2, String k3, T v3, String k4, T v4, String k5, T v5) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+            put(k2, v2);
+            put(k3, v3);
+            put(k4, v4);
+            put(k5, v5);
+        }};
+    }
 }

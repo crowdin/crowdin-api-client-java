@@ -1,4 +1,4 @@
-package com.crowdin.client.core.http.impl;
+package com.crowdin.client.core.http.impl.http;
 
 import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpConfig;
@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,6 +39,7 @@ public class ApacheHttpClient implements HttpClient {
 
     private final Credentials credentials;
     private final JsonTransformer jsonTransformer;
+    private final Map<String, ?> defaultHeaders;
 
     private static final CloseableHttpClient HTTP_CLIENT = HttpClientBuilder.create().build();
 
@@ -118,7 +120,10 @@ public class ApacheHttpClient implements HttpClient {
             }
             requestBuilder.setEntity(entity);
         }
-        for (Map.Entry<String, ?> entry : config.getHeaders().entrySet()) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.putAll(config.getHeaders());
+        headers.putAll(this.defaultHeaders);
+        for (Map.Entry<String, ?> entry : headers.entrySet()) {
             requestBuilder = requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
         }
         return requestBuilder.build();

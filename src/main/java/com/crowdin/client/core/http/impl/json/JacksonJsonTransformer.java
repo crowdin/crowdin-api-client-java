@@ -1,8 +1,10 @@
-package com.crowdin.client.core.http.impl;
+package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.sourcefiles.model.ExportOptions;
+import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -16,14 +18,17 @@ public class JacksonJsonTransformer implements JsonTransformer {
     private final ObjectMapper errorObjectMapper;
 
     public JacksonJsonTransformer() {
+        ObjectMapper cleanObjectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Enum.class, new EnumSerializer());
         module.addDeserializer(Enum.class, new EnumDeserializer());
+        module.addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper));
+        module.addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper));
         this.objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"))
                 .registerModule(module);
-        this.errorObjectMapper = new ObjectMapper();
+        this.errorObjectMapper = cleanObjectMapper;
     }
 
     @Override
