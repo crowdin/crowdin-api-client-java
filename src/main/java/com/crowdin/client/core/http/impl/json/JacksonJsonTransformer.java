@@ -3,6 +3,7 @@ package com.crowdin.client.core.http.impl.json;
 import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -19,9 +20,12 @@ public class JacksonJsonTransformer implements JsonTransformer {
 
     public JacksonJsonTransformer() {
         ObjectMapper cleanObjectMapper = new ObjectMapper();
+        ObjectMapper skipUnknownPropertiesObjectMapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule module = new SimpleModule();
         module.addSerializer(Enum.class, new EnumSerializer());
         module.addDeserializer(Enum.class, new EnumDeserializer());
+        module.addDeserializer(Project.class, new ProjectDeserializer(skipUnknownPropertiesObjectMapper));
         module.addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper));
         module.addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper));
         this.objectMapper = new ObjectMapper()

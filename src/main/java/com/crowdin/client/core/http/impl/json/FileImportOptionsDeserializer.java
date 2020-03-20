@@ -6,11 +6,15 @@ import com.crowdin.client.sourcefiles.model.SpreadsheetFileImportOptions;
 import com.crowdin.client.sourcefiles.model.XmlFileImportOptions;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOptions> {
 
@@ -22,13 +26,17 @@ public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOption
 
     @Override
     public ImportOptions deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        String json = p.getCodec().readTree(p).toString();
-        if (json.contains("\"firstLineContainsHeader\"")) {
-            return this.objectMapper.readValue(json, SpreadsheetFileImportOptions.class);
-        } else if (json.contains("\"contentSegmentation\"")) {
-            return this.objectMapper.readValue(json, OtherFileImportOptions.class);
+        TreeNode treeNode = p.getCodec().readTree(p);
+        Iterable<String> iterable = treeNode::fieldNames;
+        List<String> fields = StreamSupport
+                .stream(iterable.spliterator(), false)
+                .collect(Collectors.toList());
+        if (fields.contains("firstLineContainsHeader")) {
+            return this.objectMapper.readValue(treeNode.toString(), SpreadsheetFileImportOptions.class);
+        } else if (fields.contains("contentSegmentation")) {
+            return this.objectMapper.readValue(treeNode.toString(), OtherFileImportOptions.class);
         } else {
-            return this.objectMapper.readValue(json, XmlFileImportOptions.class);
+            return this.objectMapper.readValue(treeNode.toString(), XmlFileImportOptions.class);
         }
     }
 }

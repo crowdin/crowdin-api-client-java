@@ -90,7 +90,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param offset           starting offset in the collection (default 0)
      * @return list of projects
      */
-    public ResponseList<Project> listProjects(Integer groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<? extends Project> listProjects(Integer groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "hasManagerAccess", Optional.ofNullable(hasManagerAccess),
@@ -105,7 +105,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param request request object
      * @return newly created project
      */
-    public ResponseObject<Project> addProject(AddProjectRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends Project> addProject(AddProjectRequest request) throws HttpException, HttpBadRequestException {
         ProjectResponseObject projectResponseObject = this.httpClient.post(this.url + "/projects", request, new HttpConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
@@ -114,7 +114,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param projectId project identifier
      * @return project
      */
-    public ResponseObject<Project> getProject(Integer projectId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends Project> getProject(Integer projectId) throws HttpException, HttpBadRequestException {
         ProjectResponseObject projectResponseObject = this.httpClient.get(this.url + "/projects/" + projectId, new HttpConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
@@ -131,7 +131,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param request   request object
      * @return updated project
      */
-    public ResponseObject<Project> editProject(Integer projectId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends Project> editProject(Integer projectId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
         ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId, request, new HttpConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
