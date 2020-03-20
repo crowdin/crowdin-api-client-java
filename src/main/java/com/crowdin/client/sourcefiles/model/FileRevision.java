@@ -7,10 +7,10 @@ import java.util.Date;
 @Data
 public class FileRevision {
 
-    private Integer id;
-    private Integer projectId;
-    private Integer fileId;
-    private Integer restoreToRevision;
+    private Long id;
+    private Long projectId;
+    private Long fileId;
+    private Long restoreToRevision;
     private FileRevisionInfo info;
     private Date date;
 }

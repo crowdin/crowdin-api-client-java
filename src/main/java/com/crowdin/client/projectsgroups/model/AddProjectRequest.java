@@ -9,10 +9,10 @@ public class AddProjectRequest {
 
     private String name;
     private String sourceLanguageId;
-    private Integer templateId;
-    private Integer groupId;
+    private Long templateId;
+    private Long groupId;
     private List<String> targetLanguageIds;
-    private Integer vendorId;
-    private Integer mtEngineId;
+    private Long vendorId;
+    private Long mtEngineId;
     private String description;
 }

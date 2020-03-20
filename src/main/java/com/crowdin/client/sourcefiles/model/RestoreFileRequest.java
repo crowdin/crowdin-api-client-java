@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class RestoreFileRequest extends UpdateOrRestoreFileRequest {
 
-    private Integer revisionId;
+    private Long revisionId;
 }

@@ -6,6 +6,6 @@ import lombok.Data;
 public class AddGroupRequest {
 
     private String name;
-    private Integer parentId;
+    private Long parentId;
     private String description;
 }

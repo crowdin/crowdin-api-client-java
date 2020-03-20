@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class Storage {
 
-    private Integer id;
+    private Long id;
     private String fileName;
 }

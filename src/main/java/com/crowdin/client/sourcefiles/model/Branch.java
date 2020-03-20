@@ -8,8 +8,8 @@ import java.util.Date;
 @Data
 public class Branch {
 
-    private Integer id;
-    private Integer projectId;
+    private Long id;
+    private Long projectId;
     private String name;
     private String title;
     private String exportPattern;

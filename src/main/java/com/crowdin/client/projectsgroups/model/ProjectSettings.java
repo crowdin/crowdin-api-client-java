@@ -25,7 +25,7 @@ public class ProjectSettings extends Project {
     private boolean isSuspended;
     private boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
-    private List<Integer> customQaCheckIds;
+    private List<Long> customQaCheckIds;
     //currently there is a bug in server but it should always be a Map (currently it might be an empty array)
     private Object languageMapping;
 

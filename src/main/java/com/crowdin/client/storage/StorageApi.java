@@ -71,7 +71,7 @@ public class StorageApi extends CrowdinApi {
      * @param storageId storage identifier
      * @return storage
      */
-    public ResponseObject<Storage> getStorage(Integer storageId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Storage> getStorage(Long storageId) throws HttpException, HttpBadRequestException {
         StorageResponseObject storageResponseObject = this.httpClient.get(this.url + "/storages/" + storageId, new HttpConfig(), StorageResponseObject.class);
         return ResponseObject.of(storageResponseObject.getData());
     }
@@ -79,7 +79,7 @@ public class StorageApi extends CrowdinApi {
     /**
      * @param storageId storage identifier
      */
-    public void deleteStorage(Integer storageId) throws HttpException, HttpBadRequestException {
+    public void deleteStorage(Long storageId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/storages/" + storageId, new HttpConfig(), Void.class);
     }
 

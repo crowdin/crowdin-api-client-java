@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UpdateFileRequest extends UpdateOrRestoreFileRequest {
 
-    private Integer storageId;
+    private Long storageId;
     private UpdateOption updateOption;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;

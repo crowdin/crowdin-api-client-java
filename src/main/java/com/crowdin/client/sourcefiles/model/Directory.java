@@ -8,10 +8,10 @@ import java.util.Date;
 @Data
 public class Directory {
 
-    private Integer id;
-    private Integer projectId;
-    private Integer branchId;
-    private Integer directoryId;
+    private Long id;
+    private Long projectId;
+    private Long branchId;
+    private Long directoryId;
     private String name;
     private String title;
     private String exportPattern;

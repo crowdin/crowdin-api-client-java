@@ -8,9 +8,9 @@ import java.util.List;
 @Data
 public class Project {
 
-    private Integer id;
-    private Integer groupId;
-    private Integer userId;
+    private Long id;
+    private Long groupId;
+    private Long userId;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
     private String name;
@@ -20,7 +20,7 @@ public class Project {
     private String background;
     private boolean isExternal;
     private String externalType;
-    private Integer workflowId;
+    private Long workflowId;
     private boolean hasCrowdsourcing;
     private Date createdAt;
     private Date updatedAt;
