@@ -8,7 +8,7 @@ import java.util.Map;
 @Data
 public class WorkflowStep {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String type;
     private List<String> languages;

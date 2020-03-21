@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class AddFileRequest {
 
-    private Integer storageId;
+    private Long storageId;
     private String name;
-    private Integer branchId;
-    private Integer directoryId;
+    private Long branchId;
+    private Long directoryId;
     private String title;
     private Type type;
     private ImportOptions importOptions;

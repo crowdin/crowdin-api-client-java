@@ -7,8 +7,8 @@ import lombok.Data;
 public class AddDirectoryRequest {
 
     private String name;
-    private Integer branchId;
-    private Integer directoryId;
+    private Long branchId;
+    private Long directoryId;
     private String title;
     private String exportPattern;
     private Priority priority;

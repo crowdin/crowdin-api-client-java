@@ -6,6 +6,7 @@ import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.sourcefiles.SourceFilesApi;
+import com.crowdin.client.sourcestrings.SourceStringsApi;
 import com.crowdin.client.storage.StorageApi;
 import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.workflows.WorkflowsApi;
@@ -20,6 +21,7 @@ public class Client extends CrowdinApi {
     private final WorkflowsApi workflowsApi;
     private final SourceFilesApi sourceFilesApi;
     private final TranslationsApi translationsApi;
+    private final SourceStringsApi sourceStringsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -29,6 +31,7 @@ public class Client extends CrowdinApi {
         this.workflowsApi = new WorkflowsApi(credentials);
         this.sourceFilesApi = new SourceFilesApi(credentials);
         this.translationsApi = new TranslationsApi(credentials);
+        this.sourceStringsApi = new SourceStringsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -39,6 +42,7 @@ public class Client extends CrowdinApi {
         this.workflowsApi = new WorkflowsApi(credentials, clientConfig);
         this.sourceFilesApi = new SourceFilesApi(credentials, clientConfig);
         this.translationsApi = new TranslationsApi(credentials, clientConfig);
+        this.sourceStringsApi = new SourceStringsApi(credentials, clientConfig);
     }
 
 }

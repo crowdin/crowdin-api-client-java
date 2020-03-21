@@ -33,7 +33,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @param offset    starting offset in the collection (default 0)
      * @return list of workflow steps
      */
-    public ResponseList<WorkflowStep> listWorkflowSteps(Integer projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
@@ -47,7 +47,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @param stepId    workflow step identifier
      * @return workflow step
      */
-    public ResponseObject<WorkflowStep> getWorkflowStep(Integer projectId, Integer stepId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<WorkflowStep> getWorkflowStep(Long projectId, Long stepId) throws HttpException, HttpBadRequestException {
         WorkflowStepResponseObject workflowStepResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps/" + stepId, new HttpConfig(), WorkflowStepResponseObject.class);
         return ResponseObject.of(workflowStepResponseObject.getData());
     }
@@ -58,8 +58,8 @@ public class WorkflowsApi extends CrowdinApi {
      * @param offset  starting offset in the collection (default 0)
      * @return list of workflow templates
      */
-    public ResponseList<WorkflowTemplate> listWorkflowTemplates(Integer groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+    public ResponseList<WorkflowTemplate> listWorkflowTemplates(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
@@ -72,7 +72,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @param templateId workflow template identifier
      * @return workflow step
      */
-    public ResponseObject<WorkflowTemplate> getWorkflowTemplate(Integer templateId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<WorkflowTemplate> getWorkflowTemplate(Long templateId) throws HttpException, HttpBadRequestException {
         WorkflowTemplateResponseObject workflowTemplateResponseObject = this.httpClient.get(this.url + "/workflow-templates/" + templateId, new HttpConfig(), WorkflowTemplateResponseObject.class);
         return ResponseObject.of(workflowTemplateResponseObject.getData());
     }

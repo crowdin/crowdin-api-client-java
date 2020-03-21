@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class WorkflowTemplate {
 
-    private Integer id;
+    private Long id;
     private String title;
     private String description;
-    private Integer groupId;
+    private Long groupId;
     private boolean isDefault;
 }

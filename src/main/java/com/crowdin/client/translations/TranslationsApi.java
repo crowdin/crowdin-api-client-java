@@ -84,8 +84,8 @@ public class TranslationsApi extends CrowdinApi {
      * @param offset    starting offset in the collection (default 0)
      * @return list of project builds
      */
-    public ResponseList<ProjectBuild> listProjectBuilds(Integer projectId, Integer branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+    public ResponseList<ProjectBuild> listProjectBuilds(Long projectId, Long branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
