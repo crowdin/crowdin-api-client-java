@@ -3,6 +3,7 @@ package com.crowdin.client;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.glossaries.GlossariesApi;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.screenshots.ScreenshotsApi;
@@ -26,6 +27,7 @@ public class Client extends CrowdinApi {
     private final SourceStringsApi sourceStringsApi;
     private final StringTranslationsApi stringTranslationsApi;
     private final ScreenshotsApi screenshotsApi;
+    private final GlossariesApi glossariesApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -38,6 +40,7 @@ public class Client extends CrowdinApi {
         this.sourceStringsApi = new SourceStringsApi(credentials);
         this.stringTranslationsApi = new StringTranslationsApi(credentials);
         this.screenshotsApi = new ScreenshotsApi(credentials);
+        this.glossariesApi = new GlossariesApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -51,6 +54,7 @@ public class Client extends CrowdinApi {
         this.sourceStringsApi = new SourceStringsApi(credentials, clientConfig);
         this.stringTranslationsApi = new StringTranslationsApi(credentials, clientConfig);
         this.screenshotsApi = new ScreenshotsApi(credentials, clientConfig);
+        this.glossariesApi = new GlossariesApi(credentials, clientConfig);
     }
 
 }
