@@ -1,4 +1,4 @@
-package com.crowdin.client.glossaries.model;
+package com.crowdin.client.translationmemory.model;
 
 import com.crowdin.client.core.model.Format;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class GlossaryExportStatus {
+public class TranslationMemoryExportStatus {
 
     private String identifier;
     private String status;
@@ -21,8 +21,10 @@ public class GlossaryExportStatus {
     @Data
     public static class Attributes {
 
+        private String sourceLanguageId;
+        private String targetLanguageId;
         private Format format;
-        private Long organizationId;
-        private Long glossaryId;
+        private Long tmId;
+        private Long userId;
     }
 }

@@ -11,6 +11,7 @@ import com.crowdin.client.sourcefiles.SourceFilesApi;
 import com.crowdin.client.sourcestrings.SourceStringsApi;
 import com.crowdin.client.storage.StorageApi;
 import com.crowdin.client.stringtranslations.StringTranslationsApi;
+import com.crowdin.client.translationmemory.TranslationMemoryApi;
 import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.workflows.WorkflowsApi;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class Client extends CrowdinApi {
     private final StringTranslationsApi stringTranslationsApi;
     private final ScreenshotsApi screenshotsApi;
     private final GlossariesApi glossariesApi;
+    private final TranslationMemoryApi translationMemoryApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -41,6 +43,7 @@ public class Client extends CrowdinApi {
         this.stringTranslationsApi = new StringTranslationsApi(credentials);
         this.screenshotsApi = new ScreenshotsApi(credentials);
         this.glossariesApi = new GlossariesApi(credentials);
+        this.translationMemoryApi = new TranslationMemoryApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -55,6 +58,7 @@ public class Client extends CrowdinApi {
         this.stringTranslationsApi = new StringTranslationsApi(credentials, clientConfig);
         this.screenshotsApi = new ScreenshotsApi(credentials, clientConfig);
         this.glossariesApi = new GlossariesApi(credentials, clientConfig);
+        this.translationMemoryApi = new TranslationMemoryApi(credentials, clientConfig);
     }
 
 }

@@ -1,6 +1,4 @@
-package com.crowdin.client.glossaries.model;
-
-import com.crowdin.client.core.model.EnumConverter;
+package com.crowdin.client.core.model;
 
 public enum Format implements EnumConverter<Format> {
 
