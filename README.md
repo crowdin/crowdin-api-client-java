@@ -32,8 +32,11 @@ public class ListProjectBranchesExample {
     public static void main(String[] args) {
         Credentials credentials = new Credentials("token", "organization");
         Client client = new Client(credentials);
-        List<ResponseObject<Branch>> branches = client.getSourceFilesApi().listBranches(123L, null, 500, null).getData();
-        branches.forEach(branch -> System.out.println(branch.getData()));
+        client
+            .getSourceFilesApi()
+            .listBranches(123L, null, 500, null)
+            .getData()
+            .forEach(branch -> System.out.println(branch.getData()));
     }
 
 }
