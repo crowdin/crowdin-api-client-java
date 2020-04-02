@@ -12,11 +12,32 @@ For more about Crowdin API v2 see the [documentation](https://support.crowdin.co
 
 ## Installation
 
-[TBA]
+```groovy
+repositories {
+    maven { url "https://jitpack.io" }
+}
+dependencies {
+    compile "com.github.crowdin:crowdin-api-client-java:0.0.1"
+}
+```
 
 ## Quick Start
 
-[TBA]
+```java
+import com.crowdin.client.Client;
+import com.crowdin.client.core.model.Credentials;
+
+public class ListProjectBranchesExample {
+
+    public static void main(String[] args) {
+        Credentials credentials = new Credentials("token", "organization");
+        Client client = new Client(credentials);
+        List<ResponseObject<Branch>> branches = client.getSourceFilesApi().listBranches(123L, null, 500, null).getData();
+        branches.forEach(branch -> System.out.println(branch.getData()));
+    }
+
+}
+```
 
 ## Contribution
 We are happy to accept contributions to the Crowdin Java client. To contribute please do the following:
