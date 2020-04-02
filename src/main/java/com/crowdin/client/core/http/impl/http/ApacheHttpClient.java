@@ -6,6 +6,7 @@ import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.EnumConverter;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -129,10 +130,19 @@ public class ApacheHttpClient implements HttpClient {
         return requestBuilder.build();
     }
 
+    @SuppressWarnings("unchecked")
     private String appendUrlParams(String url, Map<String, ? extends Optional> urlParams) {
         return url + urlParams.entrySet().stream()
                 .filter(entry -> entry.getValue().isPresent())
-                .map(entry -> entry.getKey() + "=" + entry.getValue().get())
+                .map(entry -> {
+                    String value;
+                    if (entry.getValue().get() instanceof EnumConverter) {
+                        value = ((EnumConverter) entry.getValue().get()).to((Enum) entry.getValue().get());
+                    } else {
+                        value = entry.getValue().get().toString();
+                    }
+                    return entry.getKey() + "=" + value;
+                })
                 .collect(Collectors.joining("&", "?", ""));
     }
 
