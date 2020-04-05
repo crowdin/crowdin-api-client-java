@@ -4,21 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HttpConfig {
+/**
+ * Configuration for http request (query parameters, headers)
+ */
+public class HttpRequestConfig {
 
     private Map<String, ? extends Optional> urlParams = new HashMap<>();
     private Map<String, ?> headers = new HashMap<>();
 
-    public HttpConfig(Map<String, Optional<?>> urlParams, Map<String, ?> headers) {
+    public HttpRequestConfig(Map<String, Optional<?>> urlParams, Map<String, ?> headers) {
         this.urlParams = urlParams;
         this.headers = headers;
     }
 
-    public HttpConfig(Map<String, ? extends Optional> urlParams) {
+    public HttpRequestConfig(Map<String, ? extends Optional> urlParams) {
         this.urlParams = urlParams;
     }
 
-    public HttpConfig() {
+    public HttpRequestConfig() {
     }
 
     public Map<String, ? extends Optional> getUrlParams() {

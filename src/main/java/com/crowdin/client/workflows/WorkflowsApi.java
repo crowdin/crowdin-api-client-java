@@ -1,7 +1,7 @@
 package com.crowdin.client.workflows;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
@@ -34,11 +34,11 @@ public class WorkflowsApi extends CrowdinApi {
      * @return list of workflow steps
      */
     public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", new HttpConfig(queryParams), WorkflowStepResponseList.class);
+        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", new HttpRequestConfig(queryParams), WorkflowStepResponseList.class);
         return WorkflowStepResponseList.to(workflowStepResponseList);
     }
 
@@ -48,7 +48,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @return workflow step
      */
     public ResponseObject<WorkflowStep> getWorkflowStep(Long projectId, Long stepId) throws HttpException, HttpBadRequestException {
-        WorkflowStepResponseObject workflowStepResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps/" + stepId, new HttpConfig(), WorkflowStepResponseObject.class);
+        WorkflowStepResponseObject workflowStepResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps/" + stepId, new HttpRequestConfig(), WorkflowStepResponseObject.class);
         return ResponseObject.of(workflowStepResponseObject.getData());
     }
 
@@ -59,12 +59,12 @@ public class WorkflowsApi extends CrowdinApi {
      * @return list of workflow templates
      */
     public ResponseList<WorkflowTemplate> listWorkflowTemplates(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        WorkflowTemplateResponseList workflowTemplateResponseList = this.httpClient.get(this.url + "/workflow-templates", new HttpConfig(queryParams), WorkflowTemplateResponseList.class);
+        WorkflowTemplateResponseList workflowTemplateResponseList = this.httpClient.get(this.url + "/workflow-templates", new HttpRequestConfig(queryParams), WorkflowTemplateResponseList.class);
         return WorkflowTemplateResponseList.to(workflowTemplateResponseList);
     }
 
@@ -73,7 +73,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @return workflow step
      */
     public ResponseObject<WorkflowTemplate> getWorkflowTemplate(Long templateId) throws HttpException, HttpBadRequestException {
-        WorkflowTemplateResponseObject workflowTemplateResponseObject = this.httpClient.get(this.url + "/workflow-templates/" + templateId, new HttpConfig(), WorkflowTemplateResponseObject.class);
+        WorkflowTemplateResponseObject workflowTemplateResponseObject = this.httpClient.get(this.url + "/workflow-templates/" + templateId, new HttpRequestConfig(), WorkflowTemplateResponseObject.class);
         return ResponseObject.of(workflowTemplateResponseObject.getData());
     }
 }

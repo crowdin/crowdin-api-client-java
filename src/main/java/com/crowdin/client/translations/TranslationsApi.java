@@ -1,7 +1,7 @@
 package com.crowdin.client.translations;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
@@ -42,7 +42,7 @@ public class TranslationsApi extends CrowdinApi {
      * @return pre-translation status
      */
     public ResponseObject<PreTranslationStatus> applyPreTranslation(Long projectId, ApplyPreTranslationRequest request) throws HttpException, HttpBadRequestException {
-        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/pre-translations", request, new HttpConfig(), PreTranslationStatusResponseObject.class);
+        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/pre-translations", request, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
     }
 
@@ -52,7 +52,7 @@ public class TranslationsApi extends CrowdinApi {
      * @return pre-translation status
      */
     public ResponseObject<PreTranslationStatus> preTranslationStatus(Long projectId, String preTranslationId) throws HttpException, HttpBadRequestException {
-        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, new HttpConfig(), PreTranslationStatusResponseObject.class);
+        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
     }
 
@@ -71,7 +71,7 @@ public class TranslationsApi extends CrowdinApi {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/builds/files/" + fileId,
                 request,
-                new HttpConfig(Collections.emptyMap(), headers),
+                new HttpRequestConfig(Collections.emptyMap(), headers),
                 DownloadLinkResponseObject.class
         );
         return ResponseObject.of(downloadLinkResponseObject.getData());
@@ -85,12 +85,12 @@ public class TranslationsApi extends CrowdinApi {
      * @return list of project builds
      */
     public ResponseList<ProjectBuild> listProjectBuilds(Long projectId, Long branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        ProjectBuildResponseList projectBuildResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds", new HttpConfig(queryParams), ProjectBuildResponseList.class);
+        ProjectBuildResponseList projectBuildResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds", new HttpRequestConfig(queryParams), ProjectBuildResponseList.class);
         return ProjectBuildResponseList.to(projectBuildResponseList);
     }
 
@@ -103,7 +103,7 @@ public class TranslationsApi extends CrowdinApi {
         ProjectBuildResponseObject projectBuildResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/builds",
                 request,
-                new HttpConfig(),
+                new HttpRequestConfig(),
                 ProjectBuildResponseObject.class
         );
         return ResponseObject.of(projectBuildResponseObject.getData());
@@ -119,7 +119,7 @@ public class TranslationsApi extends CrowdinApi {
         UploadTranslationsResponseObject projectBuildResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/" + languageId,
                 request,
-                new HttpConfig(),
+                new HttpRequestConfig(),
                 UploadTranslationsResponseObject.class
         );
         return ResponseObject.of(projectBuildResponseObject.getData());
@@ -131,7 +131,7 @@ public class TranslationsApi extends CrowdinApi {
      * @return download link
      */
     public ResponseObject<DownloadLink> downloadProjectTranslations(Long projectId, Long buildId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", new HttpConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 
@@ -141,7 +141,7 @@ public class TranslationsApi extends CrowdinApi {
      * @return project build status
      */
     public ResponseObject<ProjectBuild> checkBuildStatus(Long projectId, Long buildId) throws HttpException, HttpBadRequestException {
-        ProjectBuildResponseObject projectBuildResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, new HttpConfig(), ProjectBuildResponseObject.class);
+        ProjectBuildResponseObject projectBuildResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, new HttpRequestConfig(), ProjectBuildResponseObject.class);
         return ResponseObject.of(projectBuildResponseObject.getData());
     }
 
@@ -150,6 +150,6 @@ public class TranslationsApi extends CrowdinApi {
      * @param buildId   build identifier
      */
     public void cancelBuild(Long projectId, Long buildId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, new HttpRequestConfig(), Void.class);
     }
 }

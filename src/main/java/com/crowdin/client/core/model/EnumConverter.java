@@ -8,5 +8,5 @@ package com.crowdin.client.core.model;
  * @param <T> enum type
  */
 public interface EnumConverter<T extends Enum<T>> {
-    String to(T v);
+    Object to(T v);
 }

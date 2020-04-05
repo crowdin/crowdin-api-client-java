@@ -1,14 +1,14 @@
 package com.crowdin.client.glossaries;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.glossaries.model.AddGlossaryRequest;
@@ -46,12 +46,12 @@ public class GlossariesApi extends CrowdinApi {
      * @return list of glossaries
      */
     public ResponseList<Glossary> listGlossaries(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        GlossaryResponseList glossaryResponseList = this.httpClient.get(this.url + "/glossaries", new HttpConfig(queryParams), GlossaryResponseList.class);
+        GlossaryResponseList glossaryResponseList = this.httpClient.get(this.url + "/glossaries", new HttpRequestConfig(queryParams), GlossaryResponseList.class);
         return GlossaryResponseList.to(glossaryResponseList);
     }
 
@@ -60,7 +60,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return newly created glossary
      */
     public ResponseObject<Glossary> addGlossary(AddGlossaryRequest request) throws HttpException, HttpBadRequestException {
-        GlossaryResponseObject glossaryResponseObject = this.httpClient.post(this.url + "/glossaries", request, new HttpConfig(), GlossaryResponseObject.class);
+        GlossaryResponseObject glossaryResponseObject = this.httpClient.post(this.url + "/glossaries", request, new HttpRequestConfig(), GlossaryResponseObject.class);
         return ResponseObject.of(glossaryResponseObject.getData());
     }
 
@@ -69,7 +69,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return glossary
      */
     public ResponseObject<Glossary> getGlossary(Long glossaryId) throws HttpException, HttpBadRequestException {
-        GlossaryResponseObject glossaryResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId, new HttpConfig(), GlossaryResponseObject.class);
+        GlossaryResponseObject glossaryResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId, new HttpRequestConfig(), GlossaryResponseObject.class);
         return ResponseObject.of(glossaryResponseObject.getData());
     }
 
@@ -77,7 +77,7 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      */
     public void deleteGlossary(Long glossaryId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/glossaries/" + glossaryId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/glossaries/" + glossaryId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -85,8 +85,8 @@ public class GlossariesApi extends CrowdinApi {
      * @param request    request object
      * @return updated glossary
      */
-    public ResponseObject<Glossary> editGlossary(Long glossaryId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        GlossaryResponseObject glossaryResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId, request, new HttpConfig(), GlossaryResponseObject.class);
+    public ResponseObject<Glossary> editGlossary(Long glossaryId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        GlossaryResponseObject glossaryResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId, request, new HttpRequestConfig(), GlossaryResponseObject.class);
         return ResponseObject.of(glossaryResponseObject.getData());
     }
 
@@ -96,7 +96,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return export status
      */
     public ResponseObject<GlossaryExportStatus> exportGlossary(Long glossaryId, ExportGlossaryRequest request) throws HttpException, HttpBadRequestException {
-        GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/exports", request, new HttpConfig(), GlossaryExportStatusResponseObject.class);
+        GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/exports", request, new HttpRequestConfig(), GlossaryExportStatusResponseObject.class);
         return ResponseObject.of(glossaryExportStatusResponseObject.getData());
     }
 
@@ -106,7 +106,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return export status
      */
     public ResponseObject<GlossaryExportStatus> checkGlossaryExportStatus(Long glossaryId, String exportId) throws HttpException, HttpBadRequestException {
-        GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId, new HttpConfig(), GlossaryExportStatusResponseObject.class);
+        GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId, new HttpRequestConfig(), GlossaryExportStatusResponseObject.class);
         return ResponseObject.of(glossaryExportStatusResponseObject.getData());
     }
 
@@ -116,7 +116,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return download link
      */
     public ResponseObject<DownloadLink> downloadGlossary(Long glossaryId, String exportId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId + "/download", new HttpConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 
@@ -126,7 +126,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return import status
      */
     public ResponseObject<GlossaryImportStatus> importGlossary(Long glossaryId, ImportGlossaryRequest request) throws HttpException, HttpBadRequestException {
-        GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/imports", request, new HttpConfig(), GlossaryImportStatusResponseObject.class);
+        GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/imports", request, new HttpRequestConfig(), GlossaryImportStatusResponseObject.class);
         return ResponseObject.of(glossaryImportStatusResponseObject.getData());
     }
 
@@ -136,7 +136,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return import status
      */
     public ResponseObject<GlossaryImportStatus> checkGlossaryImportStatus(Long glossaryId, String importId) throws HttpException, HttpBadRequestException {
-        GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/imports/" + importId, new HttpConfig(), GlossaryImportStatusResponseObject.class);
+        GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/imports/" + importId, new HttpRequestConfig(), GlossaryImportStatusResponseObject.class);
         return ResponseObject.of(glossaryImportStatusResponseObject.getData());
     }
 
@@ -150,14 +150,14 @@ public class GlossariesApi extends CrowdinApi {
      * @return list of terms
      */
     public ResponseList<Term> listTerms(Long glossaryId, Long userId, String languageId, Long translationOfTermId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "userId", Optional.ofNullable(userId),
                 "languageId", Optional.ofNullable(languageId),
                 "translationOfTermId", Optional.ofNullable(translationOfTermId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        TermResponseList termResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms", new HttpConfig(queryParams), TermResponseList.class);
+        TermResponseList termResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms", new HttpRequestConfig(queryParams), TermResponseList.class);
         return TermResponseList.to(termResponseList);
     }
 
@@ -167,7 +167,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return newly created term
      */
     public ResponseObject<Term> addTerm(Long glossaryId, AddTermRequest request) throws HttpException, HttpBadRequestException {
-        TermResponseObject termResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/terms", request, new HttpConfig(), TermResponseObject.class);
+        TermResponseObject termResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/terms", request, new HttpRequestConfig(), TermResponseObject.class);
         return ResponseObject.of(termResponseObject.getData());
     }
 
@@ -177,11 +177,11 @@ public class GlossariesApi extends CrowdinApi {
      * @param translationOfTermId translationOfTerm identifier
      */
     public void clearGlossary(Long glossaryId, String languageId, Long translationOfTermId) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "languageId", Optional.ofNullable(languageId),
                 "translationOfTermId", Optional.ofNullable(translationOfTermId)
         );
-        this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/terms", new HttpConfig(queryParams), Void.class);
+        this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/terms", new HttpRequestConfig(queryParams), Void.class);
     }
 
     /**
@@ -190,7 +190,7 @@ public class GlossariesApi extends CrowdinApi {
      * @return term
      */
     public ResponseObject<Term> getTerm(Long glossaryId, Long termId) throws HttpException, HttpBadRequestException {
-        TermResponseObject termResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpConfig(), TermResponseObject.class);
+        TermResponseObject termResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpRequestConfig(), TermResponseObject.class);
         return ResponseObject.of(termResponseObject.getData());
     }
 
@@ -199,7 +199,7 @@ public class GlossariesApi extends CrowdinApi {
      * @param termId     term identifier
      */
     public void deleteTerm(Long glossaryId, Long termId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -208,8 +208,8 @@ public class GlossariesApi extends CrowdinApi {
      * @param request    request object
      * @return updated term
      */
-    public ResponseObject<Term> editTerm(Long glossaryId, Long termId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        TermResponseObject termResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, request, new HttpConfig(), TermResponseObject.class);
+    public ResponseObject<Term> editTerm(Long glossaryId, Long termId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        TermResponseObject termResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, request, new HttpRequestConfig(), TermResponseObject.class);
         return ResponseObject.of(termResponseObject.getData());
     }
 }

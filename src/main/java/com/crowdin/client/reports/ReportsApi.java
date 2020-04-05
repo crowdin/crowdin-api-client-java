@@ -1,7 +1,7 @@
 package com.crowdin.client.reports;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
@@ -28,7 +28,7 @@ public class ReportsApi extends CrowdinApi {
      * @return report status
      */
     public ResponseObject<ReportStatus> generateReport(Long projectId, GenerateReportRequest request) throws HttpException, HttpBadRequestException {
-        ReportStatusResponseObject reportStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports", request, new HttpConfig(), ReportStatusResponseObject.class);
+        ReportStatusResponseObject reportStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports", request, new HttpRequestConfig(), ReportStatusResponseObject.class);
         return ResponseObject.of(reportStatusResponseObject.getData());
     }
 
@@ -38,7 +38,7 @@ public class ReportsApi extends CrowdinApi {
      * @return report status
      */
     public ResponseObject<ReportStatus> checkReportGenerationStatus(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
-        ReportStatusResponseObject reportStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId, new HttpConfig(), ReportStatusResponseObject.class);
+        ReportStatusResponseObject reportStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId, new HttpRequestConfig(), ReportStatusResponseObject.class);
         return ResponseObject.of(reportStatusResponseObject.getData());
     }
 
@@ -48,7 +48,7 @@ public class ReportsApi extends CrowdinApi {
      * @return download link
      */
     public ResponseObject<DownloadLink> downloadReport(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId + "/download", new HttpConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 }

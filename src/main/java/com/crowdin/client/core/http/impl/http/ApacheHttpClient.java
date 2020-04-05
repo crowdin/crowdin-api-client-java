@@ -1,12 +1,11 @@
 package com.crowdin.client.core.http.impl.http;
 
 import com.crowdin.client.core.http.HttpClient;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.EnumConverter;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -32,8 +31,6 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class ApacheHttpClient implements HttpClient {
@@ -45,38 +42,38 @@ public class ApacheHttpClient implements HttpClient {
     private static final CloseableHttpClient HTTP_CLIENT = HttpClientBuilder.create().build();
 
     @Override
-    public <T> T get(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T> T get(String url, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, null, config, clazz, HttpGet.METHOD_NAME);
     }
 
     @Override
-    public <T> T delete(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T> T delete(String url, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, null, config, clazz, HttpDelete.METHOD_NAME);
     }
 
     @Override
-    public <T> T head(String url, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T> T head(String url, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, null, config, clazz, HttpHead.METHOD_NAME);
     }
 
     @Override
-    public <T, V> T post(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T, V> T post(String url, V data, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, data, config, clazz, HttpPost.METHOD_NAME);
     }
 
     @Override
-    public <T, V> T put(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T, V> T put(String url, V data, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, data, config, clazz, HttpPut.METHOD_NAME);
     }
 
     @Override
-    public <T, V> T patch(String url, V data, HttpConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
+    public <T, V> T patch(String url, V data, HttpRequestConfig config, Class<T> clazz) throws HttpException, HttpBadRequestException {
         return this.request(url, data, config, clazz, HttpPatch.METHOD_NAME);
     }
 
     private <T, V> T request(String url,
                              V data,
-                             HttpConfig config,
+                             HttpRequestConfig config,
                              Class<T> clazz,
                              String method) throws HttpException, HttpBadRequestException {
         HttpUriRequest request = this.buildRequest(method, url, data, config);
@@ -106,7 +103,7 @@ public class ApacheHttpClient implements HttpClient {
         }
     }
 
-    private <V> HttpUriRequest buildRequest(String httpMethod, String url, V data, HttpConfig config) {
+    private <V> HttpUriRequest buildRequest(String httpMethod, String url, V data, HttpRequestConfig config) {
         RequestBuilder requestBuilder = RequestBuilder.create(httpMethod);
         requestBuilder.setUri(URI.create(this.appendUrlParams(url, config.getUrlParams())));
         requestBuilder.addHeader("Authorization", "Bearer " + this.credentials.getToken());
@@ -128,22 +125,6 @@ public class ApacheHttpClient implements HttpClient {
             requestBuilder = requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
         }
         return requestBuilder.build();
-    }
-
-    @SuppressWarnings("unchecked")
-    private String appendUrlParams(String url, Map<String, ? extends Optional> urlParams) {
-        return url + urlParams.entrySet().stream()
-                .filter(entry -> entry.getValue().isPresent())
-                .map(entry -> {
-                    String value;
-                    if (entry.getValue().get() instanceof EnumConverter) {
-                        value = ((EnumConverter) entry.getValue().get()).to((Enum) entry.getValue().get());
-                    } else {
-                        value = entry.getValue().get().toString();
-                    }
-                    return entry.getKey() + "=" + value;
-                })
-                .collect(Collectors.joining("&", "?", ""));
     }
 
     private String toString(HttpEntity entity) throws IOException {

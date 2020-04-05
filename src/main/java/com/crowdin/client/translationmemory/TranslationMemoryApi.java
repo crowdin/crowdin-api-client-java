@@ -1,14 +1,14 @@
 package com.crowdin.client.translationmemory;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
@@ -42,12 +42,12 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return list of translation memories
      */
     public ResponseList<TranslationMemory> listTms(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpConfig(queryParams), TranslationMemoryResponseList.class);
+        TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpRequestConfig(queryParams), TranslationMemoryResponseList.class);
         return TranslationMemoryResponseList.to(translationMemoryResponseList);
     }
 
@@ -56,7 +56,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return newly created translation memory
      */
     public ResponseObject<TranslationMemory> addTm(AddTranslationMemoryRequest request) throws HttpException, HttpBadRequestException {
-        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.post(this.url + "/tms", request, new HttpConfig(), TranslationMemoryResponseObject.class);
+        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.post(this.url + "/tms", request, new HttpRequestConfig(), TranslationMemoryResponseObject.class);
         return ResponseObject.of(translationMemoryResponseObject.getData());
     }
 
@@ -65,7 +65,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return translation memory
      */
     public ResponseObject<TranslationMemory> getTm(Long tmId) throws HttpException, HttpBadRequestException {
-        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.get(this.url + "/tms/" + tmId, new HttpConfig(), TranslationMemoryResponseObject.class);
+        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.get(this.url + "/tms/" + tmId, new HttpRequestConfig(), TranslationMemoryResponseObject.class);
         return ResponseObject.of(translationMemoryResponseObject.getData());
     }
 
@@ -73,7 +73,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @param tmId translation memory identifier
      */
     public void deleteTm(Long tmId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/tms/" + tmId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/tms/" + tmId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -81,8 +81,8 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @param request request object
      * @return updated translation memory
      */
-    public ResponseObject<TranslationMemory> editTm(Long tmId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.patch(this.url + "/tms/" + tmId, request, new HttpConfig(), TranslationMemoryResponseObject.class);
+    public ResponseObject<TranslationMemory> editTm(Long tmId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        TranslationMemoryResponseObject translationMemoryResponseObject = this.httpClient.patch(this.url + "/tms/" + tmId, request, new HttpRequestConfig(), TranslationMemoryResponseObject.class);
         return ResponseObject.of(translationMemoryResponseObject.getData());
     }
 
@@ -92,7 +92,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return export status
      */
     public ResponseObject<TranslationMemoryExportStatus> exportTm(Long tmId, TranslationMemoryExportRequest request) throws HttpException, HttpBadRequestException {
-        TranslationMemoryExportStatusResponseObject translationMemoryExportStatusResponseObject = this.httpClient.post(this.url + "/tms/" + tmId + "/exports", request, new HttpConfig(), TranslationMemoryExportStatusResponseObject.class);
+        TranslationMemoryExportStatusResponseObject translationMemoryExportStatusResponseObject = this.httpClient.post(this.url + "/tms/" + tmId + "/exports", request, new HttpRequestConfig(), TranslationMemoryExportStatusResponseObject.class);
         return ResponseObject.of(translationMemoryExportStatusResponseObject.getData());
     }
 
@@ -102,7 +102,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return export status
      */
     public ResponseObject<TranslationMemoryExportStatus> checkTmExportStatus(Long tmId, String exportId) throws HttpException, HttpBadRequestException {
-        TranslationMemoryExportStatusResponseObject translationMemoryExportStatusResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/exports/" + exportId, new HttpConfig(), TranslationMemoryExportStatusResponseObject.class);
+        TranslationMemoryExportStatusResponseObject translationMemoryExportStatusResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/exports/" + exportId, new HttpRequestConfig(), TranslationMemoryExportStatusResponseObject.class);
         return ResponseObject.of(translationMemoryExportStatusResponseObject.getData());
     }
 
@@ -112,7 +112,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return download link
      */
     public ResponseObject<DownloadLink> downloadTm(Long tmId, String exportId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/exports/" + exportId + "/download", new HttpConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/exports/" + exportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 
@@ -122,7 +122,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return import status
      */
     public ResponseObject<TranslationMemoryImportStatus> importTm(Long tmId, TranslationMemoryImportRequest request) throws HttpException, HttpBadRequestException {
-        TranslationMemoryImportStatusResponseObject translationMemoryImportStatusResponseObject = this.httpClient.post(this.url + "/tms/" + tmId + "/imports", request, new HttpConfig(), TranslationMemoryImportStatusResponseObject.class);
+        TranslationMemoryImportStatusResponseObject translationMemoryImportStatusResponseObject = this.httpClient.post(this.url + "/tms/" + tmId + "/imports", request, new HttpRequestConfig(), TranslationMemoryImportStatusResponseObject.class);
         return ResponseObject.of(translationMemoryImportStatusResponseObject.getData());
     }
 
@@ -132,7 +132,7 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @return import status
      */
     public ResponseObject<TranslationMemoryImportStatus> checkTmImportStatus(Long tmId, String importId) throws HttpException, HttpBadRequestException {
-        TranslationMemoryImportStatusResponseObject translationMemoryImportStatusResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/imports/" + importId, new HttpConfig(), TranslationMemoryImportStatusResponseObject.class);
+        TranslationMemoryImportStatusResponseObject translationMemoryImportStatusResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/imports/" + importId, new HttpRequestConfig(), TranslationMemoryImportStatusResponseObject.class);
         return ResponseObject.of(translationMemoryImportStatusResponseObject.getData());
     }
 }

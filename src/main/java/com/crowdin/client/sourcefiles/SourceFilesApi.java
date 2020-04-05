@@ -1,14 +1,14 @@
 package com.crowdin.client.sourcefiles;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.sourcefiles.model.AddBranchRequest;
@@ -49,12 +49,12 @@ public class SourceFilesApi extends CrowdinApi {
      * @return list of branches
      */
     public ResponseList<Branch> listBranches(Long projectId, String name, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "name", Optional.ofNullable(name),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        BranchResponseList branchResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/branches", new HttpConfig(queryParams), BranchResponseList.class);
+        BranchResponseList branchResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/branches", new HttpRequestConfig(queryParams), BranchResponseList.class);
         return BranchResponseList.to(branchResponseList);
     }
 
@@ -64,7 +64,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return newly created branch
      */
     public ResponseObject<Branch> addBranch(Long projectId, AddBranchRequest request) throws HttpException, HttpBadRequestException {
-        BranchResponseObject branchResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/branches", request, new HttpConfig(), BranchResponseObject.class);
+        BranchResponseObject branchResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/branches", request, new HttpRequestConfig(), BranchResponseObject.class);
         return ResponseObject.of(branchResponseObject.getData());
     }
 
@@ -74,7 +74,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return branch
      */
     public ResponseObject<Branch> getBranch(Long projectId, Long branchId) throws HttpException, HttpBadRequestException {
-        BranchResponseObject branchResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/branches/" + branchId, new HttpConfig(), BranchResponseObject.class);
+        BranchResponseObject branchResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/branches/" + branchId, new HttpRequestConfig(), BranchResponseObject.class);
         return ResponseObject.of(branchResponseObject.getData());
     }
 
@@ -83,7 +83,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param branchId  branch identifier
      */
     public void deleteBranch(Long projectId, Long branchId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/branches/" + branchId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/branches/" + branchId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -92,8 +92,8 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request   request object
      * @return updated branch
      */
-    public ResponseObject<Branch> editBranch(Long projectId, Long branchId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        BranchResponseObject groupResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/branches/" + branchId, request, new HttpConfig(), BranchResponseObject.class);
+    public ResponseObject<Branch> editBranch(Long projectId, Long branchId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        BranchResponseObject groupResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/branches/" + branchId, request, new HttpRequestConfig(), BranchResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -107,14 +107,14 @@ public class SourceFilesApi extends CrowdinApi {
      * @return list of directories
      */
     public ResponseList<Directory> listDirectories(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "directoryId", Optional.ofNullable(directoryId),
                 "recursion", Optional.ofNullable(recursion),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        DirectoryResponseList directoryResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/directories", new HttpConfig(queryParams), DirectoryResponseList.class);
+        DirectoryResponseList directoryResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/directories", new HttpRequestConfig(queryParams), DirectoryResponseList.class);
         return DirectoryResponseList.to(directoryResponseList);
     }
 
@@ -124,7 +124,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return newly created directory
      */
     public ResponseObject<Directory> addDirectory(Long projectId, AddDirectoryRequest request) throws HttpException, HttpBadRequestException {
-        DirectoryResponseObject post = this.httpClient.post(this.url + "/projects/" + projectId + "/directories", request, new HttpConfig(), DirectoryResponseObject.class);
+        DirectoryResponseObject post = this.httpClient.post(this.url + "/projects/" + projectId + "/directories", request, new HttpRequestConfig(), DirectoryResponseObject.class);
         return ResponseObject.of(post.getData());
     }
 
@@ -134,7 +134,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return directory
      */
     public ResponseObject<Directory> getDirectory(Long projectId, Long directoryId) throws HttpException, HttpBadRequestException {
-        DirectoryResponseObject directoryResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/directories/" + directoryId, new HttpConfig(), DirectoryResponseObject.class);
+        DirectoryResponseObject directoryResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/directories/" + directoryId, new HttpRequestConfig(), DirectoryResponseObject.class);
         return ResponseObject.of(directoryResponseObject.getData());
     }
 
@@ -143,7 +143,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param directoryId directory identifier
      */
     public void deleteDirectory(Long projectId, Long directoryId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/directories/" + directoryId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/directories/" + directoryId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -152,8 +152,8 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request     request object
      * @return updated directory
      */
-    public ResponseObject<Directory> editDirectory(Long projectId, Long directoryId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        DirectoryResponseObject directoryResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/directories/" + directoryId, request, new HttpConfig(), DirectoryResponseObject.class);
+    public ResponseObject<Directory> editDirectory(Long projectId, Long directoryId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        DirectoryResponseObject directoryResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/directories/" + directoryId, request, new HttpRequestConfig(), DirectoryResponseObject.class);
         return ResponseObject.of(directoryResponseObject.getData());
     }
 
@@ -167,14 +167,14 @@ public class SourceFilesApi extends CrowdinApi {
      * @return list of files
      */
     public ResponseList<File> listFiles(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "directoryId", Optional.ofNullable(directoryId),
                 "recursion", Optional.ofNullable(recursion),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        FileResponseList fileResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files", new HttpConfig(queryParams), FileResponseList.class);
+        FileResponseList fileResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files", new HttpRequestConfig(queryParams), FileResponseList.class);
         return FileResponseList.to(fileResponseList);
     }
 
@@ -184,7 +184,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return newly created file
      */
     public ResponseObject<File> addFile(Long projectId, AddFileRequest request) throws HttpException, HttpBadRequestException {
-        FileResponseObject fileResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/files", request, new HttpConfig(), FileResponseObject.class);
+        FileResponseObject fileResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/files", request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
 
@@ -194,7 +194,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return file
      */
     public ResponseObject<File> getFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
-        FileResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpConfig(), FileResponseObject.class);
+        FileResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
 
@@ -205,7 +205,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return updated file
      */
     public ResponseObject<File> updateOrRestoreFile(Long projectId, Long fileId, UpdateOrRestoreFileRequest request) throws HttpException, HttpBadRequestException {
-        FileResponseObject fileResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpConfig(), FileResponseObject.class);
+        FileResponseObject fileResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
 
@@ -214,7 +214,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param fileId    file identifier
      */
     public void deleteFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -223,8 +223,8 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request   request object
      * @return updated file
      */
-    public ResponseObject<File> editFile(Long projectId, Long fileId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        FileResponseObject fileResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpConfig(), FileResponseObject.class);
+    public ResponseObject<File> editFile(Long projectId, Long fileId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        FileResponseObject fileResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
 
@@ -234,7 +234,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return file download link
      */
     public ResponseObject<DownloadLink> downloadFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/download", new HttpConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 
@@ -246,11 +246,11 @@ public class SourceFilesApi extends CrowdinApi {
      * @return list of file revisions
      */
     public ResponseList<FileRevision> listFileRevisions(Long projectId, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        FileRevisionResponseList fileRevisionResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions", new HttpConfig(queryParams), FileRevisionResponseList.class);
+        FileRevisionResponseList fileRevisionResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions", new HttpRequestConfig(queryParams), FileRevisionResponseList.class);
         return FileRevisionResponseList.to(fileRevisionResponseList);
     }
 
@@ -261,7 +261,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @return file revision
      */
     public ResponseObject<FileRevision> getFileRevision(Long projectId, Long fileId, Long revisionId) throws HttpException, HttpBadRequestException {
-        FileRevisionResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + revisionId, new HttpConfig(), FileRevisionResponseObject.class);
+        FileRevisionResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + revisionId, new HttpRequestConfig(), FileRevisionResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
 }

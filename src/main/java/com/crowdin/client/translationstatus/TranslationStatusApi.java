@@ -1,7 +1,7 @@
 package com.crowdin.client.translationstatus;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
@@ -36,11 +36,11 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of branch progress
      */
     public ResponseList<LanguageProgress> getBranchProgress(Long projectId, Long branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/branches/" + branchId + "/languages/progress", new HttpConfig(queryParams), LanguageProgressResponseList.class);
+        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/branches/" + branchId + "/languages/progress", new HttpRequestConfig(queryParams), LanguageProgressResponseList.class);
         return LanguageProgressResponseList.to(languageProgressResponseList);
     }
 
@@ -52,11 +52,11 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of directory progress
      */
     public ResponseList<LanguageProgress> getDirectoryProgress(Long projectId, Long directoryId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/directories/" + directoryId + "/languages/progress", new HttpConfig(queryParams), LanguageProgressResponseList.class);
+        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/directories/" + directoryId + "/languages/progress", new HttpRequestConfig(queryParams), LanguageProgressResponseList.class);
         return LanguageProgressResponseList.to(languageProgressResponseList);
     }
 
@@ -68,11 +68,11 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of file progress
      */
     public ResponseList<LanguageProgress> getFileProgress(Long projectId, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/languages/progress", new HttpConfig(queryParams), LanguageProgressResponseList.class);
+        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/languages/progress", new HttpRequestConfig(queryParams), LanguageProgressResponseList.class);
         return LanguageProgressResponseList.to(languageProgressResponseList);
     }
 
@@ -84,11 +84,11 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of language progress
      */
     public ResponseList<FileProgress> getLanguageProgress(Long projectId, String languageId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        FileProgressResponseList fileProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/languages/" + languageId + "/progress", new HttpConfig(queryParams), FileProgressResponseList.class);
+        FileProgressResponseList fileProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/languages/" + languageId + "/progress", new HttpRequestConfig(queryParams), FileProgressResponseList.class);
         return FileProgressResponseList.to(fileProgressResponseList);
     }
 
@@ -100,12 +100,12 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of project progress
      */
     public ResponseList<LanguageProgress> getProjectProgress(Long projectId, Integer limit, Integer offset, String languageIds) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "languageIds", Optional.ofNullable(languageIds)
         );
-        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/languages/progress", new HttpConfig(queryParams), LanguageProgressResponseList.class);
+        LanguageProgressResponseList languageProgressResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/languages/progress", new HttpRequestConfig(queryParams), LanguageProgressResponseList.class);
         return LanguageProgressResponseList.to(languageProgressResponseList);
     }
 
@@ -118,13 +118,13 @@ public class TranslationStatusApi extends CrowdinApi {
      * @return list of qa check issues
      */
     public ResponseList<QaCheck> listQaCheckIssues(Long projectId, Integer limit, Integer offset, Category category, Validation validation) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "category", Optional.ofNullable(category),
                 "validation", Optional.ofNullable(validation)
         );
-        QaCheckResponseList qaCheckResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/qa-check", new HttpConfig(queryParams), QaCheckResponseList.class);
+        QaCheckResponseList qaCheckResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/qa-check", new HttpRequestConfig(queryParams), QaCheckResponseList.class);
         return QaCheckResponseList.to(qaCheckResponseList);
     }
 }

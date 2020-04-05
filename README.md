@@ -42,6 +42,12 @@ public class ListProjectBranchesExample {
 }
 ```
 
+### Customization
+
+This client uses [Apache http client](https://hc.apache.org/) and [Jackson json library](https://github.com/FasterXML/jackson).  
+Usage of these libraries is wrapped into interfaces and gives possibility to override them and use different libraries for http communication or json transformations.
+The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
+
 ## Contribution
 We are happy to accept contributions to the Crowdin Java client. To contribute please do the following:
 1. Fork the repository on GitHub.

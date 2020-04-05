@@ -11,17 +11,21 @@ import java.io.IOException;
 public class EnumSerializer extends JsonSerializer<Enum> {
     @Override
     public void serialize(Enum value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-        String str;
+        Object val;
         if (value instanceof EnumConverter) {
-            str = this.serialize(value, EnumConverter.class.cast(value));
+            val = this.serialize(value, EnumConverter.class.cast(value));
         } else {
-            str = value.name();
+            val = value.name();
         }
-        gen.writeString(str);
+        if (val instanceof Integer) {
+            gen.writeNumber((Integer) val);
+        } else {
+            gen.writeString(val.toString());
+        }
     }
 
     @SneakyThrows
-    private String serialize(Enum value, EnumConverter converter) {
+    private Object serialize(Enum value, EnumConverter converter) {
         return converter.to(value);
     }
 }

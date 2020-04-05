@@ -1,12 +1,12 @@
 package com.crowdin.client.machinetranslationengines;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.machinetranslationengines.model.AddMachineTranslationRequest;
@@ -34,12 +34,12 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
      * @return list of machine translations
      */
     public ResponseList<MachineTranslation> listMts(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        MachineTranslationResponseList machineTranslationResponseList = this.httpClient.get(this.url + "/mts", new HttpConfig(queryParams), MachineTranslationResponseList.class);
+        MachineTranslationResponseList machineTranslationResponseList = this.httpClient.get(this.url + "/mts", new HttpRequestConfig(queryParams), MachineTranslationResponseList.class);
         return MachineTranslationResponseList.to(machineTranslationResponseList);
     }
 
@@ -48,7 +48,7 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
      * @return newly created machine translation
      */
     public ResponseObject<MachineTranslation> addMt(AddMachineTranslationRequest request) throws HttpException, HttpBadRequestException {
-        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.post(this.url + "/mts", request, new HttpConfig(), MachineTranslationResponseObject.class);
+        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.post(this.url + "/mts", request, new HttpRequestConfig(), MachineTranslationResponseObject.class);
         return ResponseObject.of(machineTranslationResponseObject.getData());
     }
 
@@ -57,7 +57,7 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
      * @return machine translation
      */
     public ResponseObject<MachineTranslation> getMt(Long mtId) throws HttpException, HttpBadRequestException {
-        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.get(this.url + "/mts/" + mtId, new HttpConfig(), MachineTranslationResponseObject.class);
+        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.get(this.url + "/mts/" + mtId, new HttpRequestConfig(), MachineTranslationResponseObject.class);
         return ResponseObject.of(machineTranslationResponseObject.getData());
     }
 
@@ -65,16 +65,16 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
      * @param mtId machine translation identifier
      */
     public void deleteMt(Long mtId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/mts/" + mtId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/mts/" + mtId, new HttpRequestConfig(), Void.class);
     }
 
     /**
      * @param mtId    machine translation identifier
      * @param request request object
-     * @return updated source string
+     * @return updated machine translation
      */
-    public ResponseObject<MachineTranslation> editMt(Long mtId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.patch(this.url + "/mts/" + mtId, request, new HttpConfig(), MachineTranslationResponseObject.class);
+    public ResponseObject<MachineTranslation> editMt(Long mtId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.patch(this.url + "/mts/" + mtId, request, new HttpRequestConfig(), MachineTranslationResponseObject.class);
         return ResponseObject.of(machineTranslationResponseObject.getData());
     }
 }

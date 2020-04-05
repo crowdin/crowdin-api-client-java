@@ -1,12 +1,12 @@
 package com.crowdin.client.screenshots;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.screenshots.model.AddScreenshotRequest;
@@ -40,11 +40,11 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return list of screenshots
      */
     public ResponseList<Screenshot> listScreenshots(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        ScreenshotResponseList screenshotResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots", new HttpConfig(queryParams), ScreenshotResponseList.class);
+        ScreenshotResponseList screenshotResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots", new HttpRequestConfig(queryParams), ScreenshotResponseList.class);
         return ScreenshotResponseList.to(screenshotResponseList);
     }
 
@@ -54,7 +54,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return newly created screenshot
      */
     public ResponseObject<Screenshot> addScreenshot(Long projectId, AddScreenshotRequest request) throws HttpException, HttpBadRequestException {
-        ScreenshotResponseObject screenshotResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots", request, new HttpConfig(), ScreenshotResponseObject.class);
+        ScreenshotResponseObject screenshotResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots", request, new HttpRequestConfig(), ScreenshotResponseObject.class);
         return ResponseObject.of(screenshotResponseObject.getData());
     }
 
@@ -64,7 +64,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return screenshot
      */
     public ResponseObject<Screenshot> getScreenshot(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
-        ScreenshotResponseObject screenshotResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpConfig(), ScreenshotResponseObject.class);
+        ScreenshotResponseObject screenshotResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpRequestConfig(), ScreenshotResponseObject.class);
         return ResponseObject.of(screenshotResponseObject.getData());
     }
 
@@ -75,7 +75,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return updated screenshot
      */
     public ResponseObject<Screenshot> updateScreenshot(Long projectId, Long screenshotId, UpdateScreenshotRequest request) throws HttpException, HttpBadRequestException {
-        ScreenshotResponseObject screenshotResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpConfig(), ScreenshotResponseObject.class);
+        ScreenshotResponseObject screenshotResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpRequestConfig(), ScreenshotResponseObject.class);
         return ResponseObject.of(screenshotResponseObject.getData());
     }
 
@@ -84,7 +84,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param screenshotId screenshot identifier
      */
     public void deleteScreenshot(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -93,8 +93,8 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param request      request object
      * @return updated screenshot
      */
-    public ResponseObject<Screenshot> editScreenshot(Long projectId, Long screenshotId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        ScreenshotResponseObject screenshotResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpConfig(), ScreenshotResponseObject.class);
+    public ResponseObject<Screenshot> editScreenshot(Long projectId, Long screenshotId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        ScreenshotResponseObject screenshotResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpRequestConfig(), ScreenshotResponseObject.class);
         return ResponseObject.of(screenshotResponseObject.getData());
     }
 
@@ -106,11 +106,11 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return list of tags
      */
     public ResponseList<Tag> listTags(Long projectId, Long screenshotId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        TagResponseList tagResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", new HttpConfig(queryParams), TagResponseList.class);
+        TagResponseList tagResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", new HttpRequestConfig(queryParams), TagResponseList.class);
         return TagResponseList.to(tagResponseList);
     }
 
@@ -120,7 +120,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param request      request object
      */
     public void replaceTags(Long projectId, Long screenshotId, ReplaceTagsRequest request) throws HttpException, HttpBadRequestException {
-        this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpConfig(), Void.class);
+        this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -130,7 +130,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return newly created tag
      */
     public ResponseObject<Tag> addTag(Long projectId, Long screenshotId, AddTagRequest request) throws HttpException, HttpBadRequestException {
-        TagResponseObject tagResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpConfig(), TagResponseObject.class);
+        TagResponseObject tagResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), TagResponseObject.class);
         return ResponseObject.of(tagResponseObject.getData());
     }
 
@@ -139,7 +139,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param screenshotId screenshot identifier
      */
     public void clearTags(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -149,7 +149,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @return tag
      */
     public ResponseObject<Tag> getTag(Long projectId, Long screenshotId, Long tagId) throws HttpException, HttpBadRequestException {
-        TagResponseObject tagResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpConfig(), TagResponseObject.class);
+        TagResponseObject tagResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpRequestConfig(), TagResponseObject.class);
         return ResponseObject.of(tagResponseObject.getData());
     }
 
@@ -159,7 +159,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param tagId        tag identifier
      */
     public void deleteTag(Long projectId, Long screenshotId, Long tagId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -169,8 +169,8 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param request      request object
      * @return updated screenshot
      */
-    public ResponseObject<Tag> editTag(Long projectId, Long screenshotId, Long tagId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        TagResponseObject tagResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, request, new HttpConfig(), TagResponseObject.class);
+    public ResponseObject<Tag> editTag(Long projectId, Long screenshotId, Long tagId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        TagResponseObject tagResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, request, new HttpRequestConfig(), TagResponseObject.class);
         return ResponseObject.of(tagResponseObject.getData());
     }
 }

@@ -1,12 +1,12 @@
 package com.crowdin.client.projectsgroups;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.projectsgroups.model.AddGroupRequest;
@@ -39,12 +39,12 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return list of groups
      */
     public ResponseList<Group> listGroups(Long parentId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "parentId", Optional.ofNullable(parentId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        GroupResponseList groupResponseList = this.httpClient.get(this.url + "/groups", new HttpConfig(queryParams), GroupResponseList.class);
+        GroupResponseList groupResponseList = this.httpClient.get(this.url + "/groups", new HttpRequestConfig(queryParams), GroupResponseList.class);
         return GroupResponseList.to(groupResponseList);
     }
 
@@ -53,7 +53,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return newly created group
      */
     public ResponseObject<Group> addGroup(AddGroupRequest request) throws HttpException, HttpBadRequestException {
-        GroupResponseObject groupResponseObject = this.httpClient.post(this.url + "/groups", request, new HttpConfig(), GroupResponseObject.class);
+        GroupResponseObject groupResponseObject = this.httpClient.post(this.url + "/groups", request, new HttpRequestConfig(), GroupResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -62,7 +62,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return group
      */
     public ResponseObject<Group> getGroup(Long groupId) throws HttpException, HttpBadRequestException {
-        GroupResponseObject groupResponseObject = this.httpClient.get(this.url + "/groups/" + groupId, new HttpConfig(), GroupResponseObject.class);
+        GroupResponseObject groupResponseObject = this.httpClient.get(this.url + "/groups/" + groupId, new HttpRequestConfig(), GroupResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -70,7 +70,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param groupId group identifier
      */
     public void deleteGroup(Long groupId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/groups/" + groupId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/groups/" + groupId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -78,8 +78,8 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param request request object
      * @return updated group
      */
-    public ResponseObject<Group> editGroup(Long groupId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        GroupResponseObject groupResponseObject = this.httpClient.patch(this.url + "/groups/" + groupId, request, new HttpConfig(), GroupResponseObject.class);
+    public ResponseObject<Group> editGroup(Long groupId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        GroupResponseObject groupResponseObject = this.httpClient.patch(this.url + "/groups/" + groupId, request, new HttpRequestConfig(), GroupResponseObject.class);
         return ResponseObject.of(groupResponseObject.getData());
     }
 
@@ -91,13 +91,13 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return list of projects
      */
     public ResponseList<? extends Project> listProjects(Long groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
                 "hasManagerAccess", Optional.ofNullable(hasManagerAccess),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        ProjectResponseList projectResponseList = this.httpClient.get(this.url + "/projects", new HttpConfig(queryParams), ProjectResponseList.class);
+        ProjectResponseList projectResponseList = this.httpClient.get(this.url + "/projects", new HttpRequestConfig(queryParams), ProjectResponseList.class);
         return ProjectResponseList.to(projectResponseList);
     }
 
@@ -106,7 +106,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return newly created project
      */
     public ResponseObject<? extends Project> addProject(AddProjectRequest request) throws HttpException, HttpBadRequestException {
-        ProjectResponseObject projectResponseObject = this.httpClient.post(this.url + "/projects", request, new HttpConfig(), ProjectResponseObject.class);
+        ProjectResponseObject projectResponseObject = this.httpClient.post(this.url + "/projects", request, new HttpRequestConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
 
@@ -115,7 +115,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @return project
      */
     public ResponseObject<? extends Project> getProject(Long projectId) throws HttpException, HttpBadRequestException {
-        ProjectResponseObject projectResponseObject = this.httpClient.get(this.url + "/projects/" + projectId, new HttpConfig(), ProjectResponseObject.class);
+        ProjectResponseObject projectResponseObject = this.httpClient.get(this.url + "/projects/" + projectId, new HttpRequestConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
 
@@ -123,7 +123,7 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param projectId project identifier
      */
     public void deleteProject(Long projectId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -131,8 +131,8 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * @param request   request object
      * @return updated project
      */
-    public ResponseObject<? extends Project> editProject(Long projectId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId, request, new HttpConfig(), ProjectResponseObject.class);
+    public ResponseObject<? extends Project> editProject(Long projectId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId, request, new HttpRequestConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
 }

@@ -1,12 +1,12 @@
 package com.crowdin.client.sourcestrings;
 
 import com.crowdin.client.core.CrowdinApi;
-import com.crowdin.client.core.http.HttpConfig;
+import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
@@ -35,12 +35,12 @@ public class SourceStringsApi extends CrowdinApi {
      * @return list of source strings
      */
     public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpConfig.buildUrlParams(
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "fileId", Optional.ofNullable(fileId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpConfig(queryParams), SourceStringResponseList.class);
+        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
         return SourceStringResponseList.to(sourceStringResponseList);
     }
 
@@ -50,7 +50,7 @@ public class SourceStringsApi extends CrowdinApi {
      * @return newly created source string
      */
     public ResponseObject<SourceString> addSourceString(Long projectId, AddSourceStringRequest request) throws HttpException, HttpBadRequestException {
-        SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpConfig(), SourceStringResponseObject.class);
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
@@ -60,7 +60,7 @@ public class SourceStringsApi extends CrowdinApi {
      * @return source string
      */
     public ResponseObject<SourceString> getSourceString(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
-        SourceStringResponseObject sourceStringResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpConfig(), SourceStringResponseObject.class);
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
@@ -69,7 +69,7 @@ public class SourceStringsApi extends CrowdinApi {
      * @param stringId  string identifier
      */
     public void deleteSourceString(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -78,8 +78,8 @@ public class SourceStringsApi extends CrowdinApi {
      * @param request   request object
      * @return updated source string
      */
-    public ResponseObject<SourceString> editSourceString(Long projectId, Long stringId, List<PatchOperation> request) throws HttpException, HttpBadRequestException {
-        SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, new HttpConfig(), SourceStringResponseObject.class);
+    public ResponseObject<SourceString> editSourceString(Long projectId, Long stringId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 }

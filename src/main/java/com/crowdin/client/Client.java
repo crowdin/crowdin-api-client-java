@@ -13,6 +13,7 @@ import com.crowdin.client.sourcefiles.SourceFilesApi;
 import com.crowdin.client.sourcestrings.SourceStringsApi;
 import com.crowdin.client.storage.StorageApi;
 import com.crowdin.client.stringtranslations.StringTranslationsApi;
+import com.crowdin.client.tasks.TasksApi;
 import com.crowdin.client.translationmemory.TranslationMemoryApi;
 import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.translationstatus.TranslationStatusApi;
@@ -36,6 +37,7 @@ public class Client extends CrowdinApi {
     private final MachineTranslationEnginesApi machineTranslationEnginesApi;
     private final TranslationStatusApi translationStatusApi;
     private final ReportsApi reportsApi;
+    private final TasksApi tasksApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -53,6 +55,7 @@ public class Client extends CrowdinApi {
         this.machineTranslationEnginesApi = new MachineTranslationEnginesApi(credentials);
         this.translationStatusApi = new TranslationStatusApi(credentials);
         this.reportsApi = new ReportsApi(credentials);
+        this.tasksApi = new TasksApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -71,6 +74,7 @@ public class Client extends CrowdinApi {
         this.machineTranslationEnginesApi = new MachineTranslationEnginesApi(credentials, clientConfig);
         this.translationStatusApi = new TranslationStatusApi(credentials, clientConfig);
         this.reportsApi = new ReportsApi(credentials, clientConfig);
+        this.tasksApi = new TasksApi(credentials, clientConfig);
     }
 
 }
