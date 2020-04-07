@@ -4,6 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.glossaries.GlossariesApi;
+import com.crowdin.client.issues.IssuesApi;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.machinetranslationengines.MachineTranslationEnginesApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
@@ -17,6 +18,8 @@ import com.crowdin.client.tasks.TasksApi;
 import com.crowdin.client.translationmemory.TranslationMemoryApi;
 import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.translationstatus.TranslationStatusApi;
+import com.crowdin.client.users.UsersApi;
+import com.crowdin.client.vendors.VendorsApi;
 import com.crowdin.client.workflows.WorkflowsApi;
 import lombok.Getter;
 
@@ -38,6 +41,9 @@ public class Client extends CrowdinApi {
     private final TranslationStatusApi translationStatusApi;
     private final ReportsApi reportsApi;
     private final TasksApi tasksApi;
+    private final IssuesApi issuesApi;
+    private final UsersApi usersApi;
+    private final VendorsApi vendorsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -56,6 +62,9 @@ public class Client extends CrowdinApi {
         this.translationStatusApi = new TranslationStatusApi(credentials);
         this.reportsApi = new ReportsApi(credentials);
         this.tasksApi = new TasksApi(credentials);
+        this.issuesApi = new IssuesApi(credentials);
+        this.usersApi = new UsersApi(credentials);
+        this.vendorsApi = new VendorsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -75,6 +84,9 @@ public class Client extends CrowdinApi {
         this.translationStatusApi = new TranslationStatusApi(credentials, clientConfig);
         this.reportsApi = new ReportsApi(credentials, clientConfig);
         this.tasksApi = new TasksApi(credentials, clientConfig);
+        this.issuesApi = new IssuesApi(credentials, clientConfig);
+        this.usersApi = new UsersApi(credentials, clientConfig);
+        this.vendorsApi = new VendorsApi(credentials, clientConfig);
     }
 
 }
