@@ -12,11 +12,41 @@ For more about Crowdin API v2 see the [documentation](https://support.crowdin.co
 
 ## Installation
 
-[TBA]
+```groovy
+repositories {
+    maven { url "https://jitpack.io" }
+}
+dependencies {
+    compile "com.github.crowdin:crowdin-api-client-java:0.0.2"
+}
+```
 
 ## Quick Start
 
-[TBA]
+```java
+import com.crowdin.client.Client;
+import com.crowdin.client.core.model.Credentials;
+
+public class ListProjectBranchesExample {
+
+    public static void main(String[] args) {
+        Credentials credentials = new Credentials("token", "organization");
+        Client client = new Client(credentials);
+        client
+            .getSourceFilesApi()
+            .listBranches(123L, null, 500, null)
+            .getData()
+            .forEach(branch -> System.out.println(branch.getData()));
+    }
+
+}
+```
+
+### Customization
+
+This client uses [Apache http client](https://hc.apache.org/) and [Jackson json library](https://github.com/FasterXML/jackson).  
+Usage of these libraries is wrapped into interfaces and gives possibility to override them and use different libraries for http communication or json transformations.
+The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
 
 ## Contribution
 We are happy to accept contributions to the Crowdin Java client. To contribute please do the following:
