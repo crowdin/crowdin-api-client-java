@@ -20,6 +20,7 @@ import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.translationstatus.TranslationStatusApi;
 import com.crowdin.client.users.UsersApi;
 import com.crowdin.client.vendors.VendorsApi;
+import com.crowdin.client.webhooks.WebhooksApi;
 import com.crowdin.client.workflows.WorkflowsApi;
 import lombok.Getter;
 
@@ -44,6 +45,7 @@ public class Client extends CrowdinApi {
     private final IssuesApi issuesApi;
     private final UsersApi usersApi;
     private final VendorsApi vendorsApi;
+    private final WebhooksApi webhooksApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -65,6 +67,7 @@ public class Client extends CrowdinApi {
         this.issuesApi = new IssuesApi(credentials);
         this.usersApi = new UsersApi(credentials);
         this.vendorsApi = new VendorsApi(credentials);
+        this.webhooksApi = new WebhooksApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -87,6 +90,7 @@ public class Client extends CrowdinApi {
         this.issuesApi = new IssuesApi(credentials, clientConfig);
         this.usersApi = new UsersApi(credentials, clientConfig);
         this.vendorsApi = new VendorsApi(credentials, clientConfig);
+        this.webhooksApi = new WebhooksApi(credentials, clientConfig);
     }
 
 }

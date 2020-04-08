@@ -1,10 +1,13 @@
 package com.crowdin.client.core.http;
 
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
+import com.crowdin.client.core.model.EnumConverter;
 import com.crowdin.client.projectsgroups.model.ProjectResponseList;
 
 /**
- * Json serializer/deserializer. Default implementation {@link JacksonJsonTransformer} uses jackson json library
+ * Json serializer/deserializer.
+ * Default implementation {@link JacksonJsonTransformer} uses jackson json library.
+ * For proper enum serialization/deserialization please take a look at {@link EnumConverter}
  */
 public interface JsonTransformer {
 
