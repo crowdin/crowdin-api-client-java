@@ -2,8 +2,6 @@
 
 # Crowdin Java client
 
-`Note: Crowdin Java client is currently in progress.`
-
 The Crowdin Java client is a lightweight interface to the Crowdin API v2 that works in any Java environment. It provides common services for making API requests.
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
@@ -17,7 +15,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile "com.github.crowdin:crowdin-api-client-java:0.0.2"
+    compile "com.github.crowdin:crowdin-api-client-java:0.0.3"
 }
 ```
 
