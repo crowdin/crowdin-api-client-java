@@ -8,6 +8,16 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 For more about Crowdin API v2 see the [documentation](https://support.crowdin.com/api/v2/).
 
+## Status
+
+[![JitPack](https://img.shields.io/jitpack/v/github/crowdin/crowdin-api-client-java?cacheSeconds=3600)](https://jitpack.io/#crowdin/crowdin-api-client-java)
+[![](https://jitpack.io/v/crowdin/crowdin-api-client-java/month.svg)](https://jitpack.io/#crowdin/crowdin-api-client-java)
+[![](https://jitpack.io/v/crowdin/crowdin-api-client-java/week.svg)](https://jitpack.io/#crowdin/crowdin-api-client-java)
+[![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-java?cacheSeconds=5000)](https://github.com/crowdin/crowdin-api-client-java/graphs/contributors)
+[![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-java?cacheSeconds=10000)](https://github.com/crowdin/crowdin-api-client-java/blob/master/LICENSE)
+
+
+
 ## Installation
 
 ```groovy
@@ -61,8 +71,6 @@ Need help working with Crowdin Java client or have any questions?
 
 ## License
 <pre>
-Copyright © 2020 Crowdin
-
 The Crowdin Java client is licensed under the MIT License. 
 See the LICENSE file distributed with this work for additional 
 information regarding copyright ownership.
