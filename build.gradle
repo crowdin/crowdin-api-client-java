@@ -2,6 +2,10 @@ plugins {
     id 'java-library'
 }
 
+plugins {
+    id 'jacoco'
+}
+
 sourceCompatibility = 8
 version '0.0.4'
 
@@ -34,4 +38,19 @@ jar {
 
 wrapper {
     gradleVersion = '6.2.2'
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+    reportsDir = file("$buildDir/reports")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        xml.destination file("${buildDir}/coverage.xml")
+    }
+
+    getExecutionData().setFrom("$buildDir/jacoco/test.exec")
 }
