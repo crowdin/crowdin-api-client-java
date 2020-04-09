@@ -16,7 +16,9 @@ For more about Crowdin API v2 see the [documentation](https://support.crowdin.co
 [![GitHub contributors](https://img.shields.io/github/contributors/crowdin/crowdin-api-client-java?cacheSeconds=5000)](https://github.com/crowdin/crowdin-api-client-java/graphs/contributors)
 [![License](https://img.shields.io/github/license/crowdin/crowdin-api-client-java?cacheSeconds=10000)](https://github.com/crowdin/crowdin-api-client-java/blob/master/LICENSE)
 
-
+[![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/crowdin/crowdin-api-client-java/21/master?cacheSeconds=3600&logo=azure-devops)](https://dev.azure.com/crowdin/crowdin-api-client-java/_build/latest?definitionId=21&branchName=master)
+[![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-java/21/master?cacheSeconds=3600)](https://dev.azure.com/crowdin/crowdin-api-client-java/_build/latest?definitionId=21&branchName=master)
+[![codecov](https://codecov.io/gh/crowdin/crowdin-api-client-java/branch/master/graph/badge.svg)](https://codecov.io/gh/crowdin/crowdin-api-client-java)
 
 ## Installation
 
