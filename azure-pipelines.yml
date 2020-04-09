@@ -4,7 +4,15 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- master
+  branches:
+    include:
+      - refs/heads/*
+      - refs/tags/*
+  paths:
+    exclude:
+      - README.md
+      - LICENSE
+      - CODE_OF_CONDUCT.md
 
 pool:
   vmImage: 'ubuntu-latest'
