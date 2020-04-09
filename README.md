@@ -20,6 +20,7 @@ For more about Crowdin API v2 see the [documentation](https://support.crowdin.co
 
 ## Installation
 
+### Gradle
 ```groovy
 repositories {
     maven { url "https://jitpack.io" }
@@ -27,6 +28,22 @@ repositories {
 dependencies {
     compile "com.github.crowdin:crowdin-api-client-java:0.0.4"
 }
+```
+
+### Maven
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependency>
+    <groupId>com.github.crowdin</groupId>
+    <artifactId>crowdin-api-client-java</artifactId>
+    <version>0.0.4</version>
+</dependency>
 ```
 
 ## Quick Start
