@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "name": "KB materials",
+        "description": "KB localization materials",
+        "parentId": 2,
+        "organizationId": 200000299,
+        "userId": 6,
+        "subgroupsCount": 0,
+        "projectsCount": 1,
+        "createdAt": "2019-09-20T11:11:05+00:00",
+        "updatedAt": "2019-09-20T12:22:20+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
