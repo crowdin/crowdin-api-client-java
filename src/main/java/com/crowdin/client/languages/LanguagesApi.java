@@ -71,7 +71,7 @@ public class LanguagesApi extends CrowdinApi {
      * @param request    request object
      * @return updated language
      */
-    public ResponseObject<Language> editProject(String languageId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Language> editLanguage(String languageId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         LanguageResponseObject languageResponseObject = this.httpClient.patch(this.url + "/languages/" + languageId, request, new HttpRequestConfig(), LanguageResponseObject.class);
         return ResponseObject.of(languageResponseObject.getData());
     }

@@ -1,0 +1,22 @@
+{
+  "data": {
+    "id": "es",
+    "name": "Spanish",
+    "editorCode": "es",
+    "twoLettersCode": "es",
+    "threeLettersCode": "spa",
+    "locale": "es-ES",
+    "androidCode": "es-rES",
+    "osxCode": "es.lproj",
+    "osxLocale": "es",
+    "pluralCategoryNames": [
+      "one"
+    ],
+    "pluralRules": "(n != 1)",
+    "pluralExamples": [
+      "0, 2-999; 1.2, 2.07..."
+    ],
+    "textDirection": "ltr",
+    "dialectOf": "string"
+  }
+}

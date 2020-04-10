@@ -37,7 +37,7 @@ public class StorageApiTest extends TestClient {
         ResponseList<Storage> storageResponseList = this.getStorageApi().listStorages(500, null);
         assertEquals(storageResponseList.getData().size(), 1);
         assertEquals(storageResponseList.getData().get(0).getData().getFileName(), fileName);
-        assertEquals(storageResponseList.getData().get(0).getData().getId(), this.id);
+        assertEquals(storageResponseList.getData().get(0).getData().getId(), id);
     }
 
     @Test
