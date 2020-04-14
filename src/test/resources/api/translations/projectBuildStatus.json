@@ -1,0 +1,19 @@
+{
+  "data": {
+    "id": 2,
+    "status": "finished",
+    "progress": 100,
+    "attributes": [
+      {
+        "projectId": 2,
+        "branchId": 1,
+        "targetLanguagesId": [
+          "en"
+        ],
+        "exportTranslatedOnly": false,
+        "skipUntranslatedFiles": false,
+        "exportApprovedOnly": false
+      }
+    ]
+  }
+}

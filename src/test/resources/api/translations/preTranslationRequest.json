@@ -1,0 +1,15 @@
+{
+  "languageIds": [
+    "uk"
+  ],
+  "fileIds": [
+    2
+  ],
+  "method": "mt",
+  "engineId": null,
+  "autoApproveOption": "none",
+  "duplicateTranslations": false,
+  "translateUntranslatedOnly": false,
+  "translateWithPerfectMatchOnly": false,
+  "markAddedTranslationsAsDone": false
+}

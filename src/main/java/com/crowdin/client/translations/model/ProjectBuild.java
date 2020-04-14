@@ -8,13 +8,13 @@ import java.util.List;
 public class ProjectBuild {
 
     private Long id;
-    private Long projectId;
     private String status;
     private Integer progress;
-    private Attributes attributes;
+    private List<Attributes> attributes;
 
     @Data
     public static class Attributes {
+        private Long projectId;
         private Long branchId;
         private List<String> targetLanguageIds;
         private boolean exportTranslatedOnly;
