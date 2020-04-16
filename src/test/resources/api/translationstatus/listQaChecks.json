@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "data": {
+        "stringId": 1,
+        "languageId": "uk",
+        "category": "spellcheck",
+        "categoryDescription": "Spelling",
+        "validation": "spellcheck",
+        "validationDescription": "Misspelling",
+        "pluralId": -1,
+        "text": "Spellcheck failed for the following word: 'локалзація'."
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

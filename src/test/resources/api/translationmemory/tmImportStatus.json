@@ -1,0 +1,24 @@
+{
+  "data": {
+    "identifier": "b5215a34-1305-4b21-8054-fc2eb252842f",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "tmId": 10,
+      "storageId": 28,
+      "firstLineContainsHeader": 10,
+      "scheme": {
+        "phraseEn": 52,
+        "phraseEl": 52
+      },
+      "organizationId": 200000299,
+      "progressKey": "import_tm_progress_10",
+      "userId": 6
+    },
+    "createdAt": "2019-09-23T11:51:08+00:00",
+    "updatedAt": "2019-09-23T11:51:08+00:00",
+    "startedAt": "string",
+    "finishedAt": "string",
+    "eta": "1 second"
+  }
+}

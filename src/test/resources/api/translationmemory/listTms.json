@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 4,
+        "groupId": 2,
+        "userId": 2,
+        "name": "Knowledge Base's TM",
+        "languageIds": [
+          "el"
+        ],
+        "segmentsCount": 21,
+        "defaultProjectId": 0,
+        "projectIds": [
+          2
+        ],
+        "createdAt": "2019-09-16T13:42:04+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

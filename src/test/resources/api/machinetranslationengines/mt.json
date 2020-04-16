@@ -1,0 +1,15 @@
+{
+  "data": {
+    "id": 2,
+    "groupId": 2,
+    "name": "Crowdin Translate (beta)",
+    "type": "crowdin",
+    "credentials": {
+      "crowdin_nmt": 1,
+      "crowdin_nmt_multi_translations": 1
+    },
+    "projectIds": [
+      1
+    ]
+  }
+}
