@@ -1,0 +1,12 @@
+{
+  "name": "Proofread",
+  "url": "test.com",
+  "events": [
+    "file.approved"
+  ],
+  "requestType": "POST",
+  "isActive": true,
+  "contentType": "multipart/form-data",
+  "headers": null,
+  "payload": null
+}

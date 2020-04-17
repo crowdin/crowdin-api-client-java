@@ -111,7 +111,7 @@ public class TasksApi extends CrowdinApi {
                 "offset", Optional.ofNullable(offset),
                 "isArchived", Optional.ofNullable(isArchived)
         );
-        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/user/tasks/", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/user/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
         return TaskResponseList.to(taskResponseList);
     }
 
