@@ -1,0 +1,24 @@
+{
+  "data": {
+    "identifier": "c050fba2-200e-4ce1-8de4-f7ba8eb58732",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "storageId": 36,
+      "scheme": {
+        "term_en": 0,
+        "description_en": 1
+      },
+      "firstLineContainsHeader": true,
+      "organizationId": 200000299,
+      "userId": 6,
+      "glossaryId": 8,
+      "progressKey": "import_glossary_progress_8"
+    },
+    "createdAt": "2019-09-23T12:17:54+00:00",
+    "updatedAt": "2019-09-23T12:17:54+00:00",
+    "startedAt": "2020-04-16T06:28:56Z",
+    "finishedAt": "2020-04-16T06:28:56Z",
+    "eta": "1 second"
+  }
+}

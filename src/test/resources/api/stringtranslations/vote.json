@@ -1,0 +1,12 @@
+{
+  "data": {
+    "id": 6643,
+    "user": {
+      "id": 19,
+      "login": "john_doe"
+    },
+    "translationId": 19069345,
+    "votedAt": "2019-09-19T12:42:12+00:00",
+    "mark": "up"
+  }
+}

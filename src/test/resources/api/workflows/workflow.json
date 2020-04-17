@@ -1,0 +1,13 @@
+{
+  "data": {
+    "id": 313,
+    "title": "Translation by Vendor",
+    "type": "TranslateByVendor",
+    "languages": [
+      "uk"
+    ],
+    "config": {
+      "vendorId": 59169
+    }
+  }
+}

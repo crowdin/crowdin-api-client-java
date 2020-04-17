@@ -1,0 +1,19 @@
+{
+  "storageId": 61,
+  "updateOption": "clear_translations_and_approvals",
+  "importOptions": {
+    "firstLineContainsHeader": true,
+    "importTranslations": false,
+    "scheme": {
+      "identifier": 0,
+      "sourcePhrase": 1,
+      "en": 2,
+      "de": 3
+    }
+  },
+  "exportOptions": {
+    "escapeQuotes": 3,
+    "escapeSpecialCharacters": null,
+    "exportPattern": null
+  }
+}

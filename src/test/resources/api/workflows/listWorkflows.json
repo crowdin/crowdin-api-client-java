@@ -1,0 +1,43 @@
+{
+  "data": [
+    {
+      "data": {
+        "data": {
+          "id": 311,
+          "title": "Translate",
+          "type": "Translate",
+          "languages": [
+            "uk"
+          ],
+          "config": {
+            "assignees": {
+              "de": [
+                346
+              ],
+              "it": [
+                43
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 313,
+        "title": "Translation by Vendor",
+        "type": "TranslateByVendor",
+        "languages": [
+          "uk"
+        ],
+        "config": {
+          "vendorId": 59169
+        }
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

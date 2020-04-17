@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "name": "Be My Eyes iOS's Glossary",
+        "groupId": 2,
+        "userId": 2,
+        "terms": 25,
+        "languageIds": [
+          "ro"
+        ],
+        "projectIds": [
+          6
+        ],
+        "createdAt": "2019-09-16T13:42:04+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

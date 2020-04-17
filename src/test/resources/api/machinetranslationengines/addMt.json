@@ -1,0 +1,10 @@
+{
+  "name": "Crowdin Translate (beta)",
+  "type": "google",
+  "credentials": [
+    {
+      "apiKey": "string"
+    }
+  ],
+  "groupId": null
+}

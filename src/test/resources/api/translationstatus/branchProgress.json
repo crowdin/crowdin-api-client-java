@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "data": {
+        "words": {
+          "total": 7249,
+          "translated": 3651,
+          "approved": 3637
+        },
+        "phrases": {
+          "total": 3000,
+          "translated": 2631,
+          "approved": 2622
+        },
+        "translationProgress": 86,
+        "approvalProgress": 86,
+        "languageId": "af"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

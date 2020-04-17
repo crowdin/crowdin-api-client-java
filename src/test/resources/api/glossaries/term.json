@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": 2,
+    "userId": 6,
+    "glossaryId": 6,
+    "languageId": "fr",
+    "text": "Voir",
+    "description": "use for pages only (check screenshots)",
+    "partOfSpeech": "verb",
+    "lemma": "voir",
+    "createdAt": "2019-09-23T07:19:47+00:00",
+    "updatedAt": "2019-09-23T07:19:47+00:00"
+  }
+}

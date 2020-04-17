@@ -1,0 +1,17 @@
+{
+  "data": {
+    "identifier": "5ed2ce93-6d47-4402-9e66-516ca835cb20",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "format": "csv",
+      "organizationId": 200000299,
+      "glossaryId": 6
+    },
+    "createdAt": "2019-09-23T07:06:43+00:00",
+    "updatedAt": "2019-09-23T07:06:43+00:00",
+    "startedAt": "2020-04-16T06:28:56Z",
+    "finishedAt": "2020-04-16T06:28:56Z",
+    "eta": "1 second"
+  }
+}

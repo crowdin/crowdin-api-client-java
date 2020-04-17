@@ -1,0 +1,29 @@
+{
+  "data": {
+    "id": 44,
+    "projectId": 2,
+    "branchId": 34,
+    "directoryId": 4,
+    "name": "umbrella_app.xliff",
+    "title": "source_app_info",
+    "type": "xliff",
+    "revisionId": 1,
+    "status": "active",
+    "priority": "normal",
+    "importOptions": {
+      "firstLineContainsHeader": false,
+      "importTranslations": true,
+      "scheme": {
+        "identifier": 0,
+        "sourcePhrase": 1,
+        "en": 2,
+        "de": 3
+      }
+    },
+    "exportOptions": {
+      "exportPattern": "/localization/%locale%/%file_name%.%file_extension%"
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

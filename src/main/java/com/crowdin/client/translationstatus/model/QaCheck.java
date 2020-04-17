@@ -12,5 +12,5 @@ public class QaCheck {
     private Validation validation;
     private String validationDescription;
     private Long pluralId;
-    private Long text;
+    private String text;
 }

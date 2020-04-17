@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "text": "@BeMyEyes  Please provide more details on where the text will be used",
+        "userId": 6,
+        "stringId": 742,
+        "languageId": "bg",
+        "type": "source_mistake",
+        "status": "unresolved",
+        "createdAt": "2019-09-20T11:05:24+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

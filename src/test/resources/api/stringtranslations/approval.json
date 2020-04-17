@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": 190695,
+    "user": {
+      "id": 19,
+      "login": "john_doe"
+    },
+    "translationId": 190695,
+    "stringId": 2345,
+    "languageId": "uk",
+    "workflowStepId": 122,
+    "createdAt": "2019-09-19T12:42:12+00:00"
+  }
+}

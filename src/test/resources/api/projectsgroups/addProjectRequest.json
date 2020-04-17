@@ -1,0 +1,12 @@
+{
+  "name": "Knowledge Base",
+  "sourceLanguageId": "en",
+  "templateId": 4,
+  "groupId": 1,
+  "targetLanguageIds": [
+    "uk"
+  ],
+  "vendorId": null,
+  "mtEngineId": null,
+  "description": null
+}

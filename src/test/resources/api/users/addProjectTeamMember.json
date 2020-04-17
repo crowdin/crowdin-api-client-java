@@ -1,0 +1,12 @@
+{
+  "userIds": [
+    1
+  ],
+  "accessToAllWorkflowSteps": false,
+  "managerAccess": false,
+  "permissions": {
+    "de": {
+      "workflowStepIds": "all"
+    }
+  }
+}
