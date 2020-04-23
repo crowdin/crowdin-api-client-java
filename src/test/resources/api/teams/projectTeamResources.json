@@ -1,0 +1,15 @@
+{
+  "skipped": {},
+  "added": {
+    "id": 1,
+    "hasManagerAccess": false,
+    "hasAccessToAllWorkflowSteps": false,
+    "permissions": {
+      "it": {
+        "workflowStepIds": [
+          313
+        ]
+      }
+    }
+  }
+}
