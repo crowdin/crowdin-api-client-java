@@ -70,7 +70,6 @@ public class TasksApiTest extends TestClient {
         assertEquals(downloadLinkResponseObject.getData().getUrl(), link);
     }
 
-
     @Test
     public void getTaskTest() {
         ResponseObject<Task> taskResponseObject = this.getTasksApi().getTask(projectId, taskId);

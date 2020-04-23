@@ -15,6 +15,7 @@ import com.crowdin.client.sourcestrings.SourceStringsApi;
 import com.crowdin.client.storage.StorageApi;
 import com.crowdin.client.stringtranslations.StringTranslationsApi;
 import com.crowdin.client.tasks.TasksApi;
+import com.crowdin.client.teams.TeamsApi;
 import com.crowdin.client.translationmemory.TranslationMemoryApi;
 import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.translationstatus.TranslationStatusApi;
@@ -46,6 +47,7 @@ public class Client extends CrowdinApi {
     private final UsersApi usersApi;
     private final VendorsApi vendorsApi;
     private final WebhooksApi webhooksApi;
+    private final TeamsApi teamsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -68,6 +70,7 @@ public class Client extends CrowdinApi {
         this.usersApi = new UsersApi(credentials);
         this.vendorsApi = new VendorsApi(credentials);
         this.webhooksApi = new WebhooksApi(credentials);
+        this.teamsApi = new TeamsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -91,6 +94,7 @@ public class Client extends CrowdinApi {
         this.usersApi = new UsersApi(credentials, clientConfig);
         this.vendorsApi = new VendorsApi(credentials, clientConfig);
         this.webhooksApi = new WebhooksApi(credentials, clientConfig);
+        this.teamsApi = new TeamsApi(credentials, clientConfig);
     }
 
 }
