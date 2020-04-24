@@ -6,7 +6,7 @@ import lombok.Data;
 public class AddTeamToProjectRequest {
 
     private Long teamId;
-    private boolean accessToAllWorkflowSteps;
-    private boolean managerAccess;
+    private Boolean accessToAllWorkflowSteps;
+    private Boolean managerAccess;
     private Object permissions;
 }

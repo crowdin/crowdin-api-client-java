@@ -50,7 +50,7 @@ public class CostEstimateFuzzyModeGenerateReportRequest extends GenerateReportRe
 
         private String type;
         private String mode;
-        private boolean calculateInternalFuzzyMatches;
+        private Boolean calculateInternalFuzzyMatches;
         private List<TranslateRegularRate> regularRates;
         private List<TranslateIndividualRate> individualRates;
     }

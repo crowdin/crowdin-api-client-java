@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AutoTagReplaceTagsRequest extends ReplaceTagsRequest {
 
-    private boolean autoTag;
+    private Boolean autoTag;
 }

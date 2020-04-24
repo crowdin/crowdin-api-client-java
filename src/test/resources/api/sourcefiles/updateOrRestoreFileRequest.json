@@ -12,8 +12,6 @@
     }
   },
   "exportOptions": {
-    "escapeQuotes": 3,
-    "escapeSpecialCharacters": null,
-    "exportPattern": null
+    "escapeQuotes": 3
   }
 }

@@ -9,5 +9,5 @@ public class ImportGlossaryRequest {
 
     private Long storageId;
     private Map<String, Integer> scheme;
-    private boolean firstLineContainsHeader;
+    private Boolean firstLineContainsHeader;
 }

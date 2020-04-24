@@ -6,5 +6,5 @@ import lombok.Data;
 public class BuildProjectFileTranslationRequest {
 
     private String targetLanguageId;
-    private boolean exportAsXliff;
+    private Boolean exportAsXliff;
 }

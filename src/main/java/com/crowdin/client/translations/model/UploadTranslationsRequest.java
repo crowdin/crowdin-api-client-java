@@ -7,8 +7,8 @@ public class UploadTranslationsRequest {
 
     private Long storageId;
     private Long fileId;
-    private boolean importDuplicates;
-    private boolean importEqSuggestions;
-    private boolean autoApproveImported;
-    private boolean markAddedTranslationsAsDone;
+    private Boolean importDuplicates;
+    private Boolean importEqSuggestions;
+    private Boolean autoApproveImported;
+    private Boolean markAddedTranslationsAsDone;
 }

@@ -118,6 +118,7 @@ public class TranslationMemoryApiTest extends TestClient {
         TranslationMemoryImportRequest request = new TranslationMemoryImportRequest();
         request.setStorageId(11L);
         request.setScheme(singletonMap("uk", 4));
+        request.setFirstLineContainsHeader(false);
         ResponseObject<TranslationMemoryImportStatus> translationMemoryImportStatusResponseObject = this.getTranslationMemoryApi().importTm(tmId, request);
         assertEquals(translationMemoryImportStatusResponseObject.getData().getIdentifier(), importId);
     }

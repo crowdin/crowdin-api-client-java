@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class OtherFileImportOptions extends ImportOptions {
 
-    private boolean contentSegmentation;
+    private Boolean contentSegmentation;
 }

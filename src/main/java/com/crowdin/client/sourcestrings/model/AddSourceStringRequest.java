@@ -9,6 +9,6 @@ public class AddSourceStringRequest {
     private String identifier;
     private Long fileId;
     private String context;
-    private boolean isHidden;
+    private Boolean isHidden;
     private Integer maxLength;
 }

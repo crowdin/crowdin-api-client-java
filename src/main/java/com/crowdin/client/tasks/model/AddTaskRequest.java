@@ -14,8 +14,8 @@ public class AddTaskRequest {
     private List<Long> fileIds;
     private Status status;
     private String description;
-    private boolean splitFiles;
-    private boolean skipAssignedStrings;
+    private Boolean splitFiles;
+    private Boolean skipAssignedStrings;
     private List<Assignee> assignees;
     private Date deadline;
     private Date dateFrom;
