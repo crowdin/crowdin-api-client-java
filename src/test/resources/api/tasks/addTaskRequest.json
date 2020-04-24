@@ -5,12 +5,5 @@
   "fileIds": [
     1
   ],
-  "status": "todo",
-  "description": null,
-  "splitFiles": false,
-  "skipAssignedStrings": false,
-  "assignees": null,
-  "deadline": null,
-  "dateFrom": null,
-  "dateTo": null
+  "status": "todo"
 }

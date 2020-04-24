@@ -9,7 +9,7 @@ import java.util.Map;
 public class AddProjectTeamMemberRequest {
 
     private List<Long> userIds;
-    private boolean accessToAllWorkflowSteps;
-    private boolean managerAccess;
+    private Boolean accessToAllWorkflowSteps;
+    private Boolean managerAccess;
     private Map<String, LanguagePermission> permissions;
 }

@@ -8,6 +8,6 @@ import java.util.Map;
 public class TranslationMemoryImportRequest {
 
     private Long storageId;
-    private boolean firstLineContainsHeader;
+    private Boolean firstLineContainsHeader;
     private Map<String, Integer> scheme;
 }

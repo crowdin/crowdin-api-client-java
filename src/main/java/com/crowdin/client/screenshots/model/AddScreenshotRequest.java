@@ -7,5 +7,5 @@ public class AddScreenshotRequest {
 
     private Long storageId;
     private String name;
-    private boolean autoTag;
+    private Boolean autoTag;
 }

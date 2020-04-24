@@ -7,8 +7,8 @@ import java.util.List;
 @Data
 public class XmlFileImportOptions extends ImportOptions {
 
-    private boolean translateContent;
-    private boolean translateAttributes;
-    private boolean contentSegmentation;
+    private Boolean translateContent;
+    private Boolean translateAttributes;
+    private Boolean contentSegmentation;
     private List<String> translatableElements;
 }

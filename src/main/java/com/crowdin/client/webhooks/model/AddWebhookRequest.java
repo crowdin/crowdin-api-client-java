@@ -11,7 +11,7 @@ public class AddWebhookRequest {
     private String url;
     private List<Event> events;
     private RequestType requestType;
-    private boolean isActive;
+    private Boolean isActive;
     private ContentType contentType;
     private Object headers;
     private Object payload;

@@ -12,9 +12,9 @@ public class ApplyPreTranslationRequest {
     private Method method;
     private Long engineId;
     private AutoApproveOption autoApproveOption;
-    private boolean duplicateTranslations;
-    private boolean translateUntranslatedOnly;
-    private boolean translateWithPerfectMatchOnly;
-    private boolean markAddedTranslationsAsDone;
+    private Boolean duplicateTranslations;
+    private Boolean translateUntranslatedOnly;
+    private Boolean translateWithPerfectMatchOnly;
+    private Boolean markAddedTranslationsAsDone;
 
 }

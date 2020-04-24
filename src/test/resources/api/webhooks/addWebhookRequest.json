@@ -6,7 +6,5 @@
   ],
   "requestType": "POST",
   "isActive": true,
-  "contentType": "multipart/form-data",
-  "headers": null,
-  "payload": null
+  "contentType": "multipart/form-data"
 }

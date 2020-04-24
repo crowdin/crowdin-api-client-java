@@ -55,7 +55,7 @@ public class WebhooksApiTest extends TestClient {
         request.setUrl("test.com");
         request.setEvents(singletonList(Event.FILE_APPROVED));
         request.setRequestType(RequestType.POST);
-        request.setActive(true);
+        request.setIsActive(true);
         request.setContentType(ContentType.MULTIPART_FORM_DATA);
         ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().addWebhook(projectId, request);
         assertEquals(webhookResponseObject.getData().getId(), webhookId);

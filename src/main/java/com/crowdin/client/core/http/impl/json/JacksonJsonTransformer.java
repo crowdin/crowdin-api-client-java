@@ -7,6 +7,7 @@ import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,6 +32,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
         module.addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper));
         module.addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper));
         this.objectMapper = new ObjectMapper()
+                .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"))
                 .registerModule(module)
