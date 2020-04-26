@@ -22,6 +22,7 @@ public class HttpException extends RuntimeException {
         var resp = new HttpException();
         var error = new Error();
         error.setMessage(message);
+        resp.setError(error);
         return resp;
     }
 }
