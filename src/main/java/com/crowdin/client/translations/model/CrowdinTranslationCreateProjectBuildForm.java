@@ -2,12 +2,15 @@ package com.crowdin.client.translations.model;
 
 import lombok.Data;
 
-@Data
-public class BuildProjectFileTranslationRequest {
+import java.util.List;
 
-    private String targetLanguageId;
-    private Boolean exportAsXliff;
+@Data
+public class CrowdinTranslationCreateProjectBuildForm extends BuildProjectTranslationRequest {
+
+    private Long branchId;
+    private List<String> targetLanguageIds;
     private Boolean exportTranslatedOnly;
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
+
 }

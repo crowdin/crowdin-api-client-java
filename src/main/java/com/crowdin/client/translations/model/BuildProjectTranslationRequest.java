@@ -4,9 +4,5 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
-public class BuildProjectTranslationRequest {
-
-    private Long branchId;
-    private List<String> targetLanguageIds;
+public abstract class BuildProjectTranslationRequest {
 }
