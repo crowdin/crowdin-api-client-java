@@ -28,6 +28,48 @@
         "createdAt": "2019-09-19T15:10:43+00:00",
         "updatedAt": "2019-09-19T15:10:46+00:00"
       }
+    },
+    {
+      "data": {
+        "id": 45,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileA.properties",
+        "title": "File A",
+        "type": "properties",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "escapeQuotes": 3,
+          "exportPattern": "/files/fileA.properties"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 46,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileB.properties",
+        "title": "File B",
+        "type": "properties",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "escapeSpecialCharacters": 1,
+          "exportPattern": "/files/fileB.properties"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
     }
   ],
   "pagination": {

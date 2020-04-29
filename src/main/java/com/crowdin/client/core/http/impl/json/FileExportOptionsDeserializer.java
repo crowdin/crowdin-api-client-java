@@ -30,7 +30,7 @@ public class FileExportOptionsDeserializer extends JsonDeserializer<ExportOption
         List<String> fields = StreamSupport
                 .stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
-        if (fields.contains("escapeSpecialCharacters")) {
+        if (fields.contains("escapeSpecialCharacters") || fields.contains("escapeQuotes")) {
             return this.objectMapper.readValue(treeNode.toString(), PropertyFileExportOptions.class);
         } else {
             return this.objectMapper.readValue(treeNode.toString(), GeneralFileExportOptions.class);

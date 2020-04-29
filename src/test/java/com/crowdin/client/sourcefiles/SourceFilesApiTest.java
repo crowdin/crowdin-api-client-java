@@ -12,8 +12,10 @@ import com.crowdin.client.sourcefiles.model.AddDirectoryRequest;
 import com.crowdin.client.sourcefiles.model.AddFileRequest;
 import com.crowdin.client.sourcefiles.model.Branch;
 import com.crowdin.client.sourcefiles.model.Directory;
+import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.File;
 import com.crowdin.client.sourcefiles.model.FileRevision;
+import com.crowdin.client.sourcefiles.model.GeneralFileExportOptions;
 import com.crowdin.client.sourcefiles.model.PropertyFileExportOptions;
 import com.crowdin.client.sourcefiles.model.SpreadsheetFileImportOptions;
 import com.crowdin.client.sourcefiles.model.UpdateFileRequest;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SourceFilesApiTest extends TestClient {
 
@@ -153,9 +156,28 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void listFilesTest() {
         ResponseList<File> fileResponseList = this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null);
-        assertEquals(fileResponseList.getData().size(), 1);
+        assertEquals(fileResponseList.getData().size(), 3);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
+        ExportOptions exportOptions = fileResponseList.getData().get(0).getData().getExportOptions();
+        assertTrue(exportOptions instanceof GeneralFileExportOptions);
+        assertEquals(((GeneralFileExportOptions) exportOptions).getExportPattern(), "/localization/%locale%/%file_name%.%file_extension%");
+
+        assertEquals(fileResponseList.getData().get(1).getData().getId(), Long.valueOf(45L));
+        assertEquals(fileResponseList.getData().get(1).getData().getName(), "fileA.properties");
+        exportOptions = fileResponseList.getData().get(1).getData().getExportOptions();
+        assertTrue(exportOptions instanceof PropertyFileExportOptions);
+        assertEquals(((PropertyFileExportOptions) exportOptions).getExportPattern(), "/files/fileA.properties");
+        assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeQuotes(), Integer.valueOf(3));
+        assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeSpecialCharacters(), null);
+
+        assertEquals(fileResponseList.getData().get(2).getData().getId(), Long.valueOf(46L));
+        assertEquals(fileResponseList.getData().get(2).getData().getName(), "fileB.properties");
+        exportOptions = fileResponseList.getData().get(2).getData().getExportOptions();
+        assertTrue(exportOptions instanceof PropertyFileExportOptions);
+        assertEquals(((PropertyFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.properties");
+        assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeQuotes(), null);
+        assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeSpecialCharacters(), Integer.valueOf(1));
     }
 
     @Test
