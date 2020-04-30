@@ -3,10 +3,10 @@
     {
       "data": {
         "id": 2,
+        "projectId": 2,
         "status": "finished",
         "progress": 100,
         "attributes": {
-            "projectId": 2,
             "branchId": 1,
             "targetLanguagesId": [
               "en"
