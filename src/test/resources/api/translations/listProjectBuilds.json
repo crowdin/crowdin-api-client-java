@@ -5,8 +5,7 @@
         "id": 2,
         "status": "finished",
         "progress": 100,
-        "attributes": [
-          {
+        "attributes": {
             "projectId": 2,
             "branchId": 1,
             "targetLanguagesId": [
@@ -16,7 +15,6 @@
             "skipUntranslatedFiles": false,
             "exportApprovedOnly": false
           }
-        ]
       }
     }
   ],

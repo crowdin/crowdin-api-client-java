@@ -11,7 +11,7 @@ public class ProjectBuild {
     private Long projectId;
     private String status;
     private Integer progress;
-    private List<Attributes> attributes;
+    private Attributes attributes;
 
     @Data
     public static class Attributes {
