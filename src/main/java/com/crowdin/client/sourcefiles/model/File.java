@@ -14,7 +14,7 @@ public class File {
     private Long directoryId;
     private String name;
     private String title;
-    private Type type;
+    private String type;
     private Long revisionId;
     private String status;
     private Priority priority;
