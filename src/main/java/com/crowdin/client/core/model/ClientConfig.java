@@ -28,8 +28,4 @@ public class ClientConfig {
      * Provide custom json transformer
      */
     private JsonTransformer jsonTransformer;
-    /**
-     * Base url of the server
-     */
-    private String baseUrl;
 }

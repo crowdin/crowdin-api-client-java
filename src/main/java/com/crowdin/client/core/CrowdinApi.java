@@ -34,11 +34,11 @@ public abstract class CrowdinApi {
             this.httpClient = clientConfig.getHttpClient();
         }
         this.clientConfig = clientConfig;
-        if (clientConfig.getBaseUrl() != null) {
-            if (clientConfig.getBaseUrl().endsWith("/")) {
-                this.url = clientConfig.getBaseUrl() + "api/v2";
+        if (credentials.getBaseUrl() != null) {
+            if (credentials.getBaseUrl().endsWith("/")) {
+                this.url = credentials.getBaseUrl() + "api/v2";
             } else {
-                this.url = clientConfig.getBaseUrl() + "/api/v2";
+                this.url = credentials.getBaseUrl() + "/api/v2";
             }
         } else {
             if (credentials.getOrganization() != null) {
