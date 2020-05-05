@@ -13,6 +13,10 @@ import lombok.Data;
 public class ClientConfig {
 
     /**
+     * Specify url for requests
+     */
+    private UrlBuilder urlBuilder;
+    /**
      * Adds user agent to each request
      */
     private String userAgent;

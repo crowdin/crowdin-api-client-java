@@ -5,6 +5,8 @@ import com.crowdin.client.core.http.impl.http.ApacheHttpClient;
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.CrowdinUrlBuilder;
+import com.crowdin.client.core.model.UrlBuilder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,10 +36,13 @@ public abstract class CrowdinApi {
             this.httpClient = clientConfig.getHttpClient();
         }
         this.clientConfig = clientConfig;
+        UrlBuilder urlBuilder = clientConfig.getUrlBuilder() != null
+            ? clientConfig.getUrlBuilder()
+            : new CrowdinUrlBuilder();
         if (credentials.getOrganization() != null) {
-            this.url = "https://" + credentials.getOrganization() + ".api.crowdin.com/api/v2";
+            this.url = urlBuilder.getWithOrganization(credentials.getOrganization());
         } else {
-            this.url = "https://api.crowdin.com/api/v2";
+            this.url = urlBuilder.get();
         }
     }
 }
