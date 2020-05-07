@@ -33,10 +33,10 @@ public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOption
                 .collect(Collectors.toList());
         if (fields.contains("firstLineContainsHeader")) {
             return this.objectMapper.readValue(treeNode.toString(), SpreadsheetFileImportOptions.class);
-        } else if (fields.contains("contentSegmentation")) {
-            return this.objectMapper.readValue(treeNode.toString(), OtherFileImportOptions.class);
-        } else {
+        } else if (fields.contains("translateContent")) {
             return this.objectMapper.readValue(treeNode.toString(), XmlFileImportOptions.class);
+        } else {
+            return this.objectMapper.readValue(treeNode.toString(), OtherFileImportOptions.class);
         }
     }
 }
