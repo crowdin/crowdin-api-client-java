@@ -5,15 +5,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
-import com.crowdin.client.translations.model.AutoApproveOption;
-import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
-import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
-import com.crowdin.client.translations.model.Method;
-import com.crowdin.client.translations.model.PreTranslationStatus;
-import com.crowdin.client.translations.model.ProjectBuild;
-import com.crowdin.client.translations.model.UploadTranslationsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsResponse;
+import com.crowdin.client.translations.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -84,7 +76,7 @@ public class TranslationsApiTest extends TestClient {
 
     @Test
     public void buildProjectTranslationTest() {
-        BuildProjectTranslationRequest request = new BuildProjectTranslationRequest();
+        CrowdinTranslationCreateProjectBuildForm request = new CrowdinTranslationCreateProjectBuildForm();
         request.setTargetLanguageIds(singletonList(language));
         ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(projectId, request);
         assertEquals(projectBuildResponseObject.getData().getId(), buildId);
