@@ -21,14 +21,16 @@ public abstract class CrowdinApi {
     }
 
     public CrowdinApi(Credentials credentials, ClientConfig clientConfig) {
-        if (clientConfig.getJsonTransformer() != null && clientConfig.getHttpClient() == null) {
-            Map<String, String> defaultHeaders = new HashMap<>();
-            if (clientConfig.getUserAgent() != null) {
-                defaultHeaders.put("User-Agent", clientConfig.getUserAgent());
-            }
-            if (clientConfig.getIntegrationUserAgent() != null) {
-                defaultHeaders.put("X-Crowdin-Integrations-User-Agent", clientConfig.getIntegrationUserAgent());
-            }
+        Map<String, String> defaultHeaders = new HashMap<>();
+        if (clientConfig.getUserAgent() != null) {
+            defaultHeaders.put("User-Agent", clientConfig.getUserAgent());
+        }
+        if (clientConfig.getIntegrationUserAgent() != null) {
+            defaultHeaders.put("X-Crowdin-Integrations-User-Agent", clientConfig.getIntegrationUserAgent());
+        }
+        if (clientConfig.getJsonTransformer() == null && clientConfig.getHttpClient() == null) {
+            this.httpClient = new ApacheHttpClient(credentials, new JacksonJsonTransformer(), defaultHeaders);
+        } else if (clientConfig.getJsonTransformer() != null && clientConfig.getHttpClient() == null) {
             this.httpClient = new ApacheHttpClient(credentials, clientConfig.getJsonTransformer(), defaultHeaders);
         } else {
             this.httpClient = clientConfig.getHttpClient();
