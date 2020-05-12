@@ -5,15 +5,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
-import com.crowdin.client.translations.model.AutoApproveOption;
-import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
-import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
-import com.crowdin.client.translations.model.Method;
-import com.crowdin.client.translations.model.PreTranslationStatus;
-import com.crowdin.client.translations.model.ProjectBuild;
-import com.crowdin.client.translations.model.UploadTranslationsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsResponse;
+import com.crowdin.client.translations.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -28,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TranslationsApiTest extends TestClient {
 
     private final Long projectId = 12L;
+    private final Long parallelProjectId = 13L;
     private final String language = "uk";
     private final String preTranslationId = "9e7de270-4f83-41cb-b606-2f90631f26e2";
     private final Long fileId = 2L;
@@ -43,6 +36,7 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/files/" + fileId, HttpPost.METHOD_NAME, "api/translations/buildFileRequest.json", "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpGet.METHOD_NAME, "api/translations/listProjectBuilds.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/buildProjectRequest.json", "api/translations/projectBuildStatus.json"),
+                RequestMock.build(this.url + "/projects/" + parallelProjectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/pseudoBuildProjectRequest.json", "api/translations/projectBuildStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + language, HttpPost.METHOD_NAME, "api/translations/uploadTranslationRequest.json", "api/translations/uploadTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", HttpGet.METHOD_NAME, "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpGet.METHOD_NAME, "api/translations/projectBuildStatus.json"),
@@ -84,9 +78,21 @@ public class TranslationsApiTest extends TestClient {
 
     @Test
     public void buildProjectTranslationTest() {
-        BuildProjectTranslationRequest request = new BuildProjectTranslationRequest();
+        CrowdinTranslationCreateProjectBuildForm request = new CrowdinTranslationCreateProjectBuildForm();
         request.setTargetLanguageIds(singletonList(language));
         ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(projectId, request);
+        assertEquals(projectBuildResponseObject.getData().getId(), buildId);
+    }
+
+    @Test
+    public void pseudoBuildProjectTranslationTest() {
+        CrowdinTranslationCraeteProjectPseudoBuildForm request = new CrowdinTranslationCraeteProjectPseudoBuildForm();
+        request.setPseudo(true);
+        request.setPrefix("pre");
+        request.setSuffix("ion");
+        request.setLengthTransformation(0);
+        request.setCharTransformation(CharTransformation.ASIAN);
+        ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(parallelProjectId, request);
         assertEquals(projectBuildResponseObject.getData().getId(), buildId);
     }
 
