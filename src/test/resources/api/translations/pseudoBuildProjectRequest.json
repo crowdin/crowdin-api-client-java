@@ -1,0 +1,7 @@
+{
+  "pseudo": true,
+  "prefix": "pre",
+  "suffix": "ion",
+  "lengthTransformation": 0,
+  "charTransformation": "asian"
+}
