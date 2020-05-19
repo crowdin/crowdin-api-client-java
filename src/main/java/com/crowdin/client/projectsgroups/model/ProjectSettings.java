@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,8 +27,7 @@ public class ProjectSettings extends Project {
     private boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
     private List<Long> customQaCheckIds;
-    //currently there is a bug in server but it should always be a Map (currently it might be an empty array)
-    private Object languageMapping;
+    private Map<String, Map<String, String>> languageMapping;
 
     @Data
     public static class QaCheckCategories {
