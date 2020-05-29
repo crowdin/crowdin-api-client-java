@@ -15,11 +15,11 @@ public class ProjectSettings extends Project {
     private Integer translateDuplicates;
     private boolean isMtAllowed;
     private boolean autoSubstitution;
-    private boolean exportTranslatedOnly;
+    private boolean skipUntranslatedStrings;
     private boolean skipUntranslatedFiles;
     private boolean exportApprovedOnly;
+    private Integer exportWithMinApprovalsCount;
     private boolean autoTranslateDialects;
-    private boolean publicDownloads;
     private boolean useGlobalTm;
     private boolean inContext;
     private String inContextPseudoLanguageId;

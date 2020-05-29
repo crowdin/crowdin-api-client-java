@@ -16,6 +16,7 @@ public class AddTaskRequest {
     private String description;
     private Boolean splitFiles;
     private Boolean skipAssignedStrings;
+    private Boolean skipUntranslatedStrings;
     private List<Assignee> assignees;
     private Date deadline;
     private Date dateFrom;

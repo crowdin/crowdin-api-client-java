@@ -11,6 +11,9 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.users.model.AddProjectTeamMemberRequest;
 import com.crowdin.client.users.model.ProjectTeamMembersResponse;
 import com.crowdin.client.users.model.Status;
+import com.crowdin.client.users.model.TeamMember;
+import com.crowdin.client.users.model.TeamMemberResponseList;
+import com.crowdin.client.users.model.TeamMemberResponseObject;
 import com.crowdin.client.users.model.TwoFactor;
 import com.crowdin.client.users.model.User;
 import com.crowdin.client.users.model.UserResponseList;
@@ -71,5 +74,32 @@ public class UsersApi extends CrowdinApi {
     public ResponseObject<User> getAuthenticatedUser() throws HttpException, HttpBadRequestException {
         UserResponseObject languageResponseObject = this.httpClient.get(this.url + "/user", new HttpRequestConfig(), UserResponseObject.class);
         return ResponseObject.of(languageResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param search    search users by firstName, lastName, username, or email (2 or more characters)
+     * @param limit     maximum number of items to retrieve (default 25)
+     * @param offset    starting offset in the collection (default 0)
+     * @return list of team members
+     */
+    public ResponseList<TeamMember> listProjectMembers(Long projectId, String search, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "search", Optional.ofNullable(search),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        TeamMemberResponseList teamMemberResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/members", new HttpRequestConfig(queryParams), TeamMemberResponseList.class);
+        return TeamMemberResponseList.to(teamMemberResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param memberId  member identifier
+     * @return team member
+     */
+    public ResponseObject<TeamMember> getMemberInfo(Long projectId, Long memberId) throws HttpException, HttpBadRequestException {
+        TeamMemberResponseObject teamMemberResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/members/" + memberId, new HttpRequestConfig(), TeamMemberResponseObject.class);
+        return ResponseObject.of(teamMemberResponseObject.getData());
     }
 }

@@ -15,4 +15,14 @@ public class AddProjectRequest {
     private Long vendorId;
     private Long mtEngineId;
     private String description;
+    private Boolean delayedWorkflowStart;
+    private Boolean skipUntranslatedStrings;
+    private Boolean skipUntranslatedFiles;
+    private Boolean exportApprovedOnly;
+    private Integer exportWithMinApprovalsCount;
+    private Integer type;
+    private String cname;
+    private LanguageAccessPolicy languageAccessPolicy;
+    private String identifier;
+    private Visibility visibility;
 }

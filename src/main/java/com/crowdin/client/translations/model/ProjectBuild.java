@@ -17,8 +17,9 @@ public class ProjectBuild {
     public static class Attributes {
         private Long branchId;
         private List<String> targetLanguageIds;
-        private boolean exportTranslatedOnly;
+        private boolean skipUntranslatedStrings;
         private boolean skipUntranslatedFiles;
         private boolean exportApprovedOnly;
+        private Integer exportWithMinApprovalsCount;
     }
 }
