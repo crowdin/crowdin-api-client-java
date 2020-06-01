@@ -13,6 +13,7 @@ public class Project {
     private Long userId;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
+    private LanguageAccessPolicy languageAccessPolicy;
     private String name;
     private String identifier;
     private String description;
@@ -22,7 +23,9 @@ public class Project {
     private String externalType;
     private Long workflowId;
     private boolean hasCrowdsourcing;
+    private boolean publicDownloads;
     private Date createdAt;
     private Date updatedAt;
+    private Date lastActivity;
 
 }

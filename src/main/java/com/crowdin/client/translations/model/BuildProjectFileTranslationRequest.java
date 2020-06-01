@@ -7,4 +7,8 @@ public class BuildProjectFileTranslationRequest {
 
     private String targetLanguageId;
     private Boolean exportAsXliff;
+    private Boolean skipUntranslatedStrings;
+    private Boolean skipUntranslatedFiles;
+    private Boolean exportApprovedOnly;
+    private Integer exportWithMinApprovalsCount;
 }

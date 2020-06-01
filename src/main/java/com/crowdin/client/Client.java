@@ -3,6 +3,7 @@ package com.crowdin.client;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.distributions.DistributionsApi;
 import com.crowdin.client.glossaries.GlossariesApi;
 import com.crowdin.client.issues.IssuesApi;
 import com.crowdin.client.languages.LanguagesApi;
@@ -48,6 +49,7 @@ public class Client extends CrowdinApi {
     private final VendorsApi vendorsApi;
     private final WebhooksApi webhooksApi;
     private final TeamsApi teamsApi;
+    private final DistributionsApi distributionsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -71,6 +73,7 @@ public class Client extends CrowdinApi {
         this.vendorsApi = new VendorsApi(credentials);
         this.webhooksApi = new WebhooksApi(credentials);
         this.teamsApi = new TeamsApi(credentials);
+        this.distributionsApi = new DistributionsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -95,6 +98,7 @@ public class Client extends CrowdinApi {
         this.vendorsApi = new VendorsApi(credentials, clientConfig);
         this.webhooksApi = new WebhooksApi(credentials, clientConfig);
         this.teamsApi = new TeamsApi(credentials, clientConfig);
+        this.distributionsApi = new DistributionsApi(credentials, clientConfig);
     }
 
 }

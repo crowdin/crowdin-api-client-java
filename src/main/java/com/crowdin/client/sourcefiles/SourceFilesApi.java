@@ -93,8 +93,8 @@ public class SourceFilesApi extends CrowdinApi {
      * @return updated branch
      */
     public ResponseObject<Branch> editBranch(Long projectId, Long branchId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
-        BranchResponseObject groupResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/branches/" + branchId, request, new HttpRequestConfig(), BranchResponseObject.class);
-        return ResponseObject.of(groupResponseObject.getData());
+        BranchResponseObject branchResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/branches/" + branchId, request, new HttpRequestConfig(), BranchResponseObject.class);
+        return ResponseObject.of(branchResponseObject.getData());
     }
 
     /**

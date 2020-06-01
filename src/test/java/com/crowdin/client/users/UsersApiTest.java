@@ -7,6 +7,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.users.model.AddProjectTeamMemberRequest;
 import com.crowdin.client.users.model.LanguagePermission;
 import com.crowdin.client.users.model.ProjectTeamMembersResponse;
+import com.crowdin.client.users.model.TeamMember;
 import com.crowdin.client.users.model.User;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -29,7 +30,9 @@ public class UsersApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpPost.METHOD_NAME, "api/users/addProjectTeamMember.json", "api/users/projectTeamMembers.json"),
                 RequestMock.build(this.url + "/users", HttpGet.METHOD_NAME, "api/users/listUsers.json"),
                 RequestMock.build(this.url + "/users/" + userId, HttpGet.METHOD_NAME, "api/users/user.json"),
-                RequestMock.build(this.url + "/user", HttpGet.METHOD_NAME, "api/users/user.json")
+                RequestMock.build(this.url + "/user", HttpGet.METHOD_NAME, "api/users/user.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpGet.METHOD_NAME, "api/users/listProjectMembers.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/members/" + userId, HttpGet.METHOD_NAME, "api/users/projectMember.json")
         );
     }
 
@@ -63,6 +66,19 @@ public class UsersApiTest extends TestClient {
     @Test
     public void getAuthenticatedUserTest() {
         ResponseObject<User> user = this.getUsersApi().getAuthenticatedUser();
+        assertEquals(user.getData().getId(), userId);
+    }
+
+    @Test
+    public void listProjectMembersTest() {
+        ResponseList<TeamMember> teamMemberResponseList = this.getUsersApi().listProjectMembers(projectId, null, null, null);
+        assertEquals(teamMemberResponseList.getData().size(), 1);
+        assertEquals(teamMemberResponseList.getData().get(0).getData().getId(), userId);
+    }
+
+    @Test
+    public void getMemberInfoTest() {
+        ResponseObject<TeamMember> user = this.getUsersApi().getMemberInfo(projectId, userId);
         assertEquals(user.getData().getId(), userId);
     }
 }

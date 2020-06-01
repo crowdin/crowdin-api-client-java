@@ -9,7 +9,7 @@ public class CrowdinTranslationCreateProjectBuildForm implements BuildProjectTra
 
     private Long branchId;
     private List<String> targetLanguageIds;
-    private Boolean exportTranslatedOnly;
+    private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
 
