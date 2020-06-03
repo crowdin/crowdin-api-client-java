@@ -23,7 +23,10 @@ public class JacksonJsonTransformer implements JsonTransformer {
 
     public JacksonJsonTransformer() {
         ObjectMapper cleanObjectMapper = new ObjectMapper();
+        SimpleModule enumModule = new SimpleModule();
+        enumModule.addDeserializer(Enum.class, new EnumDeserializer());
         ObjectMapper skipUnknownPropertiesObjectMapper = new ObjectMapper()
+                .registerModule(enumModule)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule module = new SimpleModule();
         module.addSerializer(Enum.class, new EnumSerializer());
