@@ -16,6 +16,7 @@
     "externalType": "proofread",
     "workflowId": 3,
     "hasCrowdsourcing": false,
+    "languageAccessPolicy": "open",
     "createdAt": "2019-09-20T11:34:40+00:00",
     "updatedAt": "2019-09-20T11:34:40+00:00"
   }
