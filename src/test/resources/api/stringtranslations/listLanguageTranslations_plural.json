@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "data": {
+        "stringId": 35434,
+        "contentType": "application/vnd.crowdin.text+plural",
+        "plurals": [
+          {
+            "translationId": 190694,
+            "text": "Цю стрічку перекладено",
+            "pluralForm": "one"
+          }
+        ]
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

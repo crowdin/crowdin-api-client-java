@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "data": {
+        "stringId": 35434,
+        "contentType": "application/vnd.crowdin.text+icu",
+        "translationId": 190694,
+        "text": "{count, plural, one {# String} other {# Strings}}"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

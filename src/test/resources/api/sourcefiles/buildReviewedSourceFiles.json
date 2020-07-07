@@ -1,0 +1,14 @@
+{
+  "data":
+  {
+    "id": 42,
+    "projectId": 3,
+    "status": "finished",
+    "progress": 100,
+    "attributes":
+    {
+      "branchId": 34,
+      "targetLanguageId": "en"
+    }
+  }
+}

@@ -11,22 +11,8 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.sourcefiles.model.AddBranchRequest;
-import com.crowdin.client.sourcefiles.model.AddDirectoryRequest;
-import com.crowdin.client.sourcefiles.model.AddFileRequest;
-import com.crowdin.client.sourcefiles.model.Branch;
-import com.crowdin.client.sourcefiles.model.BranchResponseList;
-import com.crowdin.client.sourcefiles.model.BranchResponseObject;
-import com.crowdin.client.sourcefiles.model.Directory;
-import com.crowdin.client.sourcefiles.model.DirectoryResponseList;
-import com.crowdin.client.sourcefiles.model.DirectoryResponseObject;
-import com.crowdin.client.sourcefiles.model.File;
-import com.crowdin.client.sourcefiles.model.FileResponseList;
-import com.crowdin.client.sourcefiles.model.FileResponseObject;
-import com.crowdin.client.sourcefiles.model.FileRevision;
-import com.crowdin.client.sourcefiles.model.FileRevisionResponseList;
-import com.crowdin.client.sourcefiles.model.FileRevisionResponseObject;
-import com.crowdin.client.sourcefiles.model.UpdateOrRestoreFileRequest;
+import com.crowdin.client.sourcefiles.model.*;
+import com.crowdin.client.translations.model.ProjectBuild;
 
 import java.util.List;
 import java.util.Map;
@@ -263,5 +249,56 @@ public class SourceFilesApi extends CrowdinApi {
     public ResponseObject<FileRevision> getFileRevision(Long projectId, Long fileId, Long revisionId) throws HttpException, HttpBadRequestException {
         FileRevisionResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + revisionId, new HttpRequestConfig(), FileRevisionResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of reviewed strings build statuses
+     */
+    public ResponseList<ReviewedStringsBuild> listReviewedSourceFilesBuilds(Long projectId, Long branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+            "branchId", Optional.ofNullable(branchId),
+            "limit", Optional.ofNullable(limit),
+            "offset", Optional.ofNullable(offset)
+        );
+        ReviewedStringBuildResponseList reviewedStringBuildResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), ReviewedStringBuildResponseList.class);
+        return ReviewedStringBuildResponseList.to(reviewedStringBuildResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return reviewed strings build status
+     */
+    public ResponseObject<ReviewedStringsBuild> buildReviewedSourceFiles(Long projectId, BuildReviewedSourceFilesRequest request) {
+        String builtUrl = String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId);
+        ReviewedStringBuildResponseObject reviewedStringBuildResponseObject = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ReviewedStringBuildResponseObject.class);
+        return ResponseObject.of(reviewedStringBuildResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     * @return reviewed strings build status
+     */
+    public ResponseObject<ReviewedStringsBuild> checkReviewedSourceFilesBuildStatus(Long projectId, Long buildId) {
+        String builtUrl = String.format("%s/projects/%d/strings/reviewed-builds/%d", this.url, projectId, buildId);
+        ReviewedStringBuildResponseObject reviewedStringBuildResponseObject = this.httpClient.get(builtUrl, new HttpRequestConfig(), ReviewedStringBuildResponseObject.class);
+        return ResponseObject.of(reviewedStringBuildResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param buildId build identifier
+     * @return download link
+     */
+    public ResponseObject<DownloadLink> downloadReviewedSourceFiles(Long projectId, Long buildId) {
+        String builtUrl = String.format("%s/projects/%d/strings/reviewed-builds/%d/download", this.url, projectId, buildId);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(builtUrl, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 }

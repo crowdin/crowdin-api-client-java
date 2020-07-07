@@ -4,13 +4,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.stringtranslations.model.AddApprovalRequest;
-import com.crowdin.client.stringtranslations.model.AddStringTranslationRequest;
-import com.crowdin.client.stringtranslations.model.AddVoteRequest;
-import com.crowdin.client.stringtranslations.model.Approval;
-import com.crowdin.client.stringtranslations.model.Mark;
-import com.crowdin.client.stringtranslations.model.StringTranslation;
-import com.crowdin.client.stringtranslations.model.Vote;
+import com.crowdin.client.stringtranslations.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -20,10 +14,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StringTranslationsApiTest extends TestClient {
 
     private final Long projectId = 3L;
+    private final Long secondProjectId = 4L;
+    private final Long thirdProjectId = 5L;
     private final Long approvalId = 190695L;
     private final Long translationId = 190694L;
     private final String text = "Цю стрічку перекладено";
@@ -38,6 +35,9 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpPost.METHOD_NAME, "api/stringtranslations/addApprovalRequest.json", "api/stringtranslations/approval.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpGet.METHOD_NAME, "api/stringtranslations/approval.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpDelete.METHOD_NAME),
+                RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plain.json"),
+                RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, secondProjectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plural.json"),
+                RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, thirdProjectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_ICU.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpGet.METHOD_NAME, "api/stringtranslations/listStringTranslations..json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpPost.METHOD_NAME, "api/stringtranslations/addTranslationRequest.json", "api/stringtranslations/translation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpDelete.METHOD_NAME),
@@ -78,7 +78,31 @@ public class StringTranslationsApiTest extends TestClient {
     }
 
     @Test
-    public void listTranslationsTest() {
+    public void listLanguageTranslationsPlainTest() {
+        ResponseList<LanguageTranslations> languageTranslationsList = this.getStringTranslationsApi().listLanguageTranslations(projectId, language, null, null, null, null);
+        assertEquals(1, languageTranslationsList.getData().size());
+        assertTrue(languageTranslationsList.getData().get(0).getData() instanceof PlainLanguageTranslations, "Wrong return type, must be PlainLanguageTranslations");
+        assertEquals(stringId, ((PlainLanguageTranslations) languageTranslationsList.getData().get(0).getData()).getStringId());
+    }
+
+    @Test
+    public void listLanguageTranslationsPluralTest() {
+        ResponseList<LanguageTranslations> languageTranslationsList = this.getStringTranslationsApi().listLanguageTranslations(secondProjectId, language, null, null, null, null);
+        assertEquals(1, languageTranslationsList.getData().size());
+        assertTrue(languageTranslationsList.getData().get(0).getData() instanceof PluralLanguageTranslations, "Wrong return type, must be PluralLanguageTranslations");
+        assertEquals(stringId, ((PluralLanguageTranslations) languageTranslationsList.getData().get(0).getData()).getStringId());
+    }
+
+    @Test
+    public void listLanguageTranslationsICUTest() {
+        ResponseList<LanguageTranslations> languageTranslationsList = this.getStringTranslationsApi().listLanguageTranslations(thirdProjectId, language, null, null, null, null);
+        assertEquals(1, languageTranslationsList.getData().size());
+        assertTrue(languageTranslationsList.getData().get(0).getData() instanceof ICULanguageTranslations, "Wrong return type, must be ICULanguageTranslations");
+        assertEquals(stringId, ((ICULanguageTranslations) languageTranslationsList.getData().get(0).getData()).getStringId());
+    }
+
+    @Test
+    public void listStringTranslationsTest() {
         ResponseList<StringTranslation> stringTranslationResponseList = this.getStringTranslationsApi().listStringTranslations(projectId, null, null, null, null);
         assertEquals(stringTranslationResponseList.getData().size(), 1);
         assertEquals(stringTranslationResponseList.getData().get(0).getData().getId(), translationId);

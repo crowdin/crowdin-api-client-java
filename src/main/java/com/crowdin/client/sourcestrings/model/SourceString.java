@@ -18,7 +18,6 @@ public class SourceString {
     private boolean isHidden;
     private Integer revision;
     private boolean hasPlurals;
-    private Object plurals;
     private boolean isIcu;
     private Date createdAt;
     private Date updatedAt;
