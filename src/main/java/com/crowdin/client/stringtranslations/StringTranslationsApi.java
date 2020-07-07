@@ -8,18 +8,7 @@ import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.stringtranslations.model.AddApprovalRequest;
-import com.crowdin.client.stringtranslations.model.AddStringTranslationRequest;
-import com.crowdin.client.stringtranslations.model.AddVoteRequest;
-import com.crowdin.client.stringtranslations.model.Approval;
-import com.crowdin.client.stringtranslations.model.ApprovalResponseList;
-import com.crowdin.client.stringtranslations.model.ApprovalResponseObject;
-import com.crowdin.client.stringtranslations.model.StringTranslation;
-import com.crowdin.client.stringtranslations.model.StringTranslationResponseList;
-import com.crowdin.client.stringtranslations.model.StringTranslationResponseObject;
-import com.crowdin.client.stringtranslations.model.Vote;
-import com.crowdin.client.stringtranslations.model.VoteResponseList;
-import com.crowdin.client.stringtranslations.model.VoteResponseObject;
+import com.crowdin.client.stringtranslations.model.*;
 
 import java.util.Map;
 import java.util.Optional;
@@ -80,6 +69,27 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public void removeApproval(Long projectId, Long approvalId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals/" + approvalId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param stringIds filter translations b stringIds
+     * @param fileId filter translations by file identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting ofse in the collection (default 0)
+     * @return list of language translations
+     */
+    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+            "stringIds", Optional.ofNullable(stringIds),
+            "fileId", Optional.ofNullable(fileId),
+            "limit", Optional.ofNullable(limit),
+            "offset", Optional.ofNullable(offset)
+        );
+        LanguageTranslationsResponseList languageTranslationsResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), LanguageTranslationsResponseList.class);
+        return LanguageTranslationsResponseList.to(languageTranslationsResponseList);
     }
 
     /**

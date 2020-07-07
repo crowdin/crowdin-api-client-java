@@ -7,19 +7,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.sourcefiles.model.AddBranchRequest;
-import com.crowdin.client.sourcefiles.model.AddDirectoryRequest;
-import com.crowdin.client.sourcefiles.model.AddFileRequest;
-import com.crowdin.client.sourcefiles.model.Branch;
-import com.crowdin.client.sourcefiles.model.Directory;
-import com.crowdin.client.sourcefiles.model.ExportOptions;
-import com.crowdin.client.sourcefiles.model.File;
-import com.crowdin.client.sourcefiles.model.FileRevision;
-import com.crowdin.client.sourcefiles.model.GeneralFileExportOptions;
-import com.crowdin.client.sourcefiles.model.PropertyFileExportOptions;
-import com.crowdin.client.sourcefiles.model.SpreadsheetFileImportOptions;
-import com.crowdin.client.sourcefiles.model.UpdateFileRequest;
-import com.crowdin.client.sourcefiles.model.UpdateOption;
+import com.crowdin.client.sourcefiles.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -43,10 +31,12 @@ public class SourceFilesApiTest extends TestClient {
     private final Long fileId = 44L;
     private final Long storageId = 61L;
     private final Long fileRevisionId = 2L;
+    private final Long buildId = 42L;
     private final String branchName = "develop-master";
     private final String directoryName = "main";
     private final String fileName = "umbrella_app.xliff";
     private final String downloadLink = "test.com";
+    private final String status = "finished";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -69,7 +59,11 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPatch.METHOD_NAME, "api/sourcefiles/editFile.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/download", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions", HttpGet.METHOD_NAME, "api/sourcefiles/listFileRevisions.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + fileRevisionId, HttpGet.METHOD_NAME, "api/sourcefiles/fileRevision.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + fileRevisionId, HttpGet.METHOD_NAME, "api/sourcefiles/fileRevision.json"),
+                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId), HttpGet.METHOD_NAME, "api/sourcefiles/listReviewedSourceFileBuilds.json"),
+                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", url, projectId), HttpPost.METHOD_NAME, "api/sourcefiles/buildReviewedSourceFilesRequest.json", "api/sourcefiles/buildReviewedSourceFiles.json"),
+                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/checkReviewedSourceFilesBuildStatus.json"),
+                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d/download", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/downloadReviewedSourceFiles.json")
         );
     }
 
@@ -253,5 +247,32 @@ public class SourceFilesApiTest extends TestClient {
     public void getFileRevisionTest() {
         ResponseObject<FileRevision> fileRevision = this.getSourceFilesApi().getFileRevision(projectId, fileId, fileRevisionId);
         assertEquals(fileRevision.getData().getId(), fileRevisionId);
+    }
+
+    @Test
+    public void listReviewedSourceFileBuildsTest() {
+        ResponseList<ReviewedStringsBuild> response = this.getSourceFilesApi().listReviewedSourceFilesBuilds(projectId, null, null, null);
+        assertEquals(response.getData().size(), 1);
+        assertEquals(buildId, response.getData().get(0).getData().getId());
+    }
+
+    @Test
+    public void buildReviewedSourceFilesTest() {
+        BuildReviewedSourceFilesRequest request = new BuildReviewedSourceFilesRequest();
+        request.setBranchId(branchId);
+        ResponseObject<ReviewedStringsBuild> response = this.getSourceFilesApi().buildReviewedSourceFiles(projectId, request);
+        assertEquals(buildId, response.getData().getId());
+    }
+
+    @Test
+    public void checkReviewedSourceFileBuildStatusTest() {
+        ResponseObject<ReviewedStringsBuild> response = this.getSourceFilesApi().checkReviewedSourceFilesBuildStatus(projectId, buildId);
+        assertEquals(buildId, response.getData().getId());
+    }
+
+    @Test
+    public void downloadReviewedSourceFilesTest() {
+        ResponseObject<DownloadLink> response = this.getSourceFilesApi().downloadReviewedSourceFiles(projectId, buildId);
+        assertEquals(downloadLink, response.getData().getUrl());
     }
 }

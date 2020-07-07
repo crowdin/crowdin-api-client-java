@@ -6,6 +6,7 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.ImportOptions;
+import com.crowdin.client.stringtranslations.model.LanguageTranslations;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -34,6 +35,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
         module.addDeserializer(Project.class, new ProjectDeserializer(skipUnknownPropertiesObjectMapper));
         module.addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper));
         module.addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper));
+        module.addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
         this.objectMapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
