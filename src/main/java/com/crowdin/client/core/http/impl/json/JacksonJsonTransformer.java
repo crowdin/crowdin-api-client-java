@@ -5,6 +5,7 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.sourcefiles.model.ExportOptions;
+import com.crowdin.client.sourcefiles.model.FileInfo;
 import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.crowdin.client.stringtranslations.model.LanguageTranslations;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -24,18 +25,21 @@ public class JacksonJsonTransformer implements JsonTransformer {
 
     public JacksonJsonTransformer() {
         ObjectMapper cleanObjectMapper = new ObjectMapper();
-        SimpleModule enumModule = new SimpleModule();
-        enumModule.addDeserializer(Enum.class, new EnumDeserializer());
-        ObjectMapper skipUnknownPropertiesObjectMapper = new ObjectMapper()
+        SimpleModule enumModule = new SimpleModule()
+            .addDeserializer(Enum.class, new EnumDeserializer());
+
+        SimpleModule module = new SimpleModule()
+            .addSerializer(Enum.class, new EnumSerializer())
+            .addDeserializer(Enum.class, new EnumDeserializer())
+            .addDeserializer(Project.class, new ProjectDeserializer(new ObjectMapper()
                 .registerModule(enumModule)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        SimpleModule module = new SimpleModule();
-        module.addSerializer(Enum.class, new EnumSerializer());
-        module.addDeserializer(Enum.class, new EnumDeserializer());
-        module.addDeserializer(Project.class, new ProjectDeserializer(skipUnknownPropertiesObjectMapper));
-        module.addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper));
-        module.addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper));
-        module.addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
+            .addDeserializer(FileInfo.class, new FileInfoDeserializer(new ObjectMapper()
+                .registerModule(enumModule)
+                .registerModule(new SimpleModule()
+                    .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))
+                    .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper)))))
+            .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
         this.objectMapper = new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)

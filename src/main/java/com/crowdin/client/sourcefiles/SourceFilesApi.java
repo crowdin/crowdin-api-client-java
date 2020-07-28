@@ -12,7 +12,6 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.sourcefiles.model.*;
-import com.crowdin.client.translations.model.ProjectBuild;
 
 import java.util.List;
 import java.util.Map;
@@ -152,7 +151,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param offset      starting offset in the collection (default 0)
      * @return list of files
      */
-    public ResponseList<File> listFiles(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<? extends FileInfo> listFiles(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "directoryId", Optional.ofNullable(directoryId),
@@ -160,8 +159,8 @@ public class SourceFilesApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        FileResponseList fileResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files", new HttpRequestConfig(queryParams), FileResponseList.class);
-        return FileResponseList.to(fileResponseList);
+        FileInfoResponseList fileInfoResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files", new HttpRequestConfig(queryParams), FileInfoResponseList.class);
+        return FileInfoResponseList.to(fileInfoResponseList);
     }
 
     /**
@@ -169,7 +168,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request   request object
      * @return newly created file
      */
-    public ResponseObject<File> addFile(Long projectId, AddFileRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends FileInfo> addFile(Long projectId, AddFileRequest request) throws HttpException, HttpBadRequestException {
         FileResponseObject fileResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/files", request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
@@ -179,7 +178,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param fileId    file identifier
      * @return file
      */
-    public ResponseObject<File> getFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends FileInfo> getFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
         FileResponseObject fileResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
@@ -190,7 +189,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request   request object
      * @return updated file
      */
-    public ResponseObject<File> updateOrRestoreFile(Long projectId, Long fileId, UpdateOrRestoreFileRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends FileInfo> updateOrRestoreFile(Long projectId, Long fileId, UpdateOrRestoreFileRequest request) throws HttpException, HttpBadRequestException {
         FileResponseObject fileResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }
@@ -209,7 +208,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param request   request object
      * @return updated file
      */
-    public ResponseObject<File> editFile(Long projectId, Long fileId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<? extends FileInfo> editFile(Long projectId, Long fileId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         FileResponseObject fileResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/files/" + fileId, request, new HttpRequestConfig(), FileResponseObject.class);
         return ResponseObject.of(fileResponseObject.getData());
     }

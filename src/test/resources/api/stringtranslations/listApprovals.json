@@ -8,6 +8,7 @@
           "login": "john_doe"
         },
         "translationId": 200,
+        "fileId": 667,
         "stringId": 2345,
         "languageId": "uk",
         "workflowStepId": 122,

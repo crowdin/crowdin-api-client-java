@@ -86,6 +86,11 @@ public class TranslationMemoryApi extends CrowdinApi {
         return ResponseObject.of(translationMemoryResponseObject.getData());
     }
 
+    public void clearTm(Long tmId) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/tms/%d/segments", this.url, tmId);
+        this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
+    }
+
     /**
      * @param tmId    translation memory identifier
      * @param request request object

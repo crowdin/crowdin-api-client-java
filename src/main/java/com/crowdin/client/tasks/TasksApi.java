@@ -64,7 +64,7 @@ public class TasksApi extends CrowdinApi {
      * @return url for task strings
      */
     public ResponseObject<DownloadLink> exportTaskStrings(Long projectId, Long taskId) throws HttpException, HttpBadRequestException {
-        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/export", new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/exports", null, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 

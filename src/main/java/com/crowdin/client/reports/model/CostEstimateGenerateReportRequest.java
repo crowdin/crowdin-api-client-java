@@ -3,9 +3,11 @@ package com.crowdin.client.reports.model;
 import com.crowdin.client.core.model.EnumConverter;
 import com.crowdin.client.core.model.Format;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class CostEstimateGenerateReportRequest extends GenerateReportRequest {
 
@@ -25,6 +27,7 @@ public class CostEstimateGenerateReportRequest extends GenerateReportRequest {
     public static abstract class StepType {
     }
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
     public static class ProofreadStep extends StepType {
         private String type;
@@ -45,6 +48,7 @@ public class CostEstimateGenerateReportRequest extends GenerateReportRequest {
         private List<ProofreadRegularRate> rates;
     }
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
     public static class TranslateStep extends StepType {
 

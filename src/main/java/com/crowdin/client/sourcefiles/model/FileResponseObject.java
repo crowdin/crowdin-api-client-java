@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class FileResponseObject {
 
-    private File data;
+    private FileInfo data;
 }

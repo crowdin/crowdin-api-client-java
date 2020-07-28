@@ -11,6 +11,7 @@
         "type": "xliff",
         "revisionId": 1,
         "status": "active",
+        "path": "/path/to",
         "priority": "normal",
         "importOptions": {
           "firstLineContainsHeader": false,

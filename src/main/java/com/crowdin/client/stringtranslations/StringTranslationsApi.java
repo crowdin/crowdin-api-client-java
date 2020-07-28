@@ -24,6 +24,7 @@ public class StringTranslationsApi extends CrowdinApi {
 
     /**
      * @param projectId     project identifier
+     * @param fileId        file identifier
      * @param stringId      string identifier
      * @param languageId    language identifier
      * @param translationId translation identifier
@@ -31,8 +32,9 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param offset        starting offset in the collection (default 0)
      * @return list of approvals
      */
-    public ResponseList<Approval> listTranslationApprovals(Long projectId, Long stringId, String languageId, Long translationId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<Approval> listTranslationApprovals(Long projectId, Long fileId, Long stringId, String languageId, Long translationId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "fileId", Optional.ofNullable(fileId),
                 "stringId", Optional.ofNullable(stringId),
                 "languageId", Optional.ofNullable(languageId),
                 "translationId", Optional.ofNullable(translationId),
@@ -158,7 +160,7 @@ public class StringTranslationsApi extends CrowdinApi {
      * @return string translation
      */
     public ResponseObject<StringTranslation> restoreStringTranslation(Long projectId, Long translationId) throws HttpException, HttpBadRequestException {
-        StringTranslationResponseObject stringTranslationResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/translations/" + translationId + "/restore", null, new HttpRequestConfig(), StringTranslationResponseObject.class);
+        StringTranslationResponseObject stringTranslationResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/translations/" + translationId, null, new HttpRequestConfig(), StringTranslationResponseObject.class);
         return ResponseObject.of(stringTranslationResponseObject.getData());
     }
 

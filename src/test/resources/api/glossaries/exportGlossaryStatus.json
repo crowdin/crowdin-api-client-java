@@ -4,9 +4,7 @@
     "status": "created",
     "progress": 0,
     "attributes": {
-      "format": "csv",
-      "organizationId": 200000299,
-      "glossaryId": 6
+      "format": "csv"
     },
     "createdAt": "2019-09-23T07:06:43+00:00",
     "updatedAt": "2019-09-23T07:06:43+00:00",

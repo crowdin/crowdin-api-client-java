@@ -13,6 +13,7 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
+import com.crowdin.client.translations.model.ExportPrjoectTranslationRequest;
 import com.crowdin.client.translations.model.PreTranslationStatus;
 import com.crowdin.client.translations.model.PreTranslationStatusResponseObject;
 import com.crowdin.client.translations.model.ProjectBuild;
@@ -151,5 +152,18 @@ public class TranslationsApi extends CrowdinApi {
      */
     public void cancelBuild(Long projectId, Long buildId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * Export Project Translation
+     *
+     * @param projectId project identifier
+     * @param request request body
+     * @return download link
+     */
+    public ResponseObject<DownloadLink> exportProjectTranslation(Long projectId, ExportPrjoectTranslationRequest request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/translations/exports", this.url, projectId);
+        DownloadLinkResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
     }
 }

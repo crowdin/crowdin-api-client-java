@@ -24,7 +24,5 @@ public class TranslationMemoryExportStatus {
         private String sourceLanguageId;
         private String targetLanguageId;
         private Format format;
-        private Long tmId;
-        private Long userId;
     }
 }

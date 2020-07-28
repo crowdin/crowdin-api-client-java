@@ -24,10 +24,6 @@ public class GlossaryImportStatus {
         private Long storageId;
         private Map<String, Integer> scheme;
         private boolean firstLineContainsHeader;
-        private Long organizationId;
-        private Long userId;
-        private Long glossaryId;
-        private String progressKey;
 
     }
 }

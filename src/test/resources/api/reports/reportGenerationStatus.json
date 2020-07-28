@@ -4,8 +4,6 @@
     "status": "finished",
     "progress": 100,
     "attributes": {
-      "organizationId": 10,
-      "projectId": 124,
       "format": "xlsx",
       "reportName": "costs-estimation",
       "schema": {}
