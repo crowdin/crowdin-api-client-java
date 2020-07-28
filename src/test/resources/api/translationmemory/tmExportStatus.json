@@ -6,9 +6,7 @@
     "attributes": {
       "sourceLanguageId": "en",
       "targetLanguageId": "de",
-      "format": "csv",
-      "tmId": 4,
-      "userId": 6
+      "format": "csv"
     },
     "createdAt": "2019-09-23T11:26:54+00:00",
     "updatedAt": "2019-09-23T11:26:54+00:00",

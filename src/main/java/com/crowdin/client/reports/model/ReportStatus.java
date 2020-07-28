@@ -21,8 +21,6 @@ public class ReportStatus {
     @Data
     public static class Attributes {
 
-        private Long organizationId;
-        private Long projectId;
         private Format format;
         private String reportName;
         private Object schema;

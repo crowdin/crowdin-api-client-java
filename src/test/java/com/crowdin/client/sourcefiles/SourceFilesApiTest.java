@@ -28,6 +28,7 @@ public class SourceFilesApiTest extends TestClient {
     private final Long branchId = 34L;
     private final Long directoryId = 4L;
     private final Long projectId = 3L;
+    private final Long project2Id = 4L;
     private final Long fileId = 44L;
     private final Long storageId = 61L;
     private final Long fileRevisionId = 2L;
@@ -52,6 +53,7 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpPatch.METHOD_NAME, "api/sourcefiles/editDirectory.json", "api/sourcefiles/directory.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files", HttpGet.METHOD_NAME, "api/sourcefiles/listFiles.json"),
+                RequestMock.build(String.format("%s/projects/%s/files", this.url, project2Id), HttpGet.METHOD_NAME, "api/sourcefiles/listFileInfos.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files", HttpPost.METHOD_NAME, "api/sourcefiles/addFileRequest.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpGet.METHOD_NAME, "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPut.METHOD_NAME, "api/sourcefiles/updateOrRestoreFileRequest.json", "api/sourcefiles/file.json"),
@@ -149,7 +151,7 @@ public class SourceFilesApiTest extends TestClient {
 
     @Test
     public void listFilesTest() {
-        ResponseList<File> fileResponseList = this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null);
+        ResponseList<File> fileResponseList = (ResponseList<File>) this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null);
         assertEquals(fileResponseList.getData().size(), 3);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
@@ -175,18 +177,25 @@ public class SourceFilesApiTest extends TestClient {
     }
 
     @Test
+    public void listFileInfosTest() {
+        ResponseList<? extends FileInfo> response = this.getSourceFilesApi().listFiles(project2Id, null, null, null, null, null);
+        assertEquals(response.getData().size(), 1);
+        assertTrue(response.getData().get(0).getData() instanceof FileInfo);
+    }
+
+    @Test
     public void addFileTest() {
         AddFileRequest request = new AddFileRequest();
         request.setName(fileName);
         request.setStorageId(storageId);
-        ResponseObject<File> fileResponseObject = this.getSourceFilesApi().addFile(projectId, request);
+        ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().addFile(projectId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
     }
 
     @Test
     public void getFileTest() {
-        ResponseObject<File> fileResponseObject = this.getSourceFilesApi().getFile(projectId, fileId);
+        ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().getFile(projectId, fileId);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
     }
@@ -209,7 +218,7 @@ public class SourceFilesApiTest extends TestClient {
         scheme.put("de", 3);
         importOptions.setScheme(scheme);
         request.setImportOptions(importOptions);
-        ResponseObject<File> fileResponseObject = this.getSourceFilesApi().updateOrRestoreFile(projectId, fileId, request);
+        ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().updateOrRestoreFile(projectId, fileId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
     }
@@ -225,7 +234,7 @@ public class SourceFilesApiTest extends TestClient {
         request.setOp(PatchOperation.REPLACE);
         request.setValue(fileName);
         request.setPath("/name");
-        ResponseObject<File> fileResponseObject = this.getSourceFilesApi().editFile(projectId, fileId, Arrays.asList(request));
+        ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().editFile(projectId, fileId, Arrays.asList(request));
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
     }

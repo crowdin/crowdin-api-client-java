@@ -30,7 +30,7 @@ public class TranslationStatusApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/languages/progress", HttpGet.METHOD_NAME, "api/translationstatus/fileProgress.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/languages/" + languageId + "/progress", HttpGet.METHOD_NAME, "api/translationstatus/languageProgress.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/languages/progress", HttpGet.METHOD_NAME, "api/translationstatus/projectProgress.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/qa-check", HttpGet.METHOD_NAME, "api/translationstatus/listQaChecks.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks", HttpGet.METHOD_NAME, "api/translationstatus/listQaChecks.json")
         );
     }
 

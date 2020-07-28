@@ -22,7 +22,5 @@ public class GlossaryExportStatus {
     public static class Attributes {
 
         private Format format;
-        private Long organizationId;
-        private Long glossaryId;
     }
 }

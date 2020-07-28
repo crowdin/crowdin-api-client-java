@@ -9,11 +9,7 @@
         "term_en": 0,
         "description_en": 1
       },
-      "firstLineContainsHeader": true,
-      "organizationId": 200000299,
-      "userId": 6,
-      "glossaryId": 8,
-      "progressKey": "import_glossary_progress_8"
+      "firstLineContainsHeader": true
     },
     "createdAt": "2019-09-23T12:17:54+00:00",
     "updatedAt": "2019-09-23T12:17:54+00:00",

@@ -124,7 +124,8 @@ public class TranslationStatusApi extends CrowdinApi {
                 "category", Optional.ofNullable(category),
                 "validation", Optional.ofNullable(validation)
         );
-        QaCheckResponseList qaCheckResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/qa-check", new HttpRequestConfig(queryParams), QaCheckResponseList.class);
+        String builtUrl = String.format("%s/projects/%d/qa-checks", this.url, projectId);
+        QaCheckResponseList qaCheckResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), QaCheckResponseList.class);
         return QaCheckResponseList.to(qaCheckResponseList);
     }
 }

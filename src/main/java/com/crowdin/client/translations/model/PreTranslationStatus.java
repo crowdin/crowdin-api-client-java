@@ -27,8 +27,5 @@ public class PreTranslationStatus {
         private boolean duplicateTranslations;
         private boolean translateUntranslatedOnly;
         private boolean translateWithPerfectMatchOnly;
-        private Long organizationId;
-        private Long projectId;
-        private Long userId;
     }
 }

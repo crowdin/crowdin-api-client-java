@@ -25,6 +25,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TranslationMemoryApiTest extends TestClient {
@@ -47,7 +48,8 @@ public class TranslationMemoryApiTest extends TestClient {
                 RequestMock.build(this.url + "/tms/" + tmId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/translationmemory/tmExportStatus.json"),
                 RequestMock.build(this.url + "/tms/" + tmId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/translationmemory/downloadLink.json"),
                 RequestMock.build(this.url + "/tms/" + tmId + "/imports", HttpPost.METHOD_NAME, "api/translationmemory/importTm.json", "api/translationmemory/tmImportStatus.json"),
-                RequestMock.build(this.url + "/tms/" + tmId + "/imports/" + importId, HttpGet.METHOD_NAME, "api/translationmemory/tmImportStatus.json")
+                RequestMock.build(this.url + "/tms/" + tmId + "/imports/" + importId, HttpGet.METHOD_NAME, "api/translationmemory/tmImportStatus.json"),
+                RequestMock.build(String.format("%s/tms/%d/segments", this.url, tmId), HttpDelete.METHOD_NAME)
         );
     }
 
@@ -127,5 +129,10 @@ public class TranslationMemoryApiTest extends TestClient {
     public void checkTmImportStatusTest() {
         ResponseObject<TranslationMemoryImportStatus> translationMemoryImportStatusResponseObject = this.getTranslationMemoryApi().checkTmImportStatus(tmId, importId);
         assertEquals(translationMemoryImportStatusResponseObject.getData().getIdentifier(), importId);
+    }
+
+    @Test
+    public void clearTmTest() {
+        assertDoesNotThrow(() -> this.getTranslationMemoryApi().clearTm(tmId));
     }
 }

@@ -40,7 +40,8 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + language, HttpPost.METHOD_NAME, "api/translations/uploadTranslationRequest.json", "api/translations/uploadTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", HttpGet.METHOD_NAME, "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpGet.METHOD_NAME, "api/translations/projectBuildStatus.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME)
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME),
+                RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json")
         );
     }
 
@@ -120,5 +121,20 @@ public class TranslationsApiTest extends TestClient {
     @Test
     public void cancelBuildTest() {
         this.getTranslationsApi().cancelBuild(projectId, buildId);
+    }
+
+    @Test
+    public void exportProjectTranslationTest() {
+        ExportPrjoectTranslationRequest request = new ExportPrjoectTranslationRequest();
+        request.setTargetLanguageId("uk");
+        request.setFormat("xliff");
+        request.setBranchIds(Arrays.asList(1L));
+        request.setDirectoryIds(Arrays.asList(1L));
+        request.setFileIds(Arrays.asList(1L));
+        request.setSkipUntranslatedStrings(false);
+        request.setSkipUntranslatedFiles(false);
+        request.setExportWithMinApprovalsCount(0);
+        ResponseObject<DownloadLink> response = this.getTranslationsApi().exportProjectTranslation(projectId, request);
+        assertEquals(link, response.getData().getUrl());
     }
 }

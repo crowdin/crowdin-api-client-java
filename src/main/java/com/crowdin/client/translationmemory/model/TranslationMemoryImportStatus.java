@@ -25,8 +25,5 @@ public class TranslationMemoryImportStatus {
         private Long storageId;
         private boolean firstLineContainsHeader;
         private Map<String, Integer> scheme;
-        private Long organizationId;
-        private String progressKey;
-        private Long userId;
     }
 }

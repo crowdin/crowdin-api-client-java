@@ -12,15 +12,7 @@ import java.util.Date;
 @ToString(callSuper = true)
 public class File extends FileInfo {
 
-    private Long id;
-    private Long projectId;
-    private Long branchId;
-    private Long directoryId;
-    private String name;
-    private String title;
-    private String type;
     private Long revisionId;
-    private String status;
     private Priority priority;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;

@@ -8,6 +8,7 @@ import com.crowdin.client.stringtranslations.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpGet.METHOD_NAME, "api/stringtranslations/translation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId + "/restore", HttpPost.METHOD_NAME, "api/stringtranslations/translation.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpPut.METHOD_NAME, "api/stringtranslations/translation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpGet.METHOD_NAME, "api/stringtranslations/listVotes.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpPost.METHOD_NAME, "api/stringtranslations/addVoteRequest.json", "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpGet.METHOD_NAME, "api/stringtranslations/vote.json"),
@@ -53,7 +54,7 @@ public class StringTranslationsApiTest extends TestClient {
 
     @Test
     public void listApprovalsTest() {
-        ResponseList<Approval> approvalResponseList = this.getStringTranslationsApi().listTranslationApprovals(projectId, null, null, null, null, null);
+        ResponseList<Approval> approvalResponseList = this.getStringTranslationsApi().listTranslationApprovals(projectId, null, null, null, null, null, null);
         assertEquals(approvalResponseList.getData().size(), 1);
         assertEquals(approvalResponseList.getData().get(0).getData().getId(), approvalId);
     }
