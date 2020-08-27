@@ -1,7 +1,6 @@
 package com.crowdin.client.glossaries;
 
 import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.Format;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
@@ -11,6 +10,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.glossaries.model.AddGlossaryRequest;
 import com.crowdin.client.glossaries.model.AddTermRequest;
 import com.crowdin.client.glossaries.model.ExportGlossaryRequest;
+import com.crowdin.client.glossaries.model.GlossariesFormat;
 import com.crowdin.client.glossaries.model.Glossary;
 import com.crowdin.client.glossaries.model.GlossaryExportStatus;
 import com.crowdin.client.glossaries.model.GlossaryImportStatus;
@@ -107,7 +107,7 @@ public class GlossariesApiTest extends TestClient {
     @Test
     public void exportGlossaryTest() {
         ExportGlossaryRequest request = new ExportGlossaryRequest();
-        request.setFormat(Format.TBX);
+        request.setFormat(GlossariesFormat.TBX);
         ResponseObject<GlossaryExportStatus> glossaryExportStatusResponseObject = this.getGlossariesApi().exportGlossary(glossaryId, request);
         assertEquals(glossaryExportStatusResponseObject.getData().getIdentifier(), exportId);
     }

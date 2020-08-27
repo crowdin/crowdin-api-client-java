@@ -1,6 +1,5 @@
 package com.crowdin.client.translationmemory.model;
 
-import com.crowdin.client.core.model.Format;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,6 +22,6 @@ public class TranslationMemoryExportStatus {
 
         private String sourceLanguageId;
         private String targetLanguageId;
-        private Format format;
+        private TranslationMemoryFormat format;
     }
 }

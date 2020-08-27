@@ -1,13 +1,13 @@
 package com.crowdin.client.reports;
 
 import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.Format;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.reports.model.CostEstimateGenerateReportRequest;
 import com.crowdin.client.reports.model.Currency;
 import com.crowdin.client.reports.model.ReportStatus;
+import com.crowdin.client.reports.model.ReportsFormat;
 import com.crowdin.client.reports.model.Unit;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -42,7 +42,7 @@ public class ReportsApiTest extends TestClient {
         schema.setUnit(Unit.WORDS);
         schema.setCurrency(Currency.USD);
         schema.setLanguageId("ach");
-        schema.setFormat(Format.XLSX);
+        schema.setFormat(ReportsFormat.XLSX);
         CostEstimateGenerateReportRequest.TranslateStep translateStep = new CostEstimateGenerateReportRequest.TranslateStep();
         translateStep.setMode("simple");
         translateStep.setType("Translate");

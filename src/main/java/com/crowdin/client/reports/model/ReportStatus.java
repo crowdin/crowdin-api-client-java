@@ -1,6 +1,5 @@
 package com.crowdin.client.reports.model;
 
-import com.crowdin.client.core.model.Format;
 import lombok.Data;
 
 import java.util.Date;
@@ -21,7 +20,7 @@ public class ReportStatus {
     @Data
     public static class Attributes {
 
-        private Format format;
+        private ReportsFormat format;
         private String reportName;
         private Object schema;
     }

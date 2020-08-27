@@ -1,6 +1,5 @@
 package com.crowdin.client.glossaries.model;
 
-import com.crowdin.client.core.model.Format;
 import lombok.Data;
 
 import java.util.Date;
@@ -21,6 +20,6 @@ public class GlossaryExportStatus {
     @Data
     public static class Attributes {
 
-        private Format format;
+        private GlossariesFormat format;
     }
 }

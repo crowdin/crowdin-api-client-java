@@ -1,7 +1,6 @@
 package com.crowdin.client.translationmemory;
 
 import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.Format;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
@@ -12,6 +11,7 @@ import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemory;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportStatus;
+import com.crowdin.client.translationmemory.model.TranslationMemoryFormat;
 import com.crowdin.client.translationmemory.model.TranslationMemoryImportRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemoryImportStatus;
 import org.apache.http.client.methods.HttpDelete;
@@ -96,7 +96,7 @@ public class TranslationMemoryApiTest extends TestClient {
     @Test
     public void exportTmTest() {
         TranslationMemoryExportRequest request = new TranslationMemoryExportRequest();
-        request.setFormat(Format.CSV);
+        request.setFormat(TranslationMemoryFormat.CSV);
         request.setSourceLanguageId("en");
         request.setTargetLanguageId("de");
         ResponseObject<TranslationMemoryExportStatus> translationMemoryExportStatusResponseObject = this.getTranslationMemoryApi().exportTm(tmId, request);

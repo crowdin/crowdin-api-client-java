@@ -1,6 +1,5 @@
 package com.crowdin.client.core.http;
 
-import com.crowdin.client.core.model.Format;
 import com.crowdin.client.framework.TestHttpClient;
 import org.junit.jupiter.api.Test;
 
@@ -18,10 +17,10 @@ public class HttpClientTest {
         Map<String, Optional<Object>> urlParams = new LinkedHashMap<>();
         urlParams.put("a", Optional.empty());
         urlParams.put("b", Optional.of(4));
-        urlParams.put("c", Optional.of(Format.TBX));
+        urlParams.put("c", Optional.of("tbx"));
         HttpClient client = new TestHttpClient();
         String urlWithParams = client.appendUrlParams(url, urlParams);
-        assertEquals(urlWithParams, url + "?b=" + 4 + "&c=" + Format.TBX.to(Format.TBX));
+        assertEquals(urlWithParams, url + "?b=" + 4 + "&c=" + "tbx");
     }
 
 }
