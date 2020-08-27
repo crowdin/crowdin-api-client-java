@@ -1,5 +1,6 @@
 package com.crowdin.client.projectsgroups.model;
 
+import com.crowdin.client.languages.model.Language;
 import lombok.Data;
 
 import java.util.Date;
@@ -27,5 +28,6 @@ public class Project {
     private Date createdAt;
     private Date updatedAt;
     private Date lastActivity;
+    private List<Language> targetLanguages;
 
 }

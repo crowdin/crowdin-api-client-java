@@ -1,7 +1,6 @@
 package com.crowdin.client.reports.model;
 
 import com.crowdin.client.core.model.EnumConverter;
-import com.crowdin.client.core.model.Format;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,7 +19,7 @@ public class CostEstimateFuzzyModeGenerateReportRequest extends GenerateReportRe
         private Unit unit;
         private Currency currency;
         private String languageId;
-        private Format format;
+        private Reports2Format format;
         private List<StepType> stepTypes;
     }
 

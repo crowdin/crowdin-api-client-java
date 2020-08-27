@@ -1,6 +1,5 @@
 package com.crowdin.client.reports.model;
 
-import com.crowdin.client.core.model.Format;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +14,7 @@ public class TopMembersGenerateReportRequest extends GenerateReportRequest {
     public static class Schema {
         private Unit unit;
         private String languageId;
-        private Format format;
+        private ReportsFormat format;
     }
 
 }
