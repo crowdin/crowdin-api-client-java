@@ -36,6 +36,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
             .addDeserializer(FileInfo.class, new FileInfoDeserializer(new ObjectMapper()
                 .registerModule(enumModule)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new SimpleModule()
                     .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))
                     .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper)))))
