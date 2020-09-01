@@ -1,5 +1,6 @@
 package com.crowdin.client.projectsgroups.model;
 
+import com.crowdin.client.languages.model.Language;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -23,6 +24,7 @@ public class ProjectSettings extends Project {
     private boolean useGlobalTm;
     private boolean inContext;
     private String inContextPseudoLanguageId;
+    private Language inContextPseudoLanguage;
     private boolean isSuspended;
     private boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
