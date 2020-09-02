@@ -2,6 +2,7 @@ package com.crowdin.client.core.model;
 
 import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.JsonTransformer;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -28,4 +29,29 @@ public class ClientConfig {
      * Provide custom json transformer
      */
     private JsonTransformer jsonTransformer;
+
+    /**
+     * Provide proxy host
+     */
+    private Host proxy;
+
+    /**
+     * Provide proxy credentials
+     */
+    private UsernamePasswordCredentials proxyCreds;
+
+
+    @AllArgsConstructor
+    @Data
+    public final static class Host {
+        private final String host;
+        private final int port;
+    }
+
+    @AllArgsConstructor
+    @Data
+    public final static class UsernamePasswordCredentials {
+        private final String username;
+        private final String password;
+    }
 }

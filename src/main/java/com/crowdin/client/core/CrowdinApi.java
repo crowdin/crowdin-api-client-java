@@ -1,6 +1,7 @@
 package com.crowdin.client.core;
 
 import com.crowdin.client.core.http.HttpClient;
+import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.impl.http.ApacheHttpClient;
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.ClientConfig;
@@ -28,13 +29,11 @@ public abstract class CrowdinApi {
         if (clientConfig.getIntegrationUserAgent() != null) {
             defaultHeaders.put("X-Crowdin-Integrations-User-Agent", clientConfig.getIntegrationUserAgent());
         }
-        if (clientConfig.getJsonTransformer() == null && clientConfig.getHttpClient() == null) {
-            this.httpClient = new ApacheHttpClient(credentials, new JacksonJsonTransformer(), defaultHeaders);
-        } else if (clientConfig.getJsonTransformer() != null && clientConfig.getHttpClient() == null) {
-            this.httpClient = new ApacheHttpClient(credentials, clientConfig.getJsonTransformer(), defaultHeaders);
-        } else {
-            this.httpClient = clientConfig.getHttpClient();
-        }
+        JsonTransformer jsonTransformer = (clientConfig.getJsonTransformer() != null)
+            ? clientConfig.getJsonTransformer() : new JacksonJsonTransformer();
+        this.httpClient = (clientConfig.getHttpClient() != null)
+            ? clientConfig.getHttpClient()
+            : new ApacheHttpClient(credentials, jsonTransformer, defaultHeaders, clientConfig.getProxy(), clientConfig.getProxyCreds());
         this.clientConfig = clientConfig;
         if (credentials.getBaseUrl() != null) {
             if (credentials.getBaseUrl().endsWith("/")) {
