@@ -12,5 +12,5 @@
   ],
   "skipUntranslatedStrings": false,
   "skipUntranslatedFiles": false,
-  "exportWithMinApprovalsCount": 0
+  "exportApprovedOnly": false
 }

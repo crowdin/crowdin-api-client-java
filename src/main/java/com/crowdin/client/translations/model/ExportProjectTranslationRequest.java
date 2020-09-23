@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ExportPrjoectTranslationRequest {
+public class ExportProjectTranslationRequest {
 
     private String targetLanguageId;
     private String format;
@@ -14,6 +14,6 @@ public class ExportPrjoectTranslationRequest {
     private List<Long> fileIds;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
-    private Integer exportWithMinApprovalsCount;
+    private Boolean exportApprovedOnly;
 
 }
