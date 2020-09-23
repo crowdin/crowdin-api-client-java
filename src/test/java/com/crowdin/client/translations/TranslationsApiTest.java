@@ -125,7 +125,7 @@ public class TranslationsApiTest extends TestClient {
 
     @Test
     public void exportProjectTranslationTest() {
-        ExportPrjoectTranslationRequest request = new ExportPrjoectTranslationRequest();
+        ExportProjectTranslationRequest request = new ExportProjectTranslationRequest();
         request.setTargetLanguageId("uk");
         request.setFormat("xliff");
         request.setBranchIds(Arrays.asList(1L));
@@ -133,7 +133,7 @@ public class TranslationsApiTest extends TestClient {
         request.setFileIds(Arrays.asList(1L));
         request.setSkipUntranslatedStrings(false);
         request.setSkipUntranslatedFiles(false);
-        request.setExportWithMinApprovalsCount(0);
+        request.setExportApprovedOnly(false);
         ResponseObject<DownloadLink> response = this.getTranslationsApi().exportProjectTranslation(projectId, request);
         assertEquals(link, response.getData().getUrl());
     }
