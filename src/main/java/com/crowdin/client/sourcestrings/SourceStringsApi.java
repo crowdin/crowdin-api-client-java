@@ -34,9 +34,11 @@ public class SourceStringsApi extends CrowdinApi {
      * @param offset    starting offset in the collection (default 0)
      * @return list of source strings
      */
-    public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, String filter, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, String labelIds, String filter, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "fileId", Optional.ofNullable(fileId),
+                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
+                "labelIds", Optional.ofNullable(labelIds),
                 "filter", Optional.ofNullable(filter),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)

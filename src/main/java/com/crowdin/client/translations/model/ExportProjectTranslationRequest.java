@@ -9,6 +9,7 @@ public class ExportProjectTranslationRequest {
 
     private String targetLanguageId;
     private String format;
+    private List<Long> labelIds;
     private List<Long> branchIds;
     private List<Long> directoryIds;
     private List<Long> fileIds;
