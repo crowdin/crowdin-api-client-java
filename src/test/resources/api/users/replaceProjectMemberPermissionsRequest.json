@@ -1,0 +1,14 @@
+{
+  "accessToAllWorkflowSteps": false,
+  "managerAccess": false,
+  "permissions": {
+    "it": {
+      "workflowStepIds": [
+        313
+      ]
+    },
+    "de": {
+      "workflowStepIds": "all"
+    }
+  }
+}

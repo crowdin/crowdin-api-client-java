@@ -38,18 +38,18 @@ public class LabelsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
             RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpGet.METHOD_NAME,
-                file("listLabels.json")),
+                "api/labels/listLabels.json"),
             RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpPost.METHOD_NAME,
-                file("addLabelRequest.json"), file("label.json")),
+                "api/labels/addLabelRequest.json", "api/labels/label.json"),
             RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpGet.METHOD_NAME,
-                file("label.json")),
+                "api/labels/label.json"),
             RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpDelete.METHOD_NAME),
             RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpPatch.METHOD_NAME,
-                file("editLabelRequest.json"), file("label.json")),
+                "api/labels/editLabelRequest.json", "api/labels/label.json"),
             RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpPost.METHOD_NAME,
-                file("labelToStringsRequest.json"), file("listStrings.json")),
+                "api/labels/labelToStringsRequest.json", "api/labels/listStrings.json"),
             RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
-                file("listStrings.json"))
+                "api/labels/listStrings.json")
         );
     }
 
@@ -107,7 +107,7 @@ public class LabelsApiTest extends TestClient {
 
     @Test
     public void unassignLabelToStringTest() {
-        ResponseList<SourceString> response = this.getLabelsApi().unassignLabelToStrings(projectId, labelId);
+        ResponseList<SourceString> response = this.getLabelsApi().unassignLabelFromStrings(projectId, labelId);
         assertEquals(1, response.getData().size());
     }
 

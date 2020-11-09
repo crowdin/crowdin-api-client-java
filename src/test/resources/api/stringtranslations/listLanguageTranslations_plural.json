@@ -8,7 +8,14 @@
           {
             "translationId": 190694,
             "text": "Цю стрічку перекладено",
-            "pluralForm": "one"
+            "pluralForm": "one",
+            "user": {
+              "id": 19,
+              "username": "john_doe",
+              "fullName": "John Smith",
+              "avatarUrl": ""
+            },
+            "createdAt": "2019-09-23T11:26:54+00:00"
           }
         ]
       }

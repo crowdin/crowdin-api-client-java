@@ -1,4 +1,7 @@
 {
   "storageId": 61,
-  "name": "umbrella_app.xliff"
+  "name": "umbrella_app.xliff",
+  "attachLabelIds": [
+    1
+  ]
 }

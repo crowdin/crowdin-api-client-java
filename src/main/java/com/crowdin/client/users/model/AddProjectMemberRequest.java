@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class AddProjectTeamMemberRequest {
+public class AddProjectMemberRequest {
 
     private List<Long> userIds;
     private Boolean accessToAllWorkflowSteps;

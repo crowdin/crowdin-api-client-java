@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Data
-public class ProjectTeamMember {
+public class ProjectMember {
 
     private Long id;
     private String username;

@@ -1,6 +1,9 @@
 {
   "targetLanguageId": "uk",
   "format": "xliff",
+  "labelIds": [
+    1
+  ],
   "branchIds": [
     1
   ],

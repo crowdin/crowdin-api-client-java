@@ -128,6 +128,7 @@ public class TranslationsApiTest extends TestClient {
         ExportProjectTranslationRequest request = new ExportProjectTranslationRequest();
         request.setTargetLanguageId("uk");
         request.setFormat("xliff");
+        request.setLabelIds(Arrays.asList(1L));
         request.setBranchIds(Arrays.asList(1L));
         request.setDirectoryIds(Arrays.asList(1L));
         request.setFileIds(Arrays.asList(1L));

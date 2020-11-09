@@ -6,9 +6,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProjectTeamMembersResponse {
+public class ProjectMembersResponse {
 
-    private List<ProjectTeamMemberResponseObject> skipped;
-    private List<ProjectTeamMemberResponseObject> added;
+    private List<ProjectMemberResponseObject> skipped;
+    private List<ProjectMemberResponseObject> added;
     private Pagination pagination;
 }

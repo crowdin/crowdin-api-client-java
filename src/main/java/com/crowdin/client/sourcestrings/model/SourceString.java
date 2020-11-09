@@ -3,6 +3,7 @@ package com.crowdin.client.sourcestrings.model;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class SourceString {
@@ -19,6 +20,7 @@ public class SourceString {
     private Integer revision;
     private boolean hasPlurals;
     private boolean isIcu;
+    private List<Long> labelIds;
     private Date createdAt;
     private Date updatedAt;
 
