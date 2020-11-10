@@ -2,6 +2,8 @@ package com.crowdin.client.sourcefiles.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddFileRequest {
 
@@ -13,4 +15,5 @@ public class AddFileRequest {
     private String type;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
+    private List<Long> attachLabelIds;
 }

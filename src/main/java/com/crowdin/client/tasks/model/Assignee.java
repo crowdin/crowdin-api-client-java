@@ -6,5 +6,9 @@ import lombok.Data;
 public class Assignee {
 
     private Long id;
-    private Integer wordCount;
+    private String username;
+    private String fullName;
+    private String avatarUrl;
+    private Integer wordsCount;
+    private Integer wordsLeft;
 }

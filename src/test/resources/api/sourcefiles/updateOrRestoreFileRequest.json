@@ -13,5 +13,11 @@
   },
   "exportOptions": {
     "escapeQuotes": 3
-  }
+  },
+  "attachLabelIds": [
+    1
+  ],
+  "detachLabelIds": [
+    1
+  ]
 }

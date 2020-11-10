@@ -38,6 +38,8 @@ public class SourceFilesApiTest extends TestClient {
     private final String fileName = "umbrella_app.xliff";
     private final String downloadLink = "test.com";
     private final String status = "finished";
+    private final List<Long> attachLabelIds = Arrays.asList(1L);
+    private final List<Long> detachLabelIds = attachLabelIds;
 
     @Override
     public List<RequestMock> getMocks() {
@@ -188,6 +190,7 @@ public class SourceFilesApiTest extends TestClient {
         AddFileRequest request = new AddFileRequest();
         request.setName(fileName);
         request.setStorageId(storageId);
+        request.setAttachLabelIds(attachLabelIds);
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().addFile(projectId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
@@ -218,6 +221,8 @@ public class SourceFilesApiTest extends TestClient {
         scheme.put("de", 3);
         importOptions.setScheme(scheme);
         request.setImportOptions(importOptions);
+        request.setAttachLabelIds(attachLabelIds);
+        request.setDetachLabelIds(detachLabelIds);
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().updateOrRestoreFile(projectId, fileId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);

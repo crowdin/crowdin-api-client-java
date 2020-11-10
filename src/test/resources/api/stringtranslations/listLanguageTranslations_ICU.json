@@ -5,7 +5,14 @@
         "stringId": 35434,
         "contentType": "application/vnd.crowdin.text+icu",
         "translationId": 190694,
-        "text": "{count, plural, one {# String} other {# Strings}}"
+        "text": "{count, plural, one {# String} other {# Strings}}",
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "createdAt": "2019-09-23T11:26:54+00:00"
       }
     }
   ],

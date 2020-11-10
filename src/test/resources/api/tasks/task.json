@@ -4,6 +4,7 @@
     "projectId": 2,
     "creatorId": 6,
     "type": 1,
+    "vendor": "gengo",
     "status": "todo",
     "title": "French",
     "assignees": [

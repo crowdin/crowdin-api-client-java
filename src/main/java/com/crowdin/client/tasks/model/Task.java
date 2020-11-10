@@ -12,9 +12,11 @@ public class Task {
     private Long projectId;
     private Long creatorId;
     private Integer type;
+    private String vendor;
     private Status status;
     private String title;
     private List<Assignee> assignees;
+    private List<AssignedTeam> assignedTeams;
     private List<Long> fileIds;
     private Progress progress;
     private String sourceLanguageId;
@@ -28,7 +30,7 @@ public class Task {
     private Date deadline;
     private String timeRange;
     private Long workflowStepId;
+    private String buyUrl;
     private Date createdAt;
     private Date updatedAt;
-    private boolean isArchived;
 }

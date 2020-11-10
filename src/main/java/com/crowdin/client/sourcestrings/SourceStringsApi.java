@@ -30,16 +30,21 @@ public class SourceStringsApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param fileId    file identifier
+     * @param denormalizePlaceholders [0, 1]. Enable denormalize placeholders
+     * @param labelIds filter strings by labels
+     * @param filter Filter strings
+     * @param scope ["identifier", "text", "context"]. Specify field to be the target of filtering. It can be one scope or a list of comma-separated scopes
      * @param limit     maximum number of items to retrieve (default 25)
      * @param offset    starting offset in the collection (default 0)
      * @return list of source strings
      */
-    public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, String labelIds, String filter, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, String labelIds, String filter, String scope, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "fileId", Optional.ofNullable(fileId),
                 "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
                 "labelIds", Optional.ofNullable(labelIds),
                 "filter", Optional.ofNullable(filter),
+                "scope", Optional.ofNullable(scope),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );

@@ -31,6 +31,12 @@ public class LabelsApi extends CrowdinApi {
         super(credentials, clientConfig);
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param limit A maximum number of items to retrieve. Default: 25
+     * @param offset A starting offset in the collection. Default: 0
+     * @return list of labels
+     */
     public ResponseList<Label> listLabels(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels", this.url, projectId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -41,36 +47,67 @@ public class LabelsApi extends CrowdinApi {
         return LabelResponseList.to(labelResponseList);
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param request Request object
+     * @return created label
+     */
     public ResponseObject<Label> addLabel(Long projectId, AddLabelRequest request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels", this.url, projectId);
         LabelResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), LabelResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @return label
+     */
     public ResponseObject<Label> getLabel(Long projectId, Long labelId) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId);
         LabelResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), LabelResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     */
     public void deleteLabel(Long projectId, Long labelId) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId);
         this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @param request Request object
+     * @return edited label
+     */
     public ResponseObject<Label> editLabel(Long projectId, Long labelId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId);
         LabelResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), LabelResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @param request Request object
+     * @return Source string
+     */
     public ResponseList<SourceString> assignLabelToStrings(Long projectId, Long labelId, LabelToStringsRequest request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId);
         SourceStringResponseList response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), SourceStringResponseList.class);
         return SourceStringResponseList.to(response);
     }
 
-    public ResponseList<SourceString> unassignLabelToStrings(Long projectId, Long labelId) throws HttpException, HttpBadRequestException {
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @return Source string
+     */
+    public ResponseList<SourceString> unassignLabelFromStrings(Long projectId, Long labelId) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId);
         SourceStringResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(), SourceStringResponseList.class);
         return SourceStringResponseList.to(response);

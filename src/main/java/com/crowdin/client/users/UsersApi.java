@@ -8,8 +8,11 @@ import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.users.model.AddProjectTeamMemberRequest;
-import com.crowdin.client.users.model.ProjectTeamMembersResponse;
+import com.crowdin.client.users.model.AddProjectMemberRequest;
+import com.crowdin.client.users.model.ProjectMember;
+import com.crowdin.client.users.model.ProjectMemberResponseObject;
+import com.crowdin.client.users.model.ProjectMembersResponse;
+import com.crowdin.client.users.model.ReplaceProjectMemberPermissionsRequest;
 import com.crowdin.client.users.model.Status;
 import com.crowdin.client.users.model.TeamMember;
 import com.crowdin.client.users.model.TeamMemberResponseList;
@@ -35,8 +38,41 @@ public class UsersApi extends CrowdinApi {
      * @param request request object
      * @return project team members response info
      */
-    public ProjectTeamMembersResponse addProjectTeamMember(Long projectId, AddProjectTeamMemberRequest request) throws HttpException, HttpBadRequestException {
-        return this.httpClient.post(this.url + "/projects/" + projectId + "/members", request, new HttpRequestConfig(), ProjectTeamMembersResponse.class);
+    public ProjectMembersResponse addProjectMember(Long projectId, AddProjectMemberRequest request) throws HttpException, HttpBadRequestException {
+        return this.httpClient.post(this.url + "/projects/" + projectId + "/members", request, new HttpRequestConfig(), ProjectMembersResponse.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param memberId member identifier
+     * @return project member info
+     */
+    public ResponseObject<ProjectMember> getProjectMember(Long projectId, Long memberId) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/members/%d", this.url, projectId, memberId);
+        ProjectMemberResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ProjectMemberResponseObject.class);
+        return ResponseObject.of(response.getData());
+
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param memberId member identifier
+     * @param request request object
+     * @return updated project member info
+     */
+    public ResponseObject<ProjectMember> replaceProjectMemberPermissions(Long projectId, Long memberId, ReplaceProjectMemberPermissionsRequest request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/members/%d", this.url, projectId, memberId);
+        ProjectMemberResponseObject response = this.httpClient.put(builtUrl, request, new HttpRequestConfig(), ProjectMemberResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param memberId member identifier
+     */
+    public void deleteMemberFromProject(Long projectId, Long memberId) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/members/%d", this.url, projectId, memberId);
+        this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
     }
 
     /**
