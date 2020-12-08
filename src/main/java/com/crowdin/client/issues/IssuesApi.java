@@ -36,6 +36,7 @@ public class IssuesApi extends CrowdinApi {
      * @param status    filter by status
      * @return list of issues
      */
+    @Deprecated
     public ResponseList<Issue> listReportedIssues(Long projectId, Integer limit, Integer offset, Type type, Status status) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
@@ -53,6 +54,7 @@ public class IssuesApi extends CrowdinApi {
      * @param request   request object
      * @return updated issue
      */
+    @Deprecated
     public ResponseObject<Issue> editIssue(Long projectId, Long issueId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         IssueResponseObject issueResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/issues/" + issueId, request, new HttpRequestConfig(), IssueResponseObject.class);
         return ResponseObject.of(issueResponseObject.getData());
