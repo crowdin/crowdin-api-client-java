@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -16,6 +17,7 @@ public class File extends FileInfo {
     private Priority priority;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
+    private List<String> excludedTargetLanguages;
     private Date createdAt;
     private Date updatedAt;
 }

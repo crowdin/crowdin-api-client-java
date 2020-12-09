@@ -15,5 +15,6 @@ public class AddFileRequest {
     private String type;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
+    private List<String> excludedTargetLanguages;
     private List<Long> attachLabelIds;
 }
