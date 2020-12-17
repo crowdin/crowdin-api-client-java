@@ -6,7 +6,9 @@ The Crowdin Java client is a lightweight interface to the Crowdin API v2 that wo
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
-For more about Crowdin API v2 see the [documentation](https://support.crowdin.com/api/v2/).
+For more about Crowdin API v2 see the documentation:
+- [Crowdin](https://support.crowdin.com/api/v2/)
+- [Crowdin Enterprise](https://support.crowdin.com/enterprise/api/)
 
 ## Status
 
