@@ -77,18 +77,16 @@ This client uses [Apache http client](https://hc.apache.org/) and [Jackson json 
 Usage of these libraries is wrapped into interfaces and gives possibility to override them and use different libraries for http communication or json transformations.
 The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
 
-## Contribution
-We are happy to accept contributions to the Crowdin Java client. To contribute please do the following:
-1. Fork the repository on GitHub.
-2. Decide which code you want to submit. Commit your changes and push to the new branch.
-3. Ensure that your code adheres to standard conventions, as used in the rest of the library.
-4. Submit a pull request with your patch on Github.
 
 ## Seeking Assistance
-If you find any problems or would like to suggest a feature, please feel free to file an issue on Github at [Issues Page](https://github.com/crowdin/crowdin-api-client-java/issues).
 
-Need help working with Crowdin Java client or have any questions?
-[Contact Customer Success Service](https://crowdin.com/contacts).
+If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
+
+Need help working with Crowdin Java client or have any questions? [Contact](https://crowdin.com/contacts) Customer Success Service.
+
+## Contributing
+
+If you want to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
 
 ## License
 <pre>
