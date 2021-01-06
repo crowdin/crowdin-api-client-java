@@ -3,5 +3,10 @@
   "name": "umbrella_app.xliff",
   "attachLabelIds": [
     1
+  ],
+  "excludedTargetLanguages": [
+    "en",
+    "es",
+    "pl"
   ]
 }

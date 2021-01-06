@@ -6,5 +6,6 @@
   ],
   "requestType": "POST",
   "isActive": true,
+  "batchingEnabled": false,
   "contentType": "multipart/form-data"
 }

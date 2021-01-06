@@ -27,6 +27,7 @@ public class WebhooksApiTest extends TestClient {
 
     private final Long projectId = 12L;
     private final Long webhookId = 4L;
+    private final Boolean batchingEnabled = false;
     private final String name = "Proofread";
 
     @Override
@@ -46,6 +47,7 @@ public class WebhooksApiTest extends TestClient {
         assertEquals(webhookResponseList.getData().size(), 1);
         assertEquals(webhookResponseList.getData().get(0).getData().getId(), webhookId);
         assertEquals(webhookResponseList.getData().get(0).getData().getName(), name);
+        assertEquals(webhookResponseList.getData().get(0).getData().getBatchingEnabled(), batchingEnabled);
     }
 
     @Test
@@ -56,6 +58,7 @@ public class WebhooksApiTest extends TestClient {
         request.setEvents(singletonList(Event.FILE_APPROVED));
         request.setRequestType(RequestType.POST);
         request.setIsActive(true);
+        request.setBatchingEnabled(batchingEnabled);
         request.setContentType(ContentType.MULTIPART_FORM_DATA);
         ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().addWebhook(projectId, request);
         assertEquals(webhookResponseObject.getData().getId(), webhookId);
@@ -67,6 +70,7 @@ public class WebhooksApiTest extends TestClient {
         ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().getWebhook(projectId, webhookId);
         assertEquals(webhookResponseObject.getData().getId(), webhookId);
         assertEquals(webhookResponseObject.getData().getName(), name);
+        assertEquals(webhookResponseObject.getData().getBatchingEnabled(), batchingEnabled);
     }
 
     @Test

@@ -191,6 +191,7 @@ public class SourceFilesApiTest extends TestClient {
         request.setName(fileName);
         request.setStorageId(storageId);
         request.setAttachLabelIds(attachLabelIds);
+        request.setExcludedTargetLanguages(Arrays.asList("en", "es", "pl"));
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().addFile(projectId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);

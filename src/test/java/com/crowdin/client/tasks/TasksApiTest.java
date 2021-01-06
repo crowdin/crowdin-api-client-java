@@ -8,6 +8,8 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.tasks.model.AddTaskRequest;
+import com.crowdin.client.tasks.model.CrowdinTaskCreateFormRequest;
+import com.crowdin.client.tasks.model.EnterpriseTaskCreateFormRequest;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
 import org.apache.http.client.methods.HttpDelete;
@@ -25,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TasksApiTest extends TestClient {
 
     private final Long projectId = 12L;
+    private final Long enterpriseProjectId = 13L;
     private final Long taskId = 2L;
     private final Status status = Status.TODO;
     private final String link = "test.com";
@@ -33,7 +36,8 @@ public class TasksApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addTaskRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/CrowdinTaskCreateFormRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/EnterpriseTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpGet.METHOD_NAME, "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/exports", HttpPost.METHOD_NAME, "api/tasks/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
@@ -53,13 +57,25 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void addTaskTest() {
-        AddTaskRequest request = new AddTaskRequest();
-        request.setWorkflowStepId(0L);
+        CrowdinTaskCreateFormRequest request = new CrowdinTaskCreateFormRequest();
         request.setTitle("French");
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
         request.setStatus(Status.TODO);
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskResponseObject.getData().getId(), taskId);
+        assertEquals(taskResponseObject.getData().getStatus(), status);
+    }
+
+    @Test
+    public void addTaskEnterpriseTest() {
+        EnterpriseTaskCreateFormRequest request = new EnterpriseTaskCreateFormRequest();
+        request.setWorkflowStepId(0L);
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setFileIds(singletonList(1L));
+        request.setStatus(Status.TODO);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
     }

@@ -11,6 +11,7 @@ public class SourceString {
     private Long id;
     private Long projectId;
     private Long fileId;
+    private Long branchId;
     private String identifier;
     private Object text;
     private String type;

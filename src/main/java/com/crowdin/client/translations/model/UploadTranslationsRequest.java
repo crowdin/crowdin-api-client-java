@@ -9,5 +9,6 @@ public class UploadTranslationsRequest {
     private Long fileId;
     private Boolean importEqSuggestions;
     private Boolean autoApproveImported;
+    private Boolean translateHidden;
     private Boolean markAddedTranslationsAsDone;
 }

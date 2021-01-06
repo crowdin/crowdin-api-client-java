@@ -25,6 +25,7 @@ public class SourceStringsApiTest extends TestClient {
     private final String text = "Not all videos are shown to users. See more";
     private final Long projectId = 3L;
     private final Long id = 2814L;
+    private final Long branchId = 667L;
 
     @Override
     public List<RequestMock> getMocks() {
@@ -43,6 +44,7 @@ public class SourceStringsApiTest extends TestClient {
         assertEquals(sourceStringResponseList.getData().size(), 1);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getId(), id);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getText(), text);
+        assertEquals(sourceStringResponseList.getData().get(0).getData().getBranchId(), branchId);
     }
 
     @Test
@@ -59,6 +61,7 @@ public class SourceStringsApiTest extends TestClient {
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().getSourceString(projectId, id);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
+        assertEquals(sourceStringResponseObject.getData().getBranchId(), branchId);
     }
 
     @Test

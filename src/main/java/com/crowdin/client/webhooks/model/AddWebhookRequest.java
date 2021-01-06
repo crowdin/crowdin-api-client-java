@@ -12,6 +12,7 @@ public class AddWebhookRequest {
     private List<Event> events;
     private RequestType requestType;
     private Boolean isActive;
+    private Boolean batchingEnabled;
     private ContentType contentType;
     private Object headers;
     private Object payload;

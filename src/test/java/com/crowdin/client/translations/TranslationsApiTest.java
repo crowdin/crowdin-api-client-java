@@ -102,6 +102,7 @@ public class TranslationsApiTest extends TestClient {
         UploadTranslationsRequest request = new UploadTranslationsRequest();
         request.setStorageId(storageId);
         request.setFileId(fileId);
+        request.setTranslateHidden(true);
         ResponseObject<UploadTranslationsResponse> uploadTranslationsResponseResponseObject = this.getTranslationsApi().uploadTranslations(projectId, language, request);
         assertEquals(uploadTranslationsResponseResponseObject.getData().getStorageId(), storageId);
     }

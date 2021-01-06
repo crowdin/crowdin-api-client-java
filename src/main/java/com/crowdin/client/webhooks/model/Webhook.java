@@ -13,9 +13,10 @@ public class Webhook {
     private String name;
     private String url;
     private List<Event> events;
-    private Object headers;
-    private Object payload;
-    private boolean isActive;
+    private List<String> headers;
+    private List<String> payload;
+    private Boolean isActive;
+    private Boolean batchingEnabled;
     private RequestType requestType;
     private ContentType contentType;
     private Date createdAt;

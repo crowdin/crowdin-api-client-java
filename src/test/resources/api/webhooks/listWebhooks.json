@@ -17,6 +17,7 @@
         ],
         "isActive": true,
         "requestType": "GET",
+        "batchingEnabled": false,
         "contentType": "multipart/form-data",
         "createdAt": "2019-09-23T09:19:07+00:00",
         "updatedAt": "2019-09-23T09:19:07+00:00"
