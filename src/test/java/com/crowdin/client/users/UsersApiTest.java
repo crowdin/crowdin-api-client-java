@@ -62,7 +62,7 @@ public class UsersApiTest extends TestClient {
 
     @Test
     public void getProjectMemberTest() {
-        ResponseObject<ProjectMember> response = this.getUsersApi().getProjectMember(this.projectId, this.memberId);
+        ResponseObject<ProjectMember> response = this.getUsersApi().getProjectMemberPermissions(this.projectId, this.memberId);
         assertNotNull(response);
         assertNotNull(response.getData());
     }
@@ -121,5 +121,6 @@ public class UsersApiTest extends TestClient {
     public void getMemberInfoTest() {
         ResponseObject<TeamMember> user = this.getUsersApi().getMemberInfo(projectId, userId);
         assertEquals(user.getData().getId(), userId);
+        assertEquals(3, user.getData().getPermissions().size());
     }
 }

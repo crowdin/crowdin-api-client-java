@@ -3,6 +3,12 @@
     "id": 1,
     "username": "john_smith",
     "fullName": "John Smith",
+    "role": "translator",
+    "permissions": {
+      "uk": "translator",
+      "it": "proofreader",
+      "en": "denied"
+    },
     "avatarUrl": "",
     "joinedAt": "2019-07-11T07:40:22+00:00",
     "timezone": "Europe/Kiev"
