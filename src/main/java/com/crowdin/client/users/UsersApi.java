@@ -47,7 +47,7 @@ public class UsersApi extends CrowdinApi {
      * @param memberId member identifier
      * @return project member info
      */
-    public ResponseObject<ProjectMember> getProjectMember(Long projectId, Long memberId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ProjectMember> getProjectMemberPermissions(Long projectId, Long memberId) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/members/%d", this.url, projectId, memberId);
         ProjectMemberResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ProjectMemberResponseObject.class);
         return ResponseObject.of(response.getData());
