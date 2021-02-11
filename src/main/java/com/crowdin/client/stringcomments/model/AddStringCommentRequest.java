@@ -6,6 +6,7 @@ import lombok.Data;
 public class AddStringCommentRequest {
 
     private String text;
+    private Long stringId;
     private String targetLanguageId;
     private Type type;
     private String issueType;

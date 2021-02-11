@@ -39,21 +39,21 @@ public class StringCommentsApiTest extends TestClient {
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
-            RequestMock.build(String.format("%s/projects/%d/strings/%d/comments", this.url, projectId, stringId), HttpGet.METHOD_NAME,
+            RequestMock.build(String.format("%s/projects/%d/comments", this.url, projectId), HttpGet.METHOD_NAME,
                 "api/stringcomments/listStringCommentsResponse.json"),
-            RequestMock.build(String.format("%s/projects/%d/strings/%d/comments", this.url, projectId, stringId), HttpPost.METHOD_NAME,
+            RequestMock.build(String.format("%s/projects/%d/comments", this.url, projectId), HttpPost.METHOD_NAME,
                 "api/stringcomments/addStringCommentRequest.json", "api/stringcomments/stringCommentResponse.json"),
-            RequestMock.build(String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId), HttpGet.METHOD_NAME,
+            RequestMock.build(String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId), HttpGet.METHOD_NAME,
                 "api/stringcomments/stringCommentResponse.json"),
-            RequestMock.build(String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId), HttpDelete.METHOD_NAME),
-            RequestMock.build(String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId), HttpPatch.METHOD_NAME,
+            RequestMock.build(String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId), HttpDelete.METHOD_NAME),
+            RequestMock.build(String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId), HttpPatch.METHOD_NAME,
                 "api/stringcomments/editStringCommentRequest.json", "api/stringcomments/stringCommentResponse.json")
         );
     }
 
     @Test
     public void listStringCommentsTest() {
-        ResponseList<StringComment> responseList = this.getStringCommentsApi().listStringComments(projectId, stringId, null, null, null, null, null, null);
+        ResponseList<StringComment> responseList = this.getStringCommentsApi().listStringComments(projectId, null, null, null, null, null, null);
         assertNotNull(responseList);
         assertNotNull(responseList.getData());
         assertEquals(1, responseList.getData().size(), "Size of list should be 1");
@@ -64,25 +64,26 @@ public class StringCommentsApiTest extends TestClient {
         AddStringCommentRequest request = new AddStringCommentRequest() {{
             setText(text);
             setTargetLanguageId(targetLanguageId);
+            setStringId(stringId);
             setType(type);
             setIssueType(issueType);
             setIssueStatus(issueStatus);
         }};
-        ResponseObject<StringComment> response = this.getStringCommentsApi().addStringComment(projectId, stringId, request);
+        ResponseObject<StringComment> response = this.getStringCommentsApi().addStringComment(projectId, request);
         assertNotNull(response);
         assertNotNull(response.getData());
     }
 
     @Test
     public void getStringCommentTest() {
-        ResponseObject<StringComment> response = this.getStringCommentsApi().getStringComment(projectId, stringId, stringCommentId);
+        ResponseObject<StringComment> response = this.getStringCommentsApi().getStringComment(projectId, stringCommentId);
         assertNotNull(response);
         assertNotNull(response.getData());
     }
 
     @Test
     public void deleteStringCommentTest() {
-        this.getStringCommentsApi().deleteStringComment(projectId, stringId, stringCommentId);
+        this.getStringCommentsApi().deleteStringComment(projectId, stringCommentId);
     }
 
     @Test
@@ -93,7 +94,7 @@ public class StringCommentsApiTest extends TestClient {
                 setPath("/text");
             }});
         }};
-        ResponseObject<StringComment> response = this.getStringCommentsApi().editStringComment(projectId, stringId, stringCommentId, request);
+        ResponseObject<StringComment> response = this.getStringCommentsApi().editStringComment(projectId, stringCommentId, request);
         assertNotNull(response);
         assertNotNull(response.getData());
 
