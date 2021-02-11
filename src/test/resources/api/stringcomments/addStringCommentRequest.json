@@ -1,6 +1,7 @@
 {
   "text": "some issue",
   "targetLanguageId": "en",
+  "stringId": 64,
   "type": "issue",
   "issueType": "translation_mistake",
   "issueStatus": "resolved"

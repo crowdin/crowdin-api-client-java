@@ -151,10 +151,11 @@ public class SourceFilesApi extends CrowdinApi {
      * @param offset      starting offset in the collection (default 0)
      * @return list of files
      */
-    public ResponseList<? extends FileInfo> listFiles(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<? extends FileInfo> listFiles(Long projectId, Long branchId, Long directoryId, String filter, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "directoryId", Optional.ofNullable(directoryId),
+                "filter", Optional.ofNullable(filter),
                 "recursion", Optional.ofNullable(recursion),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)

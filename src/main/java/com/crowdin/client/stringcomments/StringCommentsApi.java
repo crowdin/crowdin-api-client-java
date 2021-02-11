@@ -28,13 +28,13 @@ public class StringCommentsApi extends CrowdinApi {
         super(credentials, clientConfig);
     }
 
-    public ResponseList<StringComment> listStringComments(Long projectId, Long stringId, Integer limit, Integer offset, Type type, String targetLanguageId, String issueType, IssueStatus issueStatus) {
-        String builtUrl = String.format("%s/projects/%d/strings/%d/comments", this.url, projectId, stringId);
+    public ResponseList<StringComment> listStringComments(Long projectId, Long stringId, Integer limit, Integer offset, Type type, String issueType, IssueStatus issueStatus) {
+        String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
             "limit", Optional.ofNullable(limit),
             "offset", Optional.ofNullable(offset),
             "type", Optional.ofNullable(type),
-            "targetLanguageId", Optional.ofNullable(targetLanguageId),
+            "stringId", Optional.ofNullable(stringId),
             "issueType", Optional.ofNullable(issueType),
             "issueStatus", Optional.ofNullable(issueStatus)
         );
@@ -42,25 +42,25 @@ public class StringCommentsApi extends CrowdinApi {
         return StringCommentResponseList.to(response);
     }
 
-    public ResponseObject<StringComment> addStringComment(Long projectId, Long stringId, AddStringCommentRequest request) {
-        String builtUrl = String.format("%s/projects/%d/strings/%d/comments", this.url, projectId, stringId);
+    public ResponseObject<StringComment> addStringComment(Long projectId, AddStringCommentRequest request) {
+        String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
         StringCommentResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), StringCommentResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
-    public ResponseObject<StringComment> getStringComment(Long projectId, Long stringId, Long stringCommentId) {
-        String builtUrl = String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId);
+    public ResponseObject<StringComment> getStringComment(Long projectId, Long stringCommentId) {
+        String builtUrl = String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId);
         StringCommentResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), StringCommentResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
-    public void deleteStringComment(Long projectId, Long stringId, Long stringCommentId) {
-        String builtUrl = String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId);
+    public void deleteStringComment(Long projectId, Long stringCommentId) {
+        String builtUrl = String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId);
         this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
     }
 
-    public ResponseObject<StringComment> editStringComment(Long projectId, Long stringId, Long stringCommentId, List<PatchRequest> request) {
-        String builtUrl = String.format("%s/projects/%d/strings/%d/comments/%d", this.url, projectId, stringId, stringCommentId);
+    public ResponseObject<StringComment> editStringComment(Long projectId, Long stringCommentId, List<PatchRequest> request) {
+        String builtUrl = String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId);
         StringCommentResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), StringCommentResponseObject.class);
         return ResponseObject.of(response.getData());
     }

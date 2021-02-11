@@ -153,7 +153,7 @@ public class SourceFilesApiTest extends TestClient {
 
     @Test
     public void listFilesTest() {
-        ResponseList<File> fileResponseList = (ResponseList<File>) this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null);
+        ResponseList<File> fileResponseList = (ResponseList<File>) this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null, null);
         assertEquals(fileResponseList.getData().size(), 3);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
@@ -180,7 +180,7 @@ public class SourceFilesApiTest extends TestClient {
 
     @Test
     public void listFileInfosTest() {
-        ResponseList<? extends FileInfo> response = this.getSourceFilesApi().listFiles(project2Id, null, null, null, null, null);
+        ResponseList<? extends FileInfo> response = this.getSourceFilesApi().listFiles(project2Id, null, null, null, null, null, null);
         assertEquals(response.getData().size(), 1);
         assertTrue(response.getData().get(0).getData() instanceof FileInfo);
     }
