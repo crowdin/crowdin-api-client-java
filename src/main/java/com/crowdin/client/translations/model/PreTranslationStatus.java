@@ -16,6 +16,7 @@ public class PreTranslationStatus {
     private Date updatedAt;
     private String startedAt;
     private String finishedAt;
+    @Deprecated
     private String eta;
 
     @Data

@@ -15,6 +15,7 @@ public class TranslationMemoryExportStatus {
     private Date updatedAt;
     private String startedAt;
     private String finishedAt;
+    @Deprecated
     private String eta;
 
     @Data
