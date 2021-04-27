@@ -82,12 +82,14 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param offset starting ofse in the collection (default 0)
      * @return list of language translations
      */
-    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
             "stringIds", Optional.ofNullable(stringIds),
             "labelIds", Optional.ofNullable(labelIds),
             "fileId", Optional.ofNullable(fileId),
+            "croql", Optional.ofNullable(croql),
+            "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
             "limit", Optional.ofNullable(limit),
             "offset", Optional.ofNullable(offset)
         );
