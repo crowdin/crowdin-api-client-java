@@ -30,7 +30,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile "com.github.crowdin:crowdin-api-client-java:1.3.7"
+    compile "com.github.crowdin:crowdin-api-client-java:1.3.8"
 }
 ```
 
@@ -46,7 +46,7 @@ dependencies {
 <dependency>
     <groupId>com.github.crowdin</groupId>
     <artifactId>crowdin-api-client-java</artifactId>
-    <version>1.3.7</version>
+    <version>1.3.8</version>
 </dependency>
 ```
 
