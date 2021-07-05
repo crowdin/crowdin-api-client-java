@@ -51,6 +51,12 @@ public class SourceStringsApiTest extends TestClient {
     public void addStringTest() {
         AddSourceStringRequest request = new AddSourceStringRequest();
         request.setText(text);
+        request.setIdentifier("6a1821e6499ebae94de4b880fd93b985");
+        request.setFileId(id);
+        request.setContext("shown on main page");
+        request.setIsHidden(false);
+        request.setMaxLength(35);
+        request.setLabelIds(Arrays.asList(1L));
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourceString(projectId, request);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);

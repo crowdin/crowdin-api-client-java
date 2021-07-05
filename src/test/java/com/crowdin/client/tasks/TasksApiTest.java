@@ -23,6 +23,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TasksApiTest extends TestClient {
 
@@ -91,6 +92,8 @@ public class TasksApiTest extends TestClient {
         ResponseObject<Task> taskResponseObject = this.getTasksApi().getTask(projectId, taskId);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
+        assertNotNull(taskResponseObject.getData().getTranslateProgress());
+        assertEquals(62, taskResponseObject.getData().getTranslateProgress().getPercent().intValue());
     }
 
     @Test
