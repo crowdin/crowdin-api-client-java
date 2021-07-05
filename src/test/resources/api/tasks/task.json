@@ -27,6 +27,11 @@
       "done": 15,
       "percent": 62
     },
+    "translateProgress": {
+      "total": 24,
+      "done": 15,
+      "percent": 62
+    },
     "sourceLanguageId": "en",
     "targetLanguageId": "fr",
     "description": "Proofread all French strings",

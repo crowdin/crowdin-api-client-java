@@ -19,6 +19,7 @@ public class Task {
     private List<AssignedTeam> assignedTeams;
     private List<Long> fileIds;
     private Progress progress;
+    private TranslateProgress translateProgress;
     private String sourceLanguageId;
     private String targetLanguageId;
     private String description;

@@ -2,6 +2,8 @@ package com.crowdin.client.sourcestrings.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddSourceStringRequest {
 
@@ -11,4 +13,5 @@ public class AddSourceStringRequest {
     private String context;
     private Boolean isHidden;
     private Integer maxLength;
+    private List<Long> labelIds;
 }
