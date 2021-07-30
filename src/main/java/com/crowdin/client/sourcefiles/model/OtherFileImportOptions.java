@@ -7,4 +7,5 @@ public class OtherFileImportOptions extends ImportOptions {
 
     private Boolean contentSegmentation;
     private Boolean customSegmentation;
+    private Long srxStorageId;
 }

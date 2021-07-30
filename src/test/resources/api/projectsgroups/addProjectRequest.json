@@ -1,9 +1,13 @@
 {
+  "type": 0,
+  "normalizePlaceholder": true,
+  "saveMetaInfoInSource": true,
   "name": "Knowledge Base",
-  "sourceLanguageId": "en",
-  "templateId": 4,
-  "groupId": 1,
-  "targetLanguageIds": [
-    "uk"
-  ]
+  "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+  "qaCheckIsActive": true,
+  "qaCheckCategories": {
+    "empty": true,
+    "size": true,
+    "tags": false
+  }
 }

@@ -10,6 +10,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.users.model.AddProjectMemberRequest;
 import com.crowdin.client.users.model.ProjectMember;
+import com.crowdin.client.users.model.ProjectMemberResponseList;
 import com.crowdin.client.users.model.ProjectMemberResponseObject;
 import com.crowdin.client.users.model.ProjectMembersResponse;
 import com.crowdin.client.users.model.ReplaceProjectMemberPermissionsRequest;
@@ -32,6 +33,29 @@ public class UsersApi extends CrowdinApi {
 
     public UsersApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * List project members. For Crowdin Enterprise only
+     * @param projectId Project Identifier. Get via List Projects
+     * @param search Search users by firstName, lastName or username
+     * @param languageId Language Identifier. Get via Project Target Languages
+     * @param workflowStepId Workflow Step Identifier. Get via List Workflow Steps
+     * @param limit A maximum number of items to retrieve
+     * @param offset A starting offset in the collection
+     * @return list of project members
+     */
+    public ResponseList<ProjectMember> listProjectMembersEnterprise(Long projectId, String search, String languageId, Long workflowStepId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/members", this.url, projectId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+            "search", Optional.ofNullable(search),
+            "languageId", Optional.ofNullable(languageId),
+            "workflowStepId", Optional.ofNullable(workflowStepId),
+            "limit", Optional.ofNullable(limit),
+            "offset", Optional.ofNullable(offset)
+        );
+        ProjectMemberResponseList response = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), ProjectMemberResponseList.class);
+        return ProjectMemberResponseList.to(response);
     }
 
     /**
