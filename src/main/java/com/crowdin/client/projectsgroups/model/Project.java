@@ -14,7 +14,6 @@ public class Project {
     private Long userId;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
-    private LanguageAccessPolicy languageAccessPolicy;
     private String name;
     private String identifier;
     private String description;

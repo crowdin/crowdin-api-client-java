@@ -28,12 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class UsersApiTest extends TestClient {
 
     private final Long projectId = 12L;
+    private final Long projectId2 = 13L;
     private final Long userId = 1L;
     private final Long memberId = 3L;
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+                RequestMock.build(String.format("%s/projects/%d/members", this.url, projectId2), HttpGet.METHOD_NAME, "api/users/listProjectMembersEnterprise.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpPost.METHOD_NAME, "api/users/addProjectMember.json", "api/users/projectTeamMembers.json"),
                 RequestMock.build(String.format("%s/projects/%d/members/%d", this.url, projectId, memberId), HttpGet.METHOD_NAME, "api/users/getProjectMemberResponse.json"),
                 RequestMock.build(String.format("%s/projects/%d/members/%d", this.url, projectId, memberId), HttpPut.METHOD_NAME, "api/users/replaceProjectMemberPermissionsRequest.json", "api/users/replaceProjectMemberPermissionsResponse.json"),
@@ -44,6 +46,14 @@ public class UsersApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpGet.METHOD_NAME, "api/users/listProjectMembers.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/members/" + userId, HttpGet.METHOD_NAME, "api/users/projectMember.json")
         );
+    }
+
+    @Test
+    public void listProjectTeamMembersEnterpriseTest() {
+        ResponseList<ProjectMember> responseList = this.getUsersApi().listProjectMembersEnterprise(this.projectId2, null, null, null, null, null);
+        assertNotNull(responseList);
+        assertEquals(responseList.getData().size(), 1);
+        assertEquals(responseList.getData().get(0).getData().getId(), this.userId);
     }
 
     @Test

@@ -8,9 +8,11 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.projectsgroups.model.AddGroupRequest;
 import com.crowdin.client.projectsgroups.model.AddProjectRequest;
+import com.crowdin.client.projectsgroups.model.FilesBasedProjectRequest;
 import com.crowdin.client.projectsgroups.model.Group;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.projectsgroups.model.ProjectSettings;
+import com.crowdin.client.projectsgroups.model.QaCheckCategories;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -106,12 +108,19 @@ public class ProjectsGroupsApiTest extends TestClient {
 
     @Test
     public void addProjectTest() {
-        AddProjectRequest request = new AddProjectRequest();
-        request.setName(projectName);
-        request.setSourceLanguageId(sourceLanguageId);
-        request.setTemplateId(templateId);
-        request.setGroupId(groupId);
-        request.setTargetLanguageIds(singletonList(targetLanguageId));
+        FilesBasedProjectRequest request = new FilesBasedProjectRequest();
+        request.setType(0);
+        request.setNormalizePlaceholder(true);
+        request.setSaveMetaInfoInSource(true);
+        request.setName("Knowledge Base");
+        request.setIdentifier("1f198a4e907688bc65834a6d5a6000c3");
+        request.setQaCheckIsActive(true);
+        QaCheckCategories qaCheckCategories = new QaCheckCategories();
+        qaCheckCategories.setEmpty(true);
+        qaCheckCategories.setSize(true);
+        qaCheckCategories.setTags(false);
+        request.setQaCheckCategories(qaCheckCategories);
+
         ResponseObject<? extends Project> projectResponseObject = this.getProjectsGroupsApi().addProject(request);
         assertEquals(projectResponseObject.getData().getId(), projectId);
         assertEquals(projectResponseObject.getData().getName(), projectName);

@@ -24,26 +24,24 @@ public class JacksonJsonTransformer implements JsonTransformer {
     private final ObjectMapper errorObjectMapper;
 
     public JacksonJsonTransformer() {
-        ObjectMapper cleanObjectMapper = new ObjectMapper();
+        ObjectMapper cleanObjectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         SimpleModule enumModule = new SimpleModule()
             .addDeserializer(Enum.class, new EnumDeserializer());
 
         SimpleModule module = new SimpleModule()
             .addSerializer(Enum.class, new EnumSerializer())
             .addDeserializer(Enum.class, new EnumDeserializer())
-            .addDeserializer(Project.class, new ProjectDeserializer(new ObjectMapper()
+            .addDeserializer(Project.class, new ProjectDeserializer(cleanObjectMapper.copy()
+                .registerModule(enumModule)))
+            .addDeserializer(FileInfo.class, new FileInfoDeserializer(cleanObjectMapper.copy()
                 .registerModule(enumModule)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)))
-            .addDeserializer(FileInfo.class, new FileInfoDeserializer(new ObjectMapper()
-                .registerModule(enumModule)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .registerModule(new SimpleModule()
                     .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))
                     .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper)))))
             .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
-        this.objectMapper = new ObjectMapper()
+        this.objectMapper = cleanObjectMapper.copy()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
                 .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"))
                 .registerModule(module)
                 .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE)

@@ -12,4 +12,5 @@ public class XmlFileImportOptions extends ImportOptions {
     private Boolean contentSegmentation;
     private Boolean customSegmentation;
     private List<String> translatableElements;
+    private Long srxStorageId;
 }
