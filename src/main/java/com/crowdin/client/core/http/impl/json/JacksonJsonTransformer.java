@@ -1,6 +1,7 @@
 package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.core.http.JsonTransformer;
+import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.projectsgroups.model.Project;
@@ -32,6 +33,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
         SimpleModule module = new SimpleModule()
             .addSerializer(Enum.class, new EnumSerializer())
             .addDeserializer(Enum.class, new EnumDeserializer())
+            .addDeserializer(CrowdinApiException.class, new CrowdinApiExceptionDeserializer(cleanObjectMapper))
             .addDeserializer(Project.class, new ProjectDeserializer(cleanObjectMapper.copy()
                 .registerModule(enumModule)))
             .addDeserializer(FileInfo.class, new FileInfoDeserializer(cleanObjectMapper.copy()

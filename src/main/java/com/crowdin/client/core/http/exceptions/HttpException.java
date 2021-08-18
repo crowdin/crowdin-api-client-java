@@ -6,7 +6,7 @@ import lombok.var;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HttpException extends RuntimeException {
+public class HttpException extends CrowdinApiException {
 
     public Error error;
 
