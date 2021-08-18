@@ -7,7 +7,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HttpBadRequestException extends RuntimeException {
+public class HttpBadRequestException extends CrowdinApiException {
 
     public List<ErrorHolder> errors;
 

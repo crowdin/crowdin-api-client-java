@@ -3,6 +3,7 @@ package com.crowdin.client.core.http.impl.http;
 import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.JsonTransformer;
+import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
@@ -111,13 +112,7 @@ public class ApacheHttpClient implements HttpClient {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode < 200 || statusCode >= 300) {
                 String error = this.toString(response.getEntity());
-                RuntimeException exception;
-                try {
-                    exception = this.jsonTransformer.parse(error, HttpException.class);
-                } catch (Exception e) {
-                    exception = this.jsonTransformer.parse(error, HttpBadRequestException.class);
-                }
-                throw exception;
+                throw this.jsonTransformer.parse(error, CrowdinApiException.class);
             }
             //plain response
             if (String.class.equals(clazz)) {
