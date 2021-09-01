@@ -115,4 +115,18 @@ public class HttpRequestConfig {
             put(k8, v8);
         }};
     }
+
+    public static <T extends Optional> Map<String, T> buildUrlParams(String k1, T v1, String k2, T v2, String k3, T v3, String k4, T v4, String k5, T v5, String k6, T v6, String k7, T v7, String k8, T v8, String k9, T v9) {
+        return new HashMap<String, T>() {{
+            put(k1, v1);
+            put(k2, v2);
+            put(k3, v3);
+            put(k4, v4);
+            put(k5, v5);
+            put(k6, v6);
+            put(k7, v7);
+            put(k8, v8);
+            put(k9, v9);
+        }};
+    }
 }
