@@ -21,6 +21,7 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
+    private Boolean hiddenStringsProofreadersAccess;
     private Boolean useGlobalTm;
     private Boolean delayedWorkflowStart;
     private Boolean skipUntranslatedStrings;
@@ -35,4 +36,6 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private QaCheckCategories qaCheckCategories;
     private List<Integer> customQaCheckIds;
     private Map<String, Map<String, String>> languageMapping;
+    private Boolean glossaryAccess;
+    private NotificationSettings notificationSettings;
 }

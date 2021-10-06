@@ -11,6 +11,7 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private Integer type;
     private Boolean normalizePlaceholder;
     private Boolean saveMetaInfoInSource;
+    private NotificationSettings notificationSettings;
     private String name;
     private String identifier;
     private String sourceLanguageId;
@@ -24,6 +25,7 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
+    private Boolean hiddenStringsProofreadersAccess;
     private Boolean useGlobalTm;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
@@ -34,5 +36,6 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
     private Map<String, Map<String, String>> languageMapping;
+    private Boolean glossaryAccess;
 
 }

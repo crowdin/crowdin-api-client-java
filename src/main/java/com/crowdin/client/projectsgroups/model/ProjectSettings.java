@@ -14,7 +14,9 @@ import java.util.Map;
 public class ProjectSettings extends Project {
 
     private Integer translateDuplicates;
+    private Boolean glossaryAccess;
     private Boolean isMtAllowed;
+    private Boolean hiddenStringsProofreadersAccess;
     private Boolean autoSubstitution;
     private Boolean skipTranslatedOnly;
     private Boolean skipUntranslatedStrings;
@@ -35,5 +37,6 @@ public class ProjectSettings extends Project {
     private List<Long> customQaCheckIds;
     private Map<String, Map<String, String>> languageMapping;
     private Boolean delayedWorkflowStart;
+    private NotificationSettings notificationSettings;
 
 }
