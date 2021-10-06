@@ -19,7 +19,9 @@
     "createdAt": "2019-09-20T11:34:40+00:00",
     "updatedAt": "2019-09-20T11:34:40+00:00",
     "translateDuplicates": 1,
+    "glossaryAccess": false,
     "isMtAllowed": true,
+    "hiddenStringsProofreadersAccess": true,
     "autoSubstitution": true,
     "exportTranslatedOnly": false,
     "skipUntranslatedFiles": false,
@@ -58,6 +60,11 @@
         "osx_code": "ua.lproj",
         "osx_locale": "ua"
       }
+    },
+    "notificationSettings": {
+      "translatorNewStrings": true,
+      "managerNewStrings": false,
+      "managerLanguageCompleted": false
     }
   }
 }

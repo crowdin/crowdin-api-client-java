@@ -25,6 +25,7 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProjectsGroupsApiTest extends TestClient {
@@ -142,6 +143,8 @@ public class ProjectsGroupsApiTest extends TestClient {
         assertEquals(projectSettings.getName(), projectName);
         assertTrue(projectSettings.getLanguageMapping() instanceof Map);
         assertTrue(((Map) projectSettings.getLanguageMapping()).containsKey(targetLanguageId));
+        assertNotNull(((ProjectSettings) projectResponseObject.getData()).getNotificationSettings());
+        assertEquals(((ProjectSettings) projectResponseObject.getData()).getNotificationSettings().getManagerNewStrings(), false);
     }
 
     @Test

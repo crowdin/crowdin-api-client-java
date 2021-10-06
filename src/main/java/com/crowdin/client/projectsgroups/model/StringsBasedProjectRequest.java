@@ -22,6 +22,7 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
+    private Boolean hiddenStringsProofreadersAccess;
     private Boolean useGlobalTm;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
@@ -32,4 +33,6 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
     private Map<String, Map<String, String>> languageMapping;
+    private Boolean glossaryAccess;
+    private NotificationSettings notificationSettings;
 }
