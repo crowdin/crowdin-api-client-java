@@ -16,6 +16,7 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TranslationsApiTest extends TestClient {
 
@@ -23,6 +24,7 @@ public class TranslationsApiTest extends TestClient {
     private final Long parallelProjectId = 13L;
     private final String language = "uk";
     private final String preTranslationId = "9e7de270-4f83-41cb-b606-2f90631f26e2";
+    private final long directoryId = 3L;
     private final Long fileId = 2L;
     private final Long storageId = 14L;
     private final Long buildId = 2L;
@@ -33,6 +35,7 @@ public class TranslationsApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationRequest.json", "api/translations/preTranslationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpGet.METHOD_NAME, "api/translations/preTranslationStatus.json"),
+                RequestMock.build(String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId), HttpPost.METHOD_NAME, "api/translations/buildProjectDirectoryRequest.json", "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/files/" + fileId, HttpPost.METHOD_NAME, "api/translations/buildFileRequest.json", "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpGet.METHOD_NAME, "api/translations/listProjectBuilds.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/buildProjectRequest.json", "api/translations/projectBuildStatus.json"),
@@ -60,6 +63,19 @@ public class TranslationsApiTest extends TestClient {
     public void preTranslationStatusTest() {
         ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().preTranslationStatus(projectId, preTranslationId);
         assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
+    }
+
+    @Test
+    public void buildProjectDirectoryTranslationTest() {
+        BuildProjectDirectoryTranslationRequest request = new BuildProjectDirectoryTranslationRequest();
+        request.setTargetLanguageIds(Arrays.asList("uk"));
+        request.setSkipUntranslatedStrings(false);
+        request.setSkipUntranslatedFiles(false);
+        request.setExportApprovedOnly(false);
+        ResponseObject<DownloadLink> downloadLinkResponseObject = this.getTranslationsApi().buildProjectDirectoryTranslation(projectId, directoryId, request);
+        assertNotNull(downloadLinkResponseObject);
+        assertNotNull(downloadLinkResponseObject.getData());
+        assertEquals(link, downloadLinkResponseObject.getData().getUrl());
     }
 
     @Test
