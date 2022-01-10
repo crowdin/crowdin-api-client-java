@@ -35,6 +35,7 @@ public class TranslationMemoryApiTest extends TestClient {
     private final String exportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String importId = "b5215a34-1305-4b21-8054-fc2eb252842f";
     private final String link = "test.com";
+    private final String languageId = "ro";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -65,6 +66,7 @@ public class TranslationMemoryApiTest extends TestClient {
     public void addTmTest() {
         AddTranslationMemoryRequest request = new AddTranslationMemoryRequest();
         request.setName(name);
+        request.setLanguageId(languageId);
         ResponseObject<TranslationMemory> translationMemoryResponseObject = this.getTranslationMemoryApi().addTm(request);
         assertEquals(translationMemoryResponseObject.getData().getId(), tmId);
         assertEquals(translationMemoryResponseObject.getData().getName(), name);

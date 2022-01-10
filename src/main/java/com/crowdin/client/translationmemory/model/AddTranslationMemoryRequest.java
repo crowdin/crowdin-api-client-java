@@ -6,5 +6,6 @@ import lombok.Data;
 public class AddTranslationMemoryRequest {
 
     private String name;
+    private String languageId;
     private Long groupId;
 }
