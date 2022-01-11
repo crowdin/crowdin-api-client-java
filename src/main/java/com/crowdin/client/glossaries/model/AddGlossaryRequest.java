@@ -6,5 +6,6 @@ import lombok.Data;
 public class AddGlossaryRequest {
 
     private String name;
+    private String languageId;
     private Long groupId;
 }

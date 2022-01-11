@@ -40,6 +40,7 @@ public class GlossariesApiTest extends TestClient {
     private final String exportId = "5ed2ce93-6d47-4402-9e66-516ca835cb20";
     private final String importId = "c050fba2-200e-4ce1-8de4-f7ba8eb58732";
     private final String link = "test.com";
+    private final String languageId = "ro";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -75,6 +76,7 @@ public class GlossariesApiTest extends TestClient {
     public void addGlossaryTest() {
         AddGlossaryRequest request = new AddGlossaryRequest();
         request.setName(name);
+        request.setLanguageId(languageId);
         request.setGroupId(groupId);
         ResponseObject<Glossary> glossaryResponseObject = this.getGlossariesApi().addGlossary(request);
         assertEquals(glossaryResponseObject.getData().getId(), glossaryId);
