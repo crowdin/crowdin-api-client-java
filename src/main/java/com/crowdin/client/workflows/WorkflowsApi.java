@@ -32,7 +32,7 @@ public class WorkflowsApi extends CrowdinApi {
      * @return list of workflow steps
      */
     public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId) throws HttpException, HttpBadRequestException {
-        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", WorkflowStepResponseList.class);
+        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", new HttpRequestConfig(), WorkflowStepResponseList.class);
         return WorkflowStepResponseList.to(workflowStepResponseList);
     }
 
