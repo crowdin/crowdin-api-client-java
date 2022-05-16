@@ -34,7 +34,7 @@ public class WorkflowsApiTest extends TestClient {
 
     @Test
     public void listWorkflowStepsTest() {
-        ResponseList<WorkflowStep> workflowStepResponseList = this.getWorkflowsApi().listWorkflowSteps(projectId, null, null);
+        ResponseList<WorkflowStep> workflowStepResponseList = this.getWorkflowsApi().listWorkflowSteps(projectId);
         assertEquals(workflowStepResponseList.getData().size(), 2);
     }
 

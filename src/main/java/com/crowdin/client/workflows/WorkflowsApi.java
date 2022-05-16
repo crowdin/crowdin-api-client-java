@@ -29,16 +29,10 @@ public class WorkflowsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
      * @return list of workflow steps
      */
-    public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", new HttpRequestConfig(queryParams), WorkflowStepResponseList.class);
+    public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId) throws HttpException, HttpBadRequestException {
+        WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", WorkflowStepResponseList.class);
         return WorkflowStepResponseList.to(workflowStepResponseList);
     }
 
