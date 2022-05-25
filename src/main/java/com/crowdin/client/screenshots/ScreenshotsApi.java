@@ -129,7 +129,7 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param request      request object
      * @return newly created tag
      */
-    public ResponseObject<Tag> addTag(Long projectId, Long screenshotId, AddTagRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Tag> addTag(Long projectId, Long screenshotId, List<AddTagRequest> request) throws HttpException, HttpBadRequestException {
         TagResponseObject tagResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), TagResponseObject.class);
         return ResponseObject.of(tagResponseObject.getData());
     }

@@ -9,6 +9,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.screenshots.model.AddScreenshotRequest;
 import com.crowdin.client.screenshots.model.AddTagRequest;
 import com.crowdin.client.screenshots.model.AutoTagReplaceTagsRequest;
+import com.crowdin.client.screenshots.model.Position;
 import com.crowdin.client.screenshots.model.Screenshot;
 import com.crowdin.client.screenshots.model.Tag;
 import com.crowdin.client.screenshots.model.UpdateScreenshotRequest;
@@ -117,7 +118,13 @@ public class ScreenshotsApiTest extends TestClient {
     public void addTagTest() {
         AddTagRequest request = new AddTagRequest();
         request.setStringId(stringId);
-        ResponseObject<Tag> tagResponseObject = this.getScreenshotsApi().addTag(projectId, screenshotId, request);
+        Position position = new Position();
+        position.setX(1);
+        position.setY(2);
+        position.setWidth(100);
+        position.setHeight(200);
+        request.setPosition(position);
+        ResponseObject<Tag> tagResponseObject = this.getScreenshotsApi().addTag(projectId, screenshotId, singletonList(request));
         assertEquals(tagResponseObject.getData().getId(), tagId);
     }
 
