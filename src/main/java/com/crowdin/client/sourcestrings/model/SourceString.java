@@ -12,6 +12,7 @@ public class SourceString {
     private Long projectId;
     private Long fileId;
     private Long branchId;
+    private Long masterStringId;
     private String identifier;
     private Object text;
     private String type;
@@ -24,5 +25,5 @@ public class SourceString {
     private List<Long> labelIds;
     private Date createdAt;
     private Date updatedAt;
-
+    private boolean isDuplicate;
 }

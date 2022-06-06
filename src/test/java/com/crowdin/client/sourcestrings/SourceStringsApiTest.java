@@ -19,6 +19,8 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class SourceStringsApiTest extends TestClient {
 
@@ -45,6 +47,8 @@ public class SourceStringsApiTest extends TestClient {
         assertEquals(sourceStringResponseList.getData().get(0).getData().getId(), id);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getText(), text);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getBranchId(), branchId);
+        assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
     }
 
     @Test
