@@ -7,7 +7,6 @@ import java.util.Map;
 @Data
 public class SpreadsheetFileImportOptions extends ImportOptions {
 
-    private Boolean firstLineContainsHeader;
     private Boolean importTranslations;
     private Map<String, Integer> scheme;
 }
