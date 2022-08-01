@@ -6,11 +6,10 @@ The Crowdin Java client is a lightweight interface to the Crowdin API v2 that wo
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
-For more about Crowdin API v2 see the documentation:
-- [Crowdin](https://support.crowdin.com/api/v2/)
-- [Crowdin Enterprise](https://support.crowdin.com/enterprise/api/)
+<div align="center">
 
-## Status
+[**`Crowdin API`**](https://developer.crowdin.com/api/v2/) &nbsp;|&nbsp;
+[**`Crowdin Enterprise API`**](https://developer.crowdin.com/enterprise/api/v2/)
 
 [![JitPack](https://img.shields.io/jitpack/v/github/crowdin/crowdin-api-client-java?cacheSeconds=3600)](https://jitpack.io/#crowdin/crowdin-api-client-java)
 [![](https://jitpack.io/v/crowdin/crowdin-api-client-java/month.svg)](https://jitpack.io/#crowdin/crowdin-api-client-java)
@@ -21,6 +20,8 @@ For more about Crowdin API v2 see the documentation:
 [![Azure DevOps builds (branch)](https://img.shields.io/azure-devops/build/crowdin/crowdin-api-client-java/21/master?cacheSeconds=3600&logo=azure-devops)](https://dev.azure.com/crowdin/crowdin-api-client-java/_build/latest?definitionId=21&branchName=master)
 [![Azure DevOps tests (branch)](https://img.shields.io/azure-devops/tests/crowdin/crowdin-api-client-java/21/master?cacheSeconds=3600)](https://dev.azure.com/crowdin/crowdin-api-client-java/_build/latest?definitionId=21&branchName=master)
 [![codecov](https://codecov.io/gh/crowdin/crowdin-api-client-java/branch/master/graph/badge.svg)](https://codecov.io/gh/crowdin/crowdin-api-client-java)
+
+</div>
 
 ## Installation
 
