@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 98,
+        "screenshotId": 2,
+        "stringId": 12,
+        "position": {
+          "x": 474,
+          "y": 147,
+          "width": 490,
+          "height": 99
+        },
+        "createdAt": "2019-09-23T09:35:31+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 1
+  }
+}

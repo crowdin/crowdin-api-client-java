@@ -23,6 +23,7 @@ import com.crowdin.client.screenshots.model.UpdateScreenshotRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ScreenshotsApi extends CrowdinApi {
     public ScreenshotsApi(Credentials credentials) {
@@ -127,11 +128,13 @@ public class ScreenshotsApi extends CrowdinApi {
      * @param projectId    project identifier
      * @param screenshotId screenshot identifier
      * @param request      request object
-     * @return newly created tag
+     * @return newly created tags
      */
-    public ResponseObject<Tag> addTag(Long projectId, Long screenshotId, List<AddTagRequest> request) throws HttpException, HttpBadRequestException {
-        TagResponseObject tagResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), TagResponseObject.class);
-        return ResponseObject.of(tagResponseObject.getData());
+    public ResponseObject<List<Tag>> addTag(Long projectId, Long screenshotId, List<AddTagRequest> request) throws HttpException, HttpBadRequestException {
+        TagResponseList tagResponseList = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), TagResponseList.class);
+        return ResponseObject.of(tagResponseList.getData().stream()
+                .map(TagResponseObject::getData)
+                .collect(Collectors.toList()));
     }
 
     /**
