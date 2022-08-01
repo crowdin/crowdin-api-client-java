@@ -46,7 +46,7 @@ public class ScreenshotsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, HttpPatch.METHOD_NAME, "api/screenshots/editScreenshot.json", "api/screenshots/screenshot.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpGet.METHOD_NAME, "api/screenshots/listTags.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPut.METHOD_NAME, "api/screenshots/replaceTag.json", (String) null),
-                RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPost.METHOD_NAME, "api/screenshots/addTagRequest.json", "api/screenshots/tag.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPost.METHOD_NAME, "api/screenshots/addTagRequest.json", "api/screenshots/tags.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, HttpGet.METHOD_NAME, "api/screenshots/tag.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, HttpDelete.METHOD_NAME),
@@ -115,7 +115,7 @@ public class ScreenshotsApiTest extends TestClient {
     }
 
     @Test
-    public void addTagTest() {
+    public void addTagsTest() {
         AddTagRequest request = new AddTagRequest();
         request.setStringId(stringId);
         Position position = new Position();
@@ -124,8 +124,8 @@ public class ScreenshotsApiTest extends TestClient {
         position.setWidth(100);
         position.setHeight(200);
         request.setPosition(position);
-        ResponseObject<Tag> tagResponseObject = this.getScreenshotsApi().addTag(projectId, screenshotId, singletonList(request));
-        assertEquals(tagResponseObject.getData().getId(), tagId);
+        ResponseObject<List<Tag>> tagResponseObject = this.getScreenshotsApi().addTag(projectId, screenshotId, singletonList(request));
+        assertEquals(tagResponseObject.getData().get(0).getId(), tagId);
     }
 
     @Test
