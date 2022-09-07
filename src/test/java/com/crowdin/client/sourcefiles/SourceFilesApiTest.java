@@ -113,7 +113,7 @@ public class SourceFilesApiTest extends TestClient {
 
     @Test
     public void listDirectoriesTest() {
-        ResponseList<Directory> directoryResponseList = this.getSourceFilesApi().listDirectories(projectId, null, null, null, null, null);
+        ResponseList<Directory> directoryResponseList = this.getSourceFilesApi().listDirectories(projectId, null, null, null, null, null, null);
         assertEquals(directoryResponseList.getData().size(), 1);
         assertEquals(directoryResponseList.getData().get(0).getData().getId(), directoryId);
         assertEquals(directoryResponseList.getData().get(0).getData().getName(), directoryName);
