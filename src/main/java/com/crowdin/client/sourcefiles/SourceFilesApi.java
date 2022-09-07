@@ -86,15 +86,17 @@ public class SourceFilesApi extends CrowdinApi {
      * @param projectId   project identifier
      * @param branchId    filter by branch id
      * @param directoryId filter by directory id
+     * @param filter      filter directories by name
      * @param recursion   use to list directories recursively
      * @param limit       maximum number of items to retrieve (default 25)
      * @param offset      starting offset in the collection (default 0)
      * @return list of directories
      */
-    public ResponseList<Directory> listDirectories(Long projectId, Long branchId, Long directoryId, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<Directory> listDirectories(Long projectId, Long branchId, Long directoryId, String filter, Object recursion, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "branchId", Optional.ofNullable(branchId),
                 "directoryId", Optional.ofNullable(directoryId),
+                "filter", Optional.ofNullable(filter),
                 "recursion", Optional.ofNullable(recursion),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
@@ -146,6 +148,7 @@ public class SourceFilesApi extends CrowdinApi {
      * @param projectId   project identifier
      * @param branchId    filter by branch id
      * @param directoryId filter by directory id
+     * @param filter      filter files by name
      * @param recursion   use to list directories recursively
      * @param limit       maximum number of items to retrieve (default 25)
      * @param offset      starting offset in the collection (default 0)
