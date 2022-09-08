@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class CrowdinTranslationCraeteProjectPseudoBuildForm implements BuildProjectTranslationRequest {
 
+    private Long branchId;
     private Boolean pseudo;
     private String prefix;
     private String suffix;

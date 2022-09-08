@@ -104,6 +104,7 @@ public class TranslationsApiTest extends TestClient {
     @Test
     public void pseudoBuildProjectTranslationTest() {
         CrowdinTranslationCraeteProjectPseudoBuildForm request = new CrowdinTranslationCraeteProjectPseudoBuildForm();
+        request.setBranchId(1L);
         request.setPseudo(true);
         request.setPrefix("pre");
         request.setSuffix("ion");
