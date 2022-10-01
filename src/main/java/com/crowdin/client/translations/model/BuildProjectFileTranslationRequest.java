@@ -10,5 +10,6 @@ public class BuildProjectFileTranslationRequest {
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
+    private Boolean exportStringsThatPassedWorkflow;
     private Integer exportWithMinApprovalsCount;
 }
