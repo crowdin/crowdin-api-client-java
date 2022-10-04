@@ -44,7 +44,8 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", HttpGet.METHOD_NAME, "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpGet.METHOD_NAME, "api/translations/projectBuildStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME),
-                RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json")
+                RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json"),
+                RequestMock.build(String.format("%s/projects/%d/translations/exports/enterprise", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationEnterpriseRequest.json", "api/translations/exportProjectTranslationResponse.json")
         );
     }
 
@@ -153,8 +154,25 @@ public class TranslationsApiTest extends TestClient {
         request.setSkipUntranslatedStrings(false);
         request.setSkipUntranslatedFiles(false);
         request.setExportApprovedOnly(false);
-        request.setExportStringsThatPassedWorkflow(false);
         ResponseObject<DownloadLink> response = this.getTranslationsApi().exportProjectTranslation(projectId, request);
+        assertEquals(link, response.getData().getUrl());
+    }
+
+    @Test
+    public void exportProjectTranslationEnterpriseTest() {
+        ExportProjectTranslationRequest request = new ExportProjectTranslationRequest();
+        request.setTargetLanguageId("uk");
+        request.setFormat("xliff");
+        request.setLabelIds(Arrays.asList(1L));
+        request.setBranchIds(Arrays.asList(1L));
+        request.setDirectoryIds(Arrays.asList(1L));
+        request.setFileIds(Arrays.asList(1L));
+        request.setSkipUntranslatedStrings(false);
+        request.setSkipUntranslatedFiles(false);
+        request.setExportApprovedOnly(false);
+        request.setExportStringsThatPassedWorkflow(false);
+        request.setExportWithMinApprovalsCount(0);
+        ResponseObject<DownloadLink> response = this.getTranslationsApi().exportProjectTranslationEnterprise(projectId, request);
         assertEquals(link, response.getData().getUrl());
     }
 }

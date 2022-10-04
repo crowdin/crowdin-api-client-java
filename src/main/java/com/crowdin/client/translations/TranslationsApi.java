@@ -179,4 +179,10 @@ public class TranslationsApi extends CrowdinApi {
         DownloadLinkResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(response.getData());
     }
+
+    public ResponseObject<DownloadLink> exportProjectTranslationEnterprise(Long projectId, ExportProjectTranslationRequest request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/translations/exports/enterprise", this.url, projectId);
+        DownloadLinkResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
 }
