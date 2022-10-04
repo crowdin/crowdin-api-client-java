@@ -153,7 +153,6 @@ public class TranslationsApiTest extends TestClient {
         request.setSkipUntranslatedStrings(false);
         request.setSkipUntranslatedFiles(false);
         request.setExportApprovedOnly(false);
-        request.setExportStringsThatPassedWorkflow(false);
         ResponseObject<DownloadLink> response = this.getTranslationsApi().exportProjectTranslation(projectId, request);
         assertEquals(link, response.getData().getUrl());
     }
