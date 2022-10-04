@@ -1,0 +1,21 @@
+{
+  "targetLanguageId": "uk",
+  "format": "xliff",
+  "labelIds": [
+    1
+  ],
+  "branchIds": [
+    1
+  ],
+  "directoryIds": [
+    1
+  ],
+  "fileIds": [
+    1
+  ],
+  "skipUntranslatedStrings": false,
+  "skipUntranslatedFiles": false,
+  "exportApprovedOnly": false,
+  "exportWithMinApprovalsCount": 0,
+  "exportStringsThatPassedWorkflow": false
+}
