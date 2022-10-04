@@ -17,5 +17,6 @@ public class ExportProjectTranslationRequest {
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
     private Integer exportWithMinApprovalsCount;
+    private Boolean exportStringsThatPassedWorkflow;
 
 }

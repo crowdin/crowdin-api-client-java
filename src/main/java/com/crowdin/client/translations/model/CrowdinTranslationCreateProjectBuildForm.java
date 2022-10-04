@@ -13,5 +13,6 @@ public class CrowdinTranslationCreateProjectBuildForm implements BuildProjectTra
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
     private Integer exportWithMinApprovalsCount;
+    private Boolean exportStringsThatPassedWorkflow;
 
 }
