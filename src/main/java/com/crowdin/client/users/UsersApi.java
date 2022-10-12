@@ -4,25 +4,11 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.users.model.AddProjectMemberRequest;
-import com.crowdin.client.users.model.ProjectMember;
-import com.crowdin.client.users.model.ProjectMemberResponseList;
-import com.crowdin.client.users.model.ProjectMemberResponseObject;
-import com.crowdin.client.users.model.ProjectMembersResponse;
-import com.crowdin.client.users.model.ReplaceProjectMemberPermissionsRequest;
-import com.crowdin.client.users.model.Status;
-import com.crowdin.client.users.model.TeamMember;
-import com.crowdin.client.users.model.TeamMemberResponseList;
-import com.crowdin.client.users.model.TeamMemberResponseObject;
-import com.crowdin.client.users.model.TwoFactor;
-import com.crowdin.client.users.model.User;
-import com.crowdin.client.users.model.UserResponseList;
-import com.crowdin.client.users.model.UserResponseObject;
+import com.crowdin.client.core.model.*;
+import com.crowdin.client.teams.model.TeamResponseObject;
+import com.crowdin.client.users.model.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -120,12 +106,38 @@ public class UsersApi extends CrowdinApi {
     }
 
     /**
+     * @param request request object
+     * @return invited user
+     */
+    public ResponseObject<User> inviteUser(InviteUserRequest request) throws HttpException, HttpBadRequestException {
+        UserResponseObject invitedUserResponseObject = this.httpClient.post(this.url + "/users", request, new HttpRequestConfig(), UserResponseObject.class);
+        return ResponseObject.of(invitedUserResponseObject.getData());
+    }
+
+    /**
      * @param userId user identifier
      * @return user
      */
     public ResponseObject<User> getUser(Long userId) throws HttpException, HttpBadRequestException {
         UserResponseObject languageResponseObject = this.httpClient.get(this.url + "/users/" + userId, new HttpRequestConfig(), UserResponseObject.class);
         return ResponseObject.of(languageResponseObject.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     */
+    public void deleteUser(Long userId) throws HttpException, HttpBadRequestException{
+        this.httpClient.delete(this.url + "/users/" + userId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId  user identifier
+     * @param request request object
+     * @return updated user
+     */
+    public ResponseObject<User> editUser(Long userId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        UserResponseObject editedUserResponseObject = this.httpClient.patch(this.url + "/users/" + userId, request, new HttpRequestConfig(), UserResponseObject.class);
+        return ResponseObject.of(editedUserResponseObject.getData());
     }
 
     /**

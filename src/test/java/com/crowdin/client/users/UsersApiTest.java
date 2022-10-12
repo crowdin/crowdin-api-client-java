@@ -1,20 +1,13 @@
 package com.crowdin.client.users;
 
+import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.users.model.AddProjectMemberRequest;
-import com.crowdin.client.users.model.LanguagePermission;
-import com.crowdin.client.users.model.ProjectMember;
-import com.crowdin.client.users.model.ProjectMembersResponse;
-import com.crowdin.client.users.model.ReplaceProjectMemberPermissionsRequest;
-import com.crowdin.client.users.model.TeamMember;
-import com.crowdin.client.users.model.User;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import com.crowdin.client.users.model.*;
+import org.apache.http.client.methods.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -22,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -31,6 +25,16 @@ public class UsersApiTest extends TestClient {
     private final Long projectId2 = 13L;
     private final Long userId = 1L;
     private final Long memberId = 3L;
+
+    private final String name = "Smith";
+
+    private final String email = "john@example.com";
+
+    private final String firstName = "Jon";
+
+    private final String lastName = "Doe";
+
+    private final String timezone = "America/New_York";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -44,7 +48,10 @@ public class UsersApiTest extends TestClient {
                 RequestMock.build(this.url + "/users/" + userId, HttpGet.METHOD_NAME, "api/users/user.json"),
                 RequestMock.build(this.url + "/user", HttpGet.METHOD_NAME, "api/users/user.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpGet.METHOD_NAME, "api/users/listProjectMembers.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/members/" + userId, HttpGet.METHOD_NAME, "api/users/projectMember.json")
+                RequestMock.build(this.url + "/users", HttpPost.METHOD_NAME, "api/users/invitedUser.json", "api/users/user.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/members/" + userId, HttpGet.METHOD_NAME, "api/users/projectMember.json"),
+                RequestMock.build(this.url + "/users/" + userId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/users/" + userId, HttpPatch.METHOD_NAME, "api/users/editUser.json", "api/users/user.json")
         );
     }
 
@@ -59,7 +66,7 @@ public class UsersApiTest extends TestClient {
     @Test
     public void addProjectTeamMemberTest() {
         AddProjectMemberRequest request = new AddProjectMemberRequest();
-        request.setUserIds(Collections.singletonList(userId));
+        request.setUserIds(singletonList(userId));
         LanguagePermission languagePermission = new LanguagePermission();
         languagePermission.setWorkflowStepIds("all");
         request.setPermissions(Collections.singletonMap(
@@ -109,9 +116,35 @@ public class UsersApiTest extends TestClient {
     }
 
     @Test
+    public void inviteUserTest() {
+        InviteUserRequest request = new InviteUserRequest();
+        request.setEmail(email);
+        request.setFirstName(firstName);
+        request.setLastName(lastName);
+        request.setTimezone(timezone);
+        ResponseObject<User> invitedUserResponseObject = this.getUsersApi().inviteUser(request);
+        assertEquals(invitedUserResponseObject.getData().getId(), userId);
+        assertEquals(invitedUserResponseObject.getData().getLastName(), name);
+    }
+
+    @Test
     public void getUserTest() {
         ResponseObject<User> user = this.getUsersApi().getUser(userId);
         assertEquals(user.getData().getId(), userId);
+    }
+
+    @Test
+    public void deleteUserTest() {this.getUsersApi().deleteUser(userId);}
+
+    @Test
+    public void editUserTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setValue(name);
+        request.setPath("/lastName");
+        ResponseObject<User> userResponseObject = this.getUsersApi().editUser(userId, singletonList(request));
+        assertEquals(userResponseObject.getData().getId(), userId);
+        assertEquals(userResponseObject.getData().getLastName(), name);
     }
 
     @Test
