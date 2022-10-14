@@ -1,0 +1,35 @@
+{
+  "data": {
+    "id": 1,
+    "name": "Default template",
+    "currency": "USD",
+    "unit": "words",
+    "mode": "simple",
+    "config": {
+      "regularRates": [
+        {
+          "mode": "tm_match",
+          "value": 0.1
+        }
+      ],
+      "individualRates": [
+        {
+          "languageIds": [
+            "uk"
+          ],
+          "userIds": [
+            1
+          ],
+          "rates": [
+            {
+              "mode": "tm_match",
+              "value": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00"
+  }
+}

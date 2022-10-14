@@ -1,27 +1,31 @@
 package com.crowdin.client.reports;
 
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.reports.model.CostEstimateGenerateReportRequest;
-import com.crowdin.client.reports.model.Currency;
-import com.crowdin.client.reports.model.ReportStatus;
-import com.crowdin.client.reports.model.ReportsFormat;
-import com.crowdin.client.reports.model.Unit;
+import com.crowdin.client.projectsgroups.model.Group;
+import com.crowdin.client.reports.model.*;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReportsApiTest extends TestClient {
 
-    private final Long projectId = 4L;
+    private final Long projectId = 1L;
+    private final Long reportSettingsTemplateId = 2L;
+
+    private final String name = "Default template";
     private final String id = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String link = "test.com";
 
@@ -30,8 +34,12 @@ public class ReportsApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generateReport.json", "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json")
-        );
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpGet.METHOD_NAME, "api/reports/reportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpPatch.METHOD_NAME, "api/reports/editReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME)
+                );
     }
 
     @Test
@@ -70,5 +78,36 @@ public class ReportsApiTest extends TestClient {
     public void downloadReportTest() {
         ResponseObject<DownloadLink> downloadLinkResponseObject = this.getReportsApi().downloadReport(projectId, id);
         assertEquals(downloadLinkResponseObject.getData().getUrl(), link);
+    }
+
+    @Test
+    public void listReportSettingsTemplateTest() {
+        ResponseList<ReportSettingsTemplate> reportSettingsTemplateResponseList = this.getReportsApi().listReportSettingsTemplate(projectId, null, null);
+        assertEquals(reportSettingsTemplateResponseList.getData().size(), 1);
+        assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getId(), projectId);
+        assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getName(), name);
+    }
+
+    @Test
+    public void getReportSettingsTemplateTest() {
+        ResponseObject<ReportSettingsTemplate> responseObject = this.getReportsApi().getReportSettingsTemplate(projectId, reportSettingsTemplateId);
+        assertEquals(responseObject.getData().getId(), projectId);
+        assertEquals(responseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void editReportSettingsTemplateTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setValue(name);
+        request.setPath("name");
+        ResponseObject<ReportSettingsTemplate> responseObject = this.getReportsApi().editReportSettingsTemplate(projectId, reportSettingsTemplateId, singletonList(request));
+        assertEquals(responseObject.getData().getId(), projectId);
+        assertEquals(responseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void deleteReportSettingsTemplateTest() {
+        this.getReportsApi().deleteReportSettingsTemplate(projectId, reportSettingsTemplateId);
     }
 }
