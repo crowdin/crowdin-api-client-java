@@ -25,7 +25,7 @@ public class ReportsApiTest extends TestClient {
     private final Long projectId = 1L;
     private final Long reportSettingsTemplateId = 2L;
 
-    private final String name = "Default template";
+    private final String name = "my report template";
     private final String id = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String link = "test.com";
 

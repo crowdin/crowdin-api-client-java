@@ -1,14 +1,14 @@
 {
   "data": {
     "id": 1,
-    "name": "Default template",
+    "name": "my report template",
     "currency": "USD",
-    "unit": "words",
+    "unit": "strings",
     "mode": "simple",
     "config": {
       "regularRates": [
         {
-          "mode": "tm_match",
+          "mode": "no_match",
           "value": 0.1
         }
       ],
@@ -18,7 +18,7 @@
             "uk"
           ],
           "userIds": [
-            1
+            20
           ],
           "rates": [
             {
@@ -29,7 +29,7 @@
         }
       ]
     },
-    "createdAt": "2019-09-23T11:26:54+00:00",
-    "updatedAt": "2019-09-23T11:26:54+00:00"
+    "createdAt": "2022-10-15T11:57:57+00:00",
+    "updatedAt": "2022-10-17T11:57:57+00:00"
   }
 }
