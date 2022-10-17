@@ -56,7 +56,7 @@ public class ReportsApi extends CrowdinApi {
      * @param offset    starting offset in the collection (default 0)
      * @return list of report settings template
      */
-    public ResponseList<ReportSettingsTemplate> listReportSettingsTemplate (Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<ReportSettingsTemplate> listReportSettingsTemplate(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
@@ -67,40 +67,40 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request  request
+     * @param request   request
      * @return report settings template
      */
-    public ResponseObject<ReportSettingsTemplate> addReportSettingsTemplate (Long projectId, ReportSettingsTemplate request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ReportSettingsTemplate> addReportSettingsTemplate(Long projectId, ReportSettingsTemplate request) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports/settings-templates", request, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
     /**
-     * @param projectId project identifier
-     * @param reportSettingsTemplateId  report settings template identifier
+     * @param projectId                project identifier
+     * @param reportSettingsTemplateId report settings template identifier
      * @return report settings template
      */
-    public ResponseObject<ReportSettingsTemplate> getReportSettingsTemplate (Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ReportSettingsTemplate> getReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
     /**
-     * @param projectId project identifier
-     * @param reportSettingsTemplateId  report settings template identifier
-     * @param request request object
+     * @param projectId                project identifier
+     * @param reportSettingsTemplateId report settings template identifier
+     * @param request                  request object
      * @return report settings template
      */
-    public ResponseObject<ReportSettingsTemplate> editReportSettingsTemplate (Long projectId, Long reportSettingsTemplateId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ReportSettingsTemplate> editReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, request, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
     /**
-     * @param projectId project identifier
-     * @param reportSettingsTemplateId  report settings template identifier
+     * @param projectId                project identifier
+     * @param reportSettingsTemplateId report settings template identifier
      */
-    public void deleteReportSettingsTemplate (Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
+    public void deleteReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);
     }
 }
