@@ -22,7 +22,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request object
+     * @param request request object
      * @return report status
      */
     public ResponseObject<ReportStatus> generateReport(Long projectId, GenerateReportRequest request) throws HttpException, HttpBadRequestException {
@@ -32,7 +32,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param reportId  report identifier
+     * @param reportId report identifier
      * @return report status
      */
     public ResponseObject<ReportStatus> checkReportGenerationStatus(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
@@ -42,7 +42,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param reportId  report identifier
+     * @param reportId report identifier
      * @return download link
      */
     public ResponseObject<DownloadLink> downloadReport(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
@@ -52,8 +52,8 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of report settings template
      */
     public ResponseList<ReportSettingsTemplate> listReportSettingsTemplate(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
@@ -67,7 +67,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request
+     * @param request request object
      * @return report settings template
      */
     public ResponseObject<ReportSettingsTemplate> addReportSettingsTemplate(Long projectId, ReportSettingsTemplate request) throws HttpException, HttpBadRequestException {
@@ -76,7 +76,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId                project identifier
+     * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @return report settings template
      */
@@ -86,9 +86,9 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId                project identifier
+     * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
-     * @param request                  request object
+     * @param request request object
      * @return report settings template
      */
     public ResponseObject<ReportSettingsTemplate> editReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
@@ -97,7 +97,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId                project identifier
+     * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
      */
     public void deleteReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
