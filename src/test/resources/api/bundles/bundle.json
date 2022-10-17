@@ -1,0 +1,19 @@
+{
+  "data": {
+    "id": 1,
+    "name": "Resx bundle",
+    "format": "crowdin-resx",
+    "sourcePatterns": [
+      "/master/"
+    ],
+    "ignorePatterns": [
+      "/master/environments/"
+    ],
+    "exportPattern": "strings-%two_letters_code%.resx",
+    "labelIds": [
+      0
+    ],
+    "createdAt": "2019-09-20T11:11:05+00:00",
+    "updatedAt": "2019-09-20T12:22:20+00:00"
+  }
+}
