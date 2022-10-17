@@ -1,12 +1,6 @@
 {
-  "exportMode": "bundle",
   "name": "distribution 1",
   "fileIds": [
-    0
-  ],
-  "format": "crowdin-resx",
-  "exportPattern": "strings-%two_letter_code%.resx",
-  "labelIds": [
     0
   ]
 }

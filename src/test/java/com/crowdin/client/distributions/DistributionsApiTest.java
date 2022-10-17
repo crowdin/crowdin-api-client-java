@@ -7,7 +7,6 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.distributions.model.AddDistributionRequest;
 import com.crowdin.client.distributions.model.Distribution;
 import com.crowdin.client.distributions.model.DistributionRelease;
-import com.crowdin.client.distributions.model.ExportMode;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -52,16 +51,11 @@ public class DistributionsApiTest extends TestClient {
     @Test
     public void addDistributionTest() {
         AddDistributionRequest request = new AddDistributionRequest();
-        request.setExportMode(ExportMode.BUNDLE);
         request.setName(name);
-        request.setFormat("crowdin-resx");
-        request.setExportPattern("strings-%two_letter_code%.resx");
         request.setFileIds(Collections.singletonList(0L));
-        request.setLabelIds(Collections.singletonList(0L));
         ResponseObject<Distribution> distributionResponseObject = this.getDistributionsApi().addDistribution(projectId, request);
         assertEquals(distributionResponseObject.getData().getHash(), hash);
         assertEquals(distributionResponseObject.getData().getName(), name);
-        assertEquals(distributionResponseObject.getData().getExportMode(), "bundle");
     }
 
     @Test
