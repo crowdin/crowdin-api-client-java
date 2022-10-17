@@ -1,8 +1,14 @@
 {
   "data": {
     "hash": "asccvfd",
+    "exportMode": "bundle",
     "name": "distribution 1",
     "fileIds": [
+      0
+    ],
+    "format": "crowdin-resx",
+    "exportPattern": "strings-%two_letters_code%.resx",
+    "labelIds": [
       0
     ],
     "createdAt": "2019-09-16T13:48:04+00:00",

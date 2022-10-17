@@ -20,40 +20,29 @@ public class ReportSettingsTemplate {
 
     @Data
     public static class Config {
-        private List<ProofreadRegularRate> regularRates;
-        private List<ProofreadIndividualRate> individualRates;
+        private List<RegularRate> regularRates;
+        private List<IndividualRate> individualRates;
     }
 
     @Data
-    public static class ProofreadRegularRate {
+    public static class RegularRate {
         private Mode mode;
         private double value;
     }
 
     @Data
-    public static class ProofreadIndividualRate {
+    public static class IndividualRate {
         private List<String> languageIds;
         private List<Integer> userIds;
-        private List<ProofreadRegularRate> rates;
+        private List<RegularRate> rates;
     }
 
     public enum Mode implements EnumConverter<Mode> {
 
-        NO_MATCH("no_match"), TM_MATCH("tm_match");
-
-        private final String val;
-
-        Mode(String val) {
-            this.val = val;
-        }
+        NO_MATCH, TM_MATCH;
 
         public static Mode from(String value) {
-            for (Mode mode : Mode.values()) {
-                if (mode.val.equals(value)) {
-                    return mode;
-                }
-            }
-            return null;
+            return Mode.valueOf(value.toUpperCase());
         }
 
         @Override

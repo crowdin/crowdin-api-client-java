@@ -67,16 +67,6 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request  request
-     * @return report settings template
-     */
-    public ResponseObject<ReportSettingsTemplate> addReportSettingsTemplate (Long projectId, ReportSettingsTemplateRequest request) throws HttpException, HttpBadRequestException {
-        ReportSettingsTemplateResponseObject responseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports/settings-templates", request, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
-        return ResponseObject.of(responseObject.getData());
-    }
-
-    /**
-     * @param projectId project identifier
      * @param reportSettingsTemplateId  report settings template identifier
      * @return report settings template
      */

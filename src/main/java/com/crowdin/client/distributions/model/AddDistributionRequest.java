@@ -6,6 +6,10 @@ import java.util.List;
 
 @Data
 public class AddDistributionRequest {
+    private ExportMode exportMode;
     private String name;
     private List<Long> fileIds;
+    private String format;
+    private String exportPattern;
+    private List<Long> labelIds;
 }

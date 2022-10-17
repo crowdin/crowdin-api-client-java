@@ -3,7 +3,6 @@ package com.crowdin.client.reports;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.projectsgroups.model.Group;
 import com.crowdin.client.reports.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -11,14 +10,12 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReportsApiTest extends TestClient {
 
@@ -38,9 +35,7 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpGet.METHOD_NAME, "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpPatch.METHOD_NAME, "api/reports/editReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json")
-                );
+                RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME));
     }
 
     @Test
@@ -87,32 +82,6 @@ public class ReportsApiTest extends TestClient {
         assertEquals(reportSettingsTemplateResponseList.getData().size(), 1);
         assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getId(), projectId);
         assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getName(), name);
-    }
-
-    @Test
-    public void addReportSettingsTemplateTest() {
-        ReportSettingsTemplateRequest request = new ReportSettingsTemplateRequest();
-        request.setName(name);
-        request.setCurrency(Currency.USD);
-        request.setUnit(Unit.WORDS);
-        request.setMode("simple");
-
-        ReportSettingsTemplateRequest.Config config = new ReportSettingsTemplateRequest.Config();
-        ReportSettingsTemplateRequest.ProofreadRegularRate regularRate = new ReportSettingsTemplateRequest.ProofreadRegularRate();
-        regularRate.setMode(ReportSettingsTemplateRequest.Mode.TM_MATCH);
-        regularRate.setValue(0.1);
-
-        ReportSettingsTemplateRequest.ProofreadIndividualRate individualRate = new ReportSettingsTemplateRequest.ProofreadIndividualRate();
-        individualRate.setLanguageIds(Collections.singletonList("uk"));
-        individualRate.setUserIds(Collections.singletonList(1));
-        individualRate.setRates(Collections.singletonList(regularRate));
-
-        config.setRegularRates(Collections.singletonList(regularRate));
-        config.setIndividualRates(Collections.singletonList(individualRate));
-
-        ResponseObject<ReportSettingsTemplate> responseObject = this.getReportsApi().addReportSettingsTemplate(projectId, request);
-        assertEquals(responseObject.getData().getId(), projectId);
-        assertEquals(responseObject.getData().getName(), name);
     }
 
     @Test
