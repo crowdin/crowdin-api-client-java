@@ -75,6 +75,11 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
         return ResponseObject.of(machineTranslationResponseObject.getData());
     }
 
+    /**
+     * @param mtId machine translation identifier
+     * @param request request object
+     * @return mt translate response
+     */
     public ResponseObject<MtTranslateResponse> translateViaMt(Long mtId, MtTranslateRequest request) throws HttpException, HttpBadRequestException {
         MtTranslateResponseObject mtTranslateResponseObject = this.httpClient.post(this.url + "/mts/" + mtId + "/translations", request, new HttpRequestConfig(), MtTranslateResponseObject.class);
         return ResponseObject.of(mtTranslateResponseObject.getData());
