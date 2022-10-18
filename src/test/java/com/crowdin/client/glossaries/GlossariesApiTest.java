@@ -38,7 +38,7 @@ public class GlossariesApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts", HttpGet.METHOD_NAME, "api/glossaries/listConcepts.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpGet.METHOD_NAME, "api/glossaries/concept.json"),
-                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpPut.METHOD_NAME,"api/glossaries/updateConcept.json" ,"api/glossaries/concept.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpPut.METHOD_NAME, "api/glossaries/updateConcept.json", "api/glossaries/concept.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/glossaries", HttpGet.METHOD_NAME, "api/glossaries/listGlossaries.json"),
                 RequestMock.build(this.url + "/glossaries", HttpPost.METHOD_NAME, "api/glossaries/addGlossaryRequest.json", "api/glossaries/glossary.json"),
@@ -181,7 +181,7 @@ public class GlossariesApiTest extends TestClient {
 
     @Test
     public void listTermsTest() {
-        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId,null, null, null, null, null, null);
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId, null, null, null, null, null, null);
         assertEquals(termResponseList.getData().size(), 1);
         assertEquals(termResponseList.getData().get(0).getData().getId(), termId);
     }
@@ -206,7 +206,7 @@ public class GlossariesApiTest extends TestClient {
 
     @Test
     public void clearGlossaryTest() {
-        this.getGlossariesApi().clearGlossary(glossaryId, null,null, null);
+        this.getGlossariesApi().clearGlossary(glossaryId, null, null, null);
     }
 
     @Test
