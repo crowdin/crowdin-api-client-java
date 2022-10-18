@@ -1,3 +1,8 @@
 {
-  "format": "tbx"
+  "format": "csv",
+  "exportFields": [
+    "term",
+    "description",
+    "partOfSpeech"
+  ]
 }

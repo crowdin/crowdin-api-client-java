@@ -9,5 +9,12 @@ public class AddTermRequest {
     private String text;
     private String description;
     private PartOfSpeech partOfSpeech;
+    private Status status;
+    private Type type;
+    private Gender gender;
+    private String note;
+    private String url;
+    private Long conceptId;
+    @Deprecated
     private Long translationOfTermId;
 }

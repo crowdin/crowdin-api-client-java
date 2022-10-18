@@ -1,5 +1,13 @@
 {
   "languageId": "fr",
   "text": "Voir",
-  "partOfSpeech": "verb"
+  "description": "use for pages only (check screenshots)",
+  "partOfSpeech": "verb",
+  "status": "preferred",
+  "type": "abbreviation",
+  "gender": "masculine",
+  "note": "string",
+  "url": "string",
+  "conceptId": 0,
+  "translationOfTermId": 0
 }

@@ -7,35 +7,26 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.glossaries.model.AddGlossaryRequest;
-import com.crowdin.client.glossaries.model.AddTermRequest;
-import com.crowdin.client.glossaries.model.ExportGlossaryRequest;
-import com.crowdin.client.glossaries.model.GlossariesFormat;
-import com.crowdin.client.glossaries.model.Glossary;
-import com.crowdin.client.glossaries.model.GlossaryExportStatus;
-import com.crowdin.client.glossaries.model.GlossaryImportStatus;
-import com.crowdin.client.glossaries.model.ImportGlossaryRequest;
-import com.crowdin.client.glossaries.model.PartOfSpeech;
-import com.crowdin.client.glossaries.model.Term;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
-import org.apache.http.client.methods.HttpPost;
+import com.crowdin.client.glossaries.model.*;
+import org.apache.http.client.methods.*;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GlossariesApiTest extends TestClient {
 
     private final Long glossaryId = 2L;
     private final Long groupId = 2L;
+    private final Long conceptId = 3L;
     private final Long termId = 2L;
     private final String name = "Be My Eyes iOS's Glossary";
+    private final String subject = "general";
     private final String text = "Voir";
     private final String exportId = "5ed2ce93-6d47-4402-9e66-516ca835cb20";
     private final String importId = "c050fba2-200e-4ce1-8de4-f7ba8eb58732";
@@ -45,6 +36,10 @@ public class GlossariesApiTest extends TestClient {
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts", HttpGet.METHOD_NAME, "api/glossaries/listConcepts.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpGet.METHOD_NAME, "api/glossaries/concept.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpPut.METHOD_NAME, "api/glossaries/updateConcept.json", "api/glossaries/concept.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/glossaries", HttpGet.METHOD_NAME, "api/glossaries/listGlossaries.json"),
                 RequestMock.build(this.url + "/glossaries", HttpPost.METHOD_NAME, "api/glossaries/addGlossaryRequest.json", "api/glossaries/glossary.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId, HttpGet.METHOD_NAME, "api/glossaries/glossary.json"),
@@ -63,6 +58,43 @@ public class GlossariesApiTest extends TestClient {
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpPatch.METHOD_NAME, "api/glossaries/editTerm.json", "api/glossaries/term.json")
         );
     }
+
+    @Test
+    public void listConceptsTest() {
+        ResponseList<Concept> conceptResponseList = this.getGlossariesApi().listConcepts(glossaryId, null, null);
+        assertEquals(conceptResponseList.getData().size(), 1);
+        assertEquals(conceptResponseList.getData().get(0).getData().getId(), glossaryId);
+        assertEquals(conceptResponseList.getData().get(0).getData().getSubject(), subject);
+    }
+
+    @Test
+    public void getConceptTest() {
+        ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().getConcept(glossaryId, conceptId);
+        assertEquals(conceptResponseObject.getData().getId(), glossaryId);
+        assertEquals(conceptResponseObject.getData().getSubject(), subject);
+    }
+
+    @Test
+    public void updateConceptTest() {
+        Concept request = new Concept();
+        request.setSubject(subject);
+        request.setDefinition("This is a sample definition.");
+        request.setNote("Any concept-level note information");
+        request.setUrl("string");
+        request.setFigure("string");
+        Concept.ConceptLanguagesDetails languagesDetails = new Concept.ConceptLanguagesDetails();
+        languagesDetails.setLanguageId("en");
+        languagesDetails.setDefinition("This is a sample definition.");
+        languagesDetails.setNote("Any kind of note, such as a usage note, explanation, or instruction.");
+        request.setLanguagesDetails(Collections.singletonList(languagesDetails));
+
+        ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().updateConcept(glossaryId, conceptId, request);
+        assertEquals(conceptResponseObject.getData().getId(), glossaryId);
+        assertEquals(conceptResponseObject.getData().getSubject(), subject);
+    }
+
+    @Test
+    public void deleteConceptTest() { this.getGlossariesApi().deleteConcept(glossaryId, conceptId);}
 
     @Test
     public void listGlossariesTest() {
@@ -109,7 +141,8 @@ public class GlossariesApiTest extends TestClient {
     @Test
     public void exportGlossaryTest() {
         ExportGlossaryRequest request = new ExportGlossaryRequest();
-        request.setFormat(GlossariesFormat.TBX);
+        request.setFormat(GlossariesFormat.CSV);
+        request.setExportFields(Arrays.asList("term", "description", "partOfSpeech"));
         ResponseObject<GlossaryExportStatus> glossaryExportStatusResponseObject = this.getGlossariesApi().exportGlossary(glossaryId, request);
         assertEquals(glossaryExportStatusResponseObject.getData().getIdentifier(), exportId);
     }
@@ -130,9 +163,14 @@ public class GlossariesApiTest extends TestClient {
     public void importGlossaryTest() {
         ImportGlossaryRequest request = new ImportGlossaryRequest();
         request.setStorageId(12L);
-        request.setScheme(singletonMap("term_en", 2));
+        request.setScheme(Stream.of(new Object[][] {
+                { "term_en", 2 },
+                { "description_en", 1 },
+        }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1])));
+        request.setFirstLineContainsHeader(false);
         ResponseObject<GlossaryImportStatus> glossaryImportStatusResponseObject = this.getGlossariesApi().importGlossary(glossaryId, request);
         assertEquals(glossaryImportStatusResponseObject.getData().getIdentifier(), importId);
+        assertTrue(glossaryImportStatusResponseObject.getData().getAttributes().isFirstLineContainsHeader());
     }
 
     @Test
@@ -143,7 +181,7 @@ public class GlossariesApiTest extends TestClient {
 
     @Test
     public void listTermsTest() {
-        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId, null, null, null, null, null);
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId, null, null, null, null, null, null);
         assertEquals(termResponseList.getData().size(), 1);
         assertEquals(termResponseList.getData().get(0).getData().getId(), termId);
     }
@@ -153,14 +191,22 @@ public class GlossariesApiTest extends TestClient {
         AddTermRequest request = new AddTermRequest();
         request.setText(text);
         request.setLanguageId("fr");
+        request.setDescription("use for pages only (check screenshots)");
         request.setPartOfSpeech(PartOfSpeech.VERB);
+        request.setStatus(Status.PREFERRED);
+        request.setType(Type.ABBREVIATION);
+        request.setGender(Gender.MASCULINE);
+        request.setNote("string");
+        request.setUrl("string");
+        request.setConceptId(0L);
+        request.setTranslationOfTermId(0L);
         ResponseObject<Term> termResponseObject = this.getGlossariesApi().addTerm(glossaryId, request);
         assertEquals(termResponseObject.getData().getId(), termId);
     }
 
     @Test
     public void clearGlossaryTest() {
-        this.getGlossariesApi().clearGlossary(glossaryId, null, null);
+        this.getGlossariesApi().clearGlossary(glossaryId, null, null, null);
     }
 
     @Test
