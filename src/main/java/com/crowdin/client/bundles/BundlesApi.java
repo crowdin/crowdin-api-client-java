@@ -6,6 +6,8 @@ import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
+import com.crowdin.client.sourcefiles.model.FileInfo;
+import com.crowdin.client.sourcefiles.model.FileInfoResponseList;
 
 import java.util.List;
 import java.util.Map;
@@ -75,12 +77,12 @@ public class BundlesApi extends CrowdinApi {
      * @param bundleId bundle identifier
      * @return list of bundles file resource
      */
-    public ResponseList<? extends FileInfoCollectionResourceResponse> listBundleFiles(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<? extends FileInfo> listBundleFiles(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        FileResourceResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/files", new HttpRequestConfig(queryParams), FileResourceResponseList.class);
-        return FileResourceResponseList.to(response);
+        FileInfoResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/files", new HttpRequestConfig(queryParams), FileInfoResponseList.class);
+        return FileInfoResponseList.to(response);
     }
 }

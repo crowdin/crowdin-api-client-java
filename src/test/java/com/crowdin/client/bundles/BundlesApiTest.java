@@ -7,6 +7,8 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.sourcefiles.model.File;
+import com.crowdin.client.sourcefiles.model.FileInfo;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -92,18 +94,17 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void listFileInfoCollectionResourceTest() {
-        ResponseList<? extends FileInfoCollectionResourceResponse> response = this.getBundlesApi().listBundleFiles(projectId, fileInfoCollectionResourceId, null,null);
+        ResponseList<? extends FileInfo> response = this.getBundlesApi().listBundleFiles(projectId, fileInfoCollectionResourceId, null,null);
         assertEquals(response.getData().get(0).getData().getId(), fileInfoCollectionResourceId);
         assertEquals(response.getData().get(0).getData().getName(), bundleResourceName);
     }
 
     @Test
     public void listFileCollectionResourceTest() {
-        ResponseList<? extends FileInfoCollectionResourceResponse> response = this.getBundlesApi().listBundleFiles(projectId2, fileCollectionResourceId, null,null);
-        assertTrue(response.getData().get(0).getData() instanceof FileInfoCollectionResourceResponse);
-        System.out.println(response.getData().get(0).getData() instanceof FileInfoCollectionResourceResponse);
-        FileInfoCollectionResourceResponse fileCollectionResourceResponse;
+        ResponseList<? extends FileInfo> response = this.getBundlesApi().listBundleFiles(projectId2, fileCollectionResourceId, null,null);
+        FileInfo fileCollectionResourceResponse;
         fileCollectionResourceResponse = response.getData().get(0).getData();
+        assertTrue(fileCollectionResourceResponse instanceof File);
         assertEquals(fileCollectionResourceResponse.getId(), fileCollectionResourceId);
         assertEquals(fileCollectionResourceResponse.getName(), bundleResourceName);
     }
