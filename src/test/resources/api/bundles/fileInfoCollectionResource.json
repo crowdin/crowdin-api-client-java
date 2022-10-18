@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 44,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "umbrella_app.xliff",
+        "title": "source_app_info",
+        "type": "xliff",
+        "path": "/directory1/directory2/filename.extension",
+        "status": "active"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "Resx bundle",
+  "format": "crowdin-resx",
+  "sourcePatterns": [
+    "/master/"
+  ],
+  "ignorePatterns": [
+    "/master/environments/"
+  ],
+  "exportPattern": "strings-%two_letter_code%.resx",
+  "labelIds": [
+    0
+  ]
+}
