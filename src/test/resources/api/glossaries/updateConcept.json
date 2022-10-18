@@ -1,0 +1,14 @@
+{
+  "subject": "general",
+  "definition": "This is a sample definition.",
+  "note": "Any concept-level note information",
+  "url": "string",
+  "figure": "string",
+  "languagesDetails": [
+    {
+      "languageId": "en",
+      "definition": "This is a sample definition.",
+      "note": "Any kind of note, such as a usage note, explanation, or instruction."
+    }
+  ]
+}

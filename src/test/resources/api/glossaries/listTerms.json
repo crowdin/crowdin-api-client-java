@@ -9,6 +9,12 @@
         "text": "Voir",
         "description": "use for pages only (check screenshots)",
         "partOfSpeech": "verb",
+        "status": "preferred",
+        "type": "abbreviation",
+        "gender": "masculine",
+        "note": "Any kind of note, such as a usage note, explanation, or instruction",
+        "url": "Base URL",
+        "conceptId": 6,
         "lemma": "voir",
         "createdAt": "2019-09-23T07:19:47+00:00",
         "updatedAt": "2019-09-23T07:19:47+00:00"
