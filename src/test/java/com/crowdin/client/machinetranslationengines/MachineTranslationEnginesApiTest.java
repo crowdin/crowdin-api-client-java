@@ -6,10 +6,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.machinetranslationengines.model.AddMachineTranslationRequest;
-import com.crowdin.client.machinetranslationengines.model.GoogleTranslateCredentials;
-import com.crowdin.client.machinetranslationengines.model.MachineTranslation;
-import com.crowdin.client.machinetranslationengines.model.Type;
+import com.crowdin.client.machinetranslationengines.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -21,10 +18,12 @@ import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MachineTranslationEnginesApiTest extends TestClient {
 
     private final Long mtId = 2L;
+    private final String sourceLanguageId = "en";
     private final String name = "Crowdin Translate (beta)";
 
     @Override
@@ -34,7 +33,9 @@ public class MachineTranslationEnginesApiTest extends TestClient {
                 RequestMock.build(this.url + "/mts", HttpPost.METHOD_NAME, "api/machinetranslationengines/addMt.json", "api/machinetranslationengines/mt.json"),
                 RequestMock.build(this.url + "/mts/" + mtId, HttpGet.METHOD_NAME, "api/machinetranslationengines/mt.json"),
                 RequestMock.build(this.url + "/mts/" + mtId, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/mts/" + mtId, HttpPatch.METHOD_NAME, "api/machinetranslationengines/editMt.json", "api/machinetranslationengines/mt.json")
+                RequestMock.build(this.url + "/mts/" + mtId, HttpPatch.METHOD_NAME, "api/machinetranslationengines/editMt.json", "api/machinetranslationengines/mt.json"),
+                RequestMock.build(this.url + "/mts/" + mtId + "/translations", HttpPost.METHOD_NAME, "api/machinetranslationengines/mtTranslateRequest.json", "api/machinetranslationengines/mtTranslateResponse.json")
+
         );
     }
 
@@ -80,6 +81,18 @@ public class MachineTranslationEnginesApiTest extends TestClient {
         ResponseObject<MachineTranslation> machineTranslationResponseObject = this.getMachineTranslationEnginesApi().editMt(mtId, singletonList(request));
         assertEquals(machineTranslationResponseObject.getData().getId(), mtId);
         assertEquals(machineTranslationResponseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void translateViaMtTest() {
+        MtTranslateRequest request = new MtTranslateRequest();
+        request.setLanguageRecognitionProvider(MtTranslateRequest.LanguageRecognitionProvider.CROWDIN);
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("de");
+        request.setStrings(Arrays.asList("Welcome!", "Save as...", "View", "About..."));
+        ResponseObject<MtTranslateResponse> responseObject = this.getMachineTranslationEnginesApi().translateViaMt(mtId, request);
+        assertTrue(responseObject.getData().getSourceLanguageId().equals(sourceLanguageId));
+        assertTrue(responseObject.getData().getTranslations().get(0).equals("Herzlich willkommen!"));
     }
 
 }

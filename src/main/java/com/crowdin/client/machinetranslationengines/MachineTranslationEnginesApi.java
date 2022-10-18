@@ -9,10 +9,7 @@ import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.machinetranslationengines.model.AddMachineTranslationRequest;
-import com.crowdin.client.machinetranslationengines.model.MachineTranslation;
-import com.crowdin.client.machinetranslationengines.model.MachineTranslationResponseList;
-import com.crowdin.client.machinetranslationengines.model.MachineTranslationResponseObject;
+import com.crowdin.client.machinetranslationengines.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -76,5 +73,15 @@ public class MachineTranslationEnginesApi extends CrowdinApi {
     public ResponseObject<MachineTranslation> editMt(Long mtId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         MachineTranslationResponseObject machineTranslationResponseObject = this.httpClient.patch(this.url + "/mts/" + mtId, request, new HttpRequestConfig(), MachineTranslationResponseObject.class);
         return ResponseObject.of(machineTranslationResponseObject.getData());
+    }
+
+    /**
+     * @param mtId machine translation identifier
+     * @param request request object
+     * @return mt translate response
+     */
+    public ResponseObject<MtTranslateResponse> translateViaMt(Long mtId, MtTranslateRequest request) throws HttpException, HttpBadRequestException {
+        MtTranslateResponseObject mtTranslateResponseObject = this.httpClient.post(this.url + "/mts/" + mtId + "/translations", request, new HttpRequestConfig(), MtTranslateResponseObject.class);
+        return ResponseObject.of(mtTranslateResponseObject.getData());
     }
 }

@@ -1,0 +1,11 @@
+{
+  "languageRecognitionProvider": "crowdin",
+  "sourceLanguageId": "en",
+  "targetLanguageId": "de",
+  "strings": [
+    "Welcome!",
+    "Save as...",
+    "View",
+    "About..."
+  ]
+}
