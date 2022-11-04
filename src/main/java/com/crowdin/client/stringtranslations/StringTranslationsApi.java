@@ -79,7 +79,7 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param stringIds filter translations b stringIds
      * @param fileId filter translations by file identifier
      * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting ofse in the collection (default 0)
+     * @param offset starting offset in the collection (default 0)
      * @return list of language translations
      */
     public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
