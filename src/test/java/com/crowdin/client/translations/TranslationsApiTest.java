@@ -103,6 +103,19 @@ public class TranslationsApiTest extends TestClient {
 
     @Test
     public void pseudoBuildProjectTranslationTest() {
+        CrowdinTranslationCreateProjectPseudoBuildForm request = new CrowdinTranslationCreateProjectPseudoBuildForm();
+        request.setBranchId(1L);
+        request.setPseudo(true);
+        request.setPrefix("pre");
+        request.setSuffix("ion");
+        request.setLengthTransformation(0);
+        request.setCharTransformation(CharTransformation.ASIAN);
+        ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(parallelProjectId, request);
+        assertEquals(projectBuildResponseObject.getData().getId(), buildId);
+    }
+
+    @Test
+    public void pseudoBuildProjectTranslationDeprecatedTest() {
         CrowdinTranslationCraeteProjectPseudoBuildForm request = new CrowdinTranslationCraeteProjectPseudoBuildForm();
         request.setBranchId(1L);
         request.setPseudo(true);
