@@ -1,0 +1,35 @@
+name: Docs
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  docs:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: build
+
+    - name: Generate javadoc with Gradle
+      uses: gradle/gradle-build-action@v2
+      with:
+        arguments: javadoc
+
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      with:
+        branch: gh-pages
+        folder: build/docs/javadoc
