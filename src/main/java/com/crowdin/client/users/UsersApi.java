@@ -45,6 +45,7 @@ public class UsersApi extends CrowdinApi {
     }
 
     /**
+     * @param projectId project identifier
      * @param request request object
      * @return project team members response info
      */

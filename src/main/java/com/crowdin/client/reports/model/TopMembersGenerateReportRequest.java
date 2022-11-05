@@ -1,8 +1,10 @@
 package com.crowdin.client.reports.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TopMembersGenerateReportRequest extends GenerateReportRequest {
 
     private String name;

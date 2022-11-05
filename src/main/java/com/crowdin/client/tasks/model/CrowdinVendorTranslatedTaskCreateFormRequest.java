@@ -1,11 +1,13 @@
 package com.crowdin.client.tasks.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class CrowdinVendorTranslatedTaskCreateFormRequest extends AddTaskRequest {
 
     private String title;
