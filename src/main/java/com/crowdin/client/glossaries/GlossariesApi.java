@@ -55,6 +55,7 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
+     * @param request request object
      * @return updated concept
      */
     public ResponseObject<Concept> updateConcept(Long glossaryId, Long conceptId, Concept request) throws HttpException, HttpBadRequestException {
@@ -175,6 +176,7 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param userId user identifier
      * @param languageId language identifier
+     * @param conceptId concept identifier
      * @param translationOfTermId term identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -206,6 +208,7 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param languageId language identifier
+     * @param conceptId concept identifier
      * @param translationOfTermId translationOfTerm identifier
      */
     public void clearGlossary(Long glossaryId, String languageId, Long conceptId, @Deprecated Long translationOfTermId) throws HttpException, HttpBadRequestException {

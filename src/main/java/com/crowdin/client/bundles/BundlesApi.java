@@ -75,6 +75,8 @@ public class BundlesApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param bundleId bundle identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of bundles file resource
      */
     public ResponseList<? extends FileInfo> listBundleFiles(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {

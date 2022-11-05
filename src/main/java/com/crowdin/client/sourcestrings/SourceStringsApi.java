@@ -29,13 +29,15 @@ public class SourceStringsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param fileId    file identifier
+     * @param fileId file identifier
      * @param denormalizePlaceholders [0, 1]. Enable denormalize placeholders
+     * @param branchId project identifier
      * @param labelIds filter strings by labels
+     * @param croql filter strings by croql
      * @param filter Filter strings
      * @param scope ["identifier", "text", "context"]. Specify field to be the target of filtering. It can be one scope or a list of comma-separated scopes
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of source strings
      */
     public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, Long branchId, String labelIds, String croql, String filter, String scope, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {

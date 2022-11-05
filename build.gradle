@@ -6,6 +6,14 @@ plugins {
     id 'jacoco'
 }
 
+plugins {
+    id 'java'
+}
+
+task myJavadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+}
+
 sourceCompatibility = 8
 version '1.5.0'
 

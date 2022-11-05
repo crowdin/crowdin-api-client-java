@@ -2,10 +2,12 @@ package com.crowdin.client.reports.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class TranslationCostFuzzyModeGenerateReportRequest extends GenerateReportRequest {
 
     private String name;
@@ -26,6 +28,7 @@ public class TranslationCostFuzzyModeGenerateReportRequest extends GenerateRepor
     }
 
     @Data
+    @EqualsAndHashCode(callSuper = true)
     public static class ProofreadStep extends StepType {
         private String type;
         private String mode;
@@ -46,6 +49,7 @@ public class TranslationCostFuzzyModeGenerateReportRequest extends GenerateRepor
     }
 
     @Data
+    @EqualsAndHashCode(callSuper = true)
     public static class TranslateStep extends StepType {
 
         private String type;
