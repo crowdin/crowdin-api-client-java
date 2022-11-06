@@ -8,6 +8,7 @@ Our API is a full-featured RESTful API that helps you to integrate localization 
 
 <div align="center">
 
+[**`API Client Docs`**](https://crowdin.github.io/crowdin-api-client-java/) &nbsp;|&nbsp;
 [**`Crowdin API`**](https://developer.crowdin.com/api/v2/) &nbsp;|&nbsp;
 [**`Crowdin Enterprise API`**](https://developer.crowdin.com/enterprise/api/v2/)
 
