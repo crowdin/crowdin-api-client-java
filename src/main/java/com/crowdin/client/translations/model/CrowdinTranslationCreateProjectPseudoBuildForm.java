@@ -2,9 +2,8 @@ package com.crowdin.client.translations.model;
 
 import lombok.Data;
 
-@Deprecated
 @Data
-public class CrowdinTranslationCraeteProjectPseudoBuildForm implements BuildProjectTranslationRequest {
+public class CrowdinTranslationCreateProjectPseudoBuildForm implements BuildProjectTranslationRequest {
 
     private Long branchId;
     private Boolean pseudo;
