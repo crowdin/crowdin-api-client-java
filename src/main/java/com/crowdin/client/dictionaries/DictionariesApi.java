@@ -31,6 +31,10 @@ public class DictionariesApi extends CrowdinApi {
      * @param projectId project identifier
      * @param languageIds language identifiers
      * @return list of dictionaries
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.dictionaries.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Dictionary> listDictionaries(Long projectId, String languageIds) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/dictionaries", this.url, projectId);
@@ -46,6 +50,10 @@ public class DictionariesApi extends CrowdinApi {
      * @param languageId language identifier
      * @param request request object
      * @return updated dictionary
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.dictionaries.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.dictionaries.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Dictionary> editDictionary(Long projectId, String languageId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/dictionaries/%s", this.url, projectId, languageId);
