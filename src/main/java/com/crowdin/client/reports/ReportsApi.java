@@ -24,6 +24,10 @@ public class ReportsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param request request object
      * @return report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<ReportStatus> generateReport(Long projectId, GenerateReportRequest request) throws HttpException, HttpBadRequestException {
         ReportStatusResponseObject reportStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports", request, new HttpRequestConfig(), ReportStatusResponseObject.class);
@@ -34,6 +38,10 @@ public class ReportsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param reportId report identifier
      * @return report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<ReportStatus> checkReportGenerationStatus(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
         ReportStatusResponseObject reportStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId, new HttpRequestConfig(), ReportStatusResponseObject.class);
@@ -44,6 +52,10 @@ public class ReportsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param reportId report identifier
      * @return download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.download.download" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<DownloadLink> downloadReport(Long projectId, String reportId) throws HttpException, HttpBadRequestException {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/" + reportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
@@ -55,6 +67,10 @@ public class ReportsApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.settings-templates.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<ReportSettingsTemplate> listReportSettingsTemplate(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -69,6 +85,10 @@ public class ReportsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param request request object
      * @return report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.settings-templates.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<ReportSettingsTemplate> addReportSettingsTemplate(Long projectId, ReportSettingsTemplate request) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/reports/settings-templates", request, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
@@ -79,6 +99,10 @@ public class ReportsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @return report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.settings-templates.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<ReportSettingsTemplate> getReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
@@ -90,6 +114,10 @@ public class ReportsApi extends CrowdinApi {
      * @param reportSettingsTemplateId report settings template identifier
      * @param request request object
      * @return report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.reports.settings-templates.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<ReportSettingsTemplate> editReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         ReportSettingsTemplateResponseObject responseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, request, new HttpRequestConfig(), ReportSettingsTemplateResponseObject.class);
@@ -99,6 +127,10 @@ public class ReportsApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param reportSettingsTemplateId report settings template identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.settings-templates.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.settings-templates.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);

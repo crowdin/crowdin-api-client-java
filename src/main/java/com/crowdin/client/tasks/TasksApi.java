@@ -33,10 +33,14 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
-     * @param status    filter by status
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status filter by status
      * @return list of tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -50,8 +54,12 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request object
+     * @param request request object
      * @return newly created task
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Task> addTask(Long projectId, AddTaskRequest request) throws HttpException, HttpBadRequestException {
         TaskResponseObject taskResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/tasks", request, new HttpRequestConfig(), TaskResponseObject.class);
@@ -60,8 +68,12 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param taskId    task identifier
+     * @param taskId task identifier
      * @return url for task strings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<DownloadLink> exportTaskStrings(Long projectId, Long taskId) throws HttpException, HttpBadRequestException {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/exports", null, new HttpRequestConfig(), DownloadLinkResponseObject.class);
@@ -70,8 +82,12 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param taskId    task identifier
+     * @param taskId task identifier
      * @return task
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Task> getTask(Long projectId, Long taskId) throws HttpException, HttpBadRequestException {
         TaskResponseObject taskResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks/" + taskId, new HttpRequestConfig(), TaskResponseObject.class);
@@ -80,7 +96,11 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param taskId    task identifier
+     * @param taskId task identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteTask(Long projectId, Long taskId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/tasks/" + taskId, new HttpRequestConfig(), Void.class);
@@ -88,9 +108,13 @@ public class TasksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param taskId    task identifier
-     * @param request   request object
+     * @param taskId task identifier
+     * @param request request object
      * @return updated task
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Task> editTask(Long projectId, Long taskId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         TaskResponseObject taskResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/tasks/" + taskId, request, new HttpRequestConfig(), TaskResponseObject.class);
@@ -98,11 +122,15 @@ public class TasksApi extends CrowdinApi {
     }
 
     /**
-     * @param limit      maximum number of items to retrieve (default 25)
-     * @param offset     starting offset in the collection (default 0)
-     * @param status     filter by status
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status filter by status
      * @param isArchived filter by archived status
      * @return list of user tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Task> listUserTasks(Integer limit, Integer offset, Status status, BooleanInt isArchived) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -116,10 +144,14 @@ public class TasksApi extends CrowdinApi {
     }
 
     /**
-     * @param taskId    task identifier
+     * @param taskId task identifier
      * @param projectId project identifier (filter)
-     * @param request   request object (only for archived flag)
+     * @param request request object (only for archived flag)
      * @return updated archived status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.user.tasks.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.user.tasks.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Task> editTaskArchivedStatus(Long taskId, Long projectId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(

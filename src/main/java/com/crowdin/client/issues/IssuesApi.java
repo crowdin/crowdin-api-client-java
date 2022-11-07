@@ -30,11 +30,15 @@ public class IssuesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
-     * @param type      filter by type
-     * @param status    filter by status
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param type filter by type
+     * @param status filter by status
      * @return list of issues
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.issues.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.issues.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     @Deprecated
     public ResponseList<Issue> listReportedIssues(Long projectId, Integer limit, Integer offset, Type type, Status status) throws HttpException, HttpBadRequestException {
@@ -50,9 +54,13 @@ public class IssuesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param issueId   issue identifier
-     * @param request   request object
+     * @param issueId issue identifier
+     * @param request request object
      * @return updated issue
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.issues.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.issues.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     @Deprecated
     public ResponseObject<Issue> editIssue(Long projectId, Long issueId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {

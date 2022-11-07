@@ -30,10 +30,14 @@ public class TranslationStatusApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param branchId  branch identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param branchId branch identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of branch progress
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.branches.languages.progress.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.branches.languages.progress.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<LanguageProgress> getBranchProgress(Long projectId, Long branchId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -45,11 +49,15 @@ public class TranslationStatusApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId   project identifier
+     * @param projectId project identifier
      * @param directoryId directory identifier
-     * @param limit       maximum number of items to retrieve (default 25)
-     * @param offset      starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of directory progress
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.directories.languages.progress.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.directories.languages.progress.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<LanguageProgress> getDirectoryProgress(Long projectId, Long directoryId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -62,10 +70,14 @@ public class TranslationStatusApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param fileId    file identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param fileId file identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of file progress
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.languages.progress.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.languages.progress.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<LanguageProgress> getFileProgress(Long projectId, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -79,9 +91,13 @@ public class TranslationStatusApi extends CrowdinApi {
     /**
      * @param projectId  project identifier
      * @param languageId language identifier
-     * @param limit      maximum number of items to retrieve (default 25)
-     * @param offset     starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of language progress
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.languages.files.progress.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.languages.files.progress.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<FileProgress> getLanguageProgress(Long projectId, String languageId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -93,11 +109,15 @@ public class TranslationStatusApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId   project identifier
-     * @param limit       maximum number of items to retrieve (default 25)
-     * @param offset      starting offset in the collection (default 0)
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @param languageIds language identifiers
      * @return list of project progress
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.languages.progress.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.languages.progress.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<LanguageProgress> getProjectProgress(Long projectId, Integer limit, Integer offset, String languageIds) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -110,12 +130,16 @@ public class TranslationStatusApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId  project identifier
-     * @param limit      maximum number of items to retrieve (default 25)
-     * @param offset     starting offset in the collection (default 0)
-     * @param category   category
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param category category
      * @param validation validation
      * @return list of qa check issues
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.qa-checks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<QaCheck> listQaCheckIssues(Long projectId, Integer limit, Integer offset, Category category, Validation validation) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(

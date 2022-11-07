@@ -39,6 +39,10 @@ public class SourceStringsApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of source strings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, Long branchId, String labelIds, String croql, String filter, String scope, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -58,8 +62,12 @@ public class SourceStringsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request object
+     * @param request request object
      * @return newly created source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<SourceString> addSourceString(Long projectId, AddSourceStringRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
@@ -68,8 +76,12 @@ public class SourceStringsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param stringId  string identifier
+     * @param stringId string identifier
      * @return source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<SourceString> getSourceString(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(), SourceStringResponseObject.class);
@@ -78,7 +90,11 @@ public class SourceStringsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param stringId  string identifier
+     * @param stringId string identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteSourceString(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(), Void.class);
@@ -86,9 +102,13 @@ public class SourceStringsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param stringId  string identifier
-     * @param request   request object
+     * @param stringId string identifier
+     * @param request request object
      * @return updated source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<SourceString> editSourceString(Long projectId, Long stringId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, new HttpRequestConfig(), SourceStringResponseObject.class);
