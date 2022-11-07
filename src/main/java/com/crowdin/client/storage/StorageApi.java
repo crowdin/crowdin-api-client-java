@@ -28,9 +28,13 @@ public class StorageApi extends CrowdinApi {
     }
 
     /**
-     * @param limit  maximum number of items to retrieve (default 25)
+     * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of storages
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.storages.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.storages.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Storage> listStorages(Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -43,8 +47,12 @@ public class StorageApi extends CrowdinApi {
 
     /**
      * @param fileName file name
-     * @param content  file content
+     * @param content file content
      * @return newly created storage
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.storages.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.storages.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Storage> addStorage(String fileName, String content) throws HttpException, HttpBadRequestException {
         StorageResponseObject storageResponseObject = this.httpClient.post(this.url + "/storages", content, new HttpRequestConfig(
@@ -56,8 +64,12 @@ public class StorageApi extends CrowdinApi {
 
     /**
      * @param fileName file name
-     * @param content  file content
+     * @param content file content
      * @return newly created storage
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.storages.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.storages.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Storage> addStorage(String fileName, InputStream content) throws HttpException, HttpBadRequestException {
         StorageResponseObject storageResponseObject = this.httpClient.post(this.url + "/storages", content, new HttpRequestConfig(
@@ -70,6 +82,10 @@ public class StorageApi extends CrowdinApi {
     /**
      * @param storageId storage identifier
      * @return storage
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.storages.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.storages.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Storage> getStorage(Long storageId) throws HttpException, HttpBadRequestException {
         StorageResponseObject storageResponseObject = this.httpClient.get(this.url + "/storages/" + storageId, new HttpRequestConfig(), StorageResponseObject.class);
@@ -78,6 +94,10 @@ public class StorageApi extends CrowdinApi {
 
     /**
      * @param storageId storage identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.storages.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.storages.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteStorage(Long storageId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/storages/" + storageId, new HttpRequestConfig(), Void.class);

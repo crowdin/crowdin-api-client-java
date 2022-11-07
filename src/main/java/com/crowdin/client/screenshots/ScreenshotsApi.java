@@ -36,9 +36,13 @@ public class ScreenshotsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Screenshot> listScreenshots(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -51,8 +55,12 @@ public class ScreenshotsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request object
+     * @param request request object
      * @return newly created screenshot
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Screenshot> addScreenshot(Long projectId, AddScreenshotRequest request) throws HttpException, HttpBadRequestException {
         ScreenshotResponseObject screenshotResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots", request, new HttpRequestConfig(), ScreenshotResponseObject.class);
@@ -60,9 +68,13 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @return screenshot
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Screenshot> getScreenshot(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
         ScreenshotResponseObject screenshotResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpRequestConfig(), ScreenshotResponseObject.class);
@@ -70,10 +82,14 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param request      request object
+     * @param request request object
      * @return updated screenshot
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.put" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Screenshot> updateScreenshot(Long projectId, Long screenshotId, UpdateScreenshotRequest request) throws HttpException, HttpBadRequestException {
         ScreenshotResponseObject screenshotResponseObject = this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpRequestConfig(), ScreenshotResponseObject.class);
@@ -81,18 +97,26 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteScreenshot(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, new HttpRequestConfig(), Void.class);
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param request      request object
+     * @param request request object
      * @return updated screenshot
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Screenshot> editScreenshot(Long projectId, Long screenshotId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         ScreenshotResponseObject screenshotResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, request, new HttpRequestConfig(), ScreenshotResponseObject.class);
@@ -100,11 +124,15 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param limit        maximum number of items to retrieve (default 25)
-     * @param offset       starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of tags
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Tag> listTags(Long projectId, Long screenshotId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -116,19 +144,27 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param request      request object
+     * @param request request object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.putMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.putMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void replaceTags(Long projectId, Long screenshotId, ReplaceTagsRequest request) throws HttpException, HttpBadRequestException {
         this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), Void.class);
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param request      request object
+     * @param request request object
      * @return newly created tags
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<List<Tag>> addTag(Long projectId, Long screenshotId, List<AddTagRequest> request) throws HttpException, HttpBadRequestException {
         TagResponseList tagResponseList = this.httpClient.post(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), TagResponseList.class);
@@ -138,18 +174,26 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void clearTags(Long projectId, Long screenshotId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", new HttpRequestConfig(), Void.class);
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param tagId        tag identifier
+     * @param tagId tag identifier
      * @return tag
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Tag> getTag(Long projectId, Long screenshotId, Long tagId) throws HttpException, HttpBadRequestException {
         TagResponseObject tagResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpRequestConfig(), TagResponseObject.class);
@@ -157,20 +201,28 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param tagId        tag identifier
+     * @param tagId tag identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteTag(Long projectId, Long screenshotId, Long tagId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, new HttpRequestConfig(), Void.class);
     }
 
     /**
-     * @param projectId    project identifier
+     * @param projectId project identifier
      * @param screenshotId screenshot identifier
-     * @param tagId        tag identifier
-     * @param request      request object
+     * @param tagId tag identifier
+     * @param request request object
      * @return updated screenshot
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Tag> editTag(Long projectId, Long screenshotId, Long tagId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         TagResponseObject tagResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, request, new HttpRequestConfig(), TagResponseObject.class);

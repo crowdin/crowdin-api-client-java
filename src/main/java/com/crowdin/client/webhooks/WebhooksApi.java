@@ -29,9 +29,13 @@ public class WebhooksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit     maximum number of items to retrieve (default 25)
-     * @param offset    starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of webhooks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.webhooks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Webhook> listWebhooks(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -44,8 +48,12 @@ public class WebhooksApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request   request object
+     * @param request request object
      * @return newly created webhook
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.webhooks.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Webhook> addWebhook(Long projectId, AddWebhookRequest request) throws HttpException, HttpBadRequestException {
         WebhookResponseObject webhookResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/webhooks", request, new HttpRequestConfig(), WebhookResponseObject.class);
@@ -56,6 +64,10 @@ public class WebhooksApi extends CrowdinApi {
      * @param projectId project identifier
      * @param webhookId webhook identifier
      * @return webhook
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.webhooks.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Webhook> getWebhook(Long projectId, Long webhookId) throws HttpException, HttpBadRequestException {
         WebhookResponseObject webhookResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, new HttpRequestConfig(), WebhookResponseObject.class);
@@ -65,6 +77,10 @@ public class WebhooksApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param webhookId webhook identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.webhooks.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteWebhook(Long projectId, Long webhookId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, new HttpRequestConfig(), Void.class);
@@ -73,8 +89,12 @@ public class WebhooksApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param webhookId webhook identifier
-     * @param request   request object
+     * @param request request object
      * @return updated webhook
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.webhooks.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.webhooks.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Webhook> editWebhook(Long projectId, Long webhookId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         WebhookResponseObject webhookResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, request, new HttpRequestConfig(), WebhookResponseObject.class);

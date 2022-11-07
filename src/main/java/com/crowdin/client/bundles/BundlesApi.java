@@ -27,6 +27,10 @@ public class BundlesApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @return list of bundles
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Bundle> listBundles(Long projectId) throws HttpException, HttpBadRequestException {
         BundleResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles", new HttpRequestConfig(), BundleResponseList.class);
@@ -37,6 +41,10 @@ public class BundlesApi extends CrowdinApi {
      * @param projectId project identifier
      * @param request request object
      * @return newly created bundle
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Bundle> addBundle(Long projectId, Bundle request) throws HttpException, HttpBadRequestException {
         BundleResponseObject response = this.httpClient.post(this.url + "/projects/" + projectId + "/bundles", request, new HttpRequestConfig(), BundleResponseObject.class);
@@ -47,6 +55,10 @@ public class BundlesApi extends CrowdinApi {
      * @param projectId project identifier
      * @param bundleId bundle identifier
      * @return bundle object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Bundle> getBundle(Long projectId, Long bundleId) throws HttpException, HttpBadRequestException {
         BundleResponseObject response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId, new HttpRequestConfig(), BundleResponseObject.class);
@@ -56,6 +68,10 @@ public class BundlesApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param bundleId bundle identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteBundle(Long projectId, Long bundleId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/bundles/" + bundleId, new HttpRequestConfig(), Void.class);
@@ -66,6 +82,10 @@ public class BundlesApi extends CrowdinApi {
      * @param bundleId bundle identifier
      * @param request request object
      * @return updated bundle
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Bundle> editBundle(Long projectId, Long bundleId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         BundleResponseObject response = this.httpClient.patch(this.url + "/projects/" + projectId + "/bundles/" + bundleId, request, new HttpRequestConfig(), BundleResponseObject.class);
@@ -78,6 +98,10 @@ public class BundlesApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of bundles file resource
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.files.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.files.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<? extends FileInfo> listBundleFiles(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(

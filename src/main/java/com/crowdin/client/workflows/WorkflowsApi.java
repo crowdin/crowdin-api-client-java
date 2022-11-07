@@ -30,6 +30,9 @@ public class WorkflowsApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @return list of workflow steps
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.workflow-steps.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<WorkflowStep> listWorkflowSteps(Long projectId) throws HttpException, HttpBadRequestException {
         WorkflowStepResponseList workflowStepResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps", new HttpRequestConfig(), WorkflowStepResponseList.class);
@@ -38,8 +41,11 @@ public class WorkflowsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param stepId    workflow step identifier
+     * @param stepId workflow step identifier
      * @return workflow step
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.workflow-steps.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<WorkflowStep> getWorkflowStep(Long projectId, Long stepId) throws HttpException, HttpBadRequestException {
         WorkflowStepResponseObject workflowStepResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/workflow-steps/" + stepId, new HttpRequestConfig(), WorkflowStepResponseObject.class);
@@ -48,9 +54,12 @@ public class WorkflowsApi extends CrowdinApi {
 
     /**
      * @param groupId group identifier
-     * @param limit   maximum number of items to retrieve (default 25)
-     * @param offset  starting offset in the collection (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of workflow templates
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.workflow-templates.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<WorkflowTemplate> listWorkflowTemplates(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -65,6 +74,9 @@ public class WorkflowsApi extends CrowdinApi {
     /**
      * @param templateId workflow template identifier
      * @return workflow step
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.workflow-templates.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<WorkflowTemplate> getWorkflowTemplate(Long templateId) throws HttpException, HttpBadRequestException {
         WorkflowTemplateResponseObject workflowTemplateResponseObject = this.httpClient.get(this.url + "/workflow-templates/" + templateId, new HttpRequestConfig(), WorkflowTemplateResponseObject.class);

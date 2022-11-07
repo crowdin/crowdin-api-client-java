@@ -32,6 +32,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of concepts
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Concept> listConcepts(Long glossaryId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -46,6 +50,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
      * @return concept
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Concept> getConcept(Long glossaryId, Long conceptId) throws HttpException, HttpBadRequestException {
         ConceptResponseObject conceptResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, new HttpRequestConfig(), ConceptResponseObject.class);
@@ -57,6 +65,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param conceptId concept identifier
      * @param request request object
      * @return updated concept
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Concept> updateConcept(Long glossaryId, Long conceptId, Concept request) throws HttpException, HttpBadRequestException {
         ConceptResponseObject conceptResponseObject = this.httpClient.put(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, request, new HttpRequestConfig(), ConceptResponseObject.class);
@@ -66,6 +78,10 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteConcept(Long glossaryId, Long conceptId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, new HttpRequestConfig(), Void.class);
@@ -76,6 +92,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of glossaries
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Glossary> listGlossaries(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -90,6 +110,10 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param request request object
      * @return newly created glossary
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Glossary> addGlossary(AddGlossaryRequest request) throws HttpException, HttpBadRequestException {
         GlossaryResponseObject glossaryResponseObject = this.httpClient.post(this.url + "/glossaries", request, new HttpRequestConfig(), GlossaryResponseObject.class);
@@ -99,6 +123,10 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @return glossary
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Glossary> getGlossary(Long glossaryId) throws HttpException, HttpBadRequestException {
         GlossaryResponseObject glossaryResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId, new HttpRequestConfig(), GlossaryResponseObject.class);
@@ -107,6 +135,10 @@ public class GlossariesApi extends CrowdinApi {
 
     /**
      * @param glossaryId glossary identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteGlossary(Long glossaryId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/glossaries/" + glossaryId, new HttpRequestConfig(), Void.class);
@@ -116,6 +148,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param request request object
      * @return updated glossary
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Glossary> editGlossary(Long glossaryId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         GlossaryResponseObject glossaryResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId, request, new HttpRequestConfig(), GlossaryResponseObject.class);
@@ -126,6 +162,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param request request object
      * @return export status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<GlossaryExportStatus> exportGlossary(Long glossaryId, ExportGlossaryRequest request) throws HttpException, HttpBadRequestException {
         GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/exports", request, new HttpRequestConfig(), GlossaryExportStatusResponseObject.class);
@@ -136,6 +176,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param exportId export identifier
      * @return export status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<GlossaryExportStatus> checkGlossaryExportStatus(Long glossaryId, String exportId) throws HttpException, HttpBadRequestException {
         GlossaryExportStatusResponseObject glossaryExportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId, new HttpRequestConfig(), GlossaryExportStatusResponseObject.class);
@@ -146,6 +190,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param exportId export identifier
      * @return download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.exports.download.download" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.exports.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<DownloadLink> downloadGlossary(Long glossaryId, String exportId) throws HttpException, HttpBadRequestException {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/exports/" + exportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
@@ -156,6 +204,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param request request object
      * @return import status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.imports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.imports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<GlossaryImportStatus> importGlossary(Long glossaryId, ImportGlossaryRequest request) throws HttpException, HttpBadRequestException {
         GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/imports", request, new HttpRequestConfig(), GlossaryImportStatusResponseObject.class);
@@ -166,6 +218,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param importId import identifier
      * @return import status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.imports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.imports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<GlossaryImportStatus> checkGlossaryImportStatus(Long glossaryId, String importId) throws HttpException, HttpBadRequestException {
         GlossaryImportStatusResponseObject glossaryImportStatusResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/imports/" + importId, new HttpRequestConfig(), GlossaryImportStatusResponseObject.class);
@@ -181,6 +237,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @return list of terms
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Term> listTerms(Long glossaryId, Long userId, String languageId, Long conceptId, @Deprecated Long translationOfTermId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -199,6 +259,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param request request object
      * @return newly created term
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Term> addTerm(Long glossaryId, AddTermRequest request) throws HttpException, HttpBadRequestException {
         TermResponseObject termResponseObject = this.httpClient.post(this.url + "/glossaries/" + glossaryId + "/terms", request, new HttpRequestConfig(), TermResponseObject.class);
@@ -210,6 +274,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param languageId language identifier
      * @param conceptId concept identifier
      * @param translationOfTermId translationOfTerm identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void clearGlossary(Long glossaryId, String languageId, Long conceptId, @Deprecated Long translationOfTermId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -224,6 +292,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param glossaryId glossary identifier
      * @param termId term identifier
      * @return term
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Term> getTerm(Long glossaryId, Long termId) throws HttpException, HttpBadRequestException {
         TermResponseObject termResponseObject = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpRequestConfig(), TermResponseObject.class);
@@ -233,6 +305,10 @@ public class GlossariesApi extends CrowdinApi {
     /**
      * @param glossaryId glossary identifier
      * @param termId term identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public void deleteTerm(Long glossaryId, Long termId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, new HttpRequestConfig(), Void.class);
@@ -243,6 +319,10 @@ public class GlossariesApi extends CrowdinApi {
      * @param termId term identifier
      * @param request request object
      * @return updated term
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<Term> editTerm(Long glossaryId, Long termId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         TermResponseObject termResponseObject = this.httpClient.patch(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, request, new HttpRequestConfig(), TermResponseObject.class);
