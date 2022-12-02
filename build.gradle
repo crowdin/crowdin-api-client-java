@@ -15,7 +15,7 @@ task myJavadocs(type: Javadoc) {
 }
 
 sourceCompatibility = 8
-version '1.5.1'
+version '1.5.2'
 
 repositories {
     mavenCentral()
@@ -23,15 +23,15 @@ repositories {
 
 dependencies {
 
-    compile 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compile 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    implementation 'org.apache.httpcomponents:httpclient:4.5.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 test {
