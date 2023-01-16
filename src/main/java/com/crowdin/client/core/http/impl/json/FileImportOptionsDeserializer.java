@@ -1,5 +1,6 @@
 package com.crowdin.client.core.http.impl.json;
 
+import com.crowdin.client.sourcefiles.model.DocxFileImportOptions;
 import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.crowdin.client.sourcefiles.model.OtherFileImportOptions;
 import com.crowdin.client.sourcefiles.model.SpreadsheetFileImportOptions;
@@ -31,7 +32,9 @@ public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOption
         List<String> fields = StreamSupport
                 .stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());
-        if (fields.contains("firstLineContainsHeader")) {
+        if (fields.contains("cleanTagsAggressively")) {
+            return this.objectMapper.readValue(treeNode.toString(), DocxFileImportOptions.class);
+        } else if (fields.contains("firstLineContainsHeader")) {
             return this.objectMapper.readValue(treeNode.toString(), SpreadsheetFileImportOptions.class);
         } else if (fields.contains("translateContent")) {
             return this.objectMapper.readValue(treeNode.toString(), XmlFileImportOptions.class);

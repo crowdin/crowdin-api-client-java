@@ -154,7 +154,7 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void listFilesTest() {
         ResponseList<File> fileResponseList = (ResponseList<File>) this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null, null);
-        assertEquals(fileResponseList.getData().size(), 3);
+        assertEquals(fileResponseList.getData().size(), 4);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
         ExportOptions exportOptions = fileResponseList.getData().get(0).getData().getExportOptions();
@@ -176,6 +176,20 @@ public class SourceFilesApiTest extends TestClient {
         assertEquals(((PropertyFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.properties");
         assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeQuotes(), null);
         assertEquals(((PropertyFileExportOptions) exportOptions).getEscapeSpecialCharacters(), Integer.valueOf(1));
+
+        assertEquals(fileResponseList.getData().get(3).getData().getId(), Long.valueOf(47L));
+        assertEquals(fileResponseList.getData().get(3).getData().getName(), "guide.odt");
+        assertEquals(fileResponseList.getData().get(3).getData().getType(), "docx");
+        ImportOptions importOptions = fileResponseList.getData().get(3).getData().getImportOptions();
+        assertTrue(importOptions instanceof DocxFileImportOptions);
+        assertEquals(((DocxFileImportOptions) importOptions).getCleanTagsAggressively(), false);
+        assertEquals(((DocxFileImportOptions) importOptions).getTranslateHiddenText(), true);
+        assertEquals(((DocxFileImportOptions) importOptions).getTranslateHyperlinkUrls(), false);
+        assertEquals(((DocxFileImportOptions) importOptions).getTranslateHiddenRowsAndColumns(), false);
+        assertEquals(((DocxFileImportOptions) importOptions).getImportNotes(), true);
+        assertEquals(((DocxFileImportOptions) importOptions).getImportHiddenSlides(), false);
+        assertEquals(((DocxFileImportOptions) importOptions).getContentSegmentation(), true);
+        assertEquals(((DocxFileImportOptions) importOptions).getSrxStorageId(), null);
     }
 
     @Test
