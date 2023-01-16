@@ -71,6 +71,37 @@
         "createdAt": "2019-09-19T15:10:43+00:00",
         "updatedAt": "2019-09-19T15:10:46+00:00"
       }
+    },
+    {
+      "data": {
+        "id" : 47,
+        "projectId" : 2,
+        "branchId" : null,
+        "directoryId" : 5,
+        "revisionId" : 6,
+        "status" : "active",
+        "priority" : "high",
+        "importOptions" : {
+          "cleanTagsAggressively" : false,
+          "translateHiddenText" : true,
+          "translateHyperlinkUrls" : false,
+          "translateHiddenRowsAndColumns" : false,
+          "importNotes" : true,
+          "importHiddenSlides" : false,
+          "contentSegmentation" : true,
+          "customSegmentation" : false
+        },
+        "exportOptions" : {
+          "exportPattern" : "guide.odt"
+        },
+        "excludedTargetLanguages" : null,
+        "createdAt" : "2014-06-04T10:28:51+00:00",
+        "updatedAt" : "2022-02-23T09:16:35+00:00",
+        "name" : "guide.odt",
+        "title" : null,
+        "type" : "docx",
+        "path" : "/docs/guide.odt"
+      }
     }
   ],
   "pagination": {
