@@ -16,8 +16,6 @@ public class TranslationMemoryImportStatus {
     private Date updatedAt;
     private String startedAt;
     private String finishedAt;
-    @Deprecated
-    private String eta;
 
     @Data
     public static class Attributes {
