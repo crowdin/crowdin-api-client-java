@@ -1,0 +1,19 @@
+{
+  "data": {
+    "words": [
+      {
+        "text": "password",
+        "alignments": [
+          {
+            "sourceWord": "Password",
+            "sourceLemma": "password",
+            "targetWord": "Пароль",
+            "targetLemma": "пароль",
+            "match": 2,
+            "probability": 2
+          }
+        ]
+      }
+    ]
+  }
+}
