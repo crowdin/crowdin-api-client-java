@@ -11,7 +11,26 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.glossaries.model.*;
+import com.crowdin.client.glossaries.model.AddGlossaryRequest;
+import com.crowdin.client.glossaries.model.AddTermRequest;
+import com.crowdin.client.glossaries.model.Concept;
+import com.crowdin.client.glossaries.model.ConceptResponseList;
+import com.crowdin.client.glossaries.model.ConceptResponseObject;
+import com.crowdin.client.glossaries.model.ExportGlossaryRequest;
+import com.crowdin.client.glossaries.model.Glossary;
+import com.crowdin.client.glossaries.model.GlossaryExportStatus;
+import com.crowdin.client.glossaries.model.GlossaryExportStatusResponseObject;
+import com.crowdin.client.glossaries.model.GlossaryImportStatus;
+import com.crowdin.client.glossaries.model.GlossaryImportStatusResponseObject;
+import com.crowdin.client.glossaries.model.GlossaryResponseList;
+import com.crowdin.client.glossaries.model.GlossaryResponseObject;
+import com.crowdin.client.glossaries.model.ImportGlossaryRequest;
+import com.crowdin.client.glossaries.model.SearchConcordance;
+import com.crowdin.client.glossaries.model.SearchConcordanceRequest;
+import com.crowdin.client.glossaries.model.SearchConcordanceResponseList;
+import com.crowdin.client.glossaries.model.Term;
+import com.crowdin.client.glossaries.model.TermResponseList;
+import com.crowdin.client.glossaries.model.TermResponseObject;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +45,21 @@ public class GlossariesApi extends CrowdinApi {
         super(credentials, clientConfig);
     }
 
+
+    /**
+     * @param projectId  project identifier
+     * @param request    request object
+     * @return list of search results
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.glossaries.concordance.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.glossaries.concordance.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SearchConcordance> searchConcordance(Long projectId, SearchConcordanceRequest request) {
+        SearchConcordanceResponseList searchConcordanceResponseList =
+                this.httpClient.post(this.url + "/projects/" + projectId + "/glossaries/concordance", request, new HttpRequestConfig(), SearchConcordanceResponseList.class);
+        return SearchConcordanceResponseList.of(searchConcordanceResponseList);
+    }
 
     /**
      * @param glossaryId glossary identifier

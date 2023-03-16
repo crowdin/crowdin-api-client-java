@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GlossariesApiTest extends TestClient {
 
+    private final Long projectId = 2L;
     private final Long glossaryId = 2L;
     private final Long groupId = 2L;
     private final Long conceptId = 3L;
@@ -55,8 +56,27 @@ public class GlossariesApiTest extends TestClient {
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpGet.METHOD_NAME, "api/glossaries/term.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpPatch.METHOD_NAME, "api/glossaries/editTerm.json", "api/glossaries/term.json")
+                RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpPatch.METHOD_NAME, "api/glossaries/editTerm.json", "api/glossaries/term.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/glossaries/concordance", HttpPost.METHOD_NAME, "api/glossaries/concordanceSearchRequest.json", "api/glossaries/concordanceSearchResponse.json")
         );
+    }
+
+    @Test
+    public void concordanceSearchTest() {
+        SearchConcordanceRequest searchConcordanceRequest = new SearchConcordanceRequest();
+        searchConcordanceRequest.setSourceLanguageId("en");
+        searchConcordanceRequest.setTargetLanguageId("de");
+        searchConcordanceRequest.setExpression("Welcome!");
+        searchConcordanceRequest.setOffset(0);
+        searchConcordanceRequest.setLimit(25);
+        ResponseList<SearchConcordance> searchConcordanceResponseList = this.getGlossariesApi().searchConcordance(projectId, searchConcordanceRequest);
+        assertEquals(searchConcordanceResponseList.getData().size(), 1);
+        assertEquals(searchConcordanceResponseList.getData().get(0).getData().getGlossary().getId(), glossaryId);
+        assertEquals(searchConcordanceResponseList.getData().get(0).getData().getConcept().getId(), 3);
+        assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSourceTerms().get(0).getId(), termId);
+        assertEquals(searchConcordanceResponseList.getData().get(0).getData().getTargetTerms().get(0).getId(), termId);
+        assertEquals(searchConcordanceResponseList.getPagination().getOffset(), 0);
+        assertEquals(searchConcordanceResponseList.getPagination().getLimit(), 25);
     }
 
     @Test
@@ -94,7 +114,9 @@ public class GlossariesApiTest extends TestClient {
     }
 
     @Test
-    public void deleteConceptTest() { this.getGlossariesApi().deleteConcept(glossaryId, conceptId);}
+    public void deleteConceptTest() {
+        this.getGlossariesApi().deleteConcept(glossaryId, conceptId);
+    }
 
     @Test
     public void listGlossariesTest() {
@@ -163,9 +185,9 @@ public class GlossariesApiTest extends TestClient {
     public void importGlossaryTest() {
         ImportGlossaryRequest request = new ImportGlossaryRequest();
         request.setStorageId(12L);
-        request.setScheme(Stream.of(new Object[][] {
-                { "term_en", 2 },
-                { "description_en", 1 },
+        request.setScheme(Stream.of(new Object[][]{
+                {"term_en", 2},
+                {"description_en", 1},
         }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1])));
         request.setFirstLineContainsHeader(false);
         ResponseObject<GlossaryImportStatus> glossaryImportStatusResponseObject = this.getGlossariesApi().importGlossary(glossaryId, request);
