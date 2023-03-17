@@ -34,6 +34,7 @@ public class BundlesApiTest extends TestClient {
     private final String format = "crowdin-resx";
     private final String pattern = "strings-%two_letter_code%.resx";
     private final String exportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
+    private final String status = "finished";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -46,7 +47,8 @@ public class BundlesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + fileInfoCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileInfoCollectionResource.json"),
                 RequestMock.build(this.url + "/projects/" + projectId2 + "/bundles/" + fileCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileCollectionResource.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/bundles/downloadBundle.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/addBundleRequest.json", "api/bundles/exportBundle.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/addBundleRequest.json", "api/bundles/exportBundle.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/bundles/exportBundle.json")
         );
     }
 
@@ -131,5 +133,12 @@ public class BundlesApiTest extends TestClient {
 
         ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);
         assertEquals(exportId, response.getData().getIdentifier());
+    }
+
+    @Test
+    public void exportBundleStatusTest() {
+        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundleStatus(projectId, bundleId, exportId);
+        assertEquals(exportId, response.getData().getIdentifier());
+        assertEquals(status, response.getData().getStatus());
     }
 }

@@ -146,4 +146,21 @@ public class BundlesApi extends CrowdinApi {
                 BundleExportResponseObject.class);
         return ResponseObject.of(response.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId bundle identifier
+     * @param exportId export identifier, consists of 36 characters
+     * @return requested bundle export object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    ResponseObject<BundleExport> exportBundleStatus(Long projectId, Long bundleId, String exportId) {
+        BundleExportResponseObject response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId,
+                new HttpRequestConfig(),
+                BundleExportResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
 }
