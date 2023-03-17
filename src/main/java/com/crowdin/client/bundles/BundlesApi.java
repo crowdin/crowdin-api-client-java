@@ -129,4 +129,21 @@ public class BundlesApi extends CrowdinApi {
                 DownloadLinkResponseObject.class);
         return ResponseObject.of(response.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId bundle identifier
+     * @return freshly created bundle export object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<BundleExport> exportBundle(Long projectId, Long bundleId, Bundle request) throws HttpException, HttpBadRequestException {
+        BundleExportResponseObject response = this.httpClient.post(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports",
+                request,
+                new HttpRequestConfig(),
+                BundleExportResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
 }
