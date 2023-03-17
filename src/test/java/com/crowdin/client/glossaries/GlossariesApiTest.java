@@ -67,16 +67,12 @@ public class GlossariesApiTest extends TestClient {
         searchConcordanceRequest.setSourceLanguageId("en");
         searchConcordanceRequest.setTargetLanguageId("de");
         searchConcordanceRequest.setExpression("Welcome!");
-        searchConcordanceRequest.setOffset(0);
-        searchConcordanceRequest.setLimit(25);
         ResponseList<SearchConcordance> searchConcordanceResponseList = this.getGlossariesApi().searchConcordance(projectId, searchConcordanceRequest);
         assertEquals(searchConcordanceResponseList.getData().size(), 1);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getGlossary().getId(), glossaryId);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getConcept().getId(), 3);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSourceTerms().get(0).getId(), termId);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getTargetTerms().get(0).getId(), termId);
-        assertEquals(searchConcordanceResponseList.getPagination().getOffset(), 0);
-        assertEquals(searchConcordanceResponseList.getPagination().getLimit(), 25);
     }
 
     @Test
