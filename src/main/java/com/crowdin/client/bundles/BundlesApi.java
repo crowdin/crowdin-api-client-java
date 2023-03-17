@@ -111,4 +111,22 @@ public class BundlesApi extends CrowdinApi {
         FileInfoResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/files", new HttpRequestConfig(queryParams), FileInfoResponseList.class);
         return FileInfoResponseList.to(response);
     }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId bundle identifier
+     * @param exportId export identifier, consists of 36 characters
+     * @return download link to bundle
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.download.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.download.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadBundle(Long projectId, Long bundleId, String exportId) throws HttpException, HttpBadRequestException {
+        DownloadLinkResponseObject response = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId + "/download",
+                new HttpRequestConfig(),
+                DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
 }
