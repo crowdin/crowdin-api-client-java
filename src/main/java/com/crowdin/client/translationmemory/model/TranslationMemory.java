@@ -14,7 +14,7 @@ public class TranslationMemory {
     private String name;
     private List<String> languageIds;
     private Integer segmentsCount;
-    private Long defaultProjectId;
+    private List<Long> defaultProjectIds;
     private List<Long> projectIds;
     private Date createdAt;
 }

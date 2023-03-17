@@ -10,7 +10,9 @@
           "el"
         ],
         "segmentsCount": 21,
-        "defaultProjectId": 0,
+        "defaultProjectIds": [
+          2
+        ],
         "projectIds": [
           2
         ],
