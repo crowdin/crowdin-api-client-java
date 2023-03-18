@@ -7,7 +7,15 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translationmemory.model.*;
+import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
+import com.crowdin.client.translationmemory.model.SearchConcordance;
+import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
+import com.crowdin.client.translationmemory.model.TranslationMemory;
+import com.crowdin.client.translationmemory.model.TranslationMemoryExportRequest;
+import com.crowdin.client.translationmemory.model.TranslationMemoryExportStatus;
+import com.crowdin.client.translationmemory.model.TranslationMemoryFormat;
+import com.crowdin.client.translationmemory.model.TranslationMemoryImportRequest;
+import com.crowdin.client.translationmemory.model.TranslationMemoryImportStatus;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -15,7 +23,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
