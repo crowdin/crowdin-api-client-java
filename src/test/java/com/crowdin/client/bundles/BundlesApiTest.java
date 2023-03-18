@@ -5,6 +5,7 @@ import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.sourcefiles.model.File;
@@ -32,6 +33,8 @@ public class BundlesApiTest extends TestClient {
     private final String bundleResourceName = "umbrella_app.xliff";
     private final String format = "crowdin-resx";
     private final String pattern = "strings-%two_letter_code%.resx";
+    private final String exportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
+    private final String status = "finished";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -42,7 +45,10 @@ public class BundlesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId, HttpPatch.METHOD_NAME, "api/bundles/editBundle.json", "api/bundles/bundle.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + fileInfoCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileInfoCollectionResource.json"),
-                RequestMock.build(this.url + "/projects/" + projectId2 + "/bundles/" + fileCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileCollectionResource.json")
+                RequestMock.build(this.url + "/projects/" + projectId2 + "/bundles/" + fileCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileCollectionResource.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/bundles/downloadBundle.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/addBundleRequest.json", "api/bundles/exportBundle.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/bundles/exportBundle.json")
         );
     }
 
@@ -109,4 +115,31 @@ public class BundlesApiTest extends TestClient {
         assertEquals(fileCollectionResourceResponse.getName(), bundleResourceName);
     }
 
+    @Test
+    public void downloadBundleTest() {
+        ResponseObject<DownloadLink> response = this.getBundlesApi().downloadBundle(projectId, bundleId, exportId);
+        assertEquals("test.com", response.getData().getUrl());
+    }
+
+    @Test
+    public void exportBundleTest() {
+        Bundle request = new Bundle();
+        request.setName(name);
+        request.setFormat(format);
+        request.setSourcePatterns(Collections.singletonList("/master/"));
+        request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
+        request.setExportPattern(pattern);
+        request.setLabelIds(Collections.singletonList(0L));
+
+        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);
+        assertEquals(exportId, response.getData().getIdentifier());
+        assertEquals(2,response.getData().getAttributes().getBundleId());
+    }
+
+    @Test
+    public void checkBundleExportStatusTest() {
+        ResponseObject<BundleExport> response = this.getBundlesApi().checkBundleExportStatus(projectId, bundleId, exportId);
+        assertEquals(exportId, response.getData().getIdentifier());
+        assertEquals(status, response.getData().getStatus());
+    }
 }
