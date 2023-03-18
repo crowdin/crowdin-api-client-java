@@ -137,8 +137,8 @@ public class BundlesApiTest extends TestClient {
     }
 
     @Test
-    public void exportBundleStatusTest() {
-        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundleStatus(projectId, bundleId, exportId);
+    public void checkBundleExportStatusTest() {
+        ResponseObject<BundleExport> response = this.getBundlesApi().checkBundleExportStatus(projectId, bundleId, exportId);
         assertEquals(exportId, response.getData().getIdentifier());
         assertEquals(status, response.getData().getStatus());
     }
