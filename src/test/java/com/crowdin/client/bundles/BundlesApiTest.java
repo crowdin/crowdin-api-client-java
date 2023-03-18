@@ -133,6 +133,7 @@ public class BundlesApiTest extends TestClient {
 
         ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);
         assertEquals(exportId, response.getData().getIdentifier());
+        assertEquals(2,response.getData().getAttributes().getBundleId());
     }
 
     @Test
