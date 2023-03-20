@@ -10,8 +10,8 @@ import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.translations.model.AlignTranslationRequest;
-import com.crowdin.client.translations.model.AlignTranslationResponse;
+import com.crowdin.client.stringtranslations.model.AlignTranslationRequest;
+import com.crowdin.client.stringtranslations.model.AlignTranslationResponse;
 import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
@@ -40,19 +40,6 @@ public class TranslationsApi extends CrowdinApi {
         super(credentials, clientConfig);
     }
 
-    /**
-     * @param projectId project identifier
-     * @param request request body
-     * @return align-translation response
-     * @see <ul>
-     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.alignment.post" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.alignment.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
-     * </ul>
-     */
-    public AlignTranslationResponse alignTranslation(Long projectId, AlignTranslationRequest request) {
-        String url = this.url + "/projects/" + projectId + "/translations/alignment";
-        return this.httpClient.post(url, request, new HttpRequestConfig(), AlignTranslationResponse.class);
-    }
 
     /**
      * @param projectId project identifier

@@ -1,4 +1,4 @@
-package com.crowdin.client.translations.model;
+package com.crowdin.client.stringtranslations.model;
 
 import lombok.Data;
 
