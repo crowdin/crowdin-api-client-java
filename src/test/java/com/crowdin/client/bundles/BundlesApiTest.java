@@ -19,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -117,7 +120,9 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void downloadBundleTest() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseObject<DownloadLink> response = this.getBundlesApi().downloadBundle(projectId, bundleId, exportId);
+        assertEquals(new Date(119, Calendar.SEPTEMBER, 20,10,31,21), response.getData().getExpireIn());
         assertEquals("test.com", response.getData().getUrl());
     }
 
