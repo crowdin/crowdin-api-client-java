@@ -5,7 +5,20 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translations.model.*;
+import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
+import com.crowdin.client.translations.model.AutoApproveOption;
+import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
+import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
+import com.crowdin.client.translations.model.CharTransformation;
+import com.crowdin.client.translations.model.CrowdinTranslationCraeteProjectPseudoBuildForm;
+import com.crowdin.client.translations.model.CrowdinTranslationCreateProjectBuildForm;
+import com.crowdin.client.translations.model.CrowdinTranslationCreateProjectPseudoBuildForm;
+import com.crowdin.client.translations.model.ExportProjectTranslationRequest;
+import com.crowdin.client.translations.model.Method;
+import com.crowdin.client.translations.model.PreTranslationStatus;
+import com.crowdin.client.translations.model.ProjectBuild;
+import com.crowdin.client.translations.model.UploadTranslationsRequest;
+import com.crowdin.client.translations.model.UploadTranslationsResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -45,7 +58,7 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpGet.METHOD_NAME, "api/translations/projectBuildStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json")
-                );
+        );
     }
 
     @Test

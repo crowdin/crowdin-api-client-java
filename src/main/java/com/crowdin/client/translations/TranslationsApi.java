@@ -10,8 +10,6 @@ import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.stringtranslations.model.AlignTranslationRequest;
-import com.crowdin.client.stringtranslations.model.AlignTranslationResponse;
 import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
@@ -39,7 +37,6 @@ public class TranslationsApi extends CrowdinApi {
     public TranslationsApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
     }
-
 
     /**
      * @param projectId project identifier
