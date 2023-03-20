@@ -12,6 +12,10 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
+import com.crowdin.client.translationmemory.model.SearchConcordance;
+import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
+import com.crowdin.client.translationmemory.model.SearchConcordanceResponse;
+import com.crowdin.client.translationmemory.model.SearchConcordanceResponseList;
 import com.crowdin.client.translationmemory.model.TranslationMemory;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportStatus;
@@ -33,6 +37,21 @@ public class TranslationMemoryApi extends CrowdinApi {
 
     public TranslationMemoryApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * @param projectId  project identifier
+     * @param request    request object
+     * @return list of search results
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tms.concordance.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tms.concordance.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SearchConcordance> searchConcordance(Long projectId, SearchConcordanceRequest request) {
+        String url = this.url + "/projects/" + projectId + "/tms/concordance";
+        final SearchConcordanceResponseList searchConcordanceResponse = this.httpClient.post(url, request, new HttpRequestConfig(), SearchConcordanceResponseList.class);
+        return SearchConcordanceResponse.of(searchConcordanceResponse);
     }
 
     /**

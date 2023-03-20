@@ -1,0 +1,7 @@
+{
+  "sourceLanguageId": "en",
+  "targetLanguageId": "de",
+  "autoSubstitution": true,
+  "minRelevant": 60,
+  "expression": "Welcome!"
+}

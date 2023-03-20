@@ -24,6 +24,20 @@ public class StringTranslationsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param request request body
+     * @return align-translation response
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.alignment.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.alignment.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public AlignTranslationResponse alignTranslation(Long projectId, AlignTranslationRequest request) {
+        String url = this.url + "/projects/" + projectId + "/translations/alignment";
+        return this.httpClient.post(url, request, new HttpRequestConfig(), AlignTranslationResponse.class);
+    }
+
+    /**
+     * @param projectId project identifier
      * @param fileId file identifier
      * @param stringId string identifier
      * @param languageId language identifier

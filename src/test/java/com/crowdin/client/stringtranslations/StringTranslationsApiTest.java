@@ -48,8 +48,21 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpGet.METHOD_NAME, "api/stringtranslations/listVotes.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpPost.METHOD_NAME, "api/stringtranslations/addVoteRequest.json", "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpGet.METHOD_NAME, "api/stringtranslations/vote.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpDelete.METHOD_NAME)
+                RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpDelete.METHOD_NAME),
+                RequestMock.build(String.format("%s/projects/%d/translations/alignment", this.url, projectId), HttpPost.METHOD_NAME, "api/stringtranslations/alignTranslationRequest.json", "api/stringtranslations/alignTranslationResponse.json")
         );
+    }
+
+    @Test
+    public void alignTranslationTest() {
+        AlignTranslationRequest request = new AlignTranslationRequest();
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("de");
+        request.setText("Your password has been reset successfully!");
+        AlignTranslationResponse alignTranslationResponse = this.getStringTranslationsApi().alignTranslation(projectId, request);
+        assertEquals(alignTranslationResponse.getData().getWords().size(), 1);
+        assertEquals(alignTranslationResponse.getData().getWords().get(0).getText(), "password");
+        assertEquals(alignTranslationResponse.getData().getWords().get(0).getAlignments().size(), 1);
     }
 
     @Test
