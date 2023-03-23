@@ -22,6 +22,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,6 +37,7 @@ public class ScreenshotsApiTest extends TestClient {
     private final Long tagId = 98L;
     private final Long stringId = 12L;
     private final String name = "translate_with_siri.jpg";
+    private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -78,11 +82,14 @@ public class ScreenshotsApiTest extends TestClient {
 
     @Test
     public void updateScreenshotTest() {
+        TimeZone.setDefault(tz);
         UpdateScreenshotRequest request = new UpdateScreenshotRequest();
         request.setName(name);
         request.setStorageId(storageId);
         ResponseObject<Screenshot> screenshotResponseObject = this.getScreenshotsApi().updateScreenshot(projectId, screenshotId, request);
         assertEquals(screenshotResponseObject.getData().getId(), screenshotId);
+        assertEquals(new Date(119,Calendar.SEPTEMBER,23,9,35,31), screenshotResponseObject.getData().getTags().get(0).getCreatedAt());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,23,9,29,19), screenshotResponseObject.getData().getUpdatedAt());
     }
 
     @Test

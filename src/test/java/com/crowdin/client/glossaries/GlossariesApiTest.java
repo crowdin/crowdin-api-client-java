@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,6 +36,7 @@ public class GlossariesApiTest extends TestClient {
     private final String importId = "c050fba2-200e-4ce1-8de4-f7ba8eb58732";
     private final String link = "test.com";
     private final String languageId = "ro";
+    private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -85,9 +89,11 @@ public class GlossariesApiTest extends TestClient {
 
     @Test
     public void getConceptTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().getConcept(glossaryId, conceptId);
         assertEquals(conceptResponseObject.getData().getId(), glossaryId);
         assertEquals(conceptResponseObject.getData().getSubject(), subject);
+        assertEquals(new Date(119,Calendar.SEPTEMBER,23,7,19,47), conceptResponseObject.getData().getCreatedAt());
     }
 
     @Test
@@ -199,9 +205,11 @@ public class GlossariesApiTest extends TestClient {
 
     @Test
     public void listTermsTest() {
+        TimeZone.setDefault(tz);
         ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId, null, null, null, null, null, null);
         assertEquals(termResponseList.getData().size(), 1);
         assertEquals(termResponseList.getData().get(0).getData().getId(), termId);
+        assertEquals(new Date(119,Calendar.SEPTEMBER,23,7,19,47), termResponseList.getData().get(0).getData().getCreatedAt());
     }
 
     @Test

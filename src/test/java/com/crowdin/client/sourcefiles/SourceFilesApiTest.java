@@ -19,6 +19,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -40,6 +43,7 @@ public class SourceFilesApiTest extends TestClient {
     private final String status = "finished";
     private final List<Long> attachLabelIds = Arrays.asList(1L);
     private final List<Long> detachLabelIds = attachLabelIds;
+    private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -130,9 +134,11 @@ public class SourceFilesApiTest extends TestClient {
 
     @Test
     public void getDirectoryTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<Directory> directoryResponseObject = this.getSourceFilesApi().getDirectory(projectId, directoryId);
         assertEquals(directoryResponseObject.getData().getId(), directoryId);
         assertEquals(directoryResponseObject.getData().getName(), directoryName);
+        assertEquals(new Date(119,Calendar.SEPTEMBER,19,14,14,0),directoryResponseObject.getData().getCreatedAt());
     }
 
     @Test

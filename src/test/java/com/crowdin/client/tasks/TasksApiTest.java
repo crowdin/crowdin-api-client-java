@@ -19,7 +19,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,10 +53,12 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null);
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
+        assertEquals(new Date(119, Calendar.SEPTEMBER,27,7,0,14), taskResponseList.getData().get(0).getData().getDeadline());
     }
 
     @Test
@@ -89,11 +94,14 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void getTaskTest() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseObject<Task> taskResponseObject = this.getTasksApi().getTask(projectId, taskId);
+        Date createdAt = new Date(119,Calendar.SEPTEMBER,23,9,4,29);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
         assertNotNull(taskResponseObject.getData().getTranslateProgress());
         assertEquals(62, taskResponseObject.getData().getTranslateProgress().getPercent().intValue());
+        assertEquals(createdAt, taskResponseObject.getData().getCreatedAt());
     }
 
     @Test
