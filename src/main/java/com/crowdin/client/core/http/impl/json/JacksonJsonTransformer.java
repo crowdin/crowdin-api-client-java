@@ -44,7 +44,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
             .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
         this.objectMapper = cleanObjectMapper.copy()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+hh:mm"))
+                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX"))
                 .registerModule(module)
                 .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE)
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);

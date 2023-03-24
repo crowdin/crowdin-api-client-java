@@ -4,6 +4,7 @@ import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.reports.model.*;
+import com.crowdin.client.reports.model.Currency;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -13,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,6 +29,7 @@ public class ReportsApiTest extends TestClient {
     private final String name = "my report template";
     private final String id = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String link = "test.com";
+    private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -40,6 +45,7 @@ public class ReportsApiTest extends TestClient {
 
     @Test
     public void generateReportTest() {
+        TimeZone.setDefault(tz);
         CostEstimateGenerateReportRequest request = new CostEstimateGenerateReportRequest();
         request.setName("costs-estimation");
         CostEstimateGenerateReportRequest.Schema schema = new CostEstimateGenerateReportRequest.Schema();
@@ -62,6 +68,7 @@ public class ReportsApiTest extends TestClient {
         request.setSchema(schema);
         ResponseObject<ReportStatus> reportStatusResponseObject = this.getReportsApi().generateReport(projectId, request);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
+        assertEquals(new Date(119,Calendar.SEPTEMBER,23,11,26,54), reportStatusResponseObject.getData().getCreatedAt());
     }
 
     @Test

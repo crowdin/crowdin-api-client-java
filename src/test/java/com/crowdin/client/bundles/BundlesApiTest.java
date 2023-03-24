@@ -19,6 +19,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.Date;
+import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,6 +38,7 @@ public class BundlesApiTest extends TestClient {
     private final String pattern = "strings-%two_letter_code%.resx";
     private final String exportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String status = "finished";
+    private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -117,7 +121,9 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void downloadBundleTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<DownloadLink> response = this.getBundlesApi().downloadBundle(projectId, bundleId, exportId);
+        assertEquals(new Date(119, Calendar.SEPTEMBER, 20,10,31,21), response.getData().getExpireIn());
         assertEquals("test.com", response.getData().getUrl());
     }
 
