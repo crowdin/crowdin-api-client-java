@@ -157,7 +157,7 @@ public class BundlesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    ResponseObject<BundleExport> checkBundleExportStatus(Long projectId, Long bundleId, String exportId) {
+    public ResponseObject<BundleExport> checkBundleExportStatus(Long projectId, Long bundleId, String exportId) {
         BundleExportResponseObject response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId,
                 new HttpRequestConfig(),
                 BundleExportResponseObject.class);

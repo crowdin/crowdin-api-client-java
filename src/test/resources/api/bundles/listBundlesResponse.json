@@ -12,6 +12,7 @@
           "/master/environments/"
         ],
         "exportPattern": "strings-%two_letters_code%.resx",
+        "isMultilingual": false,
         "labelIds": [
           0
         ],

@@ -14,6 +14,7 @@ public class Bundle {
     private List<String> sourcePatterns;
     private List<String> ignorePatterns;
     private String exportPattern;
+    private boolean isMultilingual;
     private List<Long> labelIds;
     private Date createdAt;
     private Date updatedAt;
