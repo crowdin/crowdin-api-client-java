@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class DocxFileImportOptions extends ImportOptions {
 
     private Boolean cleanTagsAggressively;

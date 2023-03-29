@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class PropertyFileExportOptions extends ExportOptions {
 
     private Integer escapeQuotes;

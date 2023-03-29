@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 public class UpdateFileRequest extends UpdateOrRestoreFileRequest {
 
     private Long storageId;
