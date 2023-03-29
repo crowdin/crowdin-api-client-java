@@ -10,6 +10,7 @@
       "/master/environments/"
     ],
     "exportPattern": "strings-%two_letters_code%.resx",
+    "isMultilingual": true,
     "labelIds": [
       0
     ],

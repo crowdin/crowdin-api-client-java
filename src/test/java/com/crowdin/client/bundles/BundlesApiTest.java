@@ -62,6 +62,7 @@ public class BundlesApiTest extends TestClient {
         assertNotNull(response);
         assertEquals(1, response.getData().size());
         assertEquals(response.getData().get(0).getData().getId(), projectId);
+        assertFalse(response.getData().get(0).getData().isMultilingual());
     }
 
     @Test
@@ -72,12 +73,14 @@ public class BundlesApiTest extends TestClient {
         request.setSourcePatterns(Collections.singletonList("/master/"));
         request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
         request.setExportPattern(pattern);
+        request.setMultilingual(true);
         request.setLabelIds(Collections.singletonList(0L));
 
         ResponseObject<Bundle> response = this.getBundlesApi().addBundle(projectId, request);
         assertEquals(response.getData().getFormat(), format);
         assertEquals(response.getData().getName(), name);
         assertEquals(response.getData().getId(), projectId);
+        assertTrue(response.getData().isMultilingual());
     }
 
     @Test
@@ -85,6 +88,7 @@ public class BundlesApiTest extends TestClient {
         ResponseObject<Bundle> response = this.getBundlesApi().getBundle(projectId, bundleId);
         assertEquals(response.getData().getId(), projectId);
         assertEquals(response.getData().getName(), name);
+        assertTrue(response.getData().isMultilingual());
     }
 
     @Test
@@ -135,6 +139,7 @@ public class BundlesApiTest extends TestClient {
         request.setSourcePatterns(Collections.singletonList("/master/"));
         request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
         request.setExportPattern(pattern);
+        request.setMultilingual(true);
         request.setLabelIds(Collections.singletonList(0L));
 
         ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);
