@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class File extends FileInfo {
 
     private Long revisionId;

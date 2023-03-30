@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class SpreadsheetFileImportOptions extends ImportOptions {
 
     private Boolean firstLineContainsHeader;
