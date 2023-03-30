@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class File extends FileInfo {
 
     private Long revisionId;
