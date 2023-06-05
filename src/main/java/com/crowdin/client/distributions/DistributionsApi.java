@@ -128,7 +128,9 @@ public class DistributionsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<DistributionRelease> createDistributionRelease(Long projectId, String hash) throws HttpException, HttpBadRequestException {
-        DistributionReleaseResponseObject distributionReleaseResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", null, new HttpRequestConfig(), DistributionReleaseResponseObject.class);
+        DistributionReleaseResponseObject distributionReleaseResponseObject = this.httpClient.post(this.url +
+                "/projects/" + projectId + "/distributions/" + hash + "/release", new DistributionRelease(), new HttpRequestConfig(),
+                DistributionReleaseResponseObject.class);
         return ResponseObject.of(distributionReleaseResponseObject.getData());
     }
 }
