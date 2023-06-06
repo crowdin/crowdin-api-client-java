@@ -37,7 +37,7 @@ public class DistributionsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash, HttpPatch.METHOD_NAME, "api/distributions/editDistribution.json", "api/distributions/distribution.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpGet.METHOD_NAME, "api/distributions/release.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, null, "api/distributions/release.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/release.json")
         );
     }
 
