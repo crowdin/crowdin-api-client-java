@@ -34,6 +34,7 @@ public class ScreenshotsApiTest extends TestClient {
     private final Long projectId = 3L;
     private final Long screenshotId = 2L;
     private final Long storageId = 71L;
+    private final Long fileId = 87L;
     private final Long tagId = 98L;
     private final Long stringId = 12L;
     private final String name = "translate_with_siri.jpg";
@@ -70,6 +71,7 @@ public class ScreenshotsApiTest extends TestClient {
         AddScreenshotRequest request = new AddScreenshotRequest();
         request.setName(name);
         request.setStorageId(storageId);
+        request.setFileId(fileId);
         ResponseObject<Screenshot> screenshotResponseObject = this.getScreenshotsApi().addScreenshot(projectId, request);
         assertEquals(screenshotResponseObject.getData().getId(), screenshotId);
     }
