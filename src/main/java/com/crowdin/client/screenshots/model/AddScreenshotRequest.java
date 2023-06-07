@@ -9,4 +9,6 @@ public class AddScreenshotRequest {
     private String name;
     private Boolean autoTag;
     private Long fileId;
+    private Long branchId;
+    private Long directoryId;
 }
