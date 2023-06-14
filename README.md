@@ -2,7 +2,7 @@
 
 # Crowdin Java client
 
-The Crowdin Java client is a lightweight interface to the Crowdin API v2 that works in any Java environment. It provides common services for making API requests.
+The Crowdin Java client is a lightweight interface to the Crowdin API that works in any Java environment. It provides common services for making API requests.
 
 Our API is a full-featured RESTful API that helps you to integrate localization into your development process. The endpoints that we use allow you to easily make calls to retrieve information and to execute actions needed.
 
@@ -75,20 +75,19 @@ public class ListProjectBranchesExample {
 
 This client uses [Apache http client](https://hc.apache.org/) and [Jackson json library](https://github.com/FasterXML/jackson).  
 Usage of these libraries is wrapped into interfaces and gives possibility to override them and use different libraries for http communication or json transformations.
-The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
 
+The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
 
 ## Seeking Assistance
 
 If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
 
-Need help working with Crowdin Java client or have any questions? [Contact](https://crowdin.com/contacts) Customer Success Service.
-
 ## Contributing
 
-If you want to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
+If you would like to contribute please read the [Contributing](/CONTRIBUTING.md) guidelines.
 
 ## License
+
 <pre>
 The Crowdin Java client is licensed under the MIT License. 
 See the LICENSE file distributed with this work for additional 
