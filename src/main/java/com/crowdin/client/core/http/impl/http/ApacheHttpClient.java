@@ -12,6 +12,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -51,7 +53,10 @@ public class ApacheHttpClient implements HttpClient {
         this.credentials = credentials;
         this.jsonTransformer = jsonTransformer;
         this.defaultHeaders = defaultHeaders;
-        this.httpClient = HttpClientBuilder.create().build();
+        this.httpClient = HttpClientBuilder
+            .create()
+            .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+            .build();
     }
 
     public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders, ClientConfig.Host proxy, ClientConfig.UsernamePasswordCredentials proxyCreds) {
@@ -63,13 +68,17 @@ public class ApacheHttpClient implements HttpClient {
         this.httpClient = (proxy != null)
             ? HttpClientBuilder.create()
                 .setProxy(new HttpHost(proxy.getHost(), proxy.getPort()))
+                .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
                 .setDefaultCredentialsProvider((proxyCreds != null)
                     ? new BasicCredentialsProvider() {{
                             setCredentials(new AuthScope(proxy.getHost(), proxy.getPort()), new UsernamePasswordCredentials(proxyCreds.getUsername(), proxyCreds.getPassword()));
                         }}
                     : new BasicCredentialsProvider())
                 .build()
-            : HttpClientBuilder.create().build();
+            : HttpClientBuilder
+                .create()
+                .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                .build();
     }
 
     @Override
