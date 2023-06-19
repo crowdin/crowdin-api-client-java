@@ -1,5 +1,6 @@
 package com.crowdin.client.teams;
 
+import com.crowdin.client.core.model.LanguageAccessRule;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
@@ -13,6 +14,9 @@ import com.crowdin.client.teams.model.AddTeamToProjectRequest;
 import com.crowdin.client.teams.model.ProjectTeamResources;
 import com.crowdin.client.teams.model.Team;
 import com.crowdin.client.teams.model.TeamMember;
+import com.crowdin.client.users.model.TranslatorRole;
+import com.crowdin.client.users.model.TranslatorRoleName;
+import com.crowdin.client.users.model.TranslatorRolePermissions;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -20,10 +24,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TeamsApiTest extends TestClient {
 
@@ -52,8 +59,32 @@ public class TeamsApiTest extends TestClient {
     public void addTeamToProjectTest() {
         AddTeamToProjectRequest request = new AddTeamToProjectRequest();
         request.setTeamId(teamId);
+        request.setRoles(Collections.singletonList(new TranslatorRole() {{
+            setName(TranslatorRoleName.TRANSLATOR);
+            setPermissions(new TranslatorRolePermissions(){{
+                setAllLanguages(false);
+                setLanguagesAccess(new HashMap<String, LanguageAccessRule>() {{
+                    put("uk", new LanguageAccessRule(){{
+                        setAllContent(false);
+                        setWorkflowStepIds(Collections.singletonList(882));
+                    }});
+                    put("it", new LanguageAccessRule(){{
+                        setAllContent(true);
+                    }});
+                }});
+            }});
+        }}));
         ProjectTeamResources projectTeamResources = this.getTeamsApi().addTeamToProject(projectId, request);
         assertEquals(projectTeamResources.getAdded().getId(), teamId);
+
+        TranslatorRole responseRole = projectTeamResources.getAdded().getRoles().get(0);
+        assertEquals(responseRole.getName(), TranslatorRoleName.TRANSLATOR);
+        assertFalse(responseRole.getPermissions().isAllLanguages());
+
+        Map<String, LanguageAccessRule> responseRules = responseRole.getPermissions().getLanguagesAccess();
+        assertFalse(responseRules.get("uk").isAllContent());
+        assertEquals(responseRules.get("uk").getWorkflowStepIds(), Collections.singletonList(882));
+        assertTrue(responseRules.get("it").isAllContent());
     }
 
     @Test

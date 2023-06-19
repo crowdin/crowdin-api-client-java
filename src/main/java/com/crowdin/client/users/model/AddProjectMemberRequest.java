@@ -12,4 +12,5 @@ public class AddProjectMemberRequest {
     private Boolean accessToAllWorkflowSteps;
     private Boolean managerAccess;
     private Map<String, LanguagePermission> permissions;
+    private List<TranslatorRole> roles;
 }

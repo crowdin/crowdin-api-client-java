@@ -19,6 +19,14 @@
             ]
           }
         },
+        "roles": [
+          {
+            "name": "translator",
+            "permissions": {
+              "allLanguages": true
+            }
+          }
+        ],
         "givenAccessAt": "2019-10-23T11:44:02+00:00"
       }
     }
