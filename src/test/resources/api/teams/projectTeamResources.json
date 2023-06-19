@@ -10,6 +10,23 @@
           313
         ]
       }
-    }
+    },
+    "roles": [
+      {
+        "name": "translator",
+        "permissions": {
+          "allLanguages": false,
+          "languagesAccess": {
+            "uk": {
+              "allContent": false,
+              "workflowStepIds": [ 882 ]
+            },
+            "it": {
+              "allContent": true
+            }
+          }
+        }
+      }
+    ]
   }
 }

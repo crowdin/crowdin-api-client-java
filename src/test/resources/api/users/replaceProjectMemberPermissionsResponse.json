@@ -17,6 +17,23 @@
         ]
       }
     },
+    "roles": [
+      {
+        "name": "proofreader",
+        "permissions": {
+          "allLanguages": false,
+          "languagesAccess": {
+            "uk": {
+              "allContent": false,
+              "workflowStepIds": [ 882 ]
+            },
+            "it": {
+              "allContent": true
+            }
+          }
+        }
+      }
+    ],
     "givenAccessAt": "2019-10-23T11:44:02+00:00"
   }
 }
