@@ -1,0 +1,24 @@
+{
+  "data": {
+    "id": 44,
+    "name": "DOCX",
+    "format": "docx",
+    "extensions": [
+      "docx",
+      "odt",
+      "xlsx",
+      "pptx",
+      "ods",
+      "odg",
+      "odp",
+      "mif"
+    ],
+    "settings": {
+      "exportPattern": null,
+      "cleanTagsAggressively": true,
+      "srxStorageId": 1
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}
