@@ -5,7 +5,7 @@ import com.crowdin.client.core.model.EscapeSpecialCharsMode;
 import lombok.Data;
 
 @Data
-public class PropertyFileFormatSettings extends FileFormatSettings {
+public class PropertiesFileFormatSettings extends FileFormatSettings {
     private EscapeQuotesMode escapeQuotes;
     private EscapeSpecialCharsMode escapeSpecialCharacters;
 }
