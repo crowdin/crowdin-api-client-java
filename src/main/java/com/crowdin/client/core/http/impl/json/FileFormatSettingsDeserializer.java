@@ -28,7 +28,7 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
 
         switch (format) {
             case "properties":
-                classToUse = PropertyFileFormatSettings.class;
+                classToUse = PropertiesFileFormatSettings.class;
                 break;
             case "xml":
                 classToUse = XmlFileFormatSettings.class;
