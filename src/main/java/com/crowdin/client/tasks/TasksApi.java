@@ -13,10 +13,14 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.tasks.model.AddTaskRequest;
+import com.crowdin.client.tasks.model.AddTaskSettingsTemplateRequest;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
 import com.crowdin.client.tasks.model.TaskResponseList;
 import com.crowdin.client.tasks.model.TaskResponseObject;
+import com.crowdin.client.tasks.model.TaskSettingsTemplate;
+import com.crowdin.client.tasks.model.TaskSettingsTemplateResponseList;
+import com.crowdin.client.tasks.model.TaskSettingsTemplateResponseObject;
 
 import java.util.List;
 import java.util.Map;
@@ -160,4 +164,99 @@ public class TasksApi extends CrowdinApi {
         TaskResponseObject taskResponseObject = this.httpClient.patch(this.url + "/user/tasks/" + taskId, request, new HttpRequestConfig(queryParams), TaskResponseObject.class);
         return ResponseObject.of(taskResponseObject.getData());
     }
+
+    //<editor-fold desc="Task Settings Templates">
+
+    /**
+     * @param projectId project identifier (filter)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of task settings templates
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.settings-templates.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TaskSettingsTemplate> listTaskSettingsTemplates(Long projectId, Integer limit, Integer offset) {
+        String url = formUrl_taskSettingsTemplates(projectId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        TaskSettingsTemplateResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TaskSettingsTemplateResponseList.class);
+        return TaskSettingsTemplateResponseList.to(responseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return newly created task settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.settings-templates.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskSettingsTemplate> addTaskSettingsTemplate(Long projectId, AddTaskSettingsTemplateRequest request) {
+        String url = formUrl_taskSettingsTemplates(projectId);
+        TaskSettingsTemplateResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), TaskSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsTemplateId task settings template identifier
+     * @return task settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.settings-templates.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskSettingsTemplate> getTaskSettingsTemplate(Long projectId, Long taskSettingsTemplateId) {
+        String url = formUrl_taskSettingsTemplateId(projectId, taskSettingsTemplateId);
+        TaskSettingsTemplateResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), TaskSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsTemplateId task settings template identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.settings-templates.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteTaskSettingsTemplate(Long projectId, Long taskSettingsTemplateId) {
+        String url = formUrl_taskSettingsTemplateId(projectId, taskSettingsTemplateId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskSettingsTemplateId task settings template identifier
+     * @param request request object
+     * @return updated task settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.settings-templates.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.settings-templates.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskSettingsTemplate> editTaskSettingsTemplate(Long projectId, Long taskSettingsTemplateId, List<PatchRequest> request) {
+        String url = formUrl_taskSettingsTemplateId(projectId, taskSettingsTemplateId);
+        TaskSettingsTemplateResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), TaskSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    //<editor-fold desc="Helper methods">
+
+    private String formUrl_taskSettingsTemplates(Long projectId) {
+        return this.url + "/projects/" + projectId + "/tasks/settings-templates";
+    }
+
+    private String formUrl_taskSettingsTemplateId(Long projectId, Long taskSettingsTemplateId) {
+        return this.url + "/projects/" + projectId + "/tasks/settings-templates/" + taskSettingsTemplateId;
+    }
+
+    //</editor-fold>
+
+    //</editor-fold>
 }

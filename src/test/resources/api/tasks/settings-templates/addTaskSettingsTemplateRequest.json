@@ -1,0 +1,16 @@
+{
+  "name": "Perfect name",
+  "config": {
+    "languages": [
+      {
+        "languageId": "uk",
+        "userIds": [
+          1, 2, 3
+        ],
+        "teamIds": [
+          4, 5, 6
+        ]
+      }
+    ]
+  }
+}
