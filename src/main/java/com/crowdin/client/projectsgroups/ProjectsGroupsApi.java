@@ -6,11 +6,17 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.DownloadLink;
+import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.projectsgroups.model.AddGroupRequest;
+import com.crowdin.client.projectsgroups.model.AddProjectFileFormatSettingsRequest;
 import com.crowdin.client.projectsgroups.model.AddProjectRequest;
+import com.crowdin.client.projectsgroups.model.FileFormatSettingsResource;
+import com.crowdin.client.projectsgroups.model.FileFormatSettingsResponseList;
+import com.crowdin.client.projectsgroups.model.FileFormatSettingsResponseObject;
 import com.crowdin.client.projectsgroups.model.Group;
 import com.crowdin.client.projectsgroups.model.GroupResponseList;
 import com.crowdin.client.projectsgroups.model.GroupResponseObject;
@@ -170,4 +176,120 @@ public class ProjectsGroupsApi extends CrowdinApi {
         ProjectResponseObject projectResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId, request, new HttpRequestConfig(), ProjectResponseObject.class);
         return ResponseObject.of(projectResponseObject.getData());
     }
+
+    //<editor-fold desc="File Format Settings">
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @return download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.get"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadProjectFileFormatSettingsCustomSegmentation(Long projectId, Long fileFormatSettingsId) {
+        String url = formUrl_projectFileFormatSettingsId_customSegmentations(projectId, fileFormatSettingsId);
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.delete"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.custom-segmentations.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void resetProjectFileFormatSettingsCustomSegmentation(Long projectId, Long fileFormatSettingsId) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectFileFormatSettingsId_customSegmentations(projectId, fileFormatSettingsId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.getMany"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<FileFormatSettingsResource> listProjectFileFormatSettings(Long projectId) {
+        String url = formUrl_projectFileFormatSettings(projectId);
+        FileFormatSettingsResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), FileFormatSettingsResponseList.class);
+        return FileFormatSettingsResponseList.to(responseList);
+    }
+
+    /**
+     * @param request request object
+     * @return newly created project
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<FileFormatSettingsResource> addProjectFileFormatSettings(Long projectId, AddProjectFileFormatSettingsRequest request) {
+        String url = formUrl_projectFileFormatSettings(projectId);
+        FileFormatSettingsResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), FileFormatSettingsResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @return project
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<FileFormatSettingsResource> getProjectFileFormatSettings(Long projectId, Long fileFormatSettingsId) {
+        String url = formUrl_projectFileFormatSettingsId(projectId, fileFormatSettingsId);
+        FileFormatSettingsResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), FileFormatSettingsResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteProjectFileFormatSettings(Long projectId, Long fileFormatSettingsId) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectFileFormatSettingsId(projectId, fileFormatSettingsId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileFormatSettingsId file format settings identifier
+     * @param request request object
+     * @return updated file format settings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.file-format-settings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.file-format-settings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<FileFormatSettingsResource> editProjectFileFormatSettings(Long projectId, Long fileFormatSettingsId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectFileFormatSettingsId(projectId, fileFormatSettingsId);
+        FileFormatSettingsResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), FileFormatSettingsResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    //<editor-fold desc="Helper methods">
+    private String formUrl_projectFileFormatSettings(Long projectId) {
+        return this.url + "/projects/" + projectId + "/file-format-settings";
+    }
+
+    private String formUrl_projectFileFormatSettingsId(Long projectId, Long fileFormatSettingsId) {
+        return this.url + "/projects/" + projectId + "/file-format-settings/" + fileFormatSettingsId;
+    }
+
+    private String formUrl_projectFileFormatSettingsId_customSegmentations(Long projectId, Long fileFormatSettingsId) {
+        return this.url + "/projects/" + projectId + "/file-format-settings/" + fileFormatSettingsId + "/custom-segmentations";
+    }
+    //</editor-fold>
+
+    //</editor-fold>
 }

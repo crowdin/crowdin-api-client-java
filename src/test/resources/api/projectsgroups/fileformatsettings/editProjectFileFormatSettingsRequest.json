@@ -1,0 +1,15 @@
+[
+  {
+    "op": "replace",
+    "path": "/format",
+    "value": "docx"
+  },
+  {
+    "op": "replace",
+    "path": "/settings",
+    "value": {
+      "cleanTagsAggressively": true,
+      "srxStorageId": 1
+    }
+  }
+]

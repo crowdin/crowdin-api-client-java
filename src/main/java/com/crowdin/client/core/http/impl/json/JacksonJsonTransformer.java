@@ -4,6 +4,7 @@ import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.projectsgroups.model.FileFormatSettingsResource;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.FileInfo;
@@ -41,7 +42,8 @@ public class JacksonJsonTransformer implements JsonTransformer {
                 .registerModule(new SimpleModule()
                     .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))
                     .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper)))))
-            .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper));
+            .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper))
+            .addDeserializer(FileFormatSettingsResource.class, new FileFormatSettingsDeserializer(cleanObjectMapper));
         this.objectMapper = cleanObjectMapper.copy()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX"))
