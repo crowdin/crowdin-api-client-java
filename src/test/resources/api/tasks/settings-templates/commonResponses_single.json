@@ -1,0 +1,21 @@
+{
+  "data": {
+    "id": 1,
+    "name": "Default template",
+    "config": {
+      "languages": [
+        {
+          "languageId": "uk",
+          "userIds": [
+            1, 2, 3
+          ],
+          "teamIds": [
+            4, 5, 6
+          ]
+        }
+      ]
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00"
+  }
+}
