@@ -45,6 +45,10 @@ public interface HttpClient {
 
     @SuppressWarnings("unchecked")
     default String appendUrlParams(String url, Map<String, ? extends Optional> urlParams) {
+        if (urlParams.isEmpty()) {
+            return url;
+        }
+
         return url + urlParams.entrySet().stream()
                 .filter(entry -> entry.getValue().isPresent())
                 .map(entry -> {

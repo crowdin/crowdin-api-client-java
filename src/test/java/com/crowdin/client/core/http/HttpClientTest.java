@@ -23,4 +23,12 @@ public class HttpClientTest {
         assertEquals(urlWithParams, url + "?b=" + 4 + "&c=" + "tbx");
     }
 
+    @Test
+    public void appendUrlParamsTest_noParams() {
+        String url = "test.com";
+        Map<String, Optional<Object>> urlParams = new LinkedHashMap<>();
+        HttpClient client = new TestHttpClient();
+        String urlWithParams = client.appendUrlParams(url, urlParams);
+        assertEquals(urlWithParams, url);
+    }
 }
