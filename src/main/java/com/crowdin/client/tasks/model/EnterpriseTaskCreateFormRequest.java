@@ -19,6 +19,7 @@ public class EnterpriseTaskCreateFormRequest extends AddTaskRequest {
     private Boolean splitFiles;
     private Boolean skipAssignedStrings;
     private List<AssigneeRequest> assignees;
+    private Boolean includePreTranslatedStringsOnly;
     private Date deadline;
     private List<Long> labelIds;
     private Date dateFrom;

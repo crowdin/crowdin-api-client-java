@@ -19,6 +19,7 @@ public class CrowdinVendorManualTaskCreateFormRequest extends AddTaskRequest {
     private String description;
     private Boolean skipAssignedStrings;
     private Boolean skipUntranslatedStrings;
+    private Boolean includePreTranslatedStringsOnly;
     private List<Long> labelIds;
     private List<AssigneeRequest> assignees;
     private Date deadline;

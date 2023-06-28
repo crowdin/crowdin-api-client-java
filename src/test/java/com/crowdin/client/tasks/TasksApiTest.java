@@ -68,6 +68,7 @@ public class TasksApiTest extends TestClient {
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
         request.setStatus(Status.TODO);
+        request.setIncludePreTranslatedStringsOnly(true);
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
@@ -81,6 +82,7 @@ public class TasksApiTest extends TestClient {
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
         request.setStatus(Status.TODO);
+        request.setIncludePreTranslatedStringsOnly(true);
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
