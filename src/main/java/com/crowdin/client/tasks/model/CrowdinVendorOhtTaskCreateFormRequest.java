@@ -18,6 +18,7 @@ public class CrowdinVendorOhtTaskCreateFormRequest extends AddTaskRequest {
     private Status status;
     private String description;
     private String expertise;
+    private Boolean includePreTranslatedStringsOnly;
     private List<Long> labelIds;
     private Date dateFrom;
     private Date dateTo;

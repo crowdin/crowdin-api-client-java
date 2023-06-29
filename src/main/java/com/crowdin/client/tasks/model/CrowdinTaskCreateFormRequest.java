@@ -19,6 +19,7 @@ public class CrowdinTaskCreateFormRequest extends AddTaskRequest {
     private Boolean splitFiles;
     private Boolean skipAssignedStrings;
     private Boolean skipUntranslatedStrings;
+    private Boolean includePreTranslatedStringsOnly;
     private List<Long> labelIds;
     private List<AssigneeRequest> assignees;
     private Date deadline;

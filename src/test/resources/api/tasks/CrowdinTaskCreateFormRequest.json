@@ -4,5 +4,6 @@
   "fileIds": [
     1
   ],
-  "status": "todo"
+  "status": "todo",
+  "includePreTranslatedStringsOnly": true
 }
