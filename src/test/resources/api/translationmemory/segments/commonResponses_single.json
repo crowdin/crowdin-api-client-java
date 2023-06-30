@@ -1,0 +1,17 @@
+{
+  "data": {
+    "id": 4,
+    "records": [
+      {
+        "id": 1,
+        "languageId": "uk",
+        "text": "Перекладений текст",
+        "usageCount": 13,
+        "createdBy": 1,
+        "updatedBy": 1,
+        "createdAt": "2019-09-16T13:48:04+00:00",
+        "updatedAt": "2019-09-16T13:48:04+00:00"
+      }
+    ]
+  }
+}
