@@ -12,10 +12,14 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
+import com.crowdin.client.translationmemory.model.CreateTmSegmentRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordance;
 import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordanceResponse;
 import com.crowdin.client.translationmemory.model.SearchConcordanceResponseList;
+import com.crowdin.client.translationmemory.model.TmSegment;
+import com.crowdin.client.translationmemory.model.TmSegmentResponseList;
+import com.crowdin.client.translationmemory.model.TmSegmentResponseObject;
 import com.crowdin.client.translationmemory.model.TranslationMemory;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportStatus;
@@ -206,4 +210,99 @@ public class TranslationMemoryApi extends CrowdinApi {
         TranslationMemoryImportStatusResponseObject translationMemoryImportStatusResponseObject = this.httpClient.get(this.url + "/tms/" + tmId + "/imports/" + importId, new HttpRequestConfig(), TranslationMemoryImportStatusResponseObject.class);
         return ResponseObject.of(translationMemoryImportStatusResponseObject.getData());
     }
+
+    //<editor-fold desc="Segments">
+
+    /**
+     * @param tmId translation memory identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of translation memory segments
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TmSegment> listTmSegments(Long tmId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegments(tmId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        TmSegmentResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TmSegmentResponseList.class);
+        return TmSegmentResponseList.to(responseList);
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param request request object
+     * @return newly created translation memory segment
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TmSegment> createTmSegment(Long tmId, CreateTmSegmentRequest request) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegments(tmId);
+        TmSegmentResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), TmSegmentResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param segmentId segment identifier
+     * @return translation memory segment
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TmSegment> getTmSegment(Long tmId, Long segmentId) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegmentId(tmId, segmentId);
+        TmSegmentResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), TmSegmentResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param segmentId segment identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteTmSegment(Long tmId, Long segmentId) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegmentId(tmId, segmentId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param segmentId segment identifier
+     * @param request request object
+     * @return updated translation memory segment
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TmSegment> editTmSegment(Long tmId, Long segmentId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegmentId(tmId, segmentId);
+        TmSegmentResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), TmSegmentResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    //<editor-fold desc="Helper methods">
+
+    private String formUrl_tmSegments(Long tmId) {
+        return this.url + "/tms/" + tmId + "/segments";
+    }
+
+    private String formUrl_tmSegmentId(Long tmId, Long segmentId) {
+        return this.url + "/tms/" + tmId + "/segments/" + segmentId;
+    }
+
+    //</editor-fold>
+
+    //</editor-fold>
 }

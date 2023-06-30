@@ -1,0 +1,19 @@
+[
+  {
+    "op": "add",
+    "path": "/records/-",
+    "value": {
+      "text": "Перекладений текст",
+      "languageId": "uk"
+    }
+  },
+  {
+    "op": "replace",
+    "path": "/records/1/text",
+    "value": "Перекладений текст 2"
+  },
+  {
+    "op": "remove",
+    "path": "/records/2"
+  }
+]
