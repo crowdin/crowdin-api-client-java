@@ -9,7 +9,5 @@ public class AddDistributionRequest {
     private Enum exportMode;
     private String name;
     private List<Long> fileIds;
-    private String format;
-    private String exportPattern;
-    private List<Long> labelIds;
+    private List<Integer> bundleIds;
 }

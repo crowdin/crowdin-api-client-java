@@ -54,10 +54,8 @@ public class DistributionsApiTest extends TestClient {
         AddDistributionRequest request = new AddDistributionRequest();
         request.setExportMode(ExportMode.BUNDLE);
         request.setName(name);
-        request.setFormat("crowdin-resx");
-        request.setExportPattern("strings-%two_letter_code%.resx");
         request.setFileIds(Collections.singletonList(0L));
-        request.setLabelIds(Collections.singletonList(0L));
+        request.setBundleIds(Arrays.asList(1,2,3));
         ResponseObject<Distribution> distributionResponseObject = this.getDistributionsApi().addDistribution(projectId, request);
         assertEquals(distributionResponseObject.getData().getHash(), hash);
         assertEquals(distributionResponseObject.getData().getName(), name);
