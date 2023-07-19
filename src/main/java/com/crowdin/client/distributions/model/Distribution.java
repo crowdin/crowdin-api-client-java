@@ -11,9 +11,7 @@ public class Distribution {
     private String exportMode;
     private String name;
     private List<Long> fileIds;
-    private String format;
-    private String exportPattern;
-    private List<Long> labelIds;
+    private List<Integer> bundleIds;
     private Date createdAt;
     private Date updatedAt;
 }
