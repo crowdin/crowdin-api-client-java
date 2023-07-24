@@ -13,7 +13,10 @@ import com.crowdin.client.labels.model.AddLabelRequest;
 import com.crowdin.client.labels.model.Label;
 import com.crowdin.client.labels.model.LabelResponseList;
 import com.crowdin.client.labels.model.LabelResponseObject;
+import com.crowdin.client.labels.model.LabelToScreenshotsRequest;
 import com.crowdin.client.labels.model.LabelToStringsRequest;
+import com.crowdin.client.screenshots.model.Screenshot;
+import com.crowdin.client.screenshots.model.ScreenshotResponseList;
 import com.crowdin.client.sourcestrings.model.SourceString;
 import com.crowdin.client.sourcestrings.model.SourceStringResponseList;
 
@@ -141,5 +144,32 @@ public class LabelsApi extends CrowdinApi {
         return SourceStringResponseList.to(response);
     }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @param request Request Object
+     * @return Screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.post" target="_blank"><b>API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Screenshot> assignLabelToScreenshots(Long projectId, Long labelId, LabelToScreenshotsRequest request) throws HttpException, HttpBadRequestException{
+        String builtUrl = String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId);
+        ScreenshotResponseList response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ScreenshotResponseList.class);
+        return ScreenshotResponseList.to(response);
+    }
 
+    /**
+     * @param projectId Project Identifier
+     * @param labelId Label Identifier
+     * @return Screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Screenshot> unassignLabelFromScreenshots(Long projectId, Long labelId) throws  HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId);
+        ScreenshotResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(), ScreenshotResponseList.class);
+        return  ScreenshotResponseList.to(response);
+    }
 }
