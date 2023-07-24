@@ -15,6 +15,7 @@ public class Progress {
     public static class Words {
         private Integer total;
         private Integer translated;
+        private Integer preTranslateAppliedTo;
         private Integer approved;
     }
 }
