@@ -5,11 +5,13 @@
         "words": {
           "total": 7249,
           "translated": 3651,
+          "preTranslateAppliedTo": 1254,
           "approved": 3637
         },
         "phrases": {
           "total": 2000,
           "translated": 2631,
+          "preTranslateAppliedTo": 1254,
           "approved": 2622
         },
         "translationProgress": 86,

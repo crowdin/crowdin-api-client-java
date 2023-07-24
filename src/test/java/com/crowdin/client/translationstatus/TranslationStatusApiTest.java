@@ -39,6 +39,7 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<LanguageProgress> branchProgress = this.getTranslationStatusApi().getBranchProgress(projectId, branchId, null, null);
         assertEquals(branchProgress.getData().size(), 1);
         assertEquals(branchProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 3000);
+        assertEquals(branchProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
     }
 
     @Test
@@ -46,6 +47,7 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<LanguageProgress> directoryProgress = this.getTranslationStatusApi().getDirectoryProgress(projectId, directoryId, null, null);
         assertEquals(directoryProgress.getData().size(), 1);
         assertEquals(directoryProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 2000);
+        assertEquals(directoryProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
     }
 
     @Test
@@ -53,6 +55,7 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<LanguageProgress> fileProgress = this.getTranslationStatusApi().getFileProgress(projectId, fileId, null, null);
         assertEquals(fileProgress.getData().size(), 1);
         assertEquals(fileProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 4000);
+        assertEquals(fileProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
     }
 
     @Test
@@ -60,6 +63,7 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<FileProgress> languageProgress = this.getTranslationStatusApi().getLanguageProgress(projectId, languageId, null, null);
         assertEquals(languageProgress.getData().size(), 1);
         assertEquals(languageProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 5000);
+        assertEquals(languageProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
     }
 
     @Test
@@ -67,6 +71,7 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<LanguageProgress> projectProgress = this.getTranslationStatusApi().getProjectProgress(projectId, null, null, null);
         assertEquals(projectProgress.getData().size(), 1);
         assertEquals(projectProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 6000);
+        assertEquals(projectProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
     }
 
     @Test
