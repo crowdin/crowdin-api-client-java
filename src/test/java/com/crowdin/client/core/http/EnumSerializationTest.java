@@ -4,6 +4,7 @@ import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.EscapeQuotesMode;
 import com.crowdin.client.core.model.EscapeSpecialCharsMode;
 import com.crowdin.client.core.model.JsonFileType;
+import com.crowdin.client.webhooks.model.OrganizationEvent;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -53,6 +54,19 @@ public class EnumSerializationTest {
 
         deserializeAndCompare("i18next_json", JsonFileType.I18NEXT_JSON);
         deserializeAndCompare("nestjs_i18n", JsonFileType.NESTJS_I18N);
+    }
+
+    @Test
+    public void webhooks_OrganizationEvent() {
+        serializeAndCompare(OrganizationEvent.GROUP_CREATED, "group.created");
+        serializeAndCompare(OrganizationEvent.GROUP_DELETED, "group.deleted");
+        serializeAndCompare(OrganizationEvent.PROJECT_CREATED, "project.created");
+        serializeAndCompare(OrganizationEvent.PROJECT_DELETED, "project.deleted");
+
+        deserializeAndCompare("group.created", OrganizationEvent.GROUP_CREATED);
+        deserializeAndCompare("group.deleted", OrganizationEvent.GROUP_DELETED);
+        deserializeAndCompare("project.created", OrganizationEvent.PROJECT_CREATED);
+        deserializeAndCompare("project.deleted", OrganizationEvent.PROJECT_DELETED);
     }
 
     //</editor-fold>

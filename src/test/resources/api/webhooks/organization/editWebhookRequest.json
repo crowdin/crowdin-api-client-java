@@ -1,0 +1,25 @@
+[
+  {
+    "op": "replace",
+    "path": "/name",
+    "value": "Proofread"
+  },
+  {
+    "op": "replace",
+    "path": "/events",
+    "value": [
+      "project.created",
+      "project.deleted"
+    ]
+  },
+  {
+    "op": "replace",
+    "path": "/contentType",
+    "value": "application/json"
+  },
+  {
+    "op": "replace",
+    "path": "/requestType",
+    "value": "POST"
+  }
+]
