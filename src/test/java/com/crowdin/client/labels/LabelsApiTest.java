@@ -19,7 +19,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -35,6 +37,9 @@ public class LabelsApiTest extends TestClient {
     private final Long projectId = 8L;
     private final String labelTitle = "main";
     private final Long labelId = 34L;
+    private final Map<String, Object> urlParams = new HashMap<String, Object>() {{
+        put("screenshotIds", "1");
+    }};
 
     @Override
     public List<RequestMock> getMocks() {
@@ -53,9 +58,9 @@ public class LabelsApiTest extends TestClient {
                 RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
                         "api/labels/listStrings.json"),
                 RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpPost.METHOD_NAME,
-                        "api/labels/labelToScreenshotsRequest.json", "api/labels/listStrings.json"),
+                        "api/labels/labelToScreenshotsRequest.json", "api/labels/listScreenshots.json"),
                 RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
-                        "api/labels/listStrings.json")
+                        "api/labels/listScreenshots.json", urlParams)
         );
     }
 
@@ -128,7 +133,8 @@ public class LabelsApiTest extends TestClient {
 
     @Test
     public void unassignLabelToScreenshot() {
-        ResponseList<Screenshot> response = this.getLabelsApi().unassignLabelFromScreenshots(projectId, labelId);
+        List<Long> screenshotIds= Arrays.asList(1L);
+        ResponseList<Screenshot> response = this.getLabelsApi().unassignLabelFromScreenshots(projectId, labelId, screenshotIds);
         assertEquals(1, response.getData().size());
 
     }

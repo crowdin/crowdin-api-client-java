@@ -23,6 +23,7 @@ import com.crowdin.client.sourcestrings.model.SourceStringResponseList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class LabelsApi extends CrowdinApi {
 
@@ -151,6 +152,7 @@ public class LabelsApi extends CrowdinApi {
      * @return Screenshots
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.labels.screenshots.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<Screenshot> assignLabelToScreenshots(Long projectId, Long labelId, LabelToScreenshotsRequest request) throws HttpException, HttpBadRequestException{
@@ -165,11 +167,13 @@ public class LabelsApi extends CrowdinApi {
      * @return Screenshots
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.screenshots.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.labels.screenshots.deleteMany" target="_blank"><b> Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Screenshot> unassignLabelFromScreenshots(Long projectId, Long labelId) throws  HttpException, HttpBadRequestException {
+    public ResponseList<Screenshot> unassignLabelFromScreenshots(Long projectId, Long labelId, List<Long> screenshotIds) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId);
-        ScreenshotResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(), ScreenshotResponseList.class);
-        return  ScreenshotResponseList.to(response);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams("screenshotIds", Optional.ofNullable(screenshotIds == null ? null : screenshotIds.stream().map(String::valueOf).collect(Collectors.joining(","))));
+        ScreenshotResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(queryParams), ScreenshotResponseList.class);
+        return ScreenshotResponseList.to(response);
     }
 }
