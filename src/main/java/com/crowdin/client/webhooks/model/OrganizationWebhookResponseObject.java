@@ -3,6 +3,6 @@ package com.crowdin.client.webhooks.model;
 import lombok.Data;
 
 @Data
-public class OrgWebhookResponseObject {
+public class OrganizationWebhookResponseObject {
     private OrganizationWebhook data;
 }

@@ -10,8 +10,8 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.webhooks.model.AddOrganizationWebhookRequest;
-import com.crowdin.client.webhooks.model.OrgWebhookResponseList;
-import com.crowdin.client.webhooks.model.OrgWebhookResponseObject;
+import com.crowdin.client.webhooks.model.OrganizationWebhookResponseList;
+import com.crowdin.client.webhooks.model.OrganizationWebhookResponseObject;
 import com.crowdin.client.webhooks.model.OrganizationWebhook;
 
 import java.util.List;
@@ -43,8 +43,8 @@ public class OrganizationWebhooksApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        OrgWebhookResponseList responseList = this.httpClient.get(baseUrl, new HttpRequestConfig(queryParams), OrgWebhookResponseList.class);
-        return OrgWebhookResponseList.to(responseList);
+        OrganizationWebhookResponseList responseList = this.httpClient.get(baseUrl, new HttpRequestConfig(queryParams), OrganizationWebhookResponseList.class);
+        return OrganizationWebhookResponseList.to(responseList);
     }
 
     /**
@@ -56,7 +56,7 @@ public class OrganizationWebhooksApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<OrganizationWebhook> addWebhook(AddOrganizationWebhookRequest request) throws HttpException, HttpBadRequestException {
-        OrgWebhookResponseObject responseObject = this.httpClient.post(baseUrl, request, new HttpRequestConfig(), OrgWebhookResponseObject.class);
+        OrganizationWebhookResponseObject responseObject = this.httpClient.post(baseUrl, request, new HttpRequestConfig(), OrganizationWebhookResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
@@ -70,7 +70,7 @@ public class OrganizationWebhooksApi extends CrowdinApi {
      */
     public ResponseObject<OrganizationWebhook> getWebhook(Long organizationWebhookId) throws HttpException, HttpBadRequestException {
         String url = formUrl_webhookId(organizationWebhookId);
-        OrgWebhookResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), OrgWebhookResponseObject.class);
+        OrganizationWebhookResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), OrganizationWebhookResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
@@ -97,7 +97,7 @@ public class OrganizationWebhooksApi extends CrowdinApi {
      */
     public ResponseObject<OrganizationWebhook> editWebhook(Long organizationWebhookId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         String url = formUrl_webhookId(organizationWebhookId);
-        OrgWebhookResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), OrgWebhookResponseObject.class);
+        OrganizationWebhookResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), OrganizationWebhookResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
