@@ -6,7 +6,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.webhooks.model.AddOrgWebhookRequest;
+import com.crowdin.client.webhooks.model.AddOrganizationWebhookRequest;
 import com.crowdin.client.webhooks.model.ContentType;
 import com.crowdin.client.webhooks.model.OrganizationEvent;
 import com.crowdin.client.webhooks.model.OrganizationWebhook;
@@ -78,13 +78,13 @@ public class OrganizationWebhooksApiTest extends TestClient {
 
     @Test
     public void listWebhooksTest() {
-        ResponseList<OrganizationWebhook> responseList = this.getWebhooksApi().listOrgWebhooks(20, 10);
+        ResponseList<OrganizationWebhook> responseList = this.getOrganizationWebhooksApi().listWebhooks(20, 10);
         assertWebhook(responseList.getData().get(0).getData());
     }
 
     @Test
     public void addWebhookTest() {
-        AddOrgWebhookRequest request = new AddOrgWebhookRequest() {{
+        AddOrganizationWebhookRequest request = new AddOrganizationWebhookRequest() {{
             setName("Proofread");
             setUrl("https://test.com");
             setEvents(new ArrayList<OrganizationEvent>() {{
@@ -100,22 +100,21 @@ public class OrganizationWebhooksApiTest extends TestClient {
             setHeaders(new HashMap<String, String>() {{
                 put("Authorization", "key");
             }});
-            // setPayload();
         }};
 
-        ResponseObject<OrganizationWebhook> response = this.getWebhooksApi().addOrgWebhook(request);
+        ResponseObject<OrganizationWebhook> response = this.getOrganizationWebhooksApi().addWebhook(request);
         assertWebhook(response.getData());
     }
 
     @Test
     public void getWebhookTest() {
-        ResponseObject<OrganizationWebhook> response = this.getWebhooksApi().getOrgWebhook(organizationWebhookId);
+        ResponseObject<OrganizationWebhook> response = this.getOrganizationWebhooksApi().getWebhook(organizationWebhookId);
         assertWebhook(response.getData());
     }
 
     @Test
     public void deleteWebhookTest() {
-        this.getWebhooksApi().deleteOrgWebhook(organizationWebhookId);
+        this.getOrganizationWebhooksApi().deleteWebhook(organizationWebhookId);
     }
 
     @Test
@@ -146,7 +145,7 @@ public class OrganizationWebhooksApiTest extends TestClient {
             }});
         }};
 
-        ResponseObject<OrganizationWebhook> response = this.getWebhooksApi().editOrgWebhook(organizationWebhookId, request);
+        ResponseObject<OrganizationWebhook> response = this.getOrganizationWebhooksApi().editWebhook(organizationWebhookId, request);
         assertWebhook(response.getData());
     }
 

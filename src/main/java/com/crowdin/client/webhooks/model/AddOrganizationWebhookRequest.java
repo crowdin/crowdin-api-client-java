@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class AddOrgWebhookRequest {
+public class AddOrganizationWebhookRequest {
     private String name;
     private String url;
     private List<OrganizationEvent> events;
