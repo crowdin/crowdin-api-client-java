@@ -8,18 +8,21 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
 import com.crowdin.client.sourcestrings.model.SourceString;
+import com.crowdin.client.sourcestrings.model.SourceStringForm;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class SourceStringsApiTest extends TestClient {
@@ -36,7 +39,8 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringRequest.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json")
         );
     }
 
@@ -88,5 +92,46 @@ public class SourceStringsApiTest extends TestClient {
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().editSourceString(projectId, id, singletonList(request));
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
+    }
+
+    @Test
+    public void stringBatchOperationsTest() {
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/2814/isHidden");
+                setValue(true);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/2814/context");
+                setValue("some context");
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/-");
+                setValue(new SourceStringForm() {{
+                    setText("new added string");
+                    setIdentifier("a.b.c");
+                    setContext("context for new string");
+                    setFileId(5L);
+                    setIsHidden(false);
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/2815");
+            }});
+        }};
+
+        ResponseList<SourceString> response = this.getSourceStringsApi().stringBatchOperations(projectId, request);
+
+        SourceString item = response.getData().get(0).getData();
+        assertNotNull(item);
+
+        assertEquals(2814, item.getId());
+        assertEquals(2, item.getProjectId());
+        assertEquals(48, item.getFileId());
+        assertEquals(667, item.getBranchId());
     }
 }

@@ -114,4 +114,19 @@ public class SourceStringsApi extends CrowdinApi {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return updated source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SourceString> stringBatchOperations(Long projectId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/strings";
+        SourceStringResponseList sourceStringResponseList = this.httpClient.patch(url, request, new HttpRequestConfig(), SourceStringResponseList.class);
+        return SourceStringResponseList.to(sourceStringResponseList);
+    }
 }
