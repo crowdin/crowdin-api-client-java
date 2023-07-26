@@ -28,39 +28,37 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class LabelsApiTest extends TestClient {
 
-    private final String apiFiles = "api/labels/";
-
-    private String file(String fileName) {
-        return apiFiles + fileName;
-    }
-
     private final Long projectId = 8L;
     private final String labelTitle = "main";
     private final Long labelId = 34L;
-    private final Map<String, Object> urlParams = new HashMap<String, Object>() {{
+
+    private final Map<String, Object> unassignLabelToScreenshotsUrlParams = new HashMap<String, Object>() {{
         put("screenshotIds", "1");
+    }};
+    private final Map<String, Object> unassignLabelToStringTestUrlParams = new HashMap<String, Object>() {{
+        put("stringIds", "1");
     }};
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
-                RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpGet.METHOD_NAME,
-                        "api/labels/listLabels.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpPost.METHOD_NAME,
-                        "api/labels/addLabelRequest.json", "api/labels/label.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpGet.METHOD_NAME,
-                        "api/labels/label.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpDelete.METHOD_NAME),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpPatch.METHOD_NAME,
-                        "api/labels/editLabelRequest.json", "api/labels/label.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpPost.METHOD_NAME,
-                        "api/labels/labelToStringsRequest.json", "api/labels/listStrings.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
-                        "api/labels/listStrings.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpPost.METHOD_NAME,
-                        "api/labels/labelToScreenshotsRequest.json", "api/labels/listScreenshots.json"),
-                RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
-                        "api/labels/listScreenshots.json", urlParams)
+            RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpGet.METHOD_NAME,
+                "api/labels/listLabels.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpPost.METHOD_NAME,
+                "api/labels/addLabelRequest.json", "api/labels/label.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpGet.METHOD_NAME,
+                "api/labels/label.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpDelete.METHOD_NAME),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpPatch.METHOD_NAME,
+                "api/labels/editLabelRequest.json", "api/labels/label.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpPost.METHOD_NAME,
+                "api/labels/labelToStringsRequest.json", "api/labels/listStrings.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
+                "api/labels/listStrings.json", unassignLabelToStringTestUrlParams),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpPost.METHOD_NAME,
+                "api/labels/labelToScreenshotsRequest.json", "api/labels/listScreenshots.json"),
+            RequestMock.build(String.format("%s/projects/%d/labels/%d/screenshots", this.url, projectId, labelId), HttpDelete.METHOD_NAME,
+                "api/labels/listScreenshots.json", unassignLabelToScreenshotsUrlParams)
         );
     }
 
@@ -117,8 +115,8 @@ public class LabelsApiTest extends TestClient {
     }
 
     @Test
-    public void unassignLabelToStringTest() {
-        ResponseList<SourceString> response = this.getLabelsApi().unassignLabelFromStrings(projectId, labelId);
+    public void unassignLabelFromStringTest() {
+        ResponseList<SourceString> response = this.getLabelsApi().unassignLabelFromStrings(projectId, labelId, Arrays.asList(1L));
         assertEquals(1, response.getData().size());
     }
 
@@ -133,9 +131,7 @@ public class LabelsApiTest extends TestClient {
 
     @Test
     public void unassignLabelToScreenshot() {
-        List<Long> screenshotIds= Arrays.asList(1L);
-        ResponseList<Screenshot> response = this.getLabelsApi().unassignLabelFromScreenshots(projectId, labelId, screenshotIds);
+        ResponseList<Screenshot> response = this.getLabelsApi().unassignLabelFromScreenshots(projectId, labelId, Arrays.asList(1L));
         assertEquals(1, response.getData().size());
-
     }
 }

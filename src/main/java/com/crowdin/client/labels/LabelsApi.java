@@ -133,15 +133,17 @@ public class LabelsApi extends CrowdinApi {
     /**
      * @param projectId Project Identifier
      * @param labelId Label Identifier
+     * @param stringIds List of string IDs
      * @return Source string
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.strings.deleteMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.labels.strings.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<SourceString> unassignLabelFromStrings(Long projectId, Long labelId) throws HttpException, HttpBadRequestException {
+    public ResponseList<SourceString> unassignLabelFromStrings(Long projectId, Long labelId, List<Long> stringIds) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels/%d/strings", this.url, projectId, labelId);
-        SourceStringResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(), SourceStringResponseList.class);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams("stringIds", Optional.ofNullable(stringIds == null ? null : stringIds.stream().map(String::valueOf).collect(Collectors.joining(","))));
+        SourceStringResponseList response = this.httpClient.delete(builtUrl, new HttpRequestConfig(queryParams), SourceStringResponseList.class);
         return SourceStringResponseList.to(response);
     }
 
