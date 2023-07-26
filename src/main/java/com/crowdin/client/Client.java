@@ -26,6 +26,7 @@ import com.crowdin.client.translations.TranslationsApi;
 import com.crowdin.client.translationstatus.TranslationStatusApi;
 import com.crowdin.client.users.UsersApi;
 import com.crowdin.client.vendors.VendorsApi;
+import com.crowdin.client.webhooks.OrganizationWebhooksApi;
 import com.crowdin.client.webhooks.WebhooksApi;
 import com.crowdin.client.workflows.WorkflowsApi;
 import lombok.Getter;
@@ -52,6 +53,7 @@ public class Client extends CrowdinApi {
     private final UsersApi usersApi;
     private final VendorsApi vendorsApi;
     private final WebhooksApi webhooksApi;
+    private final OrganizationWebhooksApi organizationWebhooksApi;
     private final TeamsApi teamsApi;
     private final DistributionsApi distributionsApi;
     private final DictionariesApi dictionariesApi;
@@ -80,6 +82,7 @@ public class Client extends CrowdinApi {
         this.usersApi = new UsersApi(credentials);
         this.vendorsApi = new VendorsApi(credentials);
         this.webhooksApi = new WebhooksApi(credentials);
+        this.organizationWebhooksApi = new OrganizationWebhooksApi(credentials);
         this.teamsApi = new TeamsApi(credentials);
         this.distributionsApi = new DistributionsApi(credentials);
         this.dictionariesApi = new DictionariesApi(credentials);
@@ -109,6 +112,7 @@ public class Client extends CrowdinApi {
         this.usersApi = new UsersApi(credentials, clientConfig);
         this.vendorsApi = new VendorsApi(credentials, clientConfig);
         this.webhooksApi = new WebhooksApi(credentials, clientConfig);
+        this.organizationWebhooksApi = new OrganizationWebhooksApi(credentials, clientConfig);
         this.teamsApi = new TeamsApi(credentials, clientConfig);
         this.distributionsApi = new DistributionsApi(credentials, clientConfig);
         this.dictionariesApi = new DictionariesApi(credentials, clientConfig);

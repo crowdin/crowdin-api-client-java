@@ -1,0 +1,17 @@
+{
+  "name": "Proofread",
+  "url": "https://test.com",
+  "events": [
+    "group.created",
+    "group.deleted",
+    "project.created",
+    "project.deleted"
+  ],
+  "requestType": "POST",
+  "isActive": true,
+  "batchingEnabled": true,
+  "contentType": "application/json",
+  "headers": {
+    "Authorization": "key"
+  }
+}
