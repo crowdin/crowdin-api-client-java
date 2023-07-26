@@ -1,0 +1,27 @@
+[
+  {
+    "op": "replace",
+    "path": "/2814/isHidden",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/2814/context",
+    "value": "some context"
+  },
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "text": "new added string",
+      "identifier": "a.b.c",
+      "context": "context for new string",
+      "fileId": 5,
+      "isHidden": false
+    }
+  },
+  {
+    "op": "remove",
+    "path": "/2815"
+  }
+]
