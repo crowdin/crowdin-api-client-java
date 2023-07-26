@@ -9,5 +9,11 @@
     "empty": true,
     "size": true,
     "tags": false
+  },
+  "qaChecksIgnorableCategories": {
+    "punctuation": true,
+    "symbolRegister": true,
+    "specialSymbols": false,
+    "wrongTranslation": false
   }
 }

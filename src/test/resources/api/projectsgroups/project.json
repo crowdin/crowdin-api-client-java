@@ -18,6 +18,19 @@
     "hasCrowdsourcing": false,
     "languageAccessPolicy": "open",
     "createdAt": "2019-09-20T11:34:40+00:00",
-    "updatedAt": "2019-09-20T11:34:40+00:00"
+    "updatedAt": "2019-09-20T11:34:40+00:00",
+    "tmPenalties": {
+      "autoSubstitution": 1,
+      "tmPriority": {},
+      "multipleTranslations": 1,
+      "timeSinceLastUsage": {
+        "months": 2,
+        "penalty": 1
+      },
+      "timeSinceLastModified": {
+        "months": 2,
+        "penalty": 1
+      }
+    }
   }
 }

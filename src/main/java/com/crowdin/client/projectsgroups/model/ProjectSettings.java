@@ -34,9 +34,11 @@ public class ProjectSettings extends Project {
     private Boolean isSuspended;
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
+    private QaCheckCategories qaChecksIgnorableCategories;
     private List<Long> customQaCheckIds;
     private Map<String, Map<String, String>> languageMapping;
     private Boolean delayedWorkflowStart;
     private NotificationSettings notificationSettings;
+    private TmPenalties tmPenalties;
 
 }

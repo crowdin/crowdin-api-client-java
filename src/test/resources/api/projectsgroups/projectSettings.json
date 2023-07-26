@@ -46,6 +46,23 @@
       "spellcheck": true,
       "icu": true
     },
+    "qaChecksIgnorableCategories": {
+      "empty": false,
+      "size": true,
+      "tags": true,
+      "spaces": true,
+      "variables": true,
+      "punctuation": true,
+      "symbolRegister": true,
+      "specialSymbols": true,
+      "wrongTranslation": true,
+      "spellcheck": true,
+      "icu": false,
+      "terms": true,
+      "duplicate": false,
+      "ftl": false,
+      "android": true
+    },
     "customQaCheckIds": [
       1
     ],
@@ -65,6 +82,22 @@
       "translatorNewStrings": true,
       "managerNewStrings": false,
       "managerLanguageCompleted": false
+    },
+    "tmPenalties": {
+      "autoSubstitution": 1,
+      "tmPriority": {
+        "priority": 2,
+        "penalty": 1
+      },
+      "multipleTranslations": 1,
+      "timeSinceLastUsage": {
+        "months": 2,
+        "penalty": 1
+      },
+      "timeSinceLastModified": {
+        "months": 2,
+        "penalty": 1
+      }
     }
   }
 }
