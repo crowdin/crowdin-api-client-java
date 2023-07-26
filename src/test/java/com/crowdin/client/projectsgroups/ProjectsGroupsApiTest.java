@@ -7,24 +7,28 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.projectsgroups.model.AddGroupRequest;
-import com.crowdin.client.projectsgroups.model.AddProjectRequest;
 import com.crowdin.client.projectsgroups.model.FilesBasedProjectRequest;
 import com.crowdin.client.projectsgroups.model.Group;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.projectsgroups.model.ProjectSettings;
 import com.crowdin.client.projectsgroups.model.QaCheckCategories;
+import com.crowdin.client.projectsgroups.model.TmPenalties;
+import com.crowdin.client.projectsgroups.model.TmPriority;
+import com.crowdin.client.projectsgroups.model.TmTimeElapsed;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -122,6 +126,13 @@ public class ProjectsGroupsApiTest extends TestClient {
         qaCheckCategories.setTags(false);
         request.setQaCheckCategories(qaCheckCategories);
 
+        request.setQaChecksIgnorableCategories(new QaCheckCategories() {{
+            setPunctuation(true);
+            setSymbolRegister(true);
+            setSpecialSymbols(false);
+            setWrongTranslation(false);
+        }});
+
         ResponseObject<? extends Project> projectResponseObject = this.getProjectsGroupsApi().addProject(request);
         assertEquals(projectResponseObject.getData().getId(), projectId);
         assertEquals(projectResponseObject.getData().getName(), projectName);
@@ -145,6 +156,43 @@ public class ProjectsGroupsApiTest extends TestClient {
         assertTrue(((Map) projectSettings.getLanguageMapping()).containsKey(targetLanguageId));
         assertNotNull(((ProjectSettings) projectResponseObject.getData()).getNotificationSettings());
         assertEquals(((ProjectSettings) projectResponseObject.getData()).getNotificationSettings().getManagerNewStrings(), false);
+
+        QaCheckCategories qaChecksIgnorableCategories = projectSettings.getQaChecksIgnorableCategories();
+        assertTrue(qaChecksIgnorableCategories.getSize());
+        assertTrue(qaChecksIgnorableCategories.getTags());
+        assertTrue(qaChecksIgnorableCategories.getSpaces());
+        assertTrue(qaChecksIgnorableCategories.getVariables());
+        assertTrue(qaChecksIgnorableCategories.getPunctuation());
+        assertTrue(qaChecksIgnorableCategories.getSymbolRegister());
+        assertTrue(qaChecksIgnorableCategories.getSpecialSymbols());
+        assertTrue(qaChecksIgnorableCategories.getWrongTranslation());
+        assertTrue(qaChecksIgnorableCategories.getSpellcheck());
+        assertTrue(qaChecksIgnorableCategories.getTerms());
+        assertTrue(qaChecksIgnorableCategories.getAndroid());
+        assertFalse(qaChecksIgnorableCategories.getEmpty());
+        assertFalse(qaChecksIgnorableCategories.getIcu());
+        assertFalse(qaChecksIgnorableCategories.getDuplicate());
+        assertFalse(qaChecksIgnorableCategories.getFtl());
+
+        TmPenalties tmPenalties = projectSettings.getTmPenalties();
+        assertNotNull(tmPenalties);
+        assertEquals(1, tmPenalties.getAutoSubstitution());
+        assertEquals(1, tmPenalties.getMultipleTranslations());
+
+        TmPriority tmPriority = tmPenalties.getTmPriority();
+        assertNotNull(tmPriority);
+        assertEquals(2, tmPriority.getPriority());
+        assertEquals(1, tmPriority.getPenalty());
+
+        TmTimeElapsed lastUsage = tmPenalties.getTimeSinceLastUsage();
+        assertNotNull(lastUsage);
+        assertEquals(2, lastUsage.getMonths());
+        assertEquals(1, lastUsage.getPenalty());
+
+        TmTimeElapsed lastModified = tmPenalties.getTimeSinceLastModified();
+        assertNotNull(lastModified);
+        assertEquals(2, lastModified.getMonths());
+        assertEquals(1, lastModified.getPenalty());
     }
 
     @Test
@@ -154,11 +202,30 @@ public class ProjectsGroupsApiTest extends TestClient {
 
     @Test
     public void editProjectTest() {
-        PatchRequest request = new PatchRequest();
-        request.setOp(PatchOperation.REPLACE);
-        request.setValue(projectName);
-        request.setPath("/name");
-        ResponseObject<? extends Project> projectResponseObject = this.getProjectsGroupsApi().editProject(projectId, singletonList(request));
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/name");
+                setValue(projectName);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/qaCheckCategories/ftl");
+                setValue(false);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/qaChecksIgnorableCategories/android");
+                setValue(true);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/tmPenalties/autoSubstitution");
+                setValue(1);
+            }});
+        }};
+
+        ResponseObject<? extends Project> projectResponseObject = this.getProjectsGroupsApi().editProject(projectId, request);
         assertEquals(projectResponseObject.getData().getId(), projectId);
         assertEquals(projectResponseObject.getData().getName(), projectName);
     }

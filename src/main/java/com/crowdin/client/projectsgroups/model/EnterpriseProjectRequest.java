@@ -36,8 +36,10 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private Boolean inContextPseudoLanguageId;
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
+    private QaCheckCategories qaChecksIgnorableCategories;
     private List<Integer> customQaCheckIds;
     private Map<String, Map<String, String>> languageMapping;
     private Boolean glossaryAccess;
     private NotificationSettings notificationSettings;
+    private TmPenalties tmPenalties;
 }

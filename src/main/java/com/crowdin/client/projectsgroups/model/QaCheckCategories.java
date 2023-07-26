@@ -17,4 +17,6 @@ public class QaCheckCategories {
     private Boolean icu;
     private Boolean terms;
     private Boolean duplicate;
+    private Boolean ftl;
+    private Boolean android;
 }

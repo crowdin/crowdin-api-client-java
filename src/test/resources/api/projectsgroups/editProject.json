@@ -3,5 +3,20 @@
     "op": "replace",
     "path": "/name",
     "value": "Knowledge Base"
+  },
+  {
+    "op": "replace",
+    "path": "/qaCheckCategories/ftl",
+    "value": false
+  },
+  {
+    "op": "replace",
+    "path": "/qaChecksIgnorableCategories/android",
+    "value": true
+  },
+  {
+    "op": "replace",
+    "path": "/tmPenalties/autoSubstitution",
+    "value": 1
   }
 ]

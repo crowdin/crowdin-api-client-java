@@ -37,7 +37,9 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private String inContextPseudoLanguageId;
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
+    private QaCheckCategories qaChecksIgnorableCategories;
     private Map<String, Map<String, String>> languageMapping;
     private Boolean glossaryAccess;
+    private TmPenalties tmPenalties;
 
 }
