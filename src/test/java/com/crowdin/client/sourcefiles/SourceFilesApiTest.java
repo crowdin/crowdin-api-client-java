@@ -313,9 +313,8 @@ public class SourceFilesApiTest extends TestClient {
     }
 
     @Test
-    public void downloadFilePreview(){
-        ResponseObject<DownloadLink> response = this.getSourceFilesApi().downloadFilePreview(projectId,fileId);
+    public void downloadFilePreview() {
+        ResponseObject<DownloadLink> response = this.getSourceFilesApi().downloadFilePreview(projectId, fileId);
         assertEquals(downloadLink, response.getData().getUrl());
-
     }
 }
