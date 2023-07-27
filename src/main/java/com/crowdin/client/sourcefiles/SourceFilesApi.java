@@ -392,4 +392,18 @@ public class SourceFilesApi extends CrowdinApi {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(builtUrl, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @return file download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.preview.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.preview.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadFilePreview(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
+        DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/preview", new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(downloadLinkResponseObject.getData());
+    }
 }
