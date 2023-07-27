@@ -66,6 +66,7 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPatch.METHOD_NAME, "api/sourcefiles/editFile.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/download", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/preview", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions", HttpGet.METHOD_NAME, "api/sourcefiles/listFileRevisions.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + fileRevisionId, HttpGet.METHOD_NAME, "api/sourcefiles/fileRevision.json"),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId), HttpGet.METHOD_NAME, "api/sourcefiles/listReviewedSourceFileBuilds.json"),
@@ -309,5 +310,12 @@ public class SourceFilesApiTest extends TestClient {
     public void downloadReviewedSourceFilesTest() {
         ResponseObject<DownloadLink> response = this.getSourceFilesApi().downloadReviewedSourceFiles(projectId, buildId);
         assertEquals(downloadLink, response.getData().getUrl());
+    }
+
+    @Test
+    public void downloadFilePreview(){
+        ResponseObject<DownloadLink> response = this.getSourceFilesApi().downloadFilePreview(projectId,fileId);
+        assertEquals(downloadLink, response.getData().getUrl());
+
     }
 }
