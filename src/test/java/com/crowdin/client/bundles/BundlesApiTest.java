@@ -16,12 +16,13 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.Date;
-import java.util.Calendar;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,6 +75,7 @@ public class BundlesApiTest extends TestClient {
         request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
         request.setExportPattern(pattern);
         request.setMultilingual(true);
+        request.setIncludeProjectSourceLanguage(true);
         request.setLabelIds(Collections.singletonList(0L));
 
         ResponseObject<Bundle> response = this.getBundlesApi().addBundle(projectId, request);
@@ -89,6 +91,7 @@ public class BundlesApiTest extends TestClient {
         assertEquals(response.getData().getId(), projectId);
         assertEquals(response.getData().getName(), name);
         assertTrue(response.getData().isMultilingual());
+        assertTrue(response.getData().getIncludeProjectSourceLanguage());
     }
 
     @Test
@@ -98,10 +101,20 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void editBundleTest() {
-        PatchRequest request = new PatchRequest();
-        request.setOp(PatchOperation.REPLACE);
-        request.setPath("/name");
-        ResponseObject<Bundle> response = this.getBundlesApi().editBundle(projectId, bundleId, Arrays.asList(request));
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/name");
+                setValue("New name");
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/includeProjectSourceLanguage");
+                setValue(true);
+            }});
+        }};
+
+        ResponseObject<Bundle> response = this.getBundlesApi().editBundle(projectId, bundleId, request);
         assertEquals(response.getData().getId(), projectId);
         assertEquals(response.getData().getName(), name);
     }
@@ -140,6 +153,7 @@ public class BundlesApiTest extends TestClient {
         request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
         request.setExportPattern(pattern);
         request.setMultilingual(true);
+        request.setIncludeProjectSourceLanguage(true);
         request.setLabelIds(Collections.singletonList(0L));
 
         ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);

@@ -1,6 +1,12 @@
 [
   {
     "op": "replace",
-    "path": "/name"
+    "path": "/name",
+    "value": "New name"
+  },
+  {
+    "op": "replace",
+    "path": "/includeProjectSourceLanguage",
+    "value": true
   }
 ]

@@ -15,6 +15,7 @@ public class Bundle {
     private List<String> ignorePatterns;
     private String exportPattern;
     private boolean isMultilingual;
+    private Boolean includeProjectSourceLanguage;
     private List<Long> labelIds;
     private Date createdAt;
     private Date updatedAt;

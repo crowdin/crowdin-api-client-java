@@ -11,6 +11,7 @@
     ],
     "exportPattern": "strings-%two_letters_code%.resx",
     "isMultilingual": true,
+    "includeProjectSourceLanguage": true,
     "labelIds": [
       0
     ],
