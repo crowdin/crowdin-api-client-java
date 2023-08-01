@@ -24,7 +24,7 @@
         },
         {
           "file": "build.gradle",
-          "search": "^version '\\d+\\.\\d+\\.\\d+'",
+          "search": "version '\\d+\\.\\d+\\.\\d+'",
           "replace": "version '{{versionWithoutPrerelease}}'"
         }
       ]
