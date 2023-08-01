@@ -1,0 +1,33 @@
+{
+  "git": {
+    "push": true,
+    "commit": true,
+    "commitMessage": "chore: version ${version} [skip ci]",
+    "requireBranch": "master",
+    "changelog": false,
+    "tag": true
+  },
+  "github": {
+    "release": false
+  },
+  "plugins": {
+    "@j-ulrich/release-it-regex-bumper": {
+      "in": "build.gradle",
+      "out": [
+        {
+          "file": "README.md",
+          "search": {
+            "pattern": "\\d+\\.\\d+\\.\\d+",
+            "flags": "g"
+          },
+          "replace": "{{versionWithoutPrerelease}}"
+        },
+        {
+          "file": "build.gradle",
+          "search": "^version '\\d+\\.\\d+\\.\\d+'",
+          "replace": "version '{{versionWithoutPrerelease}}'"
+        }
+      ]
+    }
+  }
+}
