@@ -4,11 +4,12 @@
     "commit": true,
     "commitMessage": "chore: version ${version} [skip ci]",
     "requireBranch": "master",
-    "changelog": false,
     "tag": true
   },
   "github": {
-    "release": false
+    "release": true,
+    "autoGenerate": true,
+    "releaseName": "${version}"
   },
   "plugins": {
     "@j-ulrich/release-it-regex-bumper": {
