@@ -3,6 +3,8 @@ name: Docs
 on:
   release:
     types: [published]
+  repository_dispatch:
+    types: [publish]
 
 jobs:
   docs:
