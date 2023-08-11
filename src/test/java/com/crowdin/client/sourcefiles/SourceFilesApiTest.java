@@ -161,7 +161,7 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void listFilesTest() {
         ResponseList<File> fileResponseList = (ResponseList<File>) this.getSourceFilesApi().listFiles(projectId, null, null, null, null, null, null);
-        assertEquals(fileResponseList.getData().size(), 4);
+        assertEquals(fileResponseList.getData().size(), 5);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
         ExportOptions exportOptions = fileResponseList.getData().get(0).getData().getExportOptions();
@@ -197,6 +197,13 @@ public class SourceFilesApiTest extends TestClient {
         assertEquals(((DocxFileImportOptions) importOptions).getImportHiddenSlides(), false);
         assertEquals(((DocxFileImportOptions) importOptions).getContentSegmentation(), true);
         assertEquals(((DocxFileImportOptions) importOptions).getSrxStorageId(), null);
+
+        assertEquals(fileResponseList.getData().get(4).getData().getId(), Long.valueOf(48L));
+        assertEquals(fileResponseList.getData().get(4).getData().getName(), "fileB.js");
+        exportOptions = fileResponseList.getData().get(4).getData().getExportOptions();
+        assertTrue(exportOptions instanceof JavaScriptFileExportOptions);
+        assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.js");
+        assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportQuotes().name().toLowerCase(), "single");
     }
 
     @Test
