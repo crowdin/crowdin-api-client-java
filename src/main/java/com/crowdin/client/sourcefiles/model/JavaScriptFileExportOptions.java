@@ -7,6 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class JavaScriptFileExportOptions extends ExportOptions {
 
-    private String exportQuotes;
+    private ExportQuotes exportQuotes;
     private String exportPattern;
 }

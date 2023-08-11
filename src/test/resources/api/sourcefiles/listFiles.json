@@ -118,7 +118,7 @@
         "importOptions": {},
         "exportOptions": {
           "exportPattern": "/files/fileB.js",
-          "exportQuotes": "single"
+          "exportQuotes": "SINGLE"
         },
         "createdAt": "2019-09-19T15:10:43+00:00",
         "updatedAt": "2019-09-19T15:10:46+00:00"

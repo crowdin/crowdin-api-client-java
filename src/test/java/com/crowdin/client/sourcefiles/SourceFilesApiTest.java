@@ -203,7 +203,7 @@ public class SourceFilesApiTest extends TestClient {
         exportOptions = fileResponseList.getData().get(4).getData().getExportOptions();
         assertTrue(exportOptions instanceof JavaScriptFileExportOptions);
         assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.js");
-        assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportQuotes(), "single");
+        assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportQuotes().name().toLowerCase(), "single");
     }
 
     @Test
