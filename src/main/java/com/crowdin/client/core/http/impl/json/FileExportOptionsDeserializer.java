@@ -2,6 +2,7 @@ package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.sourcefiles.model.ExportOptions;
 import com.crowdin.client.sourcefiles.model.GeneralFileExportOptions;
+import com.crowdin.client.sourcefiles.model.JavaScriptFileExportOptions;
 import com.crowdin.client.sourcefiles.model.PropertyFileExportOptions;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,6 +33,8 @@ public class FileExportOptionsDeserializer extends JsonDeserializer<ExportOption
                 .collect(Collectors.toList());
         if (fields.contains("escapeSpecialCharacters") || fields.contains("escapeQuotes")) {
             return this.objectMapper.readValue(treeNode.toString(), PropertyFileExportOptions.class);
+        } else if (fields.contains("exportQuotes")) {
+            return this.objectMapper.readValue(treeNode.toString(), JavaScriptFileExportOptions.class);
         } else {
             return this.objectMapper.readValue(treeNode.toString(), GeneralFileExportOptions.class);
         }

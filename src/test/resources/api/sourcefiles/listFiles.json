@@ -102,6 +102,27 @@
         "type" : "docx",
         "path" : "/docs/guide.odt"
       }
+    },
+    {
+      "data": {
+        "id": 48,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileB.js",
+        "title": "File B",
+        "type": "js",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "exportPattern": "/files/fileB.js",
+          "exportQuotes": "single"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
     }
   ],
   "pagination": {
