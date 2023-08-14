@@ -62,4 +62,15 @@ public class RequestMock {
                 Collections.emptyMap()
         );
     }
+
+    public static RequestMock buildWithRequestFileOnly(String url, String httpMethod, String requestFile) {
+        return new RequestMock(
+                url,
+                requestFile,
+                null,
+                httpMethod,
+                Collections.emptyMap(),
+                Collections.emptyMap()
+        );
+    }
 }
