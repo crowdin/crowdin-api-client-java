@@ -52,7 +52,7 @@ public class BundlesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + fileInfoCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileInfoCollectionResource.json"),
                 RequestMock.build(this.url + "/projects/" + projectId2 + "/bundles/" + fileCollectionResourceId + "/files", HttpGet.METHOD_NAME, "api/bundles/fileCollectionResource.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/bundles/downloadBundle.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/addBundleRequest.json", "api/bundles/exportBundle.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/exportBundle.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/bundles/exportBundle.json")
         );
     }
@@ -68,13 +68,13 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void addBundleTest() {
-        Bundle request = new Bundle();
+        AddBundleRequest request = new AddBundleRequest();
         request.setName(name);
         request.setFormat(format);
         request.setSourcePatterns(Collections.singletonList("/master/"));
         request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
         request.setExportPattern(pattern);
-        request.setMultilingual(true);
+        request.setIsMultilingual(true);
         request.setIncludeProjectSourceLanguage(true);
         request.setLabelIds(Collections.singletonList(0L));
 
@@ -146,17 +146,7 @@ public class BundlesApiTest extends TestClient {
 
     @Test
     public void exportBundleTest() {
-        Bundle request = new Bundle();
-        request.setName(name);
-        request.setFormat(format);
-        request.setSourcePatterns(Collections.singletonList("/master/"));
-        request.setIgnorePatterns(Collections.singletonList("/master/environments/"));
-        request.setExportPattern(pattern);
-        request.setMultilingual(true);
-        request.setIncludeProjectSourceLanguage(true);
-        request.setLabelIds(Collections.singletonList(0L));
-
-        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId, request);
+        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId);
         assertEquals(exportId, response.getData().getIdentifier());
         assertEquals(2,response.getData().getAttributes().getBundleId());
     }
