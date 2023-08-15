@@ -46,7 +46,7 @@ public class BundlesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Bundle> addBundle(Long projectId, Bundle request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Bundle> addBundle(Long projectId, AddBundleRequest request) throws HttpException, HttpBadRequestException {
         BundleResponseObject response = this.httpClient.post(this.url + "/projects/" + projectId + "/bundles", request, new HttpRequestConfig(), BundleResponseObject.class);
         return ResponseObject.of(response.getData());
     }
@@ -139,9 +139,9 @@ public class BundlesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<BundleExport> exportBundle(Long projectId, Long bundleId, Bundle request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<BundleExport> exportBundle(Long projectId, Long bundleId) throws HttpException, HttpBadRequestException {
         BundleExportResponseObject response = this.httpClient.post(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports",
-                request,
+                null,
                 new HttpRequestConfig(),
                 BundleExportResponseObject.class);
         return ResponseObject.of(response.getData());
