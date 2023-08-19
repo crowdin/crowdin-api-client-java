@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class NotificationRequestToProjectMemberByUserIds extends NotificationRequestToProjectMember {
+public class SendNotificationToProjectMemberByUserIdsRequest extends SendNotificationToProjectMemberRequest {
     private List<Long> userIds;
     private String message;
 }

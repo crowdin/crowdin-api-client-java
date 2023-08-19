@@ -2,13 +2,9 @@ package com.crowdin.client.notifications;
 
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.notifications.model.NotificationRequestToAuthenticatedUsers;
-import com.crowdin.client.notifications.model.NotificationRequestToOrganizationMembers;
-import com.crowdin.client.notifications.model.NotificationRequestToOrganizationMembersByRole;
-import com.crowdin.client.notifications.model.NotificationRequestToOrganizationMembersByUserIds;
-import com.crowdin.client.notifications.model.NotificationRequestToProjectMember;
-import com.crowdin.client.notifications.model.NotificationRequestToProjectMemberByRole;
-import com.crowdin.client.notifications.model.NotificationRequestToProjectMemberByUserIds;
+import com.crowdin.client.notifications.model.SendNotificationToAuthenticatedUserRequest;
+import com.crowdin.client.notifications.model.SendNotificationToProjectMemberRequest;
+import com.crowdin.client.notifications.model.SendNotificationToProjectMemberByRoleRequest;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +25,7 @@ public class NotificationsApiTest extends TestClient {
 
     @Test
     public void sendNotificationToAuthenticatedUserTest(){
-        NotificationRequestToAuthenticatedUsers request = new NotificationRequestToAuthenticatedUsers(){{
+        SendNotificationToAuthenticatedUserRequest request = new SendNotificationToAuthenticatedUserRequest(){{
             setMessage("Hiii...");
         }};
         this.getNotificationsApi().sendNotificationToAuthenticatedUser(request);
@@ -38,8 +34,8 @@ public class NotificationsApiTest extends TestClient {
 
     @Test
     public void sendNotificationToProjectMembersByRole(){
-        NotificationRequestToProjectMember request = new NotificationRequestToProjectMemberByRole(){{
-                setRole("Admin");
+        SendNotificationToProjectMemberRequest request = new SendNotificationToProjectMemberByRoleRequest(){{
+                setRole("owner");
                 setMessage("Hiii...");
             }};
         this.getNotificationsApi().sendNotificationToProjectMembers(projectId,request);

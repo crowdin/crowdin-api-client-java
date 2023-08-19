@@ -3,7 +3,7 @@ package com.crowdin.client.notifications.model;
 import lombok.Data;
 
 @Data
-public class NotificationRequestToOrganizationMembersByRole extends  NotificationRequestToOrganizationMembers{
+public class SendNotificationToOrganizationMembersByRoleRequest extends SendNotificationToOrganizationMembersRequest {
     private String role;
     private String message;
 }
