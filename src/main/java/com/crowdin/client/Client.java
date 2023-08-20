@@ -11,6 +11,7 @@ import com.crowdin.client.issues.IssuesApi;
 import com.crowdin.client.labels.LabelsApi;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.machinetranslationengines.MachineTranslationEnginesApi;
+import com.crowdin.client.notifications.NotificationsApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.reports.ReportsApi;
 import com.crowdin.client.screenshots.ScreenshotsApi;
@@ -60,6 +61,7 @@ public class Client extends CrowdinApi {
     private final LabelsApi labelsApi;
     private final StringCommentsApi stringCommentsApi;
     private final BundlesApi bundlesApi;
+    private final NotificationsApi notificationsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -89,6 +91,7 @@ public class Client extends CrowdinApi {
         this.labelsApi = new LabelsApi(credentials);
         this.stringCommentsApi = new StringCommentsApi(credentials);
         this.bundlesApi = new BundlesApi(credentials);
+        this.notificationsApi = new NotificationsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -119,6 +122,7 @@ public class Client extends CrowdinApi {
         this.labelsApi = new LabelsApi(credentials, clientConfig);
         this.stringCommentsApi = new StringCommentsApi(credentials, clientConfig);
         this.bundlesApi = new BundlesApi(credentials, clientConfig);
+        this.notificationsApi = new NotificationsApi(credentials, clientConfig);
     }
 
 }
