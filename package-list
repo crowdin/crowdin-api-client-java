@@ -21,6 +21,8 @@ com.crowdin.client.languages
 com.crowdin.client.languages.model
 com.crowdin.client.machinetranslationengines
 com.crowdin.client.machinetranslationengines.model
+com.crowdin.client.notifications
+com.crowdin.client.notifications.model
 com.crowdin.client.projectsgroups
 com.crowdin.client.projectsgroups.model
 com.crowdin.client.reports
