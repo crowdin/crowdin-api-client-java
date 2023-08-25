@@ -21,6 +21,87 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
+     * @param groupId group identifier
+     * @param request request object
+     * @return group report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.reports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> generateGroupReport(Long groupId, GenerateGroupReportRequest request) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/groups/" + groupId + "/reports";
+        GroupReportStatusResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param reportId report identifier
+     * @return group report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.reports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> checkGroupReportGenerationStatus(Long groupId, String reportId) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/groups/" + groupId + "/reports/" + reportId;
+        GroupReportStatusResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param reportId report identifier
+     * @return report download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.reports.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadGroupReport(Long groupId, String reportId) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/groups/" + groupId + "/reports/" + reportId + "/download";
+        DownloadLinkResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param request request object
+     * @return organization report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> generateOrganizationReport(GenerateGroupReportRequest request) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/reports";
+        GroupReportStatusResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param reportId report identifier
+     * @return organization report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> checkOrganizationReportGenerationStatus(String reportId) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/reports/" + reportId;
+        GroupReportStatusResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param reportId report identifier
+     * @return report download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadOrganizationReport(String reportId) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/reports/" + reportId + "/download";
+        DownloadLinkResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
      * @param projectId project identifier
      * @param request request object
      * @return report status

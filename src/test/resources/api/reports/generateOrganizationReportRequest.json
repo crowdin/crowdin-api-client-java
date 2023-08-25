@@ -1,0 +1,9 @@
+{
+  "name": "group-top-members",
+  "schema": {
+    "projectIds": [1,2,3],
+    "unit": "chars_with_spaces",
+    "languageId": "uk",
+    "format": "json"
+  }
+}
