@@ -63,7 +63,7 @@ public class ScreenshotsApiTest extends TestClient {
 
     @Test
     public void listScreenshotsTest() {
-        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, null, null);
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, null, null, null);
         assertEquals(screenshotResponseList.getData().size(), 1);
         assertEquals(screenshotResponseList.getData().get(0).getData().getId(), screenshotId);
     }
