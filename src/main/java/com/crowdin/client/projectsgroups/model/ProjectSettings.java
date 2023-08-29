@@ -39,6 +39,6 @@ public class ProjectSettings extends Project {
     private Map<String, Map<String, String>> languageMapping;
     private Boolean delayedWorkflowStart;
     private NotificationSettings notificationSettings;
-    private TmPenalties tmPenalties;
+    private TmPenalties[] tmPenalties;
 
 }
