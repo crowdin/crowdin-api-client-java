@@ -174,7 +174,7 @@ public class ProjectsGroupsApiTest extends TestClient {
         assertFalse(qaChecksIgnorableCategories.getDuplicate());
         assertFalse(qaChecksIgnorableCategories.getFtl());
 
-        TmPenalties tmPenalties = projectSettings.getTmPenalties();
+        TmPenalties tmPenalties = projectSettings.getTmPenalties()[0];
         assertNotNull(tmPenalties);
         assertEquals(1, tmPenalties.getAutoSubstitution());
         assertEquals(1, tmPenalties.getMultipleTranslations());
