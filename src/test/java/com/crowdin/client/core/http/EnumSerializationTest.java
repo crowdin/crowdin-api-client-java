@@ -4,7 +4,6 @@ import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.EscapeQuotesMode;
 import com.crowdin.client.core.model.EscapeSpecialCharsMode;
 import com.crowdin.client.core.model.JsonFileType;
-import com.crowdin.client.sourcefiles.model.ExportQuotes;
 import com.crowdin.client.webhooks.model.OrganizationEvent;
 
 import lombok.SneakyThrows;
@@ -55,15 +54,6 @@ public class EnumSerializationTest {
 
         deserializeAndCompare("i18next_json", JsonFileType.I18NEXT_JSON);
         deserializeAndCompare("nestjs_i18n", JsonFileType.NESTJS_I18N);
-    }
-
-    @Test
-    public void exportQuotes() {
-        serializeAndCompare(ExportQuotes.DOUBLE, "double");
-        serializeAndCompare(ExportQuotes.SINGLE, "single");
-
-        deserializeAndCompare("double", ExportQuotes.DOUBLE);
-        deserializeAndCompare("single", ExportQuotes.SINGLE);
     }
 
     @Test
