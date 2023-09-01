@@ -15,6 +15,7 @@ public class Directory {
     private String name;
     private String title;
     private String exportPattern;
+    private String path;
     private Priority priority;
     private Date createdAt;
     private Date updatedAt;
