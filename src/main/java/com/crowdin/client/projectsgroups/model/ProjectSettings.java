@@ -1,6 +1,8 @@
 package com.crowdin.client.projectsgroups.model;
 
+import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
 import com.crowdin.client.languages.model.Language;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -39,6 +41,7 @@ public class ProjectSettings extends Project {
     private Map<String, Map<String, String>> languageMapping;
     private Boolean delayedWorkflowStart;
     private NotificationSettings notificationSettings;
-    private TmPenalties[] tmPenalties;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private TmPenalties tmPenalties;
 
 }

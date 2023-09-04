@@ -83,23 +83,21 @@
       "managerNewStrings": false,
       "managerLanguageCompleted": false
     },
-    "tmPenalties": [
-      {
-        "autoSubstitution": 1,
-        "tmPriority": {
-          "priority": 2,
-          "penalty": 1
-        },
-        "multipleTranslations": 1,
-        "timeSinceLastUsage": {
-          "months": 2,
-          "penalty": 1
-        },
-        "timeSinceLastModified": {
-          "months": 2,
-          "penalty": 1
-        }
+    "tmPenalties": {
+      "autoSubstitution": 1,
+      "tmPriority": {
+        "priority": 2,
+        "penalty": 1
+      },
+      "multipleTranslations": 1,
+      "timeSinceLastUsage": {
+        "months": 2,
+        "penalty": 1
+      },
+      "timeSinceLastModified": {
+        "months": 2,
+        "penalty": 1
       }
-    ]
+    }
   }
 }
