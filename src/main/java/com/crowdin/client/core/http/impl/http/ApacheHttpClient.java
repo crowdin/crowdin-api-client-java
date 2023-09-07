@@ -151,6 +151,8 @@ public class ApacheHttpClient implements HttpClient {
                 entity = new StringEntity(this.jsonTransformer.convert(data), ContentType.APPLICATION_JSON);
             }
             requestBuilder.setEntity(entity);
+        } else if (HttpPost.METHOD_NAME.equals(httpMethod)) {
+            requestBuilder.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
         }
         Map<String, Object> headers = new HashMap<>();
         headers.putAll(config.getHeaders());
