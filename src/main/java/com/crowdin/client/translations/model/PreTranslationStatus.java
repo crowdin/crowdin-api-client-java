@@ -26,5 +26,7 @@ public class PreTranslationStatus {
         private boolean duplicateTranslations;
         private boolean translateUntranslatedOnly;
         private boolean translateWithPerfectMatchOnly;
+        private List<Long> labelIds;
+        private List<Long> excludeLabelIds;
     }
 }

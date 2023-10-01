@@ -68,14 +68,22 @@ public class TranslationsApiTest extends TestClient {
         request.setFileIds(singletonList(fileId));
         request.setAutoApproveOption(AutoApproveOption.NONE);
         request.setMethod(Method.MT);
+        request.setLabelIds(singletonList(10000L));
+        request.setExcludeLabelIds(singletonList(20000L));
         ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().applyPreTranslation(projectId, request);
         assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
+
+        assertEquals(10000L, preTranslationStatusResponseObject.getData().getAttributes().getLabelIds().get(0));
+        assertEquals(20000L, preTranslationStatusResponseObject.getData().getAttributes().getExcludeLabelIds().get(0));
     }
 
     @Test
     public void preTranslationStatusTest() {
         ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().preTranslationStatus(projectId, preTranslationId);
         assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
+
+        assertEquals(10000L, preTranslationStatusResponseObject.getData().getAttributes().getLabelIds().get(0));
+        assertEquals(20000L, preTranslationStatusResponseObject.getData().getAttributes().getExcludeLabelIds().get(0));
     }
 
     @Test
