@@ -44,14 +44,21 @@ public class LanguagesApiTest extends TestClient {
 
     @Test
     public void listLanguagesTest() {
-        ResponseList<Language> languageResponseList = this.getLanguagesApi().listSupportedLanguages(null, null);
+        // given
+        Integer limit = null;
+        Integer offset = null;
+
+        // when
+        ResponseList<Language> languageResponseList = this.getLanguagesApi().listSupportedLanguages(limit, offset);
+
+        // then
         assertEquals(languageResponseList.getData().size(), 1);
-        assertEquals(languageResponseList.getData().get(0).getData().getId(), id);
-        assertEquals(languageResponseList.getData().get(0).getData().getName(), name);
+        assertLanguage(languageResponseList.getData().get(0).getData());
     }
 
     @Test
     public void addLanguageTest() {
+        // given
         AddCustomLanguageRequest request = new AddCustomLanguageRequest();
         request.setName(name);
         request.setCode(id);
@@ -59,16 +66,24 @@ public class LanguagesApiTest extends TestClient {
         request.setTextDirection(textDirection);
         request.setPluralCategoryNames(pluralCategoryNames);
         request.setThreeLettersCode(threeLettersCode);
+
+        // when
         ResponseObject<Language> languageResponseObject = this.getLanguagesApi().addCustomLanguage(request);
-        assertEquals(languageResponseObject.getData().getId(), id);
-        assertEquals(languageResponseObject.getData().getName(), name);
+
+        // then
+        assertLanguage(languageResponseObject.getData());
     }
 
     @Test
     public void getLanguageTest() {
-        ResponseObject<Language> language = this.getLanguagesApi().getLanguage(id);
-        assertEquals(language.getData().getId(), id);
-        assertEquals(language.getData().getName(), name);
+        // given
+        final String languageId = id;
+
+        // when
+        ResponseObject<Language> language = this.getLanguagesApi().getLanguage(languageId);
+
+        // then
+        assertLanguage(language.getData());
     }
 
     @Test
@@ -78,12 +93,36 @@ public class LanguagesApiTest extends TestClient {
 
     @Test
     public void editLanguageTest() {
+        // given
         PatchRequest request = new PatchRequest();
         request.setOp(PatchOperation.REPLACE);
         request.setValue("Spanish");
         request.setPath("/name");
+
+        // when
         ResponseObject<Language> languageResponseObject = this.getLanguagesApi().editLanguage(id, singletonList(request));
-        assertEquals(languageResponseObject.getData().getId(), id);
-        assertEquals(languageResponseObject.getData().getName(), name);
+
+        // then
+        assertLanguage(languageResponseObject.getData());
+    }
+
+    private void assertLanguage(Language actualLanguage) {
+        final Language expectedLanguage = new Language();
+        expectedLanguage.setId("es");
+        expectedLanguage.setName("Spanish");
+        expectedLanguage.setEditorCode("es");
+        expectedLanguage.setTwoLettersCode("es");
+        expectedLanguage.setThreeLettersCode("spa");
+        expectedLanguage.setLocale("es-ES");
+        expectedLanguage.setAndroidCode("es-rES");
+        expectedLanguage.setOsxCode("es.lproj");
+        expectedLanguage.setOsxLocale("es");
+        expectedLanguage.setPluralCategoryNames(Arrays.asList("one"));
+        expectedLanguage.setPluralRules("(n != 1)");
+        expectedLanguage.setPluralExamples(Arrays.asList("0, 2-999; 1.2, 2.07..."));
+        expectedLanguage.setTextDirection(TextDirection.LTR);
+        expectedLanguage.setDialectOf("string");
+
+        assertEquals(expectedLanguage, actualLanguage);
     }
 }
