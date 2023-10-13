@@ -11,6 +11,7 @@ import com.crowdin.client.notifications.model.SendNotificationToOrganizationMemb
 import com.crowdin.client.notifications.model.SendNotificationToProjectMemberRequest;
 
 public class NotificationsApi extends  CrowdinApi {
+
     public NotificationsApi(Credentials credentials) {
         super(credentials);
     }
