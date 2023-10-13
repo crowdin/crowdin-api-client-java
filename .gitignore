@@ -3,6 +3,9 @@
 *.class
 .gradle
 
+#MacOS
+.DS_Store
+
 /target
 /build
 /out
