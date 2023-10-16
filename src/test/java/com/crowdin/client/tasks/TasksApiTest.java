@@ -12,6 +12,8 @@ import com.crowdin.client.tasks.model.CrowdinTaskCreateFormRequest;
 import com.crowdin.client.tasks.model.EnterpriseTaskCreateFormRequest;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
+import com.crowdin.client.tasks.model.Assignee;
+import com.crowdin.client.tasks.model.AssignedTeam;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -53,12 +55,20 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest() {
+        Assignee assignee = new Assignee();
+        assignee.setId(1L);
+        assignee.setUsername("john_smith");
+        assignee.setFullName("john_smith");
+        assignee.setAvatarUrl("");
+        assignee.setWordsCount(5);
+        assignee.setWordsLeft(3);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null);
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
         assertEquals(new Date(119, Calendar.SEPTEMBER,27,7,0,14), taskResponseList.getData().get(0).getData().getDeadline());
+        assertEquals(taskResponseList.getData().get(0).getData().getAssignees().get(0), assignee);
     }
 
     @Test
@@ -72,6 +82,10 @@ public class TasksApiTest extends TestClient {
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
+        AssignedTeam assignedTeam = new AssignedTeam();
+        assignedTeam.setId(1L);
+        assignedTeam.setWordsCount(5);
+        assertEquals(taskResponseObject.getData().getAssignedTeams().get(0), assignedTeam);
     }
 
     @Test
