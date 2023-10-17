@@ -11,7 +11,11 @@
         "assignees": [
           {
             "id": 1,
-            "wordsCount": 5
+            "username": "john_smith",
+            "fullName": "john_smith",
+            "avatarUrl": "",
+            "wordsCount": 5,
+            "wordsLeft": 3
           }
         ],
         "assignedTeams": [
