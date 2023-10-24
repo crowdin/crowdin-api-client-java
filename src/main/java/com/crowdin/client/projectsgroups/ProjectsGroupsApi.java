@@ -23,6 +23,10 @@ import com.crowdin.client.projectsgroups.model.GroupResponseObject;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.projectsgroups.model.ProjectResponseList;
 import com.crowdin.client.projectsgroups.model.ProjectResponseObject;
+import com.crowdin.client.projectsgroups.model.StringsExporterSettingsRequest;
+import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResource;
+import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResponseList;
+import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResponseObject;
 
 import java.util.List;
 import java.util.Map;
@@ -289,6 +293,107 @@ public class ProjectsGroupsApi extends CrowdinApi {
     private String formUrl_projectFileFormatSettingsId_customSegmentations(Long projectId, Long fileFormatSettingsId) {
         return this.url + "/projects/" + projectId + "/file-format-settings/" + fileFormatSettingsId + "/custom-segmentations";
     }
+    //</editor-fold>
+
+    //</editor-fold>
+
+    //<editor-fold desc="Strings Exporter Settings">
+
+    /**
+     * @param projectId project identifier
+     * @return list of strings exporter settings resources
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringsExporterSettingsResource> listProjectStringsExporterSettings(Long projectId) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettings(projectId);
+        StringsExporterSettingsResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), StringsExporterSettingsResponseList.class);
+        return StringsExporterSettingsResponseList.to(responseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param data strings exporter settings
+     * @return strings exporter settings resource
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<StringsExporterSettingsResource> addProjectStringsExporterSettings(
+            Long projectId,
+            StringsExporterSettingsRequest data
+    ) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettings(projectId);
+        StringsExporterSettingsResponseObject responseObject = this.httpClient.post(url, data, new HttpRequestConfig(), StringsExporterSettingsResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId strings exporter settings identifier
+     * @return strings exporter settings resource
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<StringsExporterSettingsResource> getProjectStringsExporterSettings(
+            Long projectId,
+            Long systemStringsExporterSettingsId
+    ) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettingsId(projectId, systemStringsExporterSettingsId);
+        StringsExporterSettingsResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), StringsExporterSettingsResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId strings exporter settings identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteProjectStringsExporterSettings(
+            Long projectId,
+            Long systemStringsExporterSettingsId
+    ) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettingsId(projectId, systemStringsExporterSettingsId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId strings exporter settings identifier
+     * @return updated strings exporter settings resource
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<StringsExporterSettingsResource> editProjectStringsExporterSettings(
+            Long projectId,
+            Long systemStringsExporterSettingsId,
+            StringsExporterSettingsRequest request
+    ) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettingsId(projectId, systemStringsExporterSettingsId);
+        StringsExporterSettingsResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), StringsExporterSettingsResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    //<editor-fold desc="Helper methods">
+
+    private String formUrl_projectStringsExporterSettings(Long projectId) {
+        return this.url + "/projects/" + projectId + "/strings-exporter-settings";
+    }
+
+    private String formUrl_projectStringsExporterSettingsId(Long projectId, Long systemStringsExporterSettingsId) {
+        return this.url + "/projects/" + projectId + "/strings-exporter-settings/" + systemStringsExporterSettingsId;
+    }
+
     //</editor-fold>
 
     //</editor-fold>
