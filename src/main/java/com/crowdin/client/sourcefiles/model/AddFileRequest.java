@@ -12,6 +12,7 @@ public class AddFileRequest {
     private Long branchId;
     private Long directoryId;
     private String title;
+    private String context;
     private String type;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
