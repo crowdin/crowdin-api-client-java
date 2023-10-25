@@ -11,6 +11,7 @@ public class FileInfo {
     private Long directoryId;
     private String name;
     private String title;
+    private String context;
     private String type;
     private String path;
     private String status;
