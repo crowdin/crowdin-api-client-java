@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "format": "android",
+        "settings": {
+          "convertPlaceholders": false
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
