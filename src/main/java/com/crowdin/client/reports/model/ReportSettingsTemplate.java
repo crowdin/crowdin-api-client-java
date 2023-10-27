@@ -17,6 +17,7 @@ public class ReportSettingsTemplate {
     private Config config;
     private Date createdAt;
     private Date updatedAt;
+    private Boolean isPublic;
 
     @Data
     public static class Config {
