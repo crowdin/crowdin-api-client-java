@@ -42,26 +42,26 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
      * @param labelIds filter approvals by labelIds
      * @param excludeLabelIds exclude approvals by labelIds
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of approvals
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Approval> listTranslationApprovals(Long projectId, Long fileId, Long stringId, String languageId, Long translationId, Integer limit, Integer offset, String labelIds, String excludeLabelIds) throws HttpException, HttpBadRequestException {
+    public ResponseList<Approval> listTranslationApprovals(Long projectId, Long fileId, Long stringId, String languageId, Long translationId, String labelIds, String excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "fileId", Optional.ofNullable(fileId),
                 "stringId", Optional.ofNullable(stringId),
                 "languageId", Optional.ofNullable(languageId),
                 "translationId", Optional.ofNullable(translationId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset),
                 "labelIds", Optional.ofNullable(labelIds),
-                "excludeLabelIds", Optional.ofNullable(excludeLabelIds)
+                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
         );
         ApprovalResponseList approvalResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), ApprovalResponseList.class);
         return ApprovalResponseList.to(approvalResponseList);
@@ -237,25 +237,25 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param stringId string identifier
      * @param languageId language identifier
      * @param translationId translation identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
      * @param labelIds filter votes by labelIds
      * @param excludeLabelIds exclude votes by labelIds
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
      * @return list of votes
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.votes.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.votes.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Vote> listTranslationVotes(Long projectId, Long stringId, String languageId, Long translationId, Integer limit, Integer offset, String labelIds, String excludeLabelIds) throws HttpException, HttpBadRequestException {
+    public ResponseList<Vote> listTranslationVotes(Long projectId, Long stringId, String languageId, Long translationId, String labelIds, String excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.ofNullable(stringId),
                 "languageId", Optional.ofNullable(languageId),
                 "translationId", Optional.ofNullable(translationId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset),
                 "labelIds", Optional.ofNullable(labelIds),
-                "excludeLabelIds", Optional.ofNullable(excludeLabelIds)
+                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
         );
         VoteResponseList voteResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/votes", new HttpRequestConfig(queryParams), VoteResponseList.class);
         return VoteResponseList.to(voteResponseList);
