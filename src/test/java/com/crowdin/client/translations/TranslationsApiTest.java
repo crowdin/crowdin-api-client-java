@@ -89,7 +89,7 @@ public class TranslationsApiTest extends TestClient {
     @Test
     public void buildProjectDirectoryTranslationTest() {
         BuildProjectDirectoryTranslationRequest request = new BuildProjectDirectoryTranslationRequest();
-        request.setTargetLanguageIds(Arrays.asList("uk"));
+        request.setTargetLanguageIds(singletonList("uk"));
         request.setSkipUntranslatedStrings(false);
         request.setSkipUntranslatedFiles(false);
         request.setExportApprovedOnly(false);
@@ -131,6 +131,19 @@ public class TranslationsApiTest extends TestClient {
         request.setSuffix("ion");
         request.setLengthTransformation(0);
         request.setCharTransformation(CharTransformation.ASIAN);
+        ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(parallelProjectId, request);
+        assertEquals(projectBuildResponseObject.getData().getId(), buildId);
+    }
+
+    @Test
+    public void pseudoBuildProjectTranslationCharTransformTest() {
+        CrowdinTranslationCreateProjectPseudoBuildForm request = new CrowdinTranslationCreateProjectPseudoBuildForm();
+        request.setBranchId(1L);
+        request.setPseudo(true);
+        request.setPrefix("pre");
+        request.setSuffix("ion");
+        request.setLengthTransformation(0);
+        request.setCharTransformation(CharTransformation.from("asian"));
         ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(parallelProjectId, request);
         assertEquals(projectBuildResponseObject.getData().getId(), buildId);
     }
@@ -180,10 +193,10 @@ public class TranslationsApiTest extends TestClient {
         ExportProjectTranslationRequest request = new ExportProjectTranslationRequest();
         request.setTargetLanguageId("uk");
         request.setFormat("xliff");
-        request.setLabelIds(Arrays.asList(1L));
-        request.setBranchIds(Arrays.asList(1L));
-        request.setDirectoryIds(Arrays.asList(1L));
-        request.setFileIds(Arrays.asList(1L));
+        request.setLabelIds(singletonList(1L));
+        request.setBranchIds(singletonList(1L));
+        request.setDirectoryIds(singletonList(1L));
+        request.setFileIds(singletonList(1L));
         request.setSkipUntranslatedStrings(false);
         request.setSkipUntranslatedFiles(false);
         request.setExportApprovedOnly(false);
