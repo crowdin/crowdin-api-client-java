@@ -1,4 +1,6 @@
 com.crowdin.client
+com.crowdin.client.applications
+com.crowdin.client.applications.model
 com.crowdin.client.bundles
 com.crowdin.client.bundles.model
 com.crowdin.client.core
