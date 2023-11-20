@@ -1,11 +1,24 @@
 package com.crowdin.client.bundles;
 
-import com.crowdin.client.bundles.model.*;
+import com.crowdin.client.bundles.model.AddBundleRequest;
+import com.crowdin.client.bundles.model.Bundle;
+import com.crowdin.client.bundles.model.BundleExport;
+import com.crowdin.client.bundles.model.BundleExportResponseObject;
+import com.crowdin.client.bundles.model.BundleResponseList;
+import com.crowdin.client.bundles.model.BundleResponseObject;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.*;
+import com.crowdin.client.core.model.ClientConfig;
+import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.DownloadLink;
+import com.crowdin.client.core.model.DownloadLinkResponseObject;
+import com.crowdin.client.core.model.PatchRequest;
+import com.crowdin.client.core.model.ResponseList;
+import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.sourcefiles.model.Branch;
+import com.crowdin.client.sourcefiles.model.BranchResponseList;
 import com.crowdin.client.sourcefiles.model.FileInfo;
 import com.crowdin.client.sourcefiles.model.FileInfoResponseList;
 
@@ -39,7 +52,7 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request request object
+     * @param request   request object
      * @return newly created bundle
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.post" target="_blank"><b>API Documentation</b></a></li>
@@ -53,7 +66,7 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
+     * @param bundleId  bundle identifier
      * @return bundle object
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.get" target="_blank"><b>API Documentation</b></a></li>
@@ -67,7 +80,7 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
+     * @param bundleId  bundle identifier
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.delete" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
@@ -79,8 +92,8 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
-     * @param request request object
+     * @param bundleId  bundle identifier
+     * @param request   request object
      * @return updated bundle
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.patch" target="_blank"><b>API Documentation</b></a></li>
@@ -94,9 +107,9 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
+     * @param bundleId  bundle identifier
+     * @param limit     maximum number of items to retrieve (default 25)
+     * @param offset    starting offset in the collection (default 0)
      * @return list of bundles file resource
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.files.getMany" target="_blank"><b>API Documentation</b></a></li>
@@ -114,8 +127,23 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
-     * @param exportId export identifier, consists of 36 characters
+     * @param bundleId  bundle identifier
+     * @param limit     maximum number of items to retrieve (default 25)
+     * @param offset    starting offset in the collection (default 0)
+     */
+    public ResponseList<Branch> listBundleBranches(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        BranchResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/branches", new HttpRequestConfig(queryParams), BranchResponseList.class);
+        return BranchResponseList.to(response);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId  bundle identifier
+     * @param exportId  export identifier, consists of 36 characters
      * @return download link to bundle
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.download.get" target="_blank"><b>API Documentation</b></a></li>
@@ -132,7 +160,7 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
+     * @param bundleId  bundle identifier
      * @return freshly created bundle export object
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>API Documentation</b></a></li>
@@ -149,8 +177,8 @@ public class BundlesApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param bundleId bundle identifier
-     * @param exportId export identifier, consists of 36 characters
+     * @param bundleId  bundle identifier
+     * @param exportId  export identifier, consists of 36 characters
      * @return requested bundle export object
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.get" target="_blank"><b>API Documentation</b></a></li>
