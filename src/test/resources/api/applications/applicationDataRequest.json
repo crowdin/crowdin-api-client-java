@@ -1,6 +1,4 @@
 {
-  "data": {
-    "customKey1": "value",
-    "customKey2": "value"
-  }
+  "customKey1": "value",
+  "customKey2": "value"
 }

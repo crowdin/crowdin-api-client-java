@@ -9,6 +9,8 @@ import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseObject;
 
+import java.util.Map;
+
 
 public class ApplicationsApi extends CrowdinApi {
     public ApplicationsApi(Credentials credentials) {
@@ -28,7 +30,7 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.api.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<ApplicationData> getApplicationData(String applicationIdentifier, String path) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Map<String, Object>> getApplicationData(String applicationIdentifier, String path) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/%s/api/%s", this.url, applicationIdentifier, path);
         ApplicationDataResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationDataResponseObject.class);
         return ResponseObject.of(response.getData());
@@ -44,7 +46,7 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.api.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<ApplicationData> updateOrRestoreApplicationData(String applicationIdentifier, String path, UpdateOrRestoreApplicationDataRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Map<String, Object>> updateOrRestoreApplicationData(String applicationIdentifier, String path, Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/%s/api/%s", this.url, applicationIdentifier, path);
         ApplicationDataResponseObject response = this.httpClient.put(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
         return ResponseObject.of(response.getData());
@@ -60,7 +62,7 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.api.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<ApplicationData> addApplicationData(String applicationIdentifier, String path, AddApplicationDataRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Map<String, Object>> addApplicationData(String applicationIdentifier, String path, Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/%s/api/%s", this.url, applicationIdentifier, path);
         ApplicationDataResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
         return ResponseObject.of(response.getData());
@@ -89,7 +91,7 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.api.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<ApplicationData> editApplicationData(String applicationIdentifier, String path, EditApplicationDataRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Map<String, Object>> editApplicationData(String applicationIdentifier, String path, Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/%s/api/%s", this.url, applicationIdentifier, path);
         ApplicationDataResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
         return ResponseObject.of(response.getData());
