@@ -12,6 +12,5 @@ public class Approval {
     private Long translationId;
     private Long stringId;
     private String languageId;
-    private Long workflowStepId;
     private Date createdAt;
 }
