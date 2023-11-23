@@ -4,8 +4,15 @@ import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.reports.model.*;
-
+import com.crowdin.client.reports.model.BaseRatesForm;
+import com.crowdin.client.reports.model.Currency;
+import com.crowdin.client.reports.model.GenerateGroupReportRequest;
+import com.crowdin.client.reports.model.GroupReportStatus;
+import com.crowdin.client.reports.model.GroupingParameter;
+import com.crowdin.client.reports.model.Match;
+import com.crowdin.client.reports.model.MatchType;
+import com.crowdin.client.reports.model.ReportsFormat;
+import com.crowdin.client.reports.model.Unit;
 import lombok.SneakyThrows;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -38,40 +45,42 @@ public class GroupReportsApiTest extends TestClient {
 
     @Test
     public void generateGroupReport_TranslationCostsPostEditing() {
-        GenerateGroupReportRequest request = new GroupTranslationCostsPostEditingGenerateGroupReportRequest() {{
-            setSchema(new GeneralSchema() {{
-                setProjectIds(Arrays.asList(1L, 2L, 3L));
-                setUnit(Unit.WORDS);
-                setCurrency(Currency.USD);
-                setFormat(ReportsFormat.XLSX);
-                setBaseRates(new BaseRatesForm() {{
-                    setFullTranslation(0.1f);
-                    setProofread(0.12f);
-                }});
-                setIndividualRates(Collections.singletonList(new IndividualRate() {{
-                    setLanguageIds(Collections.singletonList("uk"));
-                    setUserIds(Collections.singletonList(1L));
-                    setFullTranslation(0.1f);
-                    setProofread(0.12f);
-                }}));
-                setNetRateSchemes(new NetRateSchemes() {{
-                    setTmMatch(Collections.singletonList(new Match() {{
-                        setMatchType(MatchType.PERFECT);
-                        setPrice(0.1f);
+        GenerateGroupReportRequest request = new GenerateGroupReportRequest();
+        request.setName("group-translation-costs-pe");
+        request.setSchema(
+                new GenerateGroupReportRequest.GroupTranslationCostsPerEditingSchema(){{
+                    setProjectIds(Arrays.asList(1L, 2L, 3L));
+                    setUnit(Unit.WORDS);
+                    setCurrency(Currency.USD);
+                    setFormat(ReportsFormat.XLSX);
+                    setBaseRates(new BaseRatesForm() {{
+                        setFullTranslation(0.1f);
+                        setProofread(0.12f);
+                    }});
+                    setIndividualRates(Collections.singletonList(new GenerateGroupReportRequest.IndividualRate() {{
+                        setLanguageIds(Collections.singletonList("uk"));
+                        setUserIds(Collections.singletonList(1L));
+                        setFullTranslation(0.1f);
+                        setProofread(0.12f);
                     }}));
-                    setMtMatch(Collections.singletonList(new Match() {{
-                        setMatchType(MatchType.OPTION_99_82);
-                        setPrice(0.1f);
-                    }}));
-                    setSuggestionMatch(Collections.singletonList(new Match() {{
-                        setMatchType(MatchType.OPTION_81_60);
-                        setPrice(0.1f);
-                    }}));
-                }});
-                setGroupBy(GroupingParameter.LANGUAGE);
-                setUserIds(Collections.singletonList(13L));
-            }});
-        }};
+                    setNetRateSchemes(new GenerateGroupReportRequest.NetRateSchemes() {{
+                        setTmMatch(Collections.singletonList(new Match() {{
+                            setMatchType(MatchType.PERFECT);
+                            setPrice(0.1f);
+                        }}));
+                        setMtMatch(Collections.singletonList(new Match() {{
+                            setMatchType(MatchType.OPTION_99_82);
+                            setPrice(0.1f);
+                        }}));
+                        setSuggestionMatch(Collections.singletonList(new Match() {{
+                            setMatchType(MatchType.OPTION_81_60);
+                            setPrice(0.1f);
+                        }}));
+                    }});
+                    setGroupBy(GroupingParameter.LANGUAGE);
+                    setUserIds(Collections.singletonList(13L));
+                }}
+        );
 
         ResponseObject<GroupReportStatus> response = this.getReportsApi().generateGroupReport(groupId, request);
         assertGroupReportStatus(response.getData());
@@ -91,14 +100,15 @@ public class GroupReportsApiTest extends TestClient {
 
     @Test
     public void generateOrganizationReport() {
-        GenerateGroupReportRequest request = new GroupTopMembersGenerateGroupReportRequest() {{
-            setSchema(new Schema() {{
-                setProjectIds(Arrays.asList(1L, 2L, 3L));
-                setUnit(Unit.CHARS_WITH_SPACES);
-                setLanguageId("uk");
-                setFormat(ReportsFormat.JSON);
-            }});
+        GenerateGroupReportRequest request = new GenerateGroupReportRequest();
+        request.setName("group-top-members");
+        GenerateGroupReportRequest.GroupTopMembersSchema schema = new GenerateGroupReportRequest.GroupTopMembersSchema(){{
+            setProjectIds(Arrays.asList(1L, 2L, 3L));
+            setUnit(Unit.CHARS_WITH_SPACES);
+            setLanguageId("uk");
+            setFormat(ReportsFormat.JSON);
         }};
+        request.setSchema(schema);
 
         ResponseObject<GroupReportStatus> responseObject = this.getReportsApi().generateOrganizationReport(request);
         assertGroupReportStatus(responseObject.getData());
