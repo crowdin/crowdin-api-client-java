@@ -7,9 +7,9 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FmHtmlFileFormatSettings extends FileFormatSettings {
+public class MdxV2FileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
-    private Boolean excludedElements;
-    private List<String> excludedFrontMatterElements;
     private Long srxStorageId;
+    private List<String> excludedFrontMatterElements;
+    private Boolean excludeCodeBlocks;
 }
