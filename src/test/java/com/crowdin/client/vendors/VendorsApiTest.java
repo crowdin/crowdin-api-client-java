@@ -3,6 +3,7 @@ package com.crowdin.client.vendors;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.vendors.model.Status;
 import com.crowdin.client.vendors.model.Vendor;
 import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Test;
@@ -30,5 +31,6 @@ public class VendorsApiTest extends TestClient {
         assertEquals(vendorResponseList.getData().size(), 1);
         assertEquals(vendorResponseList.getData().get(0).getData().getId(), vendorId);
         assertEquals(vendorResponseList.getData().get(0).getData().getName(), name);
+        assertEquals(vendorResponseList.getData().get(0).getData().getStatus(), Status.PENDING);
     }
 }
