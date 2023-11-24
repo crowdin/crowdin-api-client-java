@@ -3,6 +3,8 @@ com.crowdin.client.applications
 com.crowdin.client.applications.model
 com.crowdin.client.bundles
 com.crowdin.client.bundles.model
+com.crowdin.client.clients
+com.crowdin.client.clients.model
 com.crowdin.client.core
 com.crowdin.client.core.http
 com.crowdin.client.core.http.exceptions
