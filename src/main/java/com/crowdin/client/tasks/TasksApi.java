@@ -40,15 +40,17 @@ public class TasksApi extends CrowdinApi {
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
      * @param status filter by status
+     * @param assigneeId filter by assignee id
      * @return list of tasks
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status) throws HttpException, HttpBadRequestException {
+    public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "status", Optional.ofNullable(status),
+                "assigneeId", Optional.ofNullable(assigneeId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );

@@ -7,14 +7,14 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.tasks.model.AddTaskRequest;
-import com.crowdin.client.tasks.model.CrowdinTaskCreateFormRequest;
-import com.crowdin.client.tasks.model.EnterpriseTaskCreateFormRequest;
+import com.crowdin.client.tasks.model.AssignedTeam;
+import com.crowdin.client.tasks.model.Assignee;
+import com.crowdin.client.tasks.model.CreateTaskRequest;
+import com.crowdin.client.tasks.model.CreateTaskEnterpriseVendorRequest;
+import com.crowdin.client.tasks.model.Progress;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
-import com.crowdin.client.tasks.model.Assignee;
-import com.crowdin.client.tasks.model.AssignedTeam;
-import com.crowdin.client.tasks.model.Progress;
+import com.crowdin.client.tasks.model.Type;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -22,10 +22,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,7 +64,7 @@ public class TasksApiTest extends TestClient {
         assignee.setWordsCount(5);
         assignee.setWordsLeft(3);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null);
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null, null);
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
@@ -74,7 +74,7 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void addTaskTest() {
-        CrowdinTaskCreateFormRequest request = new CrowdinTaskCreateFormRequest();
+        CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("French");
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
@@ -85,7 +85,7 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskResponseObject.getData().getStatus(), status);
         assertEquals(taskResponseObject.getData().getProjectId(), projectId);
         assertEquals(taskResponseObject.getData().getCreatorId(), 6);
-        assertEquals(taskResponseObject.getData().getType(), 1);
+        assertEquals(taskResponseObject.getData().getType(), Type.PROOFREAD);
         assertEquals(taskResponseObject.getData().getVendor(), "gengo");
         assertEquals(taskResponseObject.getData().getTitle(), "French");
         assertEquals(taskResponseObject.getData().getFileIds().get(0), 1);
@@ -113,7 +113,7 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void addTaskEnterpriseTest() {
-        EnterpriseTaskCreateFormRequest request = new EnterpriseTaskCreateFormRequest();
+        CreateTaskEnterpriseVendorRequest request = new CreateTaskEnterpriseVendorRequest();
         request.setWorkflowStepId(0L);
         request.setTitle("French");
         request.setLanguageId("fr");
