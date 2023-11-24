@@ -1,0 +1,30 @@
+{
+  "data": {
+    "identifier": "9e7de270-4f83-41cb-b606-2f90631f26e2",
+    "status": "created",
+    "progress": 90,
+    "attributes": {
+      "languageIds": [
+        "uk"
+      ],
+      "branchIds": [
+        0
+      ],
+      "method": "tm",
+      "autoApproveOption": "all",
+      "duplicateTranslations": true,
+      "translateUntranslatedOnly": true,
+      "translateWithPerfectMatchOnly": true,
+      "labelIds": [
+        10000
+      ],
+      "excludeLabelIds": [
+        20000
+      ]
+    },
+    "createdAt": "2019-09-20T14:05:50+00:00",
+    "updatedAt": "2019-09-20T14:05:50+00:00",
+    "startedAt": "2020-04-14T10:32:39Z",
+    "finishedAt": "2020-04-14T10:32:39Z"
+  }
+}
