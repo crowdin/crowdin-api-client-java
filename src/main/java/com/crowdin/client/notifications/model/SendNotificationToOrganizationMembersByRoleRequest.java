@@ -5,5 +5,4 @@ import lombok.Data;
 @Data
 public class SendNotificationToOrganizationMembersByRoleRequest extends SendNotificationToOrganizationMembersRequest {
     private String role;
-    private String message;
 }

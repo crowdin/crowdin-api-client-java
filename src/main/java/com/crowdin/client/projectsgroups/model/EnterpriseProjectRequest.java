@@ -13,6 +13,7 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private String name;
     private String sourceLanguageId;
     private Long templateId;
+    private List<WorkflowTemplateStepConfig> steps;
     private Long groupId;
     private List<String> targetLanguageIds;
     private Long vendorId;
@@ -20,6 +21,7 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private String description;
     private Integer translateDuplicates;
     private Boolean isMtAllowed;
+    private Boolean taskBasedAccessControl;
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
@@ -35,9 +37,11 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private Boolean inContextProcessHiddenStrings;
     private Boolean inContextPseudoLanguageId;
     private Boolean qaCheckIsActive;
+    private Integer qaApprovalsCount;
     private QaCheckCategories qaCheckCategories;
     private QaCheckCategories qaChecksIgnorableCategories;
     private List<Integer> customQaCheckIds;
+    private TmContextType tmContextType;
     private Map<String, Map<String, String>> languageMapping;
     private Boolean glossaryAccess;
     private NotificationSettings notificationSettings;

@@ -1,4 +1,8 @@
 package com.crowdin.client.notifications.model;
 
-public abstract class SendNotificationToOrganizationMembersRequest {
+import lombok.Data;
+
+@Data
+public class SendNotificationToOrganizationMembersRequest {
+    private String message;
 }

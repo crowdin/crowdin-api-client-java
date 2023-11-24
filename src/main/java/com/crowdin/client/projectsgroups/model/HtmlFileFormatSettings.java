@@ -7,5 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class HtmlFileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
+    private Boolean excludedElements;
     private Long srxStorageId;
 }

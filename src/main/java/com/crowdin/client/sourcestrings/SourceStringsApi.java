@@ -10,9 +10,13 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
+import com.crowdin.client.sourcestrings.model.AddSourceStringStringsBasedRequest;
 import com.crowdin.client.sourcestrings.model.SourceString;
 import com.crowdin.client.sourcestrings.model.SourceStringResponseList;
 import com.crowdin.client.sourcestrings.model.SourceStringResponseObject;
+import com.crowdin.client.sourcestrings.model.UploadStringsProgress;
+import com.crowdin.client.sourcestrings.model.UploadStringsProgressResponseObject;
+import com.crowdin.client.sourcestrings.model.UploadStringsRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +29,20 @@ public class SourceStringsApi extends CrowdinApi {
 
     public SourceStringsApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param uploadId upload identifier
+     */
+    public ResponseObject<UploadStringsProgress> uploadStringsStatus(Long projectId, String uploadId) throws HttpException, HttpBadRequestException {
+        UploadStringsProgressResponseObject stringsProgressResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/uploads/" + uploadId, new HttpRequestConfig(), UploadStringsProgressResponseObject.class);
+        return ResponseObject.of(stringsProgressResponseObject.getData());
+    }
+
+    public ResponseObject<UploadStringsProgress> uploadStrings(Long projectId, UploadStringsRequest request) throws HttpException, HttpBadRequestException {
+        UploadStringsProgressResponseObject stringsProgressResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings/uploads", request, new HttpRequestConfig(), UploadStringsProgressResponseObject.class);
+        return ResponseObject.of(stringsProgressResponseObject.getData());
     }
 
     /**
@@ -70,6 +88,11 @@ public class SourceStringsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<SourceString> addSourceString(Long projectId, AddSourceStringRequest request) throws HttpException, HttpBadRequestException {
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
+        return ResponseObject.of(sourceStringResponseObject.getData());
+    }
+
+    public ResponseObject<SourceString> addSourceStringStringsBased(Long projectId, AddSourceStringStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }

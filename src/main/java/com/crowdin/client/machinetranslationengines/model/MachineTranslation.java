@@ -14,4 +14,9 @@ public class MachineTranslation {
     private Type type;
     private Map<String, String> credentials;
     private List<Long> projectIds;
+    private List<String> supportedLanguageIds;
+    private Map<String, List<String>> supportedLanguagePairs;
+    private List<String> enabledLanguageIds;
+    private List<Long> enabledProjectIds;
+    private Boolean isEnabled;
 }

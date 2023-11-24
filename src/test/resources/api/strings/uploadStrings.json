@@ -1,0 +1,32 @@
+{
+  "data": {
+    "identifier": "50fb3506-4127-4ba8-8296-f97dc7e3e0c3",
+    "status": "finished",
+    "progress": 100,
+    "attributes": {
+      "branchId": 667,
+      "storageId": 61,
+      "fileType": "android",
+      "parserVersion": 8,
+      "labelIds": [
+        1
+      ],
+      "importOptions": {
+        "firstLineContainsHeader": false,
+        "importTranslations": true,
+        "scheme": {
+          "identifier": 0,
+          "sourcePhrase": 1,
+          "en": 2,
+          "de": 3
+        }
+      },
+      "updateStrings": false,
+      "cleanupMode": false
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "startedAt": "2019-09-23T11:26:54+00:00",
+    "finishedAt": "2019-09-23T11:26:54+00:00"
+  }
+}

@@ -22,8 +22,8 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private String languageAccessPolicy;
     private String cname;
     private String description;
-    private Integer translateDuplicates;
     private Boolean isMtAllowed;
+    private Boolean taskBasedAccessControl;
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
@@ -41,5 +41,6 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private Map<String, Map<String, String>> languageMapping;
     private Boolean glossaryAccess;
     private TmPenalties tmPenalties;
+    private TmContextType tmContextType;
 
 }

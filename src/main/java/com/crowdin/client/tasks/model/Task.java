@@ -1,5 +1,6 @@
 package com.crowdin.client.tasks.model;
 
+import com.crowdin.client.languages.model.Language;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ public class Task {
     private Long id;
     private Long projectId;
     private Long creatorId;
-    private Integer type;
+    private Type type;
     private String vendor;
     private Status status;
     private String title;
@@ -29,9 +30,14 @@ public class Task {
     private Integer filesCount;
     private Integer commentsCount;
     private Date deadline;
+    private Date startedAt;
+    private Date resolvedAt;
     private String timeRange;
     private Long workflowStepId;
     private String buyUrl;
     private Date createdAt;
     private Date updatedAt;
+    private Language sourceLanguage;
+    private List<Language> targetLanguages;
+    private List<Long> branchIds;
 }

@@ -1,10 +1,13 @@
 package com.crowdin.client.applications;
 
-import com.crowdin.client.applications.model.*;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import org.apache.http.client.methods.*;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -12,7 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class ApplicationsApiTest extends TestClient {
 
@@ -33,18 +37,20 @@ class ApplicationsApiTest extends TestClient {
 
     @Test
     void getApplicationData() {
-        ResponseObject<ApplicationData> response = this.getApplicationsApi().getApplicationData(applicationIdentifier, path);
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().getApplicationData(applicationIdentifier, path);
         assertNotNull(response);
+        assertEquals(response.getData().get("customKey1"), "value");
+        assertEquals(response.getData().get("customKey2"), "value");
     }
 
     @Test
     void updateOrRestoreApplicationData() {
         Map<String, Object> applicationDataPayload = new HashMap<>();
         applicationDataPayload.put("updateKey", "value");
-        UpdateOrRestoreApplicationDataRequest updateOrRestoreApplicationDataRequest = new UpdateOrRestoreApplicationDataRequest();
-        updateOrRestoreApplicationDataRequest.setData(applicationDataPayload);
-        ResponseObject<ApplicationData> response = this.getApplicationsApi().updateOrRestoreApplicationData(applicationIdentifier, path, updateOrRestoreApplicationDataRequest);
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().updateOrRestoreApplicationData(applicationIdentifier, path, applicationDataPayload);
         assertNotNull(response);
+        assertEquals(response.getData().get("customKey1"), "value");
+        assertEquals(response.getData().get("customKey2"), "value");
     }
 
     @Test
@@ -52,10 +58,10 @@ class ApplicationsApiTest extends TestClient {
         Map<String, Object> addApplicationDataPayload = new HashMap<>();
         addApplicationDataPayload.put("Key1", "value");
         addApplicationDataPayload.put("Key2", "value");
-        AddApplicationDataRequest applicationDataRequest = new AddApplicationDataRequest();
-        applicationDataRequest.setData(addApplicationDataPayload);
-        ResponseObject<ApplicationData> response = this.getApplicationsApi().addApplicationData(applicationIdentifier, path, applicationDataRequest);
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().addApplicationData(applicationIdentifier, path, addApplicationDataPayload);
         assertNotNull(response);
+        assertEquals(response.getData().get("customKey1"), "value");
+        assertEquals(response.getData().get("customKey2"), "value");
     }
 
     @Test
@@ -67,10 +73,10 @@ class ApplicationsApiTest extends TestClient {
     void editApplicationData() {
         Map<String, Object> request = new HashMap<>();
         request.put("editKey", "editedValue");
-        EditApplicationDataRequest editApplicationDataRequest = new EditApplicationDataRequest();
-        editApplicationDataRequest.setData(request);
-        ResponseObject<ApplicationData> response = this.getApplicationsApi().editApplicationData(applicationIdentifier, path, editApplicationDataRequest);
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().editApplicationData(applicationIdentifier, path, request);
         assertNotNull(response);
+        assertEquals(response.getData().get("customKey1"), "value");
+        assertEquals(response.getData().get("customKey2"), "value");
     }
 
 }

@@ -8,21 +8,15 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CrowdinTaskCreateFormRequest extends AddTaskRequest {
+public class CreateTaskStringsBasedRequest extends AddTaskStringsBasedRequest {
 
-    private String title;
-    private String languageId;
-    private List<Long> fileIds;
-    private Integer type;
-    private Status status;
-    private String description;
+    private Type type;
     private Boolean splitFiles;
+    private Boolean splitContent;
     private Boolean skipAssignedStrings;
     private Boolean skipUntranslatedStrings;
     private Boolean includePreTranslatedStringsOnly;
-    private List<Long> labelIds;
     private List<AssigneeRequest> assignees;
     private Date deadline;
-    private Date dateFrom;
-    private Date dateTo;
+    private Date startedAt;
 }

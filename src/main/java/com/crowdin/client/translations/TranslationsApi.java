@@ -11,6 +11,7 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
+import com.crowdin.client.translations.model.ApplyPreTranslationStringsBasedRequest;
 import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
@@ -23,6 +24,9 @@ import com.crowdin.client.translations.model.ProjectBuildResponseObject;
 import com.crowdin.client.translations.model.UploadTranslationsRequest;
 import com.crowdin.client.translations.model.UploadTranslationsResponse;
 import com.crowdin.client.translations.model.UploadTranslationsResponseObject;
+import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
+import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
+import com.crowdin.client.translations.model.UploadTranslationsStringsResponseObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -48,6 +52,11 @@ public class TranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<PreTranslationStatus> applyPreTranslation(Long projectId, ApplyPreTranslationRequest request) throws HttpException, HttpBadRequestException {
+        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/pre-translations", request, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
+        return ResponseObject.of(preTranslationStatusResponseObject.getData());
+    }
+
+    public ResponseObject<PreTranslationStatus> applyPreTranslationStringsBased(Long projectId, ApplyPreTranslationStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/pre-translations", request, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
     }
@@ -163,6 +172,16 @@ public class TranslationsApi extends CrowdinApi {
                 request,
                 new HttpRequestConfig(),
                 UploadTranslationsResponseObject.class
+        );
+        return ResponseObject.of(projectBuildResponseObject.getData());
+    }
+
+    public ResponseObject<UploadTranslationsStringsResponse> uploadTranslationStringsBased(Long projectId, String languageId, UploadTranslationsStringsRequest request) throws HttpException, HttpBadRequestException {
+        UploadTranslationsStringsResponseObject projectBuildResponseObject = this.httpClient.post(
+                this.url + "/projects/" + projectId + "/translations/" + languageId,
+                request,
+                new HttpRequestConfig(),
+                UploadTranslationsStringsResponseObject.class
         );
         return ResponseObject.of(projectBuildResponseObject.getData());
     }

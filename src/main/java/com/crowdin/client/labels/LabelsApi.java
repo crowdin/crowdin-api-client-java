@@ -4,6 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.model.BooleanInt;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchRequest;
@@ -39,17 +40,19 @@ public class LabelsApi extends CrowdinApi {
      * @param projectId Project Identifier
      * @param limit A maximum number of items to retrieve. Default: 25
      * @param offset A starting offset in the collection. Default: 0
+     * @param isSystem Filter collection by isSystem value
      * @return list of labels
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.labels.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.labels.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Label> listLabels(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<Label> listLabels(Long projectId, Integer limit, Integer offset, BooleanInt isSystem) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/labels", this.url, projectId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
             "limit", Optional.ofNullable(limit),
-            "offset", Optional.ofNullable(offset)
+            "offset", Optional.ofNullable(offset),
+            "isSystem", Optional.ofNullable(isSystem)
         );
         LabelResponseList labelResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), LabelResponseList.class);
         return LabelResponseList.to(labelResponseList);
