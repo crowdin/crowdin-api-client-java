@@ -3,6 +3,7 @@ package com.crowdin.client.webhooks.model;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class AddWebhookRequest {
@@ -14,6 +15,6 @@ public class AddWebhookRequest {
     private Boolean isActive;
     private Boolean batchingEnabled;
     private ContentType contentType;
-    private Object headers;
+    private Map<String, String> headers;
     private Object payload;
 }
