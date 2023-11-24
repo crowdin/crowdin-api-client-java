@@ -8,5 +8,8 @@ public class SearchConcordanceRequest {
     private String targetLanguageId;
     private Boolean autoSubstitution;
     private Integer minRelevant;
+    /**
+     * @deprecated
+     */
     private String expression;
 }
