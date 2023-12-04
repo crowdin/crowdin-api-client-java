@@ -96,4 +96,71 @@ public class ApplicationsApi extends CrowdinApi {
         ApplicationDataResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
         return ResponseObject.of(response.getData());
     }
+
+    /**
+     * @param identifier identifier of the application installation
+     * @return application installation data
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Map<String, Object>> getApplicationInstallation(String identifier) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
+        ApplicationDataResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @return application installation data
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Map<String, Object>> listApplicationInstallations() throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/applications/installations", this.url);
+        ApplicationDataResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param request request object
+     * @return application installation data
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Map<String, Object>> installApplication(Map<String, Object> request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/applications/installations", this.url);
+        ApplicationDataResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param identifier identifier of the application installation
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteApplicationInstallation(String identifier) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
+        this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param identifier identifier of the application installation
+     * @param request request object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Map<String, Object>> editApplicationInstallation(String identifier, Map<String, Object> request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
+        ApplicationDataResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
 }

@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationsApiTest extends TestClient {
 
     private final String applicationIdentifier = "identifier";
     private final String path = "path";
     private final String builtUrl = this.url + "/applications/" + applicationIdentifier + "/api/" + path;
+    private final String builtUrlInstallation = this.url + "/applications/installations";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -31,7 +31,12 @@ class ApplicationsApiTest extends TestClient {
                 RequestMock.build(builtUrl, HttpPut.METHOD_NAME, "api/applications/updateOrRestoreApplicationData.json", "api/applications/applicationData.json"),
                 RequestMock.build(builtUrl, HttpPost.METHOD_NAME, "api/applications/addApplicationData.json", "api/applications/applicationData.json"),
                 RequestMock.build(builtUrl, HttpDelete.METHOD_NAME),
-                RequestMock.build(builtUrl, HttpPatch.METHOD_NAME, "api/applications/editApplicationData.json", "api/applications/applicationData.json")
+                RequestMock.build(builtUrl, HttpPatch.METHOD_NAME, "api/applications/editApplicationData.json", "api/applications/applicationData.json"),
+                RequestMock.build(builtUrlInstallation + "/" + applicationIdentifier, HttpGet.METHOD_NAME, "api/applications/applicationInstallation.json"),
+                RequestMock.build(builtUrlInstallation + "/" + applicationIdentifier, HttpDelete.METHOD_NAME),
+                RequestMock.build(builtUrlInstallation + "/" + applicationIdentifier, HttpPatch.METHOD_NAME, "api/applications/editApplicationInstallation.json", "api/applications/applicationInstallation.json"),
+                RequestMock.build(builtUrlInstallation, HttpGet.METHOD_NAME, "api/applications/applicationInstallation.json"),
+                RequestMock.build(builtUrlInstallation, HttpPost.METHOD_NAME, "api/applications/installApplication.json", "api/applications/applicationInstallation.json")
         );
     }
 
@@ -79,4 +84,56 @@ class ApplicationsApiTest extends TestClient {
         assertEquals(response.getData().get("customKey2"), "value");
     }
 
+    @Test
+    void getApplicationInstallation() {
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().getApplicationInstallation(applicationIdentifier);
+        assertNotNull(response);
+        assertEquals(response.getData().get("identifier"), "example-application");
+        assertEquals(response.getData().get("name"), "Application name");
+    }
+
+    @Test
+    void listApplicationInstallations() {
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().listApplicationInstallations();
+        assertNotNull(response);
+        assertEquals(response.getData().get("identifier"), "example-application");
+        assertEquals(response.getData().get("name"), "Application name");
+    }
+
+    @Test
+    void installApplication() {
+        Map<String, Object> request = new HashMap<>();
+        Map<String, Object> user = new HashMap<>();
+        user.put("value", "restricted");
+        user.put("ids", new int[]{1});
+        Map<String, Object> project = new HashMap<>();
+        project.put("value", "restricted");
+        project.put("ids", new int[]{1});
+        Map<String, Object> permissions = new HashMap<>();
+        permissions.put("user", user);
+        permissions.put("project", project);
+        request.put("url", "https://localhost.dev/crowdin.json");
+        request.put("permissions", permissions);
+
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().installApplication(request);
+        assertNotNull(response);
+        assertEquals(response.getData().get("identifier"), "example-application");
+        assertEquals(response.getData().get("name"), "Application name");
+    }
+
+    @Test
+    void deleteApplicationInstallation() {
+        this.getApplicationsApi().deleteApplicationInstallation(applicationIdentifier);
+    }
+
+    @Test
+    void editApplicationInstallation() {
+        Map<String, Object> request = new HashMap<>();
+        request.put("op", "replace");
+        request.put("path", "/permissions");
+        ResponseObject<Map<String, Object>> response = this.getApplicationsApi().editApplicationInstallation(applicationIdentifier, request);
+        assertNotNull(response);
+        assertEquals(response.getData().get("identifier"), "example-application");
+        assertEquals(response.getData().get("name"), "Application name");
+    }
 }
