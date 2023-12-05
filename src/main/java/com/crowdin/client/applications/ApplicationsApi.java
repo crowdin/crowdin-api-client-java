@@ -1,15 +1,19 @@
 package com.crowdin.client.applications;
 
+import com.crowdin.client.applications.installations.model.ApplicationInstallation;
+import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseList;
+import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseObject;
+import com.crowdin.client.applications.installations.model.InstallApplicationRequestObject;
 import com.crowdin.client.applications.model.*;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 public class ApplicationsApi extends CrowdinApi {
@@ -105,23 +109,29 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Map<String, Object>> getApplicationInstallation(String identifier) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ApplicationInstallation> getApplicationInstallation(String identifier) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
-        ApplicationDataResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        ApplicationInstallationResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationInstallationResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
     /**
+     * @param limit A maximum number of items to retrieve
+     * @param offset A starting offset in the collection
      * @return application installation data
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.installations.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Map<String, Object>> listApplicationInstallations() throws HttpException, HttpBadRequestException {
+    public ResponseList<ApplicationInstallation> listApplicationInstallations(Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/installations", this.url);
-        ApplicationDataResponseObject response = this.httpClient.get(builtUrl, new HttpRequestConfig(), ApplicationDataResponseObject.class);
-        return ResponseObject.of(response.getData());
+        Map<String, Optional<Integer>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        ApplicationInstallationResponseList response = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), ApplicationInstallationResponseList.class);
+        return ApplicationInstallationResponseList.to(response);
     }
 
     /**
@@ -132,9 +142,9 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Map<String, Object>> installApplication(Map<String, Object> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ApplicationInstallation> installApplication(InstallApplicationRequestObject request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/installations", this.url);
-        ApplicationDataResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        ApplicationInstallationResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ApplicationInstallationResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
@@ -158,9 +168,9 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Map<String, Object>> editApplicationInstallation(String identifier, Map<String, Object> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ApplicationInstallation> editApplicationInstallation(String identifier, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
-        ApplicationDataResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), ApplicationDataResponseObject.class);
+        ApplicationInstallationResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), ApplicationInstallationResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 }
