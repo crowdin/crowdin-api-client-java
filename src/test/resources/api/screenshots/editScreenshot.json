@@ -3,5 +3,12 @@
     "op": "replace",
     "path": "/name",
     "value": "translate_with_siri.jpg"
+  },
+  {
+    "op": "replace",
+    "path": "/labelIds",
+    "value": [
+        1, 2
+      ]
   }
 ]

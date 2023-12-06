@@ -17,4 +17,5 @@ public class Screenshot {
     private List<Tag> tags;
     private Date createdAt;
     private Date updatedAt;
+    private Long[] labelIds;
 }
