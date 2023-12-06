@@ -8,7 +8,7 @@
       "width": 267,
       "height": 176
     },
-    "tagsCount": 0,
+    "tagsCount": 1,
     "tags": [
       {
         "id": 98,
@@ -22,6 +22,12 @@
         },
         "createdAt": "2019-09-23T09:35:31+00:00"
       }
+    ],
+    "labels": [
+      1
+    ],
+    "labelIds": [
+      1
     ],
     "createdAt": "2019-09-23T09:29:19+00:00",
     "updatedAt": "2019-09-23T09:29:19+00:00"

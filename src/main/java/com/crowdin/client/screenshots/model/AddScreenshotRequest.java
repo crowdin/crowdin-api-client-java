@@ -11,4 +11,5 @@ public class AddScreenshotRequest {
     private Long fileId;
     private Long branchId;
     private Long directoryId;
+    private Long[] labelIds;
 }
