@@ -1,0 +1,17 @@
+{
+  "url": "https://localhost.dev/crowdin.json",
+  "permissions": {
+    "user": {
+      "value": "restricted",
+      "ids": [
+        1
+      ]
+    },
+    "project": {
+      "value": "restricted",
+      "ids": [
+        1
+      ]
+    }
+  }
+}
