@@ -3,7 +3,7 @@ package com.crowdin.client.applications;
 import com.crowdin.client.applications.installations.model.ApplicationInstallation;
 import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseList;
 import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseObject;
-import com.crowdin.client.applications.installations.model.InstallApplicationRequestObject;
+import com.crowdin.client.applications.installations.model.InstallApplicationRequest;
 import com.crowdin.client.applications.model.*;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
@@ -142,7 +142,7 @@ public class ApplicationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.installations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<ApplicationInstallation> installApplication(InstallApplicationRequestObject request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<ApplicationInstallation> installApplication(InstallApplicationRequest request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/applications/installations", this.url);
         ApplicationInstallationResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ApplicationInstallationResponseObject.class);
         return ResponseObject.of(response.getData());

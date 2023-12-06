@@ -103,7 +103,7 @@ class ApplicationsApiTest extends TestClient {
 
     @Test
     void installApplication() {
-        InstallApplicationRequestObject request = new InstallApplicationRequestObject();
+        InstallApplicationRequest request = new InstallApplicationRequest();
         request.setUrl("https://localhost.dev/crowdin.json");
         User user = new User();
         user.setValue(UserPermissions.RESTRICTED);

@@ -3,7 +3,7 @@ package com.crowdin.client.applications.installations.model;
 import lombok.Data;
 
 @Data
-public class InstallApplicationRequestObject {
+public class InstallApplicationRequest {
 
     private String url;
     private Permissions permissions;
