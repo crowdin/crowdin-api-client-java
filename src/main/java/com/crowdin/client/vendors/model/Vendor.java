@@ -8,5 +8,5 @@ public class Vendor {
     private Long id;
     private String name;
     private String description;
-    private String status;
+    private Status status;
 }

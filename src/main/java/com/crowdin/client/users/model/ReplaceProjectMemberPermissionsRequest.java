@@ -8,8 +8,14 @@ import java.util.Map;
 @Data
 public class ReplaceProjectMemberPermissionsRequest {
 
+    /**
+     * @deprecated
+     */
     private Boolean accessToAllWorkflowSteps;
     private Boolean managerAccess;
+    /**
+     * @deprecated
+     */
     private Map<String, LanguagePermission> permissions;
     private List<TranslatorRole> roles;
 }

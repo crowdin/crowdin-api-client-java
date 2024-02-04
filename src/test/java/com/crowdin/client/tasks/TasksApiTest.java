@@ -7,11 +7,14 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.tasks.model.AddTaskRequest;
-import com.crowdin.client.tasks.model.CrowdinTaskCreateFormRequest;
-import com.crowdin.client.tasks.model.EnterpriseTaskCreateFormRequest;
+import com.crowdin.client.tasks.model.AssignedTeam;
+import com.crowdin.client.tasks.model.Assignee;
+import com.crowdin.client.tasks.model.CreateTaskRequest;
+import com.crowdin.client.tasks.model.CreateTaskEnterpriseVendorRequest;
+import com.crowdin.client.tasks.model.Progress;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
+import com.crowdin.client.tasks.model.Type;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -19,10 +22,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,17 +56,25 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest() {
+        Assignee assignee = new Assignee();
+        assignee.setId(1L);
+        assignee.setUsername("john_smith");
+        assignee.setFullName("john_smith");
+        assignee.setAvatarUrl("");
+        assignee.setWordsCount(5);
+        assignee.setWordsLeft(3);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null);
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null, null);
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
         assertEquals(new Date(119, Calendar.SEPTEMBER,27,7,0,14), taskResponseList.getData().get(0).getData().getDeadline());
+        assertEquals(taskResponseList.getData().get(0).getData().getAssignees().get(0), assignee);
     }
 
     @Test
     public void addTaskTest() {
-        CrowdinTaskCreateFormRequest request = new CrowdinTaskCreateFormRequest();
+        CreateTaskRequest request = new CreateTaskRequest();
         request.setTitle("French");
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
@@ -72,11 +83,37 @@ public class TasksApiTest extends TestClient {
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
+        assertEquals(taskResponseObject.getData().getProjectId(), projectId);
+        assertEquals(taskResponseObject.getData().getCreatorId(), 6);
+        assertEquals(taskResponseObject.getData().getType(), Type.PROOFREAD);
+        assertEquals(taskResponseObject.getData().getVendor(), "gengo");
+        assertEquals(taskResponseObject.getData().getTitle(), "French");
+        assertEquals(taskResponseObject.getData().getFileIds().get(0), 1);
+        assertEquals(taskResponseObject.getData().getSourceLanguageId(), "en");
+        assertEquals(taskResponseObject.getData().getTargetLanguageId(), "fr");
+        assertEquals(taskResponseObject.getData().getDescription(), "Proofread all French strings");
+        assertEquals(taskResponseObject.getData().getHash(), "dac37aff364d83899128e68afe0de4994");
+        assertEquals(taskResponseObject.getData().getTranslationUrl(), "/proofread/9092638ac9f2a2d1b5571d08edc53763/all/en-fr/10?task=dac37aff364d83899128e68afe0de4994");
+        assertEquals(taskResponseObject.getData().getWordsCount(), 24);
+        assertEquals(taskResponseObject.getData().getFilesCount(), 2);
+        assertEquals(taskResponseObject.getData().getCommentsCount(), 0);
+        assertEquals(taskResponseObject.getData().getTimeRange(), "string");
+        assertEquals(taskResponseObject.getData().getWorkflowStepId(), 10);
+        assertEquals(taskResponseObject.getData().getBuyUrl(), "https://www.paypal.com/cgi-bin/webscr?cmd=...");
+        AssignedTeam assignedTeam = new AssignedTeam();
+        assignedTeam.setId(1L);
+        assignedTeam.setWordsCount(5);
+        assertEquals(taskResponseObject.getData().getAssignedTeams().get(0), assignedTeam);
+        Progress progress = new Progress();
+        progress.setTotal(24);
+        progress.setDone(15);
+        progress.setPercent(62);
+        assertEquals(taskResponseObject.getData().getProgress(), progress);
     }
 
     @Test
     public void addTaskEnterpriseTest() {
-        EnterpriseTaskCreateFormRequest request = new EnterpriseTaskCreateFormRequest();
+        CreateTaskEnterpriseVendorRequest request = new CreateTaskEnterpriseVendorRequest();
         request.setWorkflowStepId(0L);
         request.setTitle("French");
         request.setLanguageId("fr");

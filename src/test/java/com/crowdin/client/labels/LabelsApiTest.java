@@ -64,7 +64,7 @@ public class LabelsApiTest extends TestClient {
 
     @Test
     public void listLabelsTest() {
-        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(projectId, null, null);
+        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(projectId, null, null, null);
         assertEquals(1, labelResponseList.getData().size());
         assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
         assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());

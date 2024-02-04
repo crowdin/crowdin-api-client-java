@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Webhook {
@@ -13,8 +14,8 @@ public class Webhook {
     private String name;
     private String url;
     private List<Event> events;
-    private List<String> headers;
-    private List<String> payload;
+    private Map<String, String> headers;
+    private Object payload;
     private Boolean isActive;
     private Boolean batchingEnabled;
     private RequestType requestType;

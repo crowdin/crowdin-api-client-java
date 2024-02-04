@@ -14,7 +14,7 @@ public class FileProgressResponseList {
     private List<FileProgressResponseObject> data;
     private Pagination pagination;
 
-    public static ResponseList<FileProgress> to(FileProgressResponseList fileProgressResponseList) {
+    public static ResponseList<FileBranchProgress> to(FileProgressResponseList fileProgressResponseList) {
         return ResponseList.of(
                 fileProgressResponseList.getData().stream()
                         .map(FileProgressResponseObject::getData)

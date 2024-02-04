@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class TranslationCostFuzzyModeGenerateReportRequest extends GenerateReportRequest {
 
     private String name;

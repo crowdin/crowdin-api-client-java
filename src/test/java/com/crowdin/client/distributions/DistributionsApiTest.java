@@ -5,8 +5,10 @@ import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.distributions.model.AddDistributionRequest;
+import com.crowdin.client.distributions.model.AddDistributionStringsBasedRequest;
 import com.crowdin.client.distributions.model.Distribution;
 import com.crowdin.client.distributions.model.DistributionRelease;
+import com.crowdin.client.distributions.model.DistributionStringsBasedRelease;
 import com.crowdin.client.distributions.model.ExportMode;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
@@ -25,19 +27,24 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DistributionsApiTest extends TestClient {
 
     private final Long projectId = 3L;
+    private final Long stringsBasedProjectId = 4L;
     private final String hash = "asccvfd";
     private final String name = "distribution 1";
+    private final String name2 = "distribution 2";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions", HttpGet.METHOD_NAME, "api/distributions/listDistributions.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions", HttpPost.METHOD_NAME, "api/distributions/addDistribution.json", "api/distributions/distribution.json"),
+                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions", HttpPost.METHOD_NAME, "api/distributions/addDistributionStringsBased.json", "api/distributions/distribution.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash, HttpGet.METHOD_NAME, "api/distributions/distribution.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash, HttpPatch.METHOD_NAME, "api/distributions/editDistribution.json", "api/distributions/distribution.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpGet.METHOD_NAME, "api/distributions/release.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/release.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/release.json"),
+                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + hash + "/release", HttpGet.METHOD_NAME, "api/distributions/releaseStringsBased.json"),
+                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/releaseStringsBased.json")
         );
     }
 
@@ -57,6 +64,17 @@ public class DistributionsApiTest extends TestClient {
         request.setFileIds(Collections.singletonList(0L));
         request.setBundleIds(Arrays.asList(1,2,3));
         ResponseObject<Distribution> distributionResponseObject = this.getDistributionsApi().addDistribution(projectId, request);
+        assertEquals(distributionResponseObject.getData().getHash(), hash);
+        assertEquals(distributionResponseObject.getData().getName(), name);
+        assertEquals(distributionResponseObject.getData().getExportMode(), "bundle");
+    }
+
+    @Test
+    public void addDistributionStringsBasedTest() {
+        AddDistributionStringsBasedRequest request = new AddDistributionStringsBasedRequest();
+        request.setName(name2);
+        request.setBundleIds(Arrays.asList(1,2,3));
+        ResponseObject<Distribution> distributionResponseObject = this.getDistributionsApi().addDistributionStringsBased(stringsBasedProjectId, request);
         assertEquals(distributionResponseObject.getData().getHash(), hash);
         assertEquals(distributionResponseObject.getData().getName(), name);
         assertEquals(distributionResponseObject.getData().getExportMode(), "bundle");
@@ -92,8 +110,20 @@ public class DistributionsApiTest extends TestClient {
     }
 
     @Test
+    public void getDistributionReleaseStringsBasedTest() {
+        ResponseObject<DistributionStringsBasedRelease> distributionRelease = this.getDistributionsApi().getDistributionStringsBasedRelease(stringsBasedProjectId, hash);
+        assertEquals(distributionRelease.getData().getProgress(), new Integer(100));
+    }
+
+    @Test
     public void createDistributionReleaseTest() {
         ResponseObject<DistributionRelease> distributionRelease = this.getDistributionsApi().createDistributionRelease(projectId, hash);
+        assertEquals(distributionRelease.getData().getProgress(), new Integer(100));
+    }
+
+    @Test
+    public void createDistributionReleaseStringsBasedTest() {
+        ResponseObject<DistributionStringsBasedRelease> distributionRelease = this.getDistributionsApi().createDistributionStringsBasedRelease(stringsBasedProjectId, hash);
         assertEquals(distributionRelease.getData().getProgress(), new Integer(100));
     }
 }

@@ -38,9 +38,41 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpGet.METHOD_NAME, "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpPatch.METHOD_NAME, "api/reports/editReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME));
+    }
+
+    private ReportSettingsTemplate createSettingsTemplate() {
+        ReportSettingsTemplate.RegularRate regular = new ReportSettingsTemplate.RegularRate();
+        regular.setMode(ReportSettingsTemplate.Mode.NO_MATCH);
+        regular.setValue(0.1);
+
+        ReportSettingsTemplate.RegularRate innerRate = new ReportSettingsTemplate.RegularRate();
+        innerRate.setMode(ReportSettingsTemplate.Mode.TM_MATCH);
+        innerRate.setValue(0.1);
+
+        ReportSettingsTemplate.IndividualRate individual = new ReportSettingsTemplate.IndividualRate();
+        individual.setLanguageIds(Collections.singletonList("uk"));
+        individual.setUserIds(Collections.singletonList(20));
+        individual.setRates(Collections.singletonList(innerRate));
+
+        List<ReportSettingsTemplate.RegularRate> regularRates = Collections.singletonList(regular);
+        List<ReportSettingsTemplate.IndividualRate> individualRates = Collections.singletonList(individual);
+
+        ReportSettingsTemplate.Config config = new ReportSettingsTemplate.Config();
+        config.setRegularRates(regularRates);
+        config.setIndividualRates(individualRates);
+
+        ReportSettingsTemplate template = new ReportSettingsTemplate();
+        template.setName(name);
+        template.setCurrency(Currency.USD);
+        template.setUnit(Unit.STRINGS);
+        template.setConfig(config);
+        template.setIsPublic(false);
+
+        return template;
     }
 
     @Test
@@ -89,6 +121,18 @@ public class ReportsApiTest extends TestClient {
         assertEquals(reportSettingsTemplateResponseList.getData().size(), 1);
         assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getId(), projectId);
         assertEquals(reportSettingsTemplateResponseList.getData().get(0).getData().getName(), name);
+    }
+
+    @Test
+    public void addReportSettingsTemplateTest() {
+        ReportSettingsTemplate request = createSettingsTemplate();
+        ResponseObject<ReportSettingsTemplate> reportSettingsTemplateResponseObject = this.getReportsApi().addReportSettingsTemplate(projectId, request);
+        ReportSettingsTemplate response = reportSettingsTemplateResponseObject.getData();
+        assertEquals(request.getName(), response.getName());
+        assertEquals(request.getCurrency(), response.getCurrency());
+        assertEquals(request.getUnit(), response.getUnit());
+        assertEquals(request.getConfig(), response.getConfig());
+        assertEquals(request.getIsPublic(), response.getIsPublic());
     }
 
     @Test

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class FileProgressResponseObject {
 
-    private FileProgress data;
+    private FileBranchProgress data;
 }

@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "data": {
+        "identifier": "example-application",
+        "name": "Application name",
+        "description": "Application description",
+        "logo": "/resources/images/logo.png",
+        "baseUrl": "https://localhost.dev",
+        "manifestUrl": "https://localhost.dev",
+        "createdAt": "2019-09-20T11:34:40+00:00",
+        "modules": [
+          {
+            "key": "example-application",
+            "type": "module-type",
+            "data": {},
+            "authenticationType": "none"
+          }
+        ],
+        "scopes": [
+          "project"
+        ],
+        "permissions": {
+          "user": {
+            "value": "restricted",
+            "ids": [
+              1
+            ]
+          },
+          "project": {
+            "value": "restricted",
+            "ids": [
+              1
+            ]
+          }
+        },
+        "defaultPermissions": {
+          "user": "owner",
+          "project": "own"
+        },
+        "limitReached": true
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

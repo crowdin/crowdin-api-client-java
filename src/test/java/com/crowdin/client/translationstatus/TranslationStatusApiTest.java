@@ -3,7 +3,7 @@ package com.crowdin.client.translationstatus;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translationstatus.model.FileProgress;
+import com.crowdin.client.translationstatus.model.FileBranchProgress;
 import com.crowdin.client.translationstatus.model.LanguageProgress;
 import com.crowdin.client.translationstatus.model.QaCheck;
 import org.apache.http.client.methods.HttpGet;
@@ -60,7 +60,7 @@ public class TranslationStatusApiTest extends TestClient {
 
     @Test
     public void getLanguageProgressTest() {
-        ResponseList<FileProgress> languageProgress = this.getTranslationStatusApi().getLanguageProgress(projectId, languageId, null, null);
+        ResponseList<FileBranchProgress> languageProgress = this.getTranslationStatusApi().getLanguageProgress(projectId, languageId, null, null);
         assertEquals(languageProgress.getData().size(), 1);
         assertEquals(languageProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 5000);
         assertEquals(languageProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);

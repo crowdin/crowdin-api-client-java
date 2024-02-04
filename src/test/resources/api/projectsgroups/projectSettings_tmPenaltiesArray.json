@@ -1,0 +1,88 @@
+{
+  "data": {
+    "id": 9,
+    "groupId": 4,
+    "userId": 6,
+    "sourceLanguageId": "es",
+    "targetLanguageIds": [
+      "uk"
+    ],
+    "name": "Knowledge Base",
+    "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+    "description": "Vault of all terms and their explanation",
+    "logo": "data:image/png;",
+    "background": "data:image/png;",
+    "isExternal": false,
+    "externalType": "proofread",
+    "workflowId": 3,
+    "hasCrowdsourcing": false,
+    "createdAt": "2019-09-20T11:34:40+00:00",
+    "updatedAt": "2019-09-20T11:34:40+00:00",
+    "translateDuplicates": 1,
+    "glossaryAccess": false,
+    "isMtAllowed": true,
+    "hiddenStringsProofreadersAccess": true,
+    "autoSubstitution": true,
+    "exportTranslatedOnly": false,
+    "skipUntranslatedFiles": false,
+    "exportApprovedOnly": false,
+    "autoTranslateDialects": true,
+    "publicDownloads": true,
+    "useGlobalTm": false,
+    "inContext": true,
+    "inContextPseudoLanguageId": "uk",
+    "isSuspended": false,
+    "qaCheckIsActive": true,
+    "qaCheckCategories": {
+      "empty": true,
+      "size": true,
+      "tags": true,
+      "spaces": true,
+      "variables": true,
+      "punctuation": true,
+      "symbolRegister": true,
+      "specialSymbols": true,
+      "wrongTranslation": true,
+      "spellcheck": true,
+      "icu": true
+    },
+    "qaChecksIgnorableCategories": {
+      "empty": false,
+      "size": true,
+      "tags": true,
+      "spaces": true,
+      "variables": true,
+      "punctuation": true,
+      "symbolRegister": true,
+      "specialSymbols": true,
+      "wrongTranslation": true,
+      "spellcheck": true,
+      "icu": false,
+      "terms": true,
+      "duplicate": false,
+      "ftl": false,
+      "android": true
+    },
+    "customQaCheckIds": [
+      1
+    ],
+    "languageMapping": {
+      "uk": {
+        "name": "Ukranian",
+        "two_letters_code": "ua",
+        "three_letters_code": "ukr",
+        "locale": "uk-UA",
+        "locale_with_underscore": "uk_UA",
+        "android_code": "uk-rUA",
+        "osx_code": "ua.lproj",
+        "osx_locale": "ua"
+      }
+    },
+    "notificationSettings": {
+      "translatorNewStrings": true,
+      "managerNewStrings": false,
+      "managerLanguageCompleted": false
+    },
+    "tmPenalties": []
+  }
+}

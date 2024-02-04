@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 678,
+        "name": "John Smith Translation Agency",
+        "description": "John Smith Translation Agency provides services for software and game localization as well as translation into 70+ languages.",
+        "status": "pending"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

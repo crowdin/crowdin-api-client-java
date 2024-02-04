@@ -67,9 +67,9 @@ public class StringTranslationsApiTest extends TestClient {
 
     @Test
     public void listApprovalsTest() {
-        ResponseList<Approval> approvalResponseList = this.getStringTranslationsApi().listTranslationApprovals(projectId, null, null, null, null, null, null);
-        assertEquals(approvalResponseList.getData().size(), 1);
-        assertEquals(approvalResponseList.getData().get(0).getData().getId(), approvalId);
+        ResponseList<Approval> approvalResponseList = this.getStringTranslationsApi().listTranslationApprovals(projectId, null, null, null, null, null, null, null, null);
+        assertEquals(1, approvalResponseList.getData().size());
+        assertEquals(approvalId, approvalResponseList.getData().get(0).getData().getId());
     }
 
     @Test
@@ -157,9 +157,9 @@ public class StringTranslationsApiTest extends TestClient {
 
     @Test
     public void listVotesTest() {
-        ResponseList<Vote> voteResponseList = this.getStringTranslationsApi().listTranslationVotes(projectId, null, null, null, null, null);
-        assertEquals(voteResponseList.getData().size(), 1);
-        assertEquals(voteResponseList.getData().get(0).getData().getId(), voteId);
+        ResponseList<Vote> voteResponseList = this.getStringTranslationsApi().listTranslationVotes(projectId, null, null, null, null, null, null, null);
+        assertEquals( 1, voteResponseList.getData().size());
+        assertEquals(voteId, voteResponseList.getData().get(0).getData().getId());
     }
 
     @Test

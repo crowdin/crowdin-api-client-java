@@ -1,6 +1,8 @@
 package com.crowdin.client;
 
+import com.crowdin.client.applications.ApplicationsApi;
 import com.crowdin.client.bundles.BundlesApi;
+import com.crowdin.client.clients.ClientsApi;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
@@ -11,6 +13,7 @@ import com.crowdin.client.issues.IssuesApi;
 import com.crowdin.client.labels.LabelsApi;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.machinetranslationengines.MachineTranslationEnginesApi;
+import com.crowdin.client.notifications.NotificationsApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.reports.ReportsApi;
 import com.crowdin.client.screenshots.ScreenshotsApi;
@@ -62,6 +65,9 @@ public class Client extends CrowdinApi {
     private final StringCommentsApi stringCommentsApi;
     private final BundlesApi bundlesApi;
     private final SecurityLogsApi securityLogsApi;
+    private final NotificationsApi notificationsApi;
+    private final ApplicationsApi applicationsApi;
+    private final ClientsApi clientsApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -92,6 +98,9 @@ public class Client extends CrowdinApi {
         this.stringCommentsApi = new StringCommentsApi(credentials);
         this.bundlesApi = new BundlesApi(credentials);
         this.securityLogsApi = new SecurityLogsApi(credentials);
+        this.notificationsApi = new NotificationsApi(credentials);
+        this.applicationsApi = new ApplicationsApi(credentials);
+        this.clientsApi = new ClientsApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -123,6 +132,9 @@ public class Client extends CrowdinApi {
         this.stringCommentsApi = new StringCommentsApi(credentials, clientConfig);
         this.bundlesApi = new BundlesApi(credentials, clientConfig);
         this.securityLogsApi = new SecurityLogsApi(credentials, clientConfig);
+        this.notificationsApi = new NotificationsApi(credentials, clientConfig);
+        this.applicationsApi = new ApplicationsApi(credentials, clientConfig);
+        this.clientsApi = new ClientsApi(credentials, clientConfig);
     }
 
 }

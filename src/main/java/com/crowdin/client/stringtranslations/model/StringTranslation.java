@@ -12,5 +12,7 @@ public class StringTranslation {
     private PluralCategoryName pluralCategoryName;
     private User user;
     private Integer rating;
+    private String provider;
+    private Boolean isPreTranslated;
     private Date createdAt;
 }

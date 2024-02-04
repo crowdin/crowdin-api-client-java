@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://support.crowdin.com/assets/logos/symbol/png/crowdin-symbol-cWhite.png">
     <source media="(prefers-color-scheme: light)" srcset="https://support.crowdin.com/assets/logos/symbol/png/crowdin-symbol-cDark.png">
-    <img width="150" height="150" width=""src="[https://support.crowdin.com/assets/logos/symbol/png/crowdin-symbol-cDark.png](https://crowdin.com)">
+    <img width="150" height="150" src="https://support.crowdin.com/assets/logos/symbol/png/crowdin-symbol-cDark.png">
   </picture>
 </p>
 
@@ -36,7 +36,7 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 dependencies {
-    compile "com.github.crowdin:crowdin-api-client-java:1.9.1"
+    compile "com.github.crowdin:crowdin-api-client-java:1.14.0"
 }
 ```
 
@@ -52,7 +52,7 @@ dependencies {
 <dependency>
     <groupId>com.github.crowdin</groupId>
     <artifactId>crowdin-api-client-java</artifactId>
-    <version>1.9.1</version>
+    <version>1.14.0</version>
 </dependency>
 ```
 

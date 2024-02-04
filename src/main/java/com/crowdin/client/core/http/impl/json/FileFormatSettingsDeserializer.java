@@ -51,6 +51,9 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
             case "mdxV1":
                 classToUse = MdxV1FileFormatSettings.class;
                 break;
+            case "mdxV2":
+                classToUse = MdxV2FileFormatSettings.class;
+                break;
             case "fmMd":
                 classToUse = FmMdFileFormatSettings.class;
                 break;
@@ -80,6 +83,9 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
                 break;
             case "json":
                 classToUse = JsonFileFormatSettings.class;
+                break;
+            case "js":
+                classToUse = JavaScriptFileFormatSettings.class;
                 break;
             case "fjs":
                 classToUse = FJSFileFormatSettings.class;

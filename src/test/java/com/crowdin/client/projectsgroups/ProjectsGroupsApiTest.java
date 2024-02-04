@@ -27,10 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectsGroupsApiTest extends TestClient {
 
@@ -39,6 +36,7 @@ public class ProjectsGroupsApiTest extends TestClient {
     private final String groupName = "KB materials";
     private final Long projectId = 8L;
     private final Long projectSettingsId = 9L;
+    private final Long projectSettingsId2 = 10L;
     private final String projectName = "Knowledge Base";
     private final String sourceLanguageId = "en";
     private final String targetLanguageId = "uk";
@@ -56,6 +54,7 @@ public class ProjectsGroupsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects", HttpPost.METHOD_NAME, "api/projectsgroups/addProjectRequest.json", "api/projectsgroups/project.json"),
                 RequestMock.build(this.url + "/projects/" + projectId, HttpGet.METHOD_NAME, "api/projectsgroups/project.json"),
                 RequestMock.build(this.url + "/projects/" + projectSettingsId, HttpGet.METHOD_NAME, "api/projectsgroups/projectSettings.json"),
+                RequestMock.build(this.url + "/projects/" + projectSettingsId2, HttpGet.METHOD_NAME, "api/projectsgroups/projectSettings_tmPenaltiesArray.json"),
                 RequestMock.build(this.url + "/projects/" + projectId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId, HttpPatch.METHOD_NAME, "api/projectsgroups/editProject.json", "api/projectsgroups/project.json")
         );
@@ -193,6 +192,14 @@ public class ProjectsGroupsApiTest extends TestClient {
         assertNotNull(lastModified);
         assertEquals(2, lastModified.getMonths());
         assertEquals(1, lastModified.getPenalty());
+    }
+
+    @Test
+    public void getProjectSettingsTest_tmPenaltiesEmptyArray() {
+        ResponseObject<? extends Project> response = this.getProjectsGroupsApi().getProject(projectSettingsId2);
+
+        ProjectSettings settings = (ProjectSettings) response.getData();
+        assertNull(settings.getTmPenalties());
     }
 
     @Test
