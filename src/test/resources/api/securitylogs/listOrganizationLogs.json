@@ -1,0 +1,33 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "event": "Some event",
+        "info": "Some info",
+        "userId": 4,
+        "location": "USA",
+        "ipAddress": "127.0.0.1",
+        "deviceName": "MacOs on MacBook",
+        "createdAt": "2019-09-19T15:10:43+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 3,
+        "event": "Some event",
+        "info": "Some info",
+        "userId": 4,
+        "location": "USA",
+        "ipAddress": "127.0.0.1",
+        "deviceName": "MacOs on MacBook",
+        "createdAt": "2019-09-20T15:10:43+00:00"
+      }
+    }
+
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

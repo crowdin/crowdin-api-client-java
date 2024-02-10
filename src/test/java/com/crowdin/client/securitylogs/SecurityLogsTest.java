@@ -22,13 +22,16 @@ public class SecurityLogsTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/users/" + userId + "/security-logs", HttpGet.METHOD_NAME, "api/securitylogs/listSecurityLogs.json"),
-                RequestMock.build(this.url + "/users/" + userId + "/security-logs" + securityLogId, HttpGet.METHOD_NAME, "api/securitylogs/getSecurityLogBylogId.json")
+                RequestMock.build(this.url + "/users/" + userId + "/security-logs/" + securityLogId, HttpGet.METHOD_NAME, "api/securitylogs/getSecurityLogBylogId.json"),
+                RequestMock.build(this.url + "/security-logs", HttpGet.METHOD_NAME, "api/securitylogs/listOrganizationLogs.json"),
+                RequestMock.build(this.url + "/security-logs/" + securityLogId, HttpGet.METHOD_NAME, "api/securitylogs/getOrganizationLogBylogId.json")
+
         );
     }
 
     @Test
     public void listSecurityLogs(){
-        ResponseList<SecurityLogResource> securityLogResourceResponseList = this.getSecurityLogsApi().listSecurityLogs(userId,null, null, null, null);
+        ResponseList<SecurityLogResource> securityLogResourceResponseList = this.getSecurityLogsApi().listUserSecurityLogs(userId,null, null, null, null);
         assertEquals(securityLogResourceResponseList.getData().size(),2);
         assertEquals(securityLogResourceResponseList.getData().get(0).getData().getUserId(),userId);
     }
@@ -36,6 +39,18 @@ public class SecurityLogsTest extends TestClient {
     @Test
     public  void getSecurityLogByLogId(){
         ResponseObject<SecurityLogResource> securityLogResourceResponseObject = this.getSecurityLogsApi().getUserSecurityLog(userId,securityLogId);
+        assertEquals(securityLogResourceResponseObject.getData().getId(), securityLogId);
+    }
+    
+    @Test
+    public void listOrganizationLogs(){
+        ResponseList<SecurityLogResource> securityLogResourceResponseList =  this.getSecurityLogsApi().listOrganizationSecurityLogs(null,null,null,null,null,null,null);
+        assertEquals(securityLogResourceResponseList.getData().size(), 2);
+    }
+    
+    @Test
+    public void getOrganizationLogbylogId(){
+        ResponseObject<SecurityLogResource> securityLogResourceResponseObject = this.getSecurityLogsApi().getOrganizationSecurityLog(securityLogId);
         assertEquals(securityLogResourceResponseObject.getData().getId(), securityLogId);
     }
 
