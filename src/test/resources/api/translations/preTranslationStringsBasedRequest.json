@@ -1,0 +1,16 @@
+{
+  "languageIds": [
+    "uk"
+  ],
+  "branchIds": [
+    211
+  ],
+  "method": "mt",
+  "autoApproveOption": "none",
+  "labelIds": [
+    10000
+  ],
+  "excludeLabelIds": [
+    20000
+  ]
+}

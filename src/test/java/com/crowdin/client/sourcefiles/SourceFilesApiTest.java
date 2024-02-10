@@ -39,6 +39,7 @@ public class SourceFilesApiTest extends TestClient {
     private final String branchName = "develop-master";
     private final String directoryName = "main";
     private final String fileName = "umbrella_app.xliff";
+    private final String context = "Context for translators";
     private final String downloadLink = "test.com";
     private final String status = "finished";
     private final List<Long> attachLabelIds = Arrays.asList(1L);
@@ -164,12 +165,14 @@ public class SourceFilesApiTest extends TestClient {
         assertEquals(fileResponseList.getData().size(), 5);
         assertEquals(fileResponseList.getData().get(0).getData().getId(), fileId);
         assertEquals(fileResponseList.getData().get(0).getData().getName(), fileName);
+        assertEquals(fileResponseList.getData().get(0).getData().getContext(), context);
         ExportOptions exportOptions = fileResponseList.getData().get(0).getData().getExportOptions();
         assertTrue(exportOptions instanceof GeneralFileExportOptions);
         assertEquals(((GeneralFileExportOptions) exportOptions).getExportPattern(), "/localization/%locale%/%file_name%.%file_extension%");
 
         assertEquals(fileResponseList.getData().get(1).getData().getId(), Long.valueOf(45L));
         assertEquals(fileResponseList.getData().get(1).getData().getName(), "fileA.properties");
+        assertEquals(fileResponseList.getData().get(1).getData().getContext(), "Context for fileA.properties");
         exportOptions = fileResponseList.getData().get(1).getData().getExportOptions();
         assertTrue(exportOptions instanceof PropertyFileExportOptions);
         assertEquals(((PropertyFileExportOptions) exportOptions).getExportPattern(), "/files/fileA.properties");
@@ -178,6 +181,7 @@ public class SourceFilesApiTest extends TestClient {
 
         assertEquals(fileResponseList.getData().get(2).getData().getId(), Long.valueOf(46L));
         assertEquals(fileResponseList.getData().get(2).getData().getName(), "fileB.properties");
+        assertEquals(fileResponseList.getData().get(2).getData().getContext(), "Context for fileB.properties");
         exportOptions = fileResponseList.getData().get(2).getData().getExportOptions();
         assertTrue(exportOptions instanceof PropertyFileExportOptions);
         assertEquals(((PropertyFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.properties");
@@ -186,6 +190,7 @@ public class SourceFilesApiTest extends TestClient {
 
         assertEquals(fileResponseList.getData().get(3).getData().getId(), Long.valueOf(47L));
         assertEquals(fileResponseList.getData().get(3).getData().getName(), "guide.odt");
+        assertEquals(fileResponseList.getData().get(3).getData().getContext(), "Context for guide.odt");
         assertEquals(fileResponseList.getData().get(3).getData().getType(), "docx");
         ImportOptions importOptions = fileResponseList.getData().get(3).getData().getImportOptions();
         assertTrue(importOptions instanceof DocxFileImportOptions);
@@ -200,6 +205,7 @@ public class SourceFilesApiTest extends TestClient {
 
         assertEquals(fileResponseList.getData().get(4).getData().getId(), Long.valueOf(48L));
         assertEquals(fileResponseList.getData().get(4).getData().getName(), "fileB.js");
+        assertEquals(fileResponseList.getData().get(4).getData().getContext(), "Context for fileB.js");
         exportOptions = fileResponseList.getData().get(4).getData().getExportOptions();
         assertTrue(exportOptions instanceof JavaScriptFileExportOptions);
         assertEquals(((JavaScriptFileExportOptions) exportOptions).getExportPattern(), "/files/fileB.js");
@@ -223,6 +229,7 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().addFile(projectId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
+        assertEquals(fileResponseObject.getData().getContext(), context);
     }
 
     @Test
@@ -230,6 +237,7 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().getFile(projectId, fileId);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
+        assertEquals(fileResponseObject.getData().getContext(), context);
     }
 
     @Test
@@ -255,6 +263,7 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().updateOrRestoreFile(projectId, fileId, request);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
+        assertEquals(fileResponseObject.getData().getContext(), context);
     }
 
     @Test
@@ -271,6 +280,7 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().editFile(projectId, fileId, Arrays.asList(request));
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
+        assertEquals(fileResponseObject.getData().getContext(), context);
     }
 
     @Test

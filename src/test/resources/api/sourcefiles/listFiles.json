@@ -8,6 +8,7 @@
         "directoryId": 4,
         "name": "umbrella_app.xliff",
         "title": "source_app_info",
+        "context": "Context for translators",
         "type": "xliff",
         "revisionId": 1,
         "status": "active",
@@ -38,6 +39,7 @@
         "directoryId": 4,
         "name": "fileA.properties",
         "title": "File A",
+        "context": "Context for fileA.properties",
         "type": "properties",
         "revisionId": 1,
         "status": "active",
@@ -59,6 +61,7 @@
         "directoryId": 4,
         "name": "fileB.properties",
         "title": "File B",
+        "context": "Context for fileB.properties",
         "type": "properties",
         "revisionId": 1,
         "status": "active",
@@ -100,6 +103,7 @@
         "name" : "guide.odt",
         "title" : null,
         "type" : "docx",
+        "context": "Context for guide.odt",
         "path" : "/docs/guide.odt"
       }
     },
@@ -111,14 +115,15 @@
         "directoryId": 4,
         "name": "fileB.js",
         "title": "File B",
+        "context": "Context for fileB.js",
         "type": "js",
         "revisionId": 1,
         "status": "active",
         "priority": "normal",
         "importOptions": {},
         "exportOptions": {
-          "exportPattern": "/files/fileB.js",
-          "exportQuotes": "SINGLE"
+          "exportQuotes": "single",
+          "exportPattern": "/files/fileB.js"
         },
         "createdAt": "2019-09-19T15:10:43+00:00",
         "updatedAt": "2019-09-19T15:10:46+00:00"

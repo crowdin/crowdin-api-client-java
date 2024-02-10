@@ -1,7 +1,9 @@
 {
   "storageId": 71,
   "name": "translate_with_siri.jpg",
-  "fileId": 87,
-  "branchId": 88,
-  "directoryId": 89
+  "autoTag": true,
+  "fileId": 48,
+  "labelIds": [
+    1, 2
+  ]
 }

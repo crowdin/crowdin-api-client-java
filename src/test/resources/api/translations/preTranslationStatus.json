@@ -14,7 +14,13 @@
       "autoApproveOption": "all",
       "duplicateTranslations": true,
       "translateUntranslatedOnly": true,
-      "translateWithPerfectMatchOnly": true
+      "translateWithPerfectMatchOnly": true,
+      "labelIds": [
+        10000
+      ],
+      "excludeLabelIds": [
+        20000
+      ]
     },
     "createdAt": "2019-09-20T14:05:50+00:00",
     "updatedAt": "2019-09-20T14:05:50+00:00",

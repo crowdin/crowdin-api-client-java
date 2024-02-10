@@ -7,9 +7,9 @@
     "events": [
       "file.approved"
     ],
-    "headers": [
-      "string"
-    ],
+    "headers": {
+      "string": "string"
+    },
     "payload": [
       "string"
     ],

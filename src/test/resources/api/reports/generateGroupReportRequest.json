@@ -1,0 +1,51 @@
+{
+  "name": "group-translation-costs-pe",
+  "schema": {
+    "projectIds": [
+      1, 2, 3
+    ],
+    "unit": "words",
+    "currency": "USD",
+    "format": "xlsx",
+    "baseRates": {
+      "fullTranslation": 0.1,
+      "proofread": 0.12
+    },
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          1
+        ],
+        "fullTranslation": 0.1,
+        "proofread": 0.12
+      }
+    ],
+    "netRateSchemes": {
+      "tmMatch": [
+        {
+          "matchType": "perfect",
+          "price": 0.1
+        }
+      ],
+      "mtMatch": [
+        {
+          "matchType": "99-82",
+          "price": 0.1
+        }
+      ],
+      "suggestionMatch": [
+        {
+          "matchType": "81-60",
+          "price": 0.1
+        }
+      ]
+    },
+    "groupBy": "language",
+    "userIds": [
+      13
+    ]
+  }
+}

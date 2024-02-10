@@ -62,15 +62,17 @@ public class TranslationMemoryApi extends CrowdinApi {
      * @param groupId group identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
+     * @param userId filter by user identifier
      * @return list of translation memories
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<TranslationMemory> listTms(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<TranslationMemory> listTms(Long groupId, Integer limit, Integer offset, Integer userId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(groupId),
+                "userId", Optional.ofNullable(userId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );

@@ -20,21 +20,19 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TestHttpClient implements HttpClient {
 
-    private Map<String, RequestMock> requestMocks = new HashMap<>();
+    private Map<String, List<RequestMock>> requestMocks = new HashMap<>();
     private JsonTransformer jsonTransformer = new JacksonJsonTransformer();
     private ObjectMapper objectMapper = new ObjectMapper();
 
     public void initializeMocks(List<RequestMock> requestMocks) {
         this.requestMocks = requestMocks.stream().collect(
-                Collectors.toMap(
-                        mock -> this.getRequestKey(mock.getUrl(), mock.getHttpMethod()),
-                        Function.identity()
-                )
+            Collectors.groupingBy(
+                mock -> getRequestKey(mock.getUrl(), mock.getHttpMethod())
+            )
         );
     }
 
@@ -79,60 +77,65 @@ public class TestHttpClient implements HttpClient {
                 throw new AssertionError("No match for request : " + requestKey);
             }
 
-            RequestMock requestMock = this.requestMocks.get(requestKey);
-
-            if (!config.getHeaders().equals(requestMock.getHeaders())) {
-                throw new AssertionError("No match for request headers : " + requestKey);
-            }
-            Map<String, Object> urlParams = config.getUrlParams().entrySet().stream()
+            List<RequestMock> requestMocks = this.requestMocks.get(requestKey);
+            for (int i = 0; i < requestMocks.size(); ++i) {
+                RequestMock requestMock = requestMocks.get(i);
+                if (!config.getHeaders().equals(requestMock.getHeaders())) {
+                    throw new AssertionError("No match for request headers : " + requestKey);
+                }
+                Map<String, Object> urlParams = config.getUrlParams().entrySet().stream()
                     .filter(entry -> entry.getValue().isPresent())
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().get()));
-            if (!urlParams.equals(requestMock.getUrlParams())) {
-                throw new AssertionError("No match for url query parameters : " + requestKey);
-            }
+                if (!urlParams.equals(requestMock.getUrlParams())) {
+                    throw new AssertionError("No match for url query parameters : " + requestKey);
+                }
 
-            //request
-            if (data != null) {
-                if (requestMock.getRequestFile() == null || requestMock.getRequestFile().length() == 0) {
-                    throw new AssertionError("No request body mock provided : " + requestKey);
+                //request
+                if (data != null) {
+                    if (requestMock.getRequestFile() == null || requestMock.getRequestFile().isEmpty()) {
+                        throw new AssertionError("No request body mock provided : " + requestKey);
+                    }
+                    InputStream requestInputStream = this.getClass().getClassLoader().getResourceAsStream(requestMock.getRequestFile());
+                    if (requestInputStream == null) {
+                        throw new AssertionError("Failed to load request mock payload " + requestMock.getRequestFile() + " for request" + requestKey);
+                    }
+                    String requestPayloadMock = new BufferedReader(new InputStreamReader(requestInputStream)).lines().collect(Collectors.joining("\n"));
+                    boolean sameRequests;
+                    if (data instanceof String) {
+                        sameRequests = data.equals(requestPayloadMock);
+                    } else {
+                        sameRequests = this.objectMapper.readTree(requestPayloadMock).equals(this.objectMapper.readTree(this.jsonTransformer.convert(data)));
+                    }
+                    if (!sameRequests && i == requestMocks.size() - 1) {
+                        throw new AssertionError("No match for request payload " + requestKey);
+                    } else if (!sameRequests && i < requestMocks.size() - 1) {
+                        continue;
+                    }
                 }
-                InputStream requestInputStream = this.getClass().getClassLoader().getResourceAsStream(requestMock.getRequestFile());
-                if (requestInputStream == null) {
-                    throw new AssertionError("Failed to load request mock payload " + requestMock.getRequestFile() + " for request" + requestKey);
-                }
-                String requestPayloadMock = new BufferedReader(new InputStreamReader(requestInputStream)).lines().collect(Collectors.joining("\n"));
-                boolean sameRequests;
-                if (data instanceof String) {
-                    sameRequests = data.equals(requestPayloadMock);
-                } else {
-                    sameRequests = this.objectMapper.readTree(requestPayloadMock).equals(this.objectMapper.readTree(this.jsonTransformer.convert(data)));
-                }
-                if (!sameRequests) {
-                    throw new AssertionError("No match for request payload " + requestKey);
-                }
-            }
 
-            //response
-            //not interested in response at all
-            if (Void.class.equals(clazz)) {
-                return null;
+                //response
+                //not interested in response at all
+                if (Void.class.equals(clazz)) {
+                    return null;
+                }
+                if (requestMock.getResponseFile() == null || requestMock.getResponseFile().isEmpty()) {
+                    throw new AssertionError("No response body mock provided : " + requestKey);
+                }
+                InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(requestMock.getResponseFile());
+                if (responseInputStream == null) {
+                    throw new AssertionError("Failed to load response mock payload " + requestMock.getResponseFile() + " for request" + requestKey);
+                }
+                String responsePayloadMock = new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+                //plain response
+                if (String.class.equals(clazz)) {
+                    return (T) responsePayloadMock;
+                }
+                return this.jsonTransformer.parse(responsePayloadMock, clazz);
             }
-            if (requestMock.getResponseFile() == null || requestMock.getResponseFile().length() == 0) {
-                throw new AssertionError("No response body mock provided : " + requestKey);
-            }
-            InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(requestMock.getResponseFile());
-            if (responseInputStream == null) {
-                throw new AssertionError("Failed to load response mock payload " + requestMock.getResponseFile() + " for request" + requestKey);
-            }
-            String responsePayloadMock = new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
-            //plain response
-            if (String.class.equals(clazz)) {
-                return (T) responsePayloadMock;
-            }
-            return this.jsonTransformer.parse(responsePayloadMock, clazz);
         } catch (Exception e) {
             throw new AssertionError("Failed to execute test", e);
         }
+        return null;
     }
 
     private String getRequestKey(String url, String httpMethod) {

@@ -1,0 +1,9 @@
+{
+  "format": "xliff",
+  "settings": {
+    "languagePairMapping": {
+      "uk": "es",
+      "de": "en"
+    }
+  }
+}

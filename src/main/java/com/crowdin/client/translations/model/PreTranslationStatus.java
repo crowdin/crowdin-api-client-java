@@ -21,10 +21,15 @@ public class PreTranslationStatus {
     public static class Attributes {
         private List<String> languageIds;
         private List<Long> fileIds;
+        private List<Long> branchIds;
         private Method method;
         private AutoApproveOption autoApproveOption;
         private boolean duplicateTranslations;
+        private boolean skipApprovedTranslations;
         private boolean translateUntranslatedOnly;
         private boolean translateWithPerfectMatchOnly;
+        private boolean markAddedTranslationsAsDone;
+        private List<Long> labelIds;
+        private List<Long> excludeLabelIds;
     }
 }

@@ -9,7 +9,10 @@ public class AddMachineTranslationRequest {
 
     private String name;
     private Type type;
-    private List<Credentials> credentials;
+    private Credentials credentials;
     private Long groupId;
+    private List<String> enabledLanguageIds;
+    private List<Long> enabledProjectIds;
+    private Boolean isEnabled;
 
 }

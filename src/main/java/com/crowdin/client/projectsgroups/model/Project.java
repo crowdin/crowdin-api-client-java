@@ -10,6 +10,7 @@ import java.util.List;
 public class Project {
 
     private Long id;
+    private Type type;
     private Long groupId;
     private Long userId;
     private String sourceLanguageId;
@@ -27,6 +28,7 @@ public class Project {
     private Date createdAt;
     private Date updatedAt;
     private Date lastActivity;
+    private Language sourceLanguage;
     private List<Language> targetLanguages;
 
 }

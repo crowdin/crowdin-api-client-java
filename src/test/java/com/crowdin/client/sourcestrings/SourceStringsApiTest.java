@@ -7,8 +7,11 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
+import com.crowdin.client.sourcestrings.model.AddSourceStringStringsBasedRequest;
 import com.crowdin.client.sourcestrings.model.SourceString;
 import com.crowdin.client.sourcestrings.model.SourceStringForm;
+import com.crowdin.client.sourcestrings.model.UploadStringsProgress;
+import com.crowdin.client.sourcestrings.model.UploadStringsRequest;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -31,17 +34,45 @@ public class SourceStringsApiTest extends TestClient {
     private final Long projectId = 3L;
     private final Long id = 2814L;
     private final Long branchId = 667L;
+    private final Long storageId = 61L;
+    private final Long labelId = 1L;
+    private final String uploadId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings/uploads/" + uploadId, HttpGet.METHOD_NAME, "api/strings/uploadStrings.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings/uploads", HttpPost.METHOD_NAME, "api/strings/uploadStringsReq.json", "api/strings/uploadStrings.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringRequest.json", "api/strings/string.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringStringsBasedRequest.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json")
         );
+    }
+
+    @Test
+    public void uploadStringsStatusTest() {
+        ResponseObject<UploadStringsProgress> uploadStringsProgressResponseObject = this.getSourceStringsApi().uploadStringsStatus(projectId, uploadId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getIdentifier(), uploadId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getBranchId(), branchId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getStorageId(), storageId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getLabelIds().get(0), labelId);
+    }
+
+    @Test
+    public void uploadStringsTest() {
+        UploadStringsRequest request = new UploadStringsRequest();
+        request.setBranchId(branchId);
+        request.setStorageId(storageId);
+        request.setLabelIds(singletonList(labelId));
+        ResponseObject<UploadStringsProgress> uploadStringsProgressResponseObject = this.getSourceStringsApi().uploadStrings(projectId, request);
+        assertEquals(uploadStringsProgressResponseObject.getData().getIdentifier(), uploadId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getBranchId(), branchId);
+        assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getLabelIds().get(0), labelId);
     }
 
     @Test
@@ -66,6 +97,21 @@ public class SourceStringsApiTest extends TestClient {
         request.setMaxLength(35);
         request.setLabelIds(Arrays.asList(1L));
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourceString(projectId, request);
+        assertEquals(sourceStringResponseObject.getData().getId(), id);
+        assertEquals(sourceStringResponseObject.getData().getText(), text);
+    }
+
+    @Test
+    public void addStringStringsBasedTest() {
+        AddSourceStringStringsBasedRequest request = new AddSourceStringStringsBasedRequest();
+        request.setText(text);
+        request.setIdentifier("6a1821e6499ebae94de4b880fd93b985");
+        request.setBranchId(branchId);
+        request.setContext("shown on main page");
+        request.setIsHidden(false);
+        request.setMaxLength(35);
+        request.setLabelIds(Arrays.asList(1L));
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourceStringStringsBased(projectId, request);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
     }

@@ -12,7 +12,7 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
 
     private String name;
     private String identifier;
-    private Integer type;
+    private Type type;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
     private String visibility;
@@ -21,6 +21,7 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private String description;
     private Integer translateDuplicates;
     private Boolean isMtAllowed;
+    private Boolean taskBasedAccessControl;
     private Boolean autoSubstitution;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
@@ -29,9 +30,6 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
-    private Boolean inContext;
-    private Boolean inContextProcessHiddenStrings;
-    private String inContextPseudoLanguageId;
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;
     private QaCheckCategories qaChecksIgnorableCategories;
@@ -39,4 +37,6 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private Boolean glossaryAccess;
     private NotificationSettings notificationSettings;
     private TmPenalties tmPenalties;
+    private Boolean normalizePlaceholder;
+    private TmContextType tmContextType;
 }

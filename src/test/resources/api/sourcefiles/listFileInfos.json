@@ -8,6 +8,7 @@
         "directoryId": 4,
         "name": "umbrella_app.xliff",
         "title": "source_app_info",
+        "context": "Context for translators",
         "type": "xliff",
         "path": "/directory1/directory2/filename.extension",
         "status": "active"

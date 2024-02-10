@@ -1,0 +1,9 @@
+{
+  "data": {
+    "status": "success",
+    "progress": 100,
+    "currentLanguageId": "string",
+    "currentBranchId": 0,
+    "date": "2019-09-23T09:04:29+00:00"
+  }
+}

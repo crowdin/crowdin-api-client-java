@@ -20,11 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Date;
-import java.util.Calendar;
+import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,11 +30,10 @@ public class ScreenshotsApiTest extends TestClient {
     private final Long projectId = 3L;
     private final Long screenshotId = 2L;
     private final Long storageId = 71L;
-    private final Long fileId = 87L;
-    private final Long branchId = 88L;
-    private final Long directoryId = 89L;
+    private final Long fileId = 48L;
     private final Long tagId = 98L;
     private final Long stringId = 12L;
+    private final Long[] labelIds = {1L, 2L};
     private final String name = "translate_with_siri.jpg";
     private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
@@ -63,7 +58,7 @@ public class ScreenshotsApiTest extends TestClient {
 
     @Test
     public void listScreenshotsTest() {
-        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, null, null);
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, null, null, null);
         assertEquals(screenshotResponseList.getData().size(), 1);
         assertEquals(screenshotResponseList.getData().get(0).getData().getId(), screenshotId);
     }
@@ -72,10 +67,12 @@ public class ScreenshotsApiTest extends TestClient {
     public void addScreenshotTest() {
         AddScreenshotRequest request = new AddScreenshotRequest();
         request.setName(name);
+        request.setAutoTag(true);
         request.setStorageId(storageId);
         request.setFileId(fileId);
-        request.setBranchId(branchId);
-        request.setDirectoryId(directoryId);
+        request.setBranchId(null);
+        request.setDirectoryId(null);
+        request.setLabelIds(labelIds);
         ResponseObject<Screenshot> screenshotResponseObject = this.getScreenshotsApi().addScreenshot(projectId, request);
         assertEquals(screenshotResponseObject.getData().getId(), screenshotId);
     }
@@ -84,6 +81,7 @@ public class ScreenshotsApiTest extends TestClient {
     public void getScreenshotTest() {
         ResponseObject<Screenshot> screenshot = this.getScreenshotsApi().getScreenshot(projectId, screenshotId);
         assertEquals(screenshot.getData().getId(), screenshotId);
+        assertEquals(screenshot.getData().getLabelIds().length, 1);
     }
 
     @Test
@@ -105,12 +103,19 @@ public class ScreenshotsApiTest extends TestClient {
 
     @Test
     public void editScreenshotTest() {
+        List<PatchRequest> requests = new ArrayList<>();
         PatchRequest request = new PatchRequest();
         request.setOp(PatchOperation.REPLACE);
         request.setValue(name);
         request.setPath("/name");
-        ResponseObject<Screenshot> screenshotResponseObject = this.getScreenshotsApi().editScreenshot(projectId, screenshotId, singletonList(request));
-        assertEquals(screenshotResponseObject.getData().getId(), screenshotId);
+        requests.add(request);
+        request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setValue(labelIds);
+        request.setPath("/labelIds");
+        requests.add(request);
+        ResponseObject<Screenshot> screenshotResponseObject = this.getScreenshotsApi().editScreenshot(projectId, screenshotId, requests);
+        assertEquals(screenshotResponseObject.getData().getLabelIds().length, 1);
     }
 
     @Test
