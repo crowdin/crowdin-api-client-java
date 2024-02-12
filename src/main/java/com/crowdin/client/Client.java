@@ -17,6 +17,7 @@ import com.crowdin.client.notifications.NotificationsApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.reports.ReportsApi;
 import com.crowdin.client.screenshots.ScreenshotsApi;
+import com.crowdin.client.securitylogs.SecurityLogsApi;
 import com.crowdin.client.sourcefiles.SourceFilesApi;
 import com.crowdin.client.sourcestrings.SourceStringsApi;
 import com.crowdin.client.storage.StorageApi;
@@ -63,6 +64,7 @@ public class Client extends CrowdinApi {
     private final LabelsApi labelsApi;
     private final StringCommentsApi stringCommentsApi;
     private final BundlesApi bundlesApi;
+    private final SecurityLogsApi securityLogsApi;
     private final NotificationsApi notificationsApi;
     private final ApplicationsApi applicationsApi;
     private final ClientsApi clientsApi;
@@ -95,6 +97,7 @@ public class Client extends CrowdinApi {
         this.labelsApi = new LabelsApi(credentials);
         this.stringCommentsApi = new StringCommentsApi(credentials);
         this.bundlesApi = new BundlesApi(credentials);
+        this.securityLogsApi = new SecurityLogsApi(credentials);
         this.notificationsApi = new NotificationsApi(credentials);
         this.applicationsApi = new ApplicationsApi(credentials);
         this.clientsApi = new ClientsApi(credentials);
@@ -128,6 +131,7 @@ public class Client extends CrowdinApi {
         this.labelsApi = new LabelsApi(credentials, clientConfig);
         this.stringCommentsApi = new StringCommentsApi(credentials, clientConfig);
         this.bundlesApi = new BundlesApi(credentials, clientConfig);
+        this.securityLogsApi = new SecurityLogsApi(credentials, clientConfig);
         this.notificationsApi = new NotificationsApi(credentials, clientConfig);
         this.applicationsApi = new ApplicationsApi(credentials, clientConfig);
         this.clientsApi = new ClientsApi(credentials, clientConfig);
