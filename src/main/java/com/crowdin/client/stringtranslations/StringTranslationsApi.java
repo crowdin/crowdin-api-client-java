@@ -109,6 +109,8 @@ public class StringTranslationsApi extends CrowdinApi {
      * @param stringIds filter translations by stringIds
      * @param labelIds filter translations by labelIds
      * @param fileId filter translations by file identifier
+     * @param branchId filter translations by branchId
+     * @param directoryId filter translations by directoryId
      * @param croql filter translations by croql
      * @param denormalizePlaceholders enable denormalize placeholders
      * @param limit maximum number of items to retrieve (default 25)
@@ -119,12 +121,14 @@ public class StringTranslationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.languages.translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, Long branchId, Long directoryId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
             "stringIds", Optional.ofNullable(stringIds),
             "labelIds", Optional.ofNullable(labelIds),
             "fileId", Optional.ofNullable(fileId),
+            "branchId", Optional.ofNullable(branchId),
+            "directoryId", Optional.ofNullable(directoryId),
             "croql", Optional.ofNullable(croql),
             "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
             "limit", Optional.ofNullable(limit),
