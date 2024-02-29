@@ -9,14 +9,7 @@ import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
-import com.crowdin.client.sourcestrings.model.AddSourceStringStringsBasedRequest;
-import com.crowdin.client.sourcestrings.model.SourceString;
-import com.crowdin.client.sourcestrings.model.SourceStringResponseList;
-import com.crowdin.client.sourcestrings.model.SourceStringResponseObject;
-import com.crowdin.client.sourcestrings.model.UploadStringsProgress;
-import com.crowdin.client.sourcestrings.model.UploadStringsProgressResponseObject;
-import com.crowdin.client.sourcestrings.model.UploadStringsRequest;
+import com.crowdin.client.sourcestrings.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -92,7 +85,17 @@ public class SourceStringsApi extends CrowdinApi {
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
+    public ResponseObject<SourceString> addSourcePluralString(Long projectId, AddSourcePluralStringRequest request) throws HttpException, HttpBadRequestException {
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
+        return ResponseObject.of(sourceStringResponseObject.getData());
+    }
+
     public ResponseObject<SourceString> addSourceStringStringsBased(Long projectId, AddSourceStringStringsBasedRequest request) throws HttpException, HttpBadRequestException {
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
+        return ResponseObject.of(sourceStringResponseObject.getData());
+    }
+
+    public ResponseObject<SourceString> addSourcePluralStringStringsBased(Long projectId, AddSourcePluralStringStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }

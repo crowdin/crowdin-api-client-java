@@ -6,21 +6,14 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.sourcestrings.model.AddSourceStringRequest;
-import com.crowdin.client.sourcestrings.model.AddSourceStringStringsBasedRequest;
-import com.crowdin.client.sourcestrings.model.SourceString;
-import com.crowdin.client.sourcestrings.model.SourceStringForm;
-import com.crowdin.client.sourcestrings.model.UploadStringsProgress;
-import com.crowdin.client.sourcestrings.model.UploadStringsRequest;
+import com.crowdin.client.sourcestrings.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -46,7 +39,9 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringRequest.json", "api/strings/string.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addPluralStringRequest.json", "api/strings/pluralString.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringStringsBasedRequest.json", "api/strings/string.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringPluralStringsBasedRequest.json", "api/strings/pluralString.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
@@ -102,6 +97,28 @@ public class SourceStringsApiTest extends TestClient {
     }
 
     @Test
+    public void addPluralStringTest() {
+        AddSourcePluralStringRequest request = new AddSourcePluralStringRequest();
+        PluralText text = new PluralText();
+        text.setOne("string");
+        text.setOther("strings");
+        request.setText(text);
+        request.setIdentifier("6a1821e6499ebae94de4b880fd93b985");
+        request.setFileId(id);
+        request.setContext("shown on main page");
+        request.setIsHidden(false);
+        request.setMaxLength(35);
+        request.setLabelIds(Arrays.asList(1L));
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourcePluralString(projectId, request);
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("one", "string");
+            put("other", "strings");
+        }};
+        assertEquals(sourceStringResponseObject.getData().getId(), id);
+        assertEquals(sourceStringResponseObject.getData().getText(), expected);
+    }
+
+    @Test
     public void addStringStringsBasedTest() {
         AddSourceStringStringsBasedRequest request = new AddSourceStringStringsBasedRequest();
         request.setText(text);
@@ -114,6 +131,28 @@ public class SourceStringsApiTest extends TestClient {
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourceStringStringsBased(projectId, request);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
+    }
+
+    @Test
+    public void addPluralStringStringsBasedTest() {
+        AddSourcePluralStringStringsBasedRequest request = new AddSourcePluralStringStringsBasedRequest();
+        PluralText text = new PluralText();
+        text.setOne("string");
+        text.setOther("strings");
+        request.setText(text);
+        request.setIdentifier("6a1821e6499ebae94de4b880fd93b985");
+        request.setBranchId(branchId);
+        request.setContext("shown on main page");
+        request.setIsHidden(false);
+        request.setMaxLength(35);
+        request.setLabelIds(Arrays.asList(1L));
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourcePluralStringStringsBased(projectId, request);
+        Map<String, String> expected = new HashMap<String, String>() {{
+            put("one", "string");
+            put("other", "strings");
+        }};
+        assertEquals(sourceStringResponseObject.getData().getId(), id);
+        assertEquals(sourceStringResponseObject.getData().getText(), expected);
     }
 
     @Test
