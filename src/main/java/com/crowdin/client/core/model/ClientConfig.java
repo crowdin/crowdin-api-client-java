@@ -26,6 +26,10 @@ public class ClientConfig {
      */
     private HttpClient httpClient;
     /**
+     * Http request timeout in milliseconds
+     */
+    private Integer httpTimeoutMs;
+    /**
      * Provide custom json transformer
      */
     private JsonTransformer jsonTransformer;

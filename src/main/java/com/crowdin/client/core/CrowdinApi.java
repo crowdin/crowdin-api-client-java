@@ -33,7 +33,7 @@ public abstract class CrowdinApi {
             ? clientConfig.getJsonTransformer() : new JacksonJsonTransformer();
         this.httpClient = (clientConfig.getHttpClient() != null)
             ? clientConfig.getHttpClient()
-            : new ApacheHttpClient(credentials, jsonTransformer, defaultHeaders, clientConfig.getProxy(), clientConfig.getProxyCreds());
+            : new ApacheHttpClient(credentials, jsonTransformer, defaultHeaders, clientConfig.getProxy(), clientConfig.getProxyCreds(), clientConfig.getHttpTimeoutMs());
         this.clientConfig = clientConfig;
         if (credentials.getBaseUrl() != null) {
             if (credentials.getBaseUrl().endsWith("/")) {

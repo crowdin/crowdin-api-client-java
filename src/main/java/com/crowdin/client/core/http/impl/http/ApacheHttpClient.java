@@ -59,16 +59,22 @@ public class ApacheHttpClient implements HttpClient {
             .build();
     }
 
-    public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders, ClientConfig.Host proxy, ClientConfig.UsernamePasswordCredentials proxyCreds) {
+    public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders, ClientConfig.Host proxy, ClientConfig.UsernamePasswordCredentials proxyCreds, Integer timeoutMs) {
         this.credentials = credentials;
         this.jsonTransformer = jsonTransformer;
         this.defaultHeaders = defaultHeaders;
         this.proxy = proxy;
         this.proxyCreds = proxyCreds;
+        RequestConfig.Builder requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD);
+        if (timeoutMs != null) {
+            requestConfig.setConnectionRequestTimeout(timeoutMs);
+            requestConfig.setConnectTimeout(timeoutMs);
+            requestConfig.setSocketTimeout(timeoutMs);
+        }
         this.httpClient = (proxy != null)
             ? HttpClientBuilder.create()
                 .setProxy(new HttpHost(proxy.getHost(), proxy.getPort()))
-                .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                .setDefaultRequestConfig(requestConfig.build())
                 .setDefaultCredentialsProvider((proxyCreds != null)
                     ? new BasicCredentialsProvider() {{
                             setCredentials(new AuthScope(proxy.getHost(), proxy.getPort()), new UsernamePasswordCredentials(proxyCreds.getUsername(), proxyCreds.getPassword()));
@@ -77,7 +83,7 @@ public class ApacheHttpClient implements HttpClient {
                 .build()
             : HttpClientBuilder
                 .create()
-                .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                .setDefaultRequestConfig(requestConfig.build())
                 .build();
     }
 

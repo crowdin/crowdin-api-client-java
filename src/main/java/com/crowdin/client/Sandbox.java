@@ -2,6 +2,7 @@ package com.crowdin.client;
 
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.users.model.User;
@@ -15,7 +16,7 @@ public class Sandbox {
         if (args.length > 0) {
             try {
                 Credentials credentials = new Credentials(args[0], "oliynyk");
-                var client = new Client(credentials);
+                var client = new Client(credentials, ClientConfig.builder().httpTimeoutMs(5000).build());
                 ResponseObject<User> user = client.getUsersApi().getAuthenticatedUser();
                 System.out.println(user.getData());
             } catch (HttpException e) {
