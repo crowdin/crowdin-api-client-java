@@ -84,6 +84,25 @@ Usage of these libraries is wrapped into interfaces and gives possibility to ove
 
 The library entry point is `com.crowdin.client.Client` and this class has additional constructor where you can specify additional configurations (please refer to javadoc).
 
+#### Http timeouts
+
+Library allows you to configure http requests timeout.
+
+```java
+import com.crowdin.client.Client;
+import com.crowdin.client.core.model.ClientConfig;
+import com.crowdin.client.core.model.Credentials;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Credentials credentials = new Credentials("token", "organization");
+        Client client = new Client(credentials, ClientConfig.builder().httpTimeoutMs(5000).build());
+    }
+
+}
+```
+
 ## Seeking Assistance
 
 If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
