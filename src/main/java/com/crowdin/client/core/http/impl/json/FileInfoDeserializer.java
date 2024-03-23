@@ -29,7 +29,7 @@ public class FileInfoDeserializer extends JsonDeserializer<FileInfo> {
         List<String> fields = StreamSupport
             .stream(iterable.spliterator(), false)
             .collect(Collectors.toList());
-        if (containsAny(fields, "revisionId", "priority", "importOptions", "exportOptions", "excludedTargetLanguages", "createdAt", "updatedAt")) {
+        if (containsAny(fields, "revisionId", "parserVersion", "priority", "importOptions", "exportOptions", "excludedTargetLanguages", "createdAt", "updatedAt")) {
             return this.objectMapper.readValue(treeNode.toString(), File.class);
         } else {
             return this.objectMapper.readValue(treeNode.toString(), FileInfo.class);

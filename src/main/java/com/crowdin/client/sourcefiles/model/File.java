@@ -18,6 +18,7 @@ public class File extends FileInfo {
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
     private List<String> excludedTargetLanguages;
+    private Long parserVersion;
     private Date createdAt;
     private Date updatedAt;
 }
