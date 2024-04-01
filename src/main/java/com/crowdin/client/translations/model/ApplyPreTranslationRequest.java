@@ -15,7 +15,6 @@ public class ApplyPreTranslationRequest {
     private Boolean duplicateTranslations;
     private Boolean translateUntranslatedOnly;
     private Boolean translateWithPerfectMatchOnly;
-    private Boolean markAddedTranslationsAsDone;
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
 }
