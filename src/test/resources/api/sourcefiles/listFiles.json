@@ -10,6 +10,7 @@
         "title": "source_app_info",
         "context": "Context for translators",
         "type": "xliff",
+        "parserVersion": 1,
         "revisionId": 1,
         "status": "active",
         "path": "/path/to",
