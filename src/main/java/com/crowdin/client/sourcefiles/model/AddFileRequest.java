@@ -14,7 +14,7 @@ public class AddFileRequest {
     private String title;
     private String context;
     private String type;
-    private String parserVersion;
+    private Integer parserVersion;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
     private List<String> excludedTargetLanguages;
