@@ -55,6 +55,7 @@ public class SourceStringsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
+    @Deprecated
     public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, Long branchId, String labelIds, String croql, String filter, String scope, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "fileId", Optional.ofNullable(fileId),
@@ -66,6 +67,24 @@ public class SourceStringsApi extends CrowdinApi {
                 "scope", Optional.ofNullable(scope),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
+        );
+        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
+        return SourceStringResponseList.to(sourceStringResponseList);
+    }
+
+    public ResponseList<SourceString> listSourceStrings(Long projectId, ListSourceStringsParams params) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(params.getOrderBy()),
+                "denormalizePlaceholders", Optional.ofNullable(params.getDenormalizePlaceholders()),
+                "labelIds", Optional.ofNullable(params.getLabelIds()),
+                "fileId", Optional.ofNullable(params.getFileId()),
+                "branchId", Optional.ofNullable(params.getBranchId()),
+                "directoryId", Optional.ofNullable(params.getDirectoryId()),
+                "croql", Optional.ofNullable(params.getCroql()),
+                "filter", Optional.ofNullable(params.getFilter()),
+                "scope", Optional.ofNullable(params.getScope()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
         SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
         return SourceStringResponseList.to(sourceStringResponseList);

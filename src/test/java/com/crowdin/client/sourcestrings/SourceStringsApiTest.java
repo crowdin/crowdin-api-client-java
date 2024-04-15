@@ -72,7 +72,7 @@ public class SourceStringsApiTest extends TestClient {
 
     @Test
     public void listStringsTest() {
-        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(projectId, null, null, null, null, null, null, null, null, null);
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(projectId, ListSourceStringsParams.builder().build());
         assertEquals(sourceStringResponseList.getData().size(), 1);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getId(), id);
         assertEquals(sourceStringResponseList.getData().get(0).getData().getText(), text);
