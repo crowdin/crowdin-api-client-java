@@ -71,6 +71,24 @@ public class SourceStringsApi extends CrowdinApi {
         return SourceStringResponseList.to(sourceStringResponseList);
     }
 
+    public ResponseList<SourceString> listSourceStrings(Long projectId, ListSourceStringsParams params) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(params.getOrderBy()),
+                "denormalizePlaceholders", Optional.ofNullable(params.getDenormalizePlaceholders()),
+                "labelIds", Optional.ofNullable(params.getLabelIds()),
+                "fileId", Optional.ofNullable(params.getFileId()),
+                "branchId", Optional.ofNullable(params.getBranchId()),
+                "directoryId", Optional.ofNullable(params.getDirectoryId()),
+                "croql", Optional.ofNullable(params.getCroql()),
+                "filter", Optional.ofNullable(params.getFilter()),
+                "scope", Optional.ofNullable(params.getScope()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
+        );
+        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
+        return SourceStringResponseList.to(sourceStringResponseList);
+    }
+
     /**
      * @param projectId project identifier
      * @param request request object
