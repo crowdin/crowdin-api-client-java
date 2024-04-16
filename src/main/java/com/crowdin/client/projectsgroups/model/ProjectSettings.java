@@ -17,11 +17,13 @@ public class ProjectSettings extends Project {
 
     private Integer clientOrganizationId;
     private Integer translateDuplicates;
+    private Integer tagsDetection;
     private Boolean glossaryAccess;
     private Boolean isMtAllowed;
     private Boolean taskBasedAccessControl;
     private Boolean hiddenStringsProofreadersAccess;
     private Boolean autoSubstitution;
+    private Boolean exportTranslatedOnly;
     private Boolean skipTranslatedOnly;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
@@ -29,6 +31,7 @@ public class ProjectSettings extends Project {
     private Integer exportWithMinApprovalsCount;
     private boolean autoTranslateDialects;
     private boolean useGlobalTm;
+    private Boolean showTmSuggestionsDialects;
     private TmContextType tmContextType;
     private Boolean normalizePlaceholder;
     private Boolean saveMetaInfoInSource;
@@ -47,5 +50,7 @@ public class ProjectSettings extends Project {
     private NotificationSettings notificationSettings;
     @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private TmPenalties tmPenalties;
+    private Integer defaultTmId;
+    private Integer defaultGlossaryId;
 
 }
