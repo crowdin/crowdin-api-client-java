@@ -16,8 +16,10 @@ public class Project {
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
     private String name;
+    private String cname;
     private String identifier;
     private String description;
+    private String visibility;
     private String logo;
     private String background;
     private boolean isExternal;
@@ -30,5 +32,6 @@ public class Project {
     private Date lastActivity;
     private Language sourceLanguage;
     private List<Language> targetLanguages;
+    private String webUrl;
 
 }
