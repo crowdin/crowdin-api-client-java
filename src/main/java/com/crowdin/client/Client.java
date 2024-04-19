@@ -1,6 +1,7 @@
 package com.crowdin.client;
 
 import com.crowdin.client.applications.ApplicationsApi;
+import com.crowdin.client.branches.BranchesApi;
 import com.crowdin.client.bundles.BundlesApi;
 import com.crowdin.client.clients.ClientsApi;
 import com.crowdin.client.core.CrowdinApi;
@@ -68,6 +69,7 @@ public class Client extends CrowdinApi {
     private final NotificationsApi notificationsApi;
     private final ApplicationsApi applicationsApi;
     private final ClientsApi clientsApi;
+    private final BranchesApi branchesApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -101,6 +103,7 @@ public class Client extends CrowdinApi {
         this.notificationsApi = new NotificationsApi(credentials);
         this.applicationsApi = new ApplicationsApi(credentials);
         this.clientsApi = new ClientsApi(credentials);
+        this.branchesApi = new BranchesApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -135,6 +138,7 @@ public class Client extends CrowdinApi {
         this.notificationsApi = new NotificationsApi(credentials, clientConfig);
         this.applicationsApi = new ApplicationsApi(credentials, clientConfig);
         this.clientsApi = new ClientsApi(credentials, clientConfig);
+        this.branchesApi = new BranchesApi(credentials, clientConfig);
     }
 
 }
