@@ -1,0 +1,14 @@
+{
+  "data": {
+    "status": "merged",
+    "sourceBranchId": 8,
+    "targetBranchId": 14,
+    "dryRun": false,
+    "details": {
+      "added": 1,
+      "deleted": 2,
+      "updated": 3,
+      "conflicted": 7
+    }
+  }
+}
