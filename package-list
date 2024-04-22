@@ -2,6 +2,8 @@ com.crowdin.client
 com.crowdin.client.applications
 com.crowdin.client.applications.installations.model
 com.crowdin.client.applications.model
+com.crowdin.client.branches
+com.crowdin.client.branches.model
 com.crowdin.client.bundles
 com.crowdin.client.bundles.model
 com.crowdin.client.clients
