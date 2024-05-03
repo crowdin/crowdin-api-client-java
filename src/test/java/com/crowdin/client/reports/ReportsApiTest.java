@@ -1,5 +1,6 @@
 package com.crowdin.client.reports;
 
+import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
@@ -20,6 +21,7 @@ import java.util.Calendar;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class ReportsApiTest extends TestClient {
 
@@ -31,6 +33,17 @@ public class ReportsApiTest extends TestClient {
     private final String link = "test.com";
     private final TimeZone tz = TimeZone.getTimeZone("GMT");
 
+    // -- REPORT ARCHIVE --//
+
+    private final Long archiveId = 1L;
+    private final String scopeType = "project";
+    private final Long scopeId = 1L;
+    private final Long userId = 1L;
+    private final String archiveName = "my archive report";
+    private final String webUrl = "https://crowdin.com/project/project-identifier/reports/archive/1";
+
+    private final String exportId = "1";
+
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
@@ -41,7 +54,13 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpGet.METHOD_NAME, "api/reports/reportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpPatch.METHOD_NAME, "api/reports/editReportSettingsTemplate.json", "api/reports/reportSettingsTemplate.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME));
+                RequestMock.build(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives/", HttpGet.METHOD_NAME, "api/reports/listReportArchives.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId, HttpGet.METHOD_NAME, "api/reports/reportArchive.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId + "/exports", HttpPost.METHOD_NAME, "api/reports/exportReportArchiveReques.json", "api/reports/reportGenerationStatus.json"),
+                RequestMock.build(this.url + "/reports/archives" + archiveId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives" + archiveId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"));
     }
 
     private ReportSettingsTemplate createSettingsTemplate() {
@@ -100,7 +119,7 @@ public class ReportsApiTest extends TestClient {
         request.setSchema(schema);
         ResponseObject<ReportStatus> reportStatusResponseObject = this.getReportsApi().generateReport(projectId, request);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
-        assertEquals(new Date(119,Calendar.SEPTEMBER,23,11,26,54), reportStatusResponseObject.getData().getCreatedAt());
+        assertEquals(new Date(119, Calendar.SEPTEMBER, 23, 11, 26, 54), reportStatusResponseObject.getData().getCreatedAt());
     }
 
     @Test
@@ -156,5 +175,53 @@ public class ReportsApiTest extends TestClient {
     @Test
     public void deleteReportSettingsTemplateTest() {
         this.getReportsApi().deleteReportSettingsTemplate(projectId, reportSettingsTemplateId);
+    }
+
+    @Test
+    public void getListReportArchivesTest() {
+        ResponseList<ReportArchive> responseObject = this.getReportsApi().getListReportArchives(userId, null, null, null, null);
+        assertEquals(responseObject.getData().size(), 1);
+        assertEquals(responseObject.getData().get(0).getData().getId(), archiveId);
+        assertEquals(responseObject.getData().get(0).getData().getScopeType(), scopeType);
+        assertEquals(responseObject.getData().get(0).getData().getScopeId(), scopeId);
+        assertEquals(responseObject.getData().get(0).getData().getName(), archiveName);
+        assertEquals(responseObject.getData().get(0).getData().getWebUrl(), webUrl);
+    }
+
+    @Test
+    public void getReportArchivesTest() {
+        ResponseObject<ReportArchive> reportArchive = this.getReportsApi().getReportArchive(userId, archiveId);
+        assertEquals(reportArchive.getData().getWebUrl(), webUrl);
+    }
+
+    @Test
+    public void deleteReportArchivesTest() {
+        try {
+            this.getReportsApi().deleteReportArchive(userId, archiveId);
+            // If no exception is thrown, the delete operation is successful
+        } catch (HttpBadRequestException e) {
+            fail("Unexpected exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void exportReportArchiveTest() {
+        ExportReportRequest request = new ExportReportRequest();
+        request.setFormat(ReportsFormat.from("xlsx"));
+
+        ResponseObject<GroupReportStatus> exportReportArchive = this.getReportsApi().exportReportArchive(userId, archiveId, request);
+        assertEquals(exportReportArchive.getData().getAttributes().getFormat(), ReportsFormat.XLSX);
+    }
+
+    @Test
+    public void checkReportArchiveExportStatusTest() {
+        ResponseObject<GroupReportStatus> reportStatusResponseObject = this.getReportsApi().chechReportArchiveExportStatus(archiveId, exportId);
+        assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
+    }
+
+    @Test
+    public void downloadReportArchiveTest() {
+        ResponseObject<DownloadLink> downloadLinkResponseObject = this.getReportsApi().downloadReportArchive(userId, archiveId, exportId);
+        assertEquals(downloadLinkResponseObject.getData().getUrl(), link);
     }
 }
