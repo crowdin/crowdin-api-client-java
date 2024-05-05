@@ -37,7 +37,7 @@ public class FileFormatSettingsDeserializerTest {
     }
 
     @Test
-    void deserialize_ValidJson_ReturnsFileFormatSettingsResource() throws IOException {
+    void deserialize_ValidJson_ReturnsFileFormatSettingsResource() {
         // List of all formats in swich case
         List<String> formats = new ArrayList<>(Arrays.asList(
                 "properties", "xml", "webxml", "html", "adoc",
@@ -76,9 +76,7 @@ public class FileFormatSettingsDeserializerTest {
         DeserializationContext deserializationContext = objectMapper.getDeserializationContext();
 
         // Assertions
-        assertThrows(NullPointerException.class, () ->{
-            deserializer.deserialize(jsonParser, deserializationContext);
-        });
+        assertThrows(NullPointerException.class, () -> deserializer.deserialize(jsonParser, deserializationContext));
     }
 
     public static String replaceFormat(String json, String newFormat) throws IOException {
