@@ -228,18 +228,18 @@ public class ReportsApi extends CrowdinApi {
      * @return list of report settings template
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.reports.archives.getMany" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.settings-templates.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<ReportArchive> listReportArchives(Long userId, String scopeType, Long scopeId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        String url = getUserPrefixedUrl(userId);
+        String url = getReportArchivesPath(userId, "reports/archives/");
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "scopeType", Optional.ofNullable(scopeType),
                 "scopeId", Optional.ofNullable(scopeId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        ReportArchiveList responseObject = this.httpClient.get(url + "/reports/archives/", new HttpRequestConfig(queryParams), ReportArchiveList.class);
+        ReportArchiveList responseObject = this.httpClient.get(url, new HttpRequestConfig(queryParams), ReportArchiveList.class);
         return ReportArchiveList.to(responseObject);
     }
 
@@ -253,8 +253,8 @@ public class ReportsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<ReportArchive> getReportArchive(Long userId, Long archiveId) throws HttpException, HttpBadRequestException {
-        String url = getUserPrefixedUrl(userId);
-        ReportArchiveResponseObject reportArchiveResponseObject = this.httpClient.get(url + "/reports/archives/" + archiveId, new HttpRequestConfig(), ReportArchiveResponseObject.class);
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId);
+        ReportArchiveResponseObject reportArchiveResponseObject = this.httpClient.get(url, new HttpRequestConfig(), ReportArchiveResponseObject.class);
         return ResponseObject.of(reportArchiveResponseObject.getData());
     }
 
@@ -267,8 +267,8 @@ public class ReportsApi extends CrowdinApi {
      * </ul>
      */
     public void deleteReportArchive(Long userId, Long archiveId) throws HttpException, HttpBadRequestException {
-        String url = getUserPrefixedUrl(userId);
-        this.httpClient.delete(url + "/reports/archives/" + archiveId, new HttpRequestConfig(), Void.class);
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
     }
 
     /**
@@ -282,8 +282,8 @@ public class ReportsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<GroupReportStatus> exportReportArchive(Long userId, Long archiveId, ExportReportRequest request) throws HttpException, HttpBadRequestException {
-        String url = getUserPrefixedUrl(userId);
-        GroupReportStatusResponseObject responseObject = this.httpClient.post(url + "/reports/archives/" + archiveId + "/exports", request, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId + "/exports");
+        GroupReportStatusResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
@@ -296,8 +296,9 @@ public class ReportsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<GroupReportStatus> checkReportArchiveExportStatus(Long archiveId, String exportId) throws HttpException, HttpBadRequestException {
-        GroupReportStatusResponseObject responseObject = this.httpClient.get(this.url + "/reports/archives" + archiveId + "/exports/" + exportId, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+    public ResponseObject<GroupReportStatus> checkReportArchiveExportStatus(Long userId, Long archiveId, String exportId) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId + "/exports/" + exportId);
+        GroupReportStatusResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
@@ -312,17 +313,19 @@ public class ReportsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<DownloadLink> downloadReportArchive(Long userId, Long archiveId, String exportId) throws HttpException, HttpBadRequestException {
-        String url = getUserPrefixedUrl(userId);
-        DownloadLinkResponseObject responseObject = this.httpClient.get(url + "/reports/archives" + archiveId + "/exports/" + exportId + "/download", new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        String url = getReportArchivesPath(userId, "reports/archives" + archiveId + "/exports/" + exportId + "/download");
+        DownloadLinkResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 
     /**
      * Build an url with or without userId prefix
-     * @param userId user identifier
+     *
+     * @param userId user identifier (for crowdin.com only)
+     * @param path   sub-path of the url
      * @return url with userId prefix if exist
      */
-    private String getUserPrefixedUrl(Long userId) {
-        return userId != null ? this.url + "/users/" + userId : this.url;
+    private String getReportArchivesPath(Long userId, String path) {
+        return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
     }
 }

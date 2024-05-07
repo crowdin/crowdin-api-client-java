@@ -59,7 +59,7 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId, HttpGet.METHOD_NAME, "api/reports/reportArchive.json"),
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId + "/exports", HttpPost.METHOD_NAME, "api/reports/exportReportArchiveReques.json", "api/reports/reportGenerationStatus.json"),
-                RequestMock.build(this.url + "/reports/archives" + archiveId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives" + archiveId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"));
     }
 
@@ -215,7 +215,7 @@ public class ReportsApiTest extends TestClient {
 
     @Test
     public void checkReportArchiveExportStatusTest() {
-        ResponseObject<GroupReportStatus> reportStatusResponseObject = this.getReportsApi().checkReportArchiveExportStatus(archiveId, exportId);
+        ResponseObject<GroupReportStatus> reportStatusResponseObject = this.getReportsApi().checkReportArchiveExportStatus(userId, archiveId, exportId);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
     }
 
