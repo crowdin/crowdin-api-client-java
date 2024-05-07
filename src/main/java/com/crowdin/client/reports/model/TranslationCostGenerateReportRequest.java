@@ -19,7 +19,7 @@ public class TranslationCostGenerateReportRequest extends GenerateReportRequest 
 
         private Unit unit;
         private Currency currency;
-        private GroupBy groupBy;
+        private GroupingParameter groupBy;
         private String languageId;
         private ReportsFormat format;
         private List<StepType> stepTypes;
@@ -81,20 +81,6 @@ public class TranslationCostGenerateReportRequest extends GenerateReportRequest 
 
         @Override
         public String to(Mode v) {
-            return v.name().toLowerCase();
-        }
-    }
-
-    public enum GroupBy implements EnumConverter<GroupBy> {
-
-        USER, LANGUAGE;
-
-        public static GroupBy from(String value) {
-            return GroupBy.valueOf(value.toUpperCase());
-        }
-
-        @Override
-        public String to(GroupBy v) {
             return v.name().toLowerCase();
         }
     }
