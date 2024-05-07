@@ -18,11 +18,16 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -39,19 +44,16 @@ public class ApacheHttpClientTest {
 
     private ApacheHttpClient httpClient;
 
-    private final String json = "{\n" +
-            "  \"id\": 123456789,\n" +
-            "  \"title\": \"Example Label\",\n" +
-            "  \"isSystem\": {\n" +
-            "    \"value\": true\n" +
-            "  }\n" +
-            "}\n";
+    private String jsonResponse;
+    private String errorResponse;
 
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         String organization = "testOrganization";
         String token = "testToken";
+        String resourceDir = "api/core/clientResponse.json";
+        String errorResponseDir = "api/core/errorResponse.json";
 
         Credentials credentials = new Credentials(token, organization);
         JsonTransformer jsonTransformer = new JacksonJsonTransformer();
@@ -63,6 +65,20 @@ public class ApacheHttpClientTest {
 
         // Create an instance of ApacheHttpClient
         httpClient = new ApacheHttpClient(credentials, jsonTransformer, defaultHeaders, client);
+
+        jsonResponse = getFile(resourceDir);
+        errorResponse = getFile(errorResponseDir);
+    }
+
+    private String getFile(String resourcePath) throws IOException {
+        try (InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (responseInputStream != null) {
+                return jsonResponse = new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+            } else {
+                throw new IOException("File not found: " + resourcePath);
+            }
+
+        }
     }
 
     @Test
@@ -70,14 +86,14 @@ public class ApacheHttpClientTest {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity(json));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a GET request and check the response
         try {
             String response = httpClient.get(organizationUrl, new HttpRequestConfig(), String.class);
             // Assert that the response is not null
             Assertions.assertNotNull(response);
-            assertEquals(response, json);
+            assertEquals(response, jsonResponse);
         } catch (HttpException | HttpBadRequestException e) {
             e.printStackTrace();
             Assertions.fail("HTTP request failed: " + e.getMessage());
@@ -92,21 +108,7 @@ public class ApacheHttpClientTest {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, "FAIL"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity("{\n" +
-                "  \"errors\": [\n" +
-                "    {\n" +
-                "      \"error\": {\n" +
-                "        \"key\": \"400\",\n" +
-                "        \"errors\": [\n" +
-                "          {\n" +
-                "            \"code\": \"400\",\n" +
-                "            \"message\": \"Bad request exception!\"\n" +
-                "          }\n" +
-                "        ]\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}\n"));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(errorResponse));
 
 
         // Make a GET request and check the exception
@@ -142,13 +144,13 @@ public class ApacheHttpClientTest {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity(json));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response
         try {
             String response = httpClient.post(organizationUrl, requestData, new HttpRequestConfig(), String.class);
             assertNotNull(response);
-            assertEquals(response, json);
+            assertEquals(response, jsonResponse);
         } catch (HttpException | HttpBadRequestException e) {
             e.printStackTrace();
             Assertions.fail("HTTP request failed: " + e.getMessage());
@@ -160,17 +162,17 @@ public class ApacheHttpClientTest {
 
     @Test
     public void tesPostRequestWithInputStream() throws IOException {
-        InputStream requestData = new ByteArrayInputStream(json.getBytes(StandardCharsets.UTF_8));
+        InputStream requestData = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity(json));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POSt request and check the response
         try {
             String response = httpClient.post(organizationUrl, requestData, new HttpRequestConfig(), String.class);
             Assertions.assertNotNull(response);
-            assertEquals(response, json);
+            assertEquals(response, jsonResponse);
         } catch (HttpException | HttpBadRequestException e) {
             e.printStackTrace();
             Assertions.fail("HTTP request failed: " + e.getMessage());
@@ -185,13 +187,13 @@ public class ApacheHttpClientTest {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity(json));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response
         try {
-            String response = httpClient.post(organizationUrl, json, new HttpRequestConfig(), String.class);
+            String response = httpClient.post(organizationUrl, jsonResponse, new HttpRequestConfig(), String.class);
             Assertions.assertNotNull(response);
-            assertEquals(response, json);
+            assertEquals(response, jsonResponse);
         } catch (HttpException | HttpBadRequestException e) {
             e.printStackTrace();
             Assertions.fail("HTTP request failed: " + e.getMessage());
@@ -206,13 +208,13 @@ public class ApacheHttpClientTest {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
         when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
-        when(mockedResponse.getEntity()).thenReturn(new StringEntity(json));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response
         try {
             String response = httpClient.post(organizationUrl, null, new HttpRequestConfig(), String.class);
             Assertions.assertNotNull(response);
-            assertEquals(response, json);
+            assertEquals(response, jsonResponse);
         } catch (HttpException | HttpBadRequestException e) {
             e.printStackTrace();
             Assertions.fail("HTTP request failed: " + e.getMessage());

@@ -14,11 +14,11 @@ public class CrowdinApiConstructorTest extends Client {
         super(credentials);
     }
 
-    public HttpClient getHttpClient(){
+    public HttpClient getHttpClient() {
         return this.httpClient;
     }
 
-    public String geturl(){
+    public String geturl() {
         return this.url;
     }
 }
