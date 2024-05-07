@@ -179,7 +179,7 @@ public class ReportsApiTest extends TestClient {
 
     @Test
     public void getListReportArchivesTest() {
-        ResponseList<ReportArchive> responseObject = this.getReportsApi().getListReportArchives(userId, null, null, null, null);
+        ResponseList<ReportArchive> responseObject = this.getReportsApi().listReportArchives(userId, null, null, null, null);
         assertEquals(responseObject.getData().size(), 1);
         assertEquals(responseObject.getData().get(0).getData().getId(), archiveId);
         assertEquals(responseObject.getData().get(0).getData().getScopeType(), scopeType);
@@ -215,7 +215,7 @@ public class ReportsApiTest extends TestClient {
 
     @Test
     public void checkReportArchiveExportStatusTest() {
-        ResponseObject<GroupReportStatus> reportStatusResponseObject = this.getReportsApi().chechReportArchiveExportStatus(archiveId, exportId);
+        ResponseObject<GroupReportStatus> reportStatusResponseObject = this.getReportsApi().checkReportArchiveExportStatus(archiveId, exportId);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
     }
 
