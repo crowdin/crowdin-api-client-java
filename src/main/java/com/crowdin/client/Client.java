@@ -9,6 +9,7 @@ import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.dictionaries.DictionariesApi;
 import com.crowdin.client.distributions.DistributionsApi;
+import com.crowdin.client.fields.FieldsApi;
 import com.crowdin.client.glossaries.GlossariesApi;
 import com.crowdin.client.issues.IssuesApi;
 import com.crowdin.client.labels.LabelsApi;
@@ -61,6 +62,7 @@ public class Client extends CrowdinApi {
     private final OrganizationWebhooksApi organizationWebhooksApi;
     private final TeamsApi teamsApi;
     private final DistributionsApi distributionsApi;
+    private final FieldsApi fieldsApi;
     private final DictionariesApi dictionariesApi;
     private final LabelsApi labelsApi;
     private final StringCommentsApi stringCommentsApi;
@@ -95,6 +97,7 @@ public class Client extends CrowdinApi {
         this.organizationWebhooksApi = new OrganizationWebhooksApi(credentials);
         this.teamsApi = new TeamsApi(credentials);
         this.distributionsApi = new DistributionsApi(credentials);
+        this.fieldsApi = new FieldsApi(credentials);
         this.dictionariesApi = new DictionariesApi(credentials);
         this.labelsApi = new LabelsApi(credentials);
         this.stringCommentsApi = new StringCommentsApi(credentials);
@@ -130,6 +133,7 @@ public class Client extends CrowdinApi {
         this.organizationWebhooksApi = new OrganizationWebhooksApi(credentials, clientConfig);
         this.teamsApi = new TeamsApi(credentials, clientConfig);
         this.distributionsApi = new DistributionsApi(credentials, clientConfig);
+        this.fieldsApi = new FieldsApi(credentials, clientConfig);
         this.dictionariesApi = new DictionariesApi(credentials, clientConfig);
         this.labelsApi = new LabelsApi(credentials, clientConfig);
         this.stringCommentsApi = new StringCommentsApi(credentials, clientConfig);

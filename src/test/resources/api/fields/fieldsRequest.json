@@ -1,0 +1,22 @@
+{
+  "name": "Client company",
+  "slug": "client-company",
+  "type": "select",
+  "description": "Client company field is appointed to store infor about client company",
+  "entities": [
+    "task"
+  ],
+  "config": {
+    "options": [
+      {
+        "label": "string",
+        "value": "string"
+      }
+    ],
+    "locations": [
+      {
+        "place": "projectCreateModal"
+      }
+    ]
+  }
+}

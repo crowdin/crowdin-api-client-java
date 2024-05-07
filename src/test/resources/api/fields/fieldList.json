@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "name": "Custom field",
+        "slug": "custom-field",
+        "description": "Custom field description",
+        "type": "select",
+        "config": {},
+        "entities": [
+          "task"
+        ],
+        "createdAt": "2019-09-23T09:04:29+00:00",
+        "updatedAt": "2019-09-23T09:04:29+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25,
+    "total": 25
+  }
+}
