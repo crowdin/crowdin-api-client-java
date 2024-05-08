@@ -1,6 +1,6 @@
 {
-  "name": "Client company",
-  "slug": "client-company",
+  "name": "Custom field",
+  "slug": "custom-field",
   "type": "select",
   "description": "Client company field is appointed to store infor about client company",
   "entities": [
