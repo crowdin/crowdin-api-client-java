@@ -9,13 +9,13 @@
   "config": {
     "options": [
       {
-        "label": "string",
-        "value": "string"
+        "label": "Test field",
+        "value": "Test value"
       }
     ],
     "locations": [
       {
-        "place": "projectCreateModal"
+        "place": "Test place"
       }
     ]
   }

@@ -20,21 +20,4 @@ public class Field  {
     private Date createdAt;
     private Date updatedAt;
 
-    @Data
-    public static class Config {
-        private List<Option> regularRates;
-        private List<Location> individualRates;
-    }
-
-    @Data
-    public static class Option {
-        private String label;
-        private String value;
-    }
-
-    @Data
-    public static class Location {
-        private String regularRates;
-    }
-
 }
