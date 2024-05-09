@@ -6,49 +6,57 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CrowdinApiExceptionDeserializerTest {
 
+    private String error;
+    private String errorsResponse;
+    private String unrecognizedError;
+
+    @BeforeEach
+    void setUp() throws IOException {
+        String resourceDir = "api/core/error.json";
+        String errorResponseDir = "api/core/errorsResponse.json";
+        String unrecognizedErrorDir = "api/core/unrecognizedError.json";
+
+        error = getFile(resourceDir);
+        errorsResponse = getFile(errorResponseDir);
+        unrecognizedError = getFile(unrecognizedErrorDir);
+    }
+
+    private String getFile(String resourcePath) throws IOException {
+        try (InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (responseInputStream != null) {
+                return  new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+            } else {
+                throw new IOException("File not found: " + resourcePath);
+            }
+
+        }
+    }
     @Test
     void testDeserializeHttpBadRequestException() throws IOException {
-        String json = "{\n" +
-                "  \"errors\": [\n" +
-                "    {\n" +
-                "      \"error\": {\n" +
-                "        \"key\": \"400\",\n" +
-                "        \"errors\": [\n" +
-                "          {\n" +
-                "            \"code\": \"400\",\n" +
-                "            \"message\": \"Bad request exception!\"\n" +
-                "          }\n" +
-                "        ]\n" +
-                "      }\n" +
-                "    }\n" +
-                "  ]\n" +
-                "}\n"; // Example JSON for HttpBadRequestException
-        testDeserialize(json, HttpBadRequestException.class);
+        testDeserialize(errorsResponse, HttpBadRequestException.class);
     }
 
     @Test
     void testDeserializeHttpException() throws IOException {
-        String json = "{\n" +
-                "  \"error\": {\n" +
-                "    \"code\": \"400\",\n" +
-                "    \"message\": \"Http exception!\"\n" +
-                "  }\n" +
-                "}\n";
-        testDeserialize(json, HttpException.class);
+        testDeserialize(error, HttpException.class);
     }
 
     @Test
     void testDeserializeGenericHttpException() throws IOException {
-        String json = "{\"anyOtherField\": \"...\"}"; // Example JSON for HttpException
-        testDeserialize(json, HttpException.class);
+        testDeserialize(unrecognizedError, HttpException.class);
     }
 
     private void testDeserialize(String json, Class<? extends CrowdinApiException> expectedExceptionClass) throws IOException {

@@ -9,8 +9,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,27 +22,31 @@ public class FileFormatSettingsDeserializerTest {
     private ObjectMapper objectMapper;
     private FileFormatSettingsDeserializer deserializer;
 
-    private final String json = "{\n" +
-            "  \"id\": 123,\n" +
-            "  \"name\": \"Example Name\",\n" +
-            "  \"format\": \"properties\",\n" +
-            "  \"extensions\": [\"ext1\", \"ext2\"],\n" +
-            "  \"settings\": {\n" +
-            "    \"exportPattern\": \"pattern\"\n" +
-            "  },\n" +
-            "  \"createdAt\": \"2024-05-05T12:00:00Z\",\n" +
-            "  \"updatedAt\": \"2024-05-05T12:00:00Z\"\n" +
-            "}\n";
+    private String deserializeObjectExample;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         objectMapper = new ObjectMapper();
         deserializer = new FileFormatSettingsDeserializer(objectMapper);
+
+        String errorResponseDir = "api/core/deserializeObjectExample.json";
+
+        deserializeObjectExample = getFile(errorResponseDir);
+    }
+
+    private String getFile(String resourcePath) throws IOException {
+        try (InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (responseInputStream != null) {
+                return new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+            } else {
+                throw new IOException("File not found: " + resourcePath);
+            }
+        }
     }
 
     @Test
-    void deserialize_ValidJson_ReturnsFileFormatSettingsResource() {
-        // List of all formats in swich case
+    void deserializeValidJsonReturnsFileFormatSettingsResource() {
+        // List of all formats in switch case
         List<String> formats = new ArrayList<>(Arrays.asList(
                 "properties", "xml", "webxml", "html", "adoc",
                 "android", "md", "mdxV1", "mdxV2", "fmMd", "fmHtml", "madcapFlsnp", "docx", "idml", "mif", "dita",
@@ -48,7 +56,7 @@ public class FileFormatSettingsDeserializerTest {
 
         formats.forEach(f -> {
             try {
-                String newJson = replaceFormat(json, f);
+                String newJson = replaceFormat(deserializeObjectExample, f);
                 JsonParser jsonParser = objectMapper.getFactory().createParser(newJson);
                 DeserializationContext deserializationContext = objectMapper.getDeserializationContext();
                 FileFormatSettingsResource result = deserializer.deserialize(jsonParser, deserializationContext);
@@ -68,7 +76,7 @@ public class FileFormatSettingsDeserializerTest {
     }
 
     @Test
-    void deserialize_NullParentNode_ReturnsNull() {
+    void deserializeNullParentNodeReturnsNull() {
         // Prepare a JSON object with null parent node
         ObjectNode rootNode = objectMapper.createObjectNode();
         rootNode.putNull("format"); // Simulating null parent node

@@ -7,32 +7,41 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 public class EmptyArrayToNullDeserializerTest {
 
-    private final String json = "{\n" +
-            "  \"errors\": [\n" +
-            "    {\n" +
-            "      \"error\": {\n" +
-            "        \"key\": \"400\",\n" +
-            "        \"errors\": [\n" +
-            "          {\n" +
-            "            \"code\": \"400\",\n" +
-            "            \"message\": \"Bad request exception!\"\n" +
-            "          }\n" +
-            "        ]\n" +
-            "      }\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}\n";
+    private String errorsResponse;
+
+
+    @BeforeEach
+    void setUp() throws IOException {
+        String errorResponseDir = "api/core/errorsResponse.json";
+
+        errorsResponse = getFile(errorResponseDir);
+    }
+
+    private String getFile(String resourcePath) throws IOException {
+        try (InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
+            if (responseInputStream != null) {
+                return new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+            } else {
+                throw new IOException("File not found: " + resourcePath);
+            }
+        }
+    }
 
     @Test
     public void testDeserialize() throws IOException {
@@ -42,7 +51,7 @@ public class EmptyArrayToNullDeserializerTest {
         DeserializationContext deserializationContext = Mockito.mock(DeserializationContext.class);
 
         // Setting up behavior of mocked objects
-        when(jsonFactory.createParser(json)).thenReturn(jsonParser);
+        when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
         when(jsonParser.getCurrentToken()).thenReturn(JsonToken.VALUE_NULL);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
@@ -73,7 +82,7 @@ public class EmptyArrayToNullDeserializerTest {
 
 
         // Setting up behavior of mocked objects
-        when(jsonFactory.createParser(json)).thenReturn(jsonParser);
+        when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
         when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
@@ -105,7 +114,7 @@ public class EmptyArrayToNullDeserializerTest {
 
 
         // Setting up behavior of mocked objects
-        when(jsonFactory.createParser(json)).thenReturn(jsonParser);
+        when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
         when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
@@ -128,7 +137,7 @@ public class EmptyArrayToNullDeserializerTest {
 
 
         // Setting up behavior of mocked objects
-        when(jsonFactory.createParser(json)).thenReturn(jsonParser);
+        when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
         when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 

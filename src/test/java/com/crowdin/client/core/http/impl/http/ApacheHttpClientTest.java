@@ -53,7 +53,7 @@ public class ApacheHttpClientTest {
         String organization = "testOrganization";
         String token = "testToken";
         String resourceDir = "api/core/clientResponse.json";
-        String errorResponseDir = "api/core/errorResponse.json";
+        String errorResponseDir = "api/core/errorsResponse.json";
 
         Credentials credentials = new Credentials(token, organization);
         JsonTransformer jsonTransformer = new JacksonJsonTransformer();
@@ -73,7 +73,7 @@ public class ApacheHttpClientTest {
     private String getFile(String resourcePath) throws IOException {
         try (InputStream responseInputStream = this.getClass().getClassLoader().getResourceAsStream(resourcePath)) {
             if (responseInputStream != null) {
-                return jsonResponse = new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
+                return new BufferedReader(new InputStreamReader(responseInputStream)).lines().collect(Collectors.joining("\n"));
             } else {
                 throw new IOException("File not found: " + resourcePath);
             }
