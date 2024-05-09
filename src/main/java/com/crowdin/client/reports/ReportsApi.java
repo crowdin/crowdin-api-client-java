@@ -35,7 +35,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param groupId group identifier
+     * @param groupId  group identifier
      * @param reportId report identifier
      * @return group report status
      * @see <ul>
@@ -49,7 +49,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param groupId group identifier
+     * @param groupId  group identifier
      * @param reportId report identifier
      * @return report download link
      * @see <ul>
@@ -103,7 +103,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request request object
+     * @param request   request object
      * @return report status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.post" target="_blank"><b>API Documentation</b></a></li>
@@ -117,7 +117,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param reportId report identifier
+     * @param reportId  report identifier
      * @return report status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.get" target="_blank"><b>API Documentation</b></a></li>
@@ -131,7 +131,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param reportId report identifier
+     * @param reportId  report identifier
      * @return download link
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.download.download" target="_blank"><b>API Documentation</b></a></li>
@@ -145,8 +145,8 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param limit maximum number of items to retrieve (default 25)
-     * @param offset starting offset in the collection (default 0)
+     * @param limit     maximum number of items to retrieve (default 25)
+     * @param offset    starting offset in the collection (default 0)
      * @return list of report settings template
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.getMany" target="_blank"><b>API Documentation</b></a></li>
@@ -164,7 +164,7 @@ public class ReportsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param request request object
+     * @param request   request object
      * @return report settings template
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.post" target="_blank"><b>API Documentation</b></a></li>
@@ -177,7 +177,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId project identifier
+     * @param projectId                project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @return report settings template
      * @see <ul>
@@ -191,9 +191,9 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId project identifier
+     * @param projectId                project identifier
      * @param reportSettingsTemplateId report settings template identifier
-     * @param request request object
+     * @param request                  request object
      * @return report settings template
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.reports.settings-templates.patch" target="_blank"><b>API Documentation</b></a></li>
@@ -206,7 +206,7 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
-     * @param projectId project identifier
+     * @param projectId                project identifier
      * @param reportSettingsTemplateId report settings template identifier
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.settings-templates.delete" target="_blank"><b>API Documentation</b></a></li>
@@ -215,5 +215,117 @@ public class ReportsApi extends CrowdinApi {
      */
     public void deleteReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);
+    }
+
+    // -- REPORT ARCHIVES -- //
+
+    /**
+     * @param userId    user identifier
+     * @param scopeType Filter only project report archives (scopeType=project)
+     * @param scopeId   Filter archives by spicific scope id (default 25)
+     * @param limit     maximum number of items to retrieve (default 25)
+     * @param offset    starting offset in the collection (default 0)
+     * @return list of report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.reports.archives.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ReportArchive> listReportArchives(Long userId, String scopeType, Long scopeId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/");
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "scopeType", Optional.ofNullable(scopeType),
+                "scopeId", Optional.ofNullable(scopeId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        ReportArchiveList responseObject = this.httpClient.get(url, new HttpRequestConfig(queryParams), ReportArchiveList.class);
+        return ReportArchiveList.to(responseObject);
+    }
+
+    /**
+     * @param userId    user identifier
+     * @param archiveId archive identifier
+     * @return download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ReportArchive> getReportArchive(Long userId, Long archiveId) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId);
+        ReportArchiveResponseObject reportArchiveResponseObject = this.httpClient.get(url, new HttpRequestConfig(), ReportArchiveResponseObject.class);
+        return ResponseObject.of(reportArchiveResponseObject.getData());
+    }
+
+    /**
+     * @param userId    user identifier
+     * @param archiveId archive identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteReportArchive(Long userId, Long archiveId) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId    user identifier
+     * @param archiveId archive identifier
+     * @param request   request object
+     * @return report settings template
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.reports.archives.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> exportReportArchive(Long userId, Long archiveId, ExportReportRequest request) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId + "/exports");
+        GroupReportStatusResponseObject responseObject = this.httpClient.post(url, request, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param archiveId archive identifier
+     * @param exportId  export identifier
+     * @return export report status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.get" target="_blank"><b> API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupReportStatus> checkReportArchiveExportStatus(Long userId, Long archiveId, String exportId) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives/" + archiveId + "/exports/" + exportId);
+        GroupReportStatusResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), GroupReportStatusResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param userId    user identifier
+     * @param archiveId archive identifier
+     * @param exportId  export identifier
+     * @return report archive download link
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.reports.archives.exports.download.get" target="_blank"><b> API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.reports.archives.exports.download.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadReportArchive(Long userId, Long archiveId, String exportId) throws HttpException, HttpBadRequestException {
+        String url = getReportArchivesPath(userId, "reports/archives" + archiveId + "/exports/" + exportId + "/download");
+        DownloadLinkResponseObject responseObject = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * Build an url with or without userId prefix
+     *
+     * @param userId user identifier (for crowdin.com only)
+     * @param path   sub-path of the url
+     * @return url with userId prefix if exist
+     */
+    private String getReportArchivesPath(Long userId, String path) {
+        return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
     }
 }
