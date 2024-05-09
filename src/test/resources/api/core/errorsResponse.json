@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "error": {
+        "key": 400,
+        "errors": [
+          {
+            "code": 400,
+            "message": "Bad request exception!"
+          }
+        ]
+      }
+    }
+  ]
+}

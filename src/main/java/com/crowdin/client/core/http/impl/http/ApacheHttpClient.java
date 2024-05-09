@@ -49,14 +49,11 @@ public class ApacheHttpClient implements HttpClient {
 
     private final CloseableHttpClient httpClient;
 
-    public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders) {
+    public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders, CloseableHttpClient httpClient) {
         this.credentials = credentials;
         this.jsonTransformer = jsonTransformer;
         this.defaultHeaders = defaultHeaders;
-        this.httpClient = HttpClientBuilder
-            .create()
-            .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
-            .build();
+        this.httpClient = httpClient;
     }
 
     public ApacheHttpClient(Credentials credentials, JsonTransformer jsonTransformer, Map<String, ?> defaultHeaders, ClientConfig.Host proxy, ClientConfig.UsernamePasswordCredentials proxyCreds, Integer timeoutMs) {

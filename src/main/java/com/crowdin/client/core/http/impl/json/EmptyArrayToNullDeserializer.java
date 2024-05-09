@@ -1,6 +1,5 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.*;
@@ -23,7 +22,7 @@ public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implem
     }
 
     @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JacksonException {
+    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
         if (p.getCurrentToken() == JsonToken.VALUE_NULL) {
             return null;
         }
@@ -43,11 +42,11 @@ public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implem
     }
 
     private static boolean isCollectionType(Class<?> type) {
-        return type.isArray() && Collection.class.isAssignableFrom(type);
+        return type.isArray() || Collection.class.isAssignableFrom(type);
     }
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) throws JsonMappingException {
+    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
         return new EmptyArrayToNullDeserializer(property.getType());
     }
 }
