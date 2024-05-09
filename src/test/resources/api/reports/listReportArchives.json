@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "scopeType": "project",
+        "scopeId": 1,
+        "userId": 1,
+        "name": "my archive report",
+        "webUrl": "https://crowdin.com/project/project-identifier/reports/archive/1",
+        "scheme": {},
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
