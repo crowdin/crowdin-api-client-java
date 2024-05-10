@@ -18,6 +18,9 @@ com.crowdin.client.dictionaries
 com.crowdin.client.dictionaries.model
 com.crowdin.client.distributions
 com.crowdin.client.distributions.model
+com.crowdin.client.fields
+com.crowdin.client.fields.model
+com.crowdin.client.fields.model.enums
 com.crowdin.client.glossaries
 com.crowdin.client.glossaries.model
 com.crowdin.client.issues
