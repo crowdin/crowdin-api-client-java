@@ -1,0 +1,19 @@
+{
+  "name": "OpenAI",
+  "type": "open_ai",
+  "credentials": {
+    "apiKey": "string"
+  },
+  "config": {
+    "actionRules": [
+      {
+        "action": "pre_translate",
+        "availableAiModelIds": [
+          "gpt-3.5-turbo-instruct"
+        ]
+      }
+    ]
+  },
+  "isEnabled": true,
+  "useSystemCredentials": false
+}

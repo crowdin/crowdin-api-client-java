@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "name": "Pre-translate prompt",
+        "action": "pre_translate",
+        "aiProviderId": 2,
+        "aiModelId": "gpt-3.5-turbo-instruct",
+        "isEnabled": true,
+        "enabledProjectIds": [
+          1
+        ],
+        "config": {
+          "mode": "basic",
+          "companyDescription": "string",
+          "projectDescription": "string",
+          "audienceDescription": "string",
+          "otherLanguageTranslations": {
+            "isEnabled": true,
+            "languageIds": [
+              "uk"
+            ]
+          },
+          "glossaryTerms": true,
+          "tmSuggestions": true,
+          "fileContent": true,
+          "fileContext": true,
+          "publicProjectDescription": true
+        },
+        "createdAt": "2019-09-20T11:11:05+00:00",
+        "updatedAt": "2019-09-20T12:22:20+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
