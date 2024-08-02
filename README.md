@@ -7,6 +7,7 @@
 </p>
 
 # Crowdin Java client
+https://gateway-arbitrum.network.thegraph.com/api/{api-key}/subgraphs/id/GJfRcmN4YAzKW3VH2ZKzTcWXjgtvkpAYSwFh1LfHsEuh
 
 The Crowdin Java client is a lightweight interface to the Crowdin API that works in any Java environment. It provides common services for making API requests.
 
