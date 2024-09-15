@@ -46,4 +46,6 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private Boolean glossaryAccess;
     private NotificationSettings notificationSettings;
     private TmPenalties tmPenalties;
+    private Integer defaultTmId;
+    private Integer defaultGlossaryId;
 }
