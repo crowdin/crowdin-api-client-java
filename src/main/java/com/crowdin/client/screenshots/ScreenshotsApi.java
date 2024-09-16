@@ -44,9 +44,35 @@ public class ScreenshotsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
+    @Deprecated
     public ResponseList<Screenshot> listScreenshots(Long projectId, Long stringId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.ofNullable(stringId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        ScreenshotResponseList screenshotResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots", new HttpRequestConfig(queryParams), ScreenshotResponseList.class);
+        return ScreenshotResponseList.to(screenshotResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stringIds string identifiers
+     * @param labelIds label identifiers
+     * @param excludeLabelIds exclude label identifiers
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Screenshot> listScreenshots(Long projectId, List<String> stringIds, List<String> labelIds, List<String> excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "stringIds", Optional.ofNullable(stringIds),
+                "labelIds", Optional.ofNullable(labelIds),
+                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
