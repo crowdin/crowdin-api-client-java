@@ -44,9 +44,12 @@ public class ScreenshotsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Screenshot> listScreenshots(Long projectId, Long stringId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<Screenshot> listScreenshots(Long projectId,@Deprecated Long stringId ,List<String> stringIds,List<String> labelIds,List<String> excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.ofNullable(stringId),
+                "stringIds", Optional.ofNullable(stringIds),
+                "labelIds", Optional.ofNullable(labelIds),
+                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
