@@ -33,7 +33,5 @@ public class Project {
     private Language sourceLanguage;
     private List<Language> targetLanguages;
     private String webUrl;
-    private Integer defaultTmId;
-    private Integer defaultGlossaryId;
 
 }
