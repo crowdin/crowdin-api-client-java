@@ -1,5 +1,6 @@
 package com.crowdin.client.sourcestrings;
 
+import com.crowdin.client.core.http.exceptions.HttpBatchBadRequestException;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;

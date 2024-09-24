@@ -2,6 +2,7 @@ package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
+import com.crowdin.client.core.http.exceptions.HttpBatchBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -21,16 +22,19 @@ public class CrowdinApiExceptionDeserializerTest {
 
     private String error;
     private String errorsResponse;
+    private String batchErrorsResponse;
     private String unrecognizedError;
 
     @BeforeEach
     void setUp() throws IOException {
         String resourceDir = "api/core/error.json";
         String errorResponseDir = "api/core/errorsResponse.json";
+        String batchErrorsResponseDir = "api/core/batchErrorsResponse.json";
         String unrecognizedErrorDir = "api/core/unrecognizedError.json";
 
         error = getFile(resourceDir);
         errorsResponse = getFile(errorResponseDir);
+        batchErrorsResponse = getFile(batchErrorsResponseDir);
         unrecognizedError = getFile(unrecognizedErrorDir);
     }
 
@@ -47,6 +51,10 @@ public class CrowdinApiExceptionDeserializerTest {
     @Test
     void testDeserializeHttpBadRequestException() throws IOException {
         testDeserialize(errorsResponse, HttpBadRequestException.class);
+    }
+    @Test
+    void testDeserializeHttpBatchBadRequestException() throws IOException {
+        testDeserialize(batchErrorsResponse, HttpBatchBadRequestException.class);
     }
 
     @Test

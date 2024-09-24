@@ -1,0 +1,28 @@
+[
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "text": "new added string",
+      "identifier": "a.b.c",
+      "context": "context for new string",
+      "fileId": 5,
+      "isHidden": false
+    }
+  },
+  {
+    "op": "remove",
+    "path": "/2815"
+  },
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "text": "new added string",
+      "identifier": "a.b.c",
+      "context": "context for new string",
+      "fileId": 5,
+      "isHidden": false
+    }
+  }
+]

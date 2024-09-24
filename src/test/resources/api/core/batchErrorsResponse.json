@@ -1,0 +1,36 @@
+{
+  "errors": [
+    {
+      "index": 0,
+      "errors": [
+        {
+          "error": {
+            "key": "identifier",
+            "errors": [
+              {
+                "code": "notUnique",
+                "message": "Invalid identifier given. Identifier must be unique"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "errors": [
+        {
+          "error": {
+            "key": "identifier",
+            "errors": [
+              {
+                "code": "notUnique",
+                "message": "Invalid identifier given. Identifier must be unique"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
