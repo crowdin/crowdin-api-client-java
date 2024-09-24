@@ -9,7 +9,7 @@ import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HttpBatchBadRequestException extends CrowdinApiException{
+public class HttpBatchBadRequestException extends CrowdinApiException {
     private final List<BatchErrors> errors;
 
     public HttpBatchBadRequestException() {
