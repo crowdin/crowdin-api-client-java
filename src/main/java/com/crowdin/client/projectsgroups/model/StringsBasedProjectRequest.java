@@ -39,4 +39,6 @@ public class StringsBasedProjectRequest extends AddProjectRequest {
     private TmPenalties tmPenalties;
     private Boolean normalizePlaceholder;
     private TmContextType tmContextType;
+    private Integer defaultTmId;
+    private Integer defaultGlossaryId;
 }

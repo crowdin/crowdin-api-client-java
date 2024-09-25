@@ -42,5 +42,7 @@ public class FilesBasedProjectRequest extends AddProjectRequest {
     private Boolean glossaryAccess;
     private TmPenalties tmPenalties;
     private TmContextType tmContextType;
+    private Integer defaultTmId;
+    private Integer defaultGlossaryId;
 
 }
