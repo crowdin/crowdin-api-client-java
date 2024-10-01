@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,6 +37,7 @@ public class WebhooksApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpGet.METHOD_NAME, "api/webhooks/listWebhooks.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpPost.METHOD_NAME, "api/webhooks/addWebhookRequest.json", "api/webhooks/webhook.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpPost.METHOD_NAME, "api/webhooks/addWebhookRequestRawEvent.json", "api/webhooks/webhookRawEvent.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpGet.METHOD_NAME, "api/webhooks/webhook.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpPatch.METHOD_NAME, "api/webhooks/editWebhook.json", "api/webhooks/webhook.json")
@@ -63,6 +66,23 @@ public class WebhooksApiTest extends TestClient {
         ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().addWebhook(projectId, request);
         assertEquals(webhookResponseObject.getData().getId(), webhookId);
         assertEquals(webhookResponseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void addWebhookRawEventTest() {
+        AddWebhookRequest request = new AddWebhookRequest();
+        List<Event> events = Stream.of("stringComment.created").map(Event::from).collect(Collectors.toList());
+        request.setName(name);
+        request.setUrl("test.com");
+        request.setEvents(events);
+        request.setRequestType(RequestType.POST);
+        request.setIsActive(true);
+        request.setBatchingEnabled(batchingEnabled);
+        request.setContentType(ContentType.MULTIPART_FORM_DATA);
+        ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().addWebhook(projectId, request);
+        assertEquals(webhookResponseObject.getData().getId(), webhookId);
+        assertEquals(webhookResponseObject.getData().getName(), name);
+        assertEquals(events, webhookResponseObject.getData().getEvents());
     }
 
     @Test

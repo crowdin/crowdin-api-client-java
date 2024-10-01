@@ -1,0 +1,11 @@
+{
+  "name": "Proofread",
+  "url": "test.com",
+  "events": [
+    "stringComment.created"
+  ],
+  "requestType": "POST",
+  "isActive": true,
+  "batchingEnabled": false,
+  "contentType": "multipart/form-data"
+}
