@@ -3,5 +3,7 @@
   "branchId": 667,
   "labelIds": [
     1
-  ]
+  ],
+  "updateStrings": true,
+  "updateOption": "keep_translations"
 }
