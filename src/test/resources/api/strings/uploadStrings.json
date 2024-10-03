@@ -21,7 +21,8 @@
           "de": 3
         }
       },
-      "updateStrings": false,
+      "updateStrings": true,
+      "updateOption": "keep_translations",
       "cleanupMode": false
     },
     "createdAt": "2019-09-23T11:26:54+00:00",

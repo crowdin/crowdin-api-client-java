@@ -7,6 +7,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.sourcefiles.model.UpdateOption;
 import com.crowdin.client.sourcestrings.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SourceStringsApiTest extends TestClient {
 
@@ -65,10 +67,17 @@ public class SourceStringsApiTest extends TestClient {
         request.setBranchId(branchId);
         request.setStorageId(storageId);
         request.setLabelIds(singletonList(labelId));
+        request.setUpdateStrings(true);
+        request.setUpdateOption(UpdateOption.KEEP_TRANSLATIONS);
         ResponseObject<UploadStringsProgress> uploadStringsProgressResponseObject = this.getSourceStringsApi().uploadStrings(projectId, request);
         assertEquals(uploadStringsProgressResponseObject.getData().getIdentifier(), uploadId);
         assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getBranchId(), branchId);
         assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getLabelIds().get(0), labelId);
+        assertTrue(uploadStringsProgressResponseObject.getData().getAttributes().getUpdateStrings());
+        assertEquals(
+            UpdateOption.KEEP_TRANSLATIONS,
+            uploadStringsProgressResponseObject.getData().getAttributes().getUpdateOption()
+        );
     }
 
     @Test
