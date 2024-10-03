@@ -1,0 +1,11 @@
+{
+  "name": "pre-translate-efficiency",
+  "schema": {
+    "unit": "strings",
+    "format": "xlsx",
+    "postEditingCategories": [
+      "0-10"
+    ],
+    "languageId": "ach"
+  }
+}

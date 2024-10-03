@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class ReportsApiTest extends TestClient {
     private final String id = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String link = "test.com";
     private final TimeZone tz = TimeZone.getTimeZone("GMT");
+    private final Calendar calendar = GregorianCalendar.getInstance(tz);
 
     // -- REPORT ARCHIVE --//
 
@@ -48,6 +50,7 @@ public class ReportsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generateReport.json", "api/reports/reportGenerationStatus.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generatePreTranslateEfficiencyReport.json", "api/reports/preTranslateEfficiencyReportStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
@@ -94,9 +97,16 @@ public class ReportsApiTest extends TestClient {
         return template;
     }
 
+    private Date getDate(int year, int month, int date, int hour, int minute, int second) {
+        calendar.set(year, month, date, hour, minute, second);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     @Test
     public void generateReportTest() {
         TimeZone.setDefault(tz);
+        Date reportCreatedAt = getDate(2019, Calendar.SEPTEMBER, 23, 11, 26, 54);
         CostEstimateGenerateReportRequest request = new CostEstimateGenerateReportRequest();
         request.setName("costs-estimation");
         CostEstimateGenerateReportRequest.Schema schema = new CostEstimateGenerateReportRequest.Schema();
@@ -119,7 +129,29 @@ public class ReportsApiTest extends TestClient {
         request.setSchema(schema);
         ResponseObject<ReportStatus> reportStatusResponseObject = this.getReportsApi().generateReport(projectId, request);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
-        assertEquals(new Date(119, Calendar.SEPTEMBER, 23, 11, 26, 54), reportStatusResponseObject.getData().getCreatedAt());
+        assertEquals(reportCreatedAt, reportStatusResponseObject.getData().getCreatedAt());
+    }
+
+    @Test
+    public void testGeneratePreTranslateEfficiencyReport() {
+        TimeZone.setDefault(tz);
+        Date reportCreatedAt = getDate(2019, Calendar.SEPTEMBER, 23, 11, 26, 54);
+
+        PreTranslateEfficiencyGenerateReportRequest request = new PreTranslateEfficiencyGenerateReportRequest();
+        PreTranslateEfficiencyGenerateReportRequest.GeneralSchema schema = new PreTranslateEfficiencyGenerateReportRequest.GeneralSchema();
+        schema.setUnit(Unit.STRINGS);
+        schema.setPostEditingCategories(singletonList("0-10"));
+        schema.setLanguageId("ach");
+        request.setSchema(schema);
+
+        ResponseObject<ReportStatus> response = this.getReportsApi().generateReport(projectId, request);
+        ReportStatus reportStatus = response.getData();
+        ReportStatus.Attributes attributes = reportStatus.getAttributes();
+
+        assertEquals(id, reportStatus.getIdentifier());
+        assertEquals(ReportsFormat.XLSX, attributes.getFormat());
+        assertEquals(request.getName(), attributes.getReportName());
+        assertEquals(reportCreatedAt, reportStatus.getCreatedAt());
     }
 
     @Test
