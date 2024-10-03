@@ -3,7 +3,6 @@ package com.crowdin.client.reports.model;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class ReportStatus {
@@ -23,6 +22,5 @@ public class ReportStatus {
         private ReportsFormat format;
         private String reportName;
         private Object schema;
-        private List<Long> projectIds;
     }
 }
