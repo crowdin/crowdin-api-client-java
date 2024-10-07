@@ -18,6 +18,8 @@ import com.crowdin.client.tasks.model.Progress;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
 import com.crowdin.client.tasks.model.Type;
+import com.crowdin.client.tasks.model.pending.CreateEnterprisePendingTaskRequest;
+import com.crowdin.client.tasks.model.pending.CreatePendingTaskRequest;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -40,6 +42,7 @@ public class TasksApiTest extends TestClient {
     private final Long projectId = 12L;
     private final Long enterpriseProjectId = 13L;
     private final Long taskId = 2L;
+    private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
     private final String link = "test.com";
 
@@ -49,8 +52,10 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/CrowdinTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addStringsBasedTaskRequest.json", "api/tasks/stringsBasedTask.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/pendingTaskRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/EnterpriseTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterpriseStringsBasedTask.json", "api/tasks/enterpriseTask.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterprisePendingTask.json", "api/tasks/enterpriseTask.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpGet.METHOD_NAME, "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/exports", HttpPost.METHOD_NAME, "api/tasks/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
@@ -177,6 +182,56 @@ public class TasksApiTest extends TestClient {
         assertEquals(status, taskResponseObject.getData().getStatus());
         assertEquals(fields, taskResponseObject.getData().getFields());
     }
+
+    @Test
+    public void addPendingTaskTest() {
+        CreatePendingTaskRequest request = new CreatePendingTaskRequest();
+        Assignee expectedAssignee = new Assignee();
+        expectedAssignee.setId(1L);
+        expectedAssignee.setWordsCount(5);
+        AssigneeRequest assigneeRequest = new AssigneeRequest();
+        assigneeRequest.setId(expectedAssignee.getId());
+        assigneeRequest.setWordsCount(expectedAssignee.getWordsCount());
+        request.setPrecedingTaskId(1L);
+        request.setType(Type.PROOFREAD);
+        request.setTitle("French");
+        request.setDescription("Proofread all French strings");
+        request.setAssignees(singletonList(assigneeRequest));
+
+        Task taskResponse = this.getTasksApi().addTask(projectId, request).getData();
+
+        assertEquals(prevTaskId, taskResponse.getPrecedingTaskId());
+        assertEquals(Type.PROOFREAD, taskResponse.getType());
+        assertEquals(expectedAssignee.getId(), taskResponse.getAssignees().get(0).getId());
+        assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignees().get(0).getWordsCount());
+    }
+
+    @Test
+    public void addEnterprisePendingTaskTest() {
+        CreateEnterprisePendingTaskRequest request = new CreateEnterprisePendingTaskRequest();
+        Assignee expectedAssignee = new Assignee();
+        expectedAssignee.setId(1L);
+        expectedAssignee.setWordsCount(5);
+        AssigneeRequest assigneeRequest = new AssigneeRequest();
+        assigneeRequest.setId(expectedAssignee.getId());
+        assigneeRequest.setWordsCount(expectedAssignee.getWordsCount());
+        request.setPrecedingTaskId(prevTaskId);
+        request.setType(Type.PROOFREAD);
+        request.setTitle("French");
+        request.setDescription("Proofread all French strings");
+        request.setAssignees(singletonList(assigneeRequest));
+        request.setAssignedTeams(singletonList(assigneeRequest));
+
+        Task taskResponse = this.getTasksApi().addTask(enterpriseProjectId, request).getData();
+
+        assertEquals(prevTaskId, taskResponse.getPrecedingTaskId());
+        assertEquals(Type.PROOFREAD, taskResponse.getType());
+        assertEquals(expectedAssignee.getId(), taskResponse.getAssignees().get(0).getId());
+        assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignees().get(0).getWordsCount());
+        assertEquals(expectedAssignee.getId(), taskResponse.getAssignedTeams().get(0).getId());
+        assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignedTeams().get(0).getWordsCount());
+    }
+
     @Test
     public void exportTaskStringsTest() {
         ResponseObject<DownloadLink> downloadLinkResponseObject = this.getTasksApi().exportTaskStrings(projectId, taskId);

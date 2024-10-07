@@ -42,4 +42,5 @@ public class Task {
     private Language sourceLanguage;
     private List<Language> targetLanguages;
     private Map<String, Object> fields;
+    private Long precedingTaskId;
 }
