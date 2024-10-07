@@ -1,34 +1,45 @@
 {
-  "name": "costs-estimation",
+  "name": "costs-estimation-pe",
   "schema": {
-    "unit": "words",
+    "unit": "strings",
     "currency": "USD",
-    "languageId": "ach",
     "format": "xlsx",
-    "stepTypes": [
+    "baseRates": {
+      "fullTranslation": 0.1,
+      "proofread": 0.12
+    },
+    "individualRates": [
       {
-        "type": "Translate",
-        "mode": "simple",
-        "regularRates": [
-          {
-            "mode": "tm_match",
-            "value": 0.1
-          }
+        "languageIds": [
+          "uk"
         ],
-        "individualRates": [
-          {
-            "languageIdsTo": [
-              "uk"
-            ],
-            "rates": [
-              {
-                "mode": "tm_match",
-                "value": 0.1
-              }
-            ]
-          }
-        ]
+        "fullTranslation": 0.1,
+        "proofread": 0.12
       }
-    ]
+    ],
+    "netRateSchemes": {
+      "tmMatch": [
+        {
+          "matchType": "perfect",
+          "price": 0.1
+        }
+      ]
+    },
+    "calculateInternalMatches": false,
+    "includePreTranslatedStrings": false,
+    "languageId": "ach",
+    "fileIds": [
+      138
+    ],
+    "directoryIds": [
+      11
+    ],
+    "branchIds": [
+      18
+    ],
+    "labelIds": [
+      13
+    ],
+    "labelIncludeType": "strings_with_label"
   }
 }

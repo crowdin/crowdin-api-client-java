@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Date;
@@ -27,11 +28,21 @@ public class ReportsApiTest extends TestClient {
 
     private final Long projectId = 1L;
     private final Long reportSettingsTemplateId = 2L;
+    private final String languageId = "ach";
+    private final String engLanguageId = "uk";
+    private final String postEditingCategory = "0-10";
+    private final float fullTranslationRate = 0.1F;
+    private final float proofreadRate = 0.12F;
+    private final long fileId = 138L;
+    private final long directoryId = 11L;
+    private final long branchId = 18L;
+    private final long labelId = 13L;
 
     private final String name = "my report template";
     private final String id = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String link = "test.com";
     private final TimeZone tz = TimeZone.getTimeZone("GMT");
+    private final Calendar calendar = GregorianCalendar.getInstance(tz);
 
     // -- REPORT ARCHIVE --//
 
@@ -48,6 +59,7 @@ public class ReportsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generateReport.json", "api/reports/reportGenerationStatus.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generatePreTranslateEfficiencyReport.json", "api/reports/preTranslateEfficiencyReportStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
@@ -94,32 +106,70 @@ public class ReportsApiTest extends TestClient {
         return template;
     }
 
+    private Date getDate(int year, int month, int date, int hour, int minute, int second) {
+        calendar.set(year, month, date, hour, minute, second);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
     @Test
     public void generateReportTest() {
         TimeZone.setDefault(tz);
-        CostEstimateGenerateReportRequest request = new CostEstimateGenerateReportRequest();
-        request.setName("costs-estimation");
-        CostEstimateGenerateReportRequest.Schema schema = new CostEstimateGenerateReportRequest.Schema();
-        schema.setUnit(Unit.WORDS);
+        Date reportCreatedAt = getDate(2019, Calendar.SEPTEMBER, 23, 11, 26, 54);
+        CostEstimationPostEditingGenerateReportRequest request = new CostEstimationPostEditingGenerateReportRequest();
+        CostEstimationPostEditingGenerateReportRequest.GeneralSchema schema = new CostEstimationPostEditingGenerateReportRequest.GeneralSchema();
+        schema.setUnit(Unit.STRINGS);
         schema.setCurrency(Currency.USD);
-        schema.setLanguageId("ach");
+        schema.setLanguageId(languageId);
         schema.setFormat(ReportsFormat.XLSX);
-        CostEstimateGenerateReportRequest.TranslateStep translateStep = new CostEstimateGenerateReportRequest.TranslateStep();
-        translateStep.setMode("simple");
-        translateStep.setType("Translate");
-        CostEstimateGenerateReportRequest.TranslateRegularRate regularRate = new CostEstimateGenerateReportRequest.TranslateRegularRate();
-        regularRate.setMode(CostEstimateGenerateReportRequest.Mode.TM_MATCH);
-        regularRate.setValue(0.1);
-        translateStep.setRegularRates(Collections.singletonList(regularRate));
-        CostEstimateGenerateReportRequest.TranslateIndividualRate individualRate = new CostEstimateGenerateReportRequest.TranslateIndividualRate();
-        individualRate.setLanguageIdsTo(Collections.singletonList("uk"));
-        individualRate.setRates(Collections.singletonList(regularRate));
-        translateStep.setIndividualRates(Collections.singletonList(individualRate));
-        schema.setStepTypes(Collections.singletonList(translateStep));
+        BaseRatesForm baseRates = new BaseRatesForm();
+        baseRates.setFullTranslation(fullTranslationRate);
+        baseRates.setProofread(proofreadRate);
+        CostEstimationPostEditingGenerateReportRequest.IndividualRate individualRate = new CostEstimationPostEditingGenerateReportRequest.IndividualRate();
+        individualRate.setLanguageIds(singletonList(engLanguageId));
+        individualRate.setFullTranslation(fullTranslationRate);
+        individualRate.setProofread(proofreadRate);
+        CostEstimationPostEditingGenerateReportRequest.NetRateSchemes netRateSchemes = new CostEstimationPostEditingGenerateReportRequest.NetRateSchemes();
+        Match match = new Match();
+        match.setMatchType(MatchType.PERFECT);
+        match.setPrice(fullTranslationRate);
+        netRateSchemes.setTmMatch(singletonList(match));
+        schema.setBaseRates(baseRates);
+        schema.setIndividualRates(singletonList(individualRate));
+        schema.setNetRateSchemes(netRateSchemes);
+        schema.setCalculateInternalMatches(false);
+        schema.setIncludePreTranslatedStrings(false);
+        schema.setFileIds(singletonList(fileId));
+        schema.setDirectoryIds(singletonList(directoryId));
+        schema.setBranchIds(singletonList(branchId));
+        schema.setLabelIds(singletonList(labelId));
+        schema.setLabelIncludeType(LabelIncludeType.STRINGS_WITH_LABEL);
         request.setSchema(schema);
         ResponseObject<ReportStatus> reportStatusResponseObject = this.getReportsApi().generateReport(projectId, request);
         assertEquals(reportStatusResponseObject.getData().getIdentifier(), id);
-        assertEquals(new Date(119, Calendar.SEPTEMBER, 23, 11, 26, 54), reportStatusResponseObject.getData().getCreatedAt());
+        assertEquals(reportCreatedAt, reportStatusResponseObject.getData().getCreatedAt());
+    }
+
+    @Test
+    public void testGeneratePreTranslateEfficiencyReport() {
+        TimeZone.setDefault(tz);
+        Date reportCreatedAt = getDate(2019, Calendar.SEPTEMBER, 23, 11, 26, 54);
+
+        PreTranslateEfficiencyGenerateReportRequest request = new PreTranslateEfficiencyGenerateReportRequest();
+        PreTranslateEfficiencyGenerateReportRequest.GeneralSchema schema = new PreTranslateEfficiencyGenerateReportRequest.GeneralSchema();
+        schema.setUnit(Unit.STRINGS);
+        schema.setPostEditingCategories(singletonList(postEditingCategory));
+        schema.setLanguageId(languageId);
+        request.setSchema(schema);
+
+        ResponseObject<ReportStatus> response = this.getReportsApi().generateReport(projectId, request);
+        ReportStatus reportStatus = response.getData();
+        ReportStatus.Attributes attributes = reportStatus.getAttributes();
+
+        assertEquals(id, reportStatus.getIdentifier());
+        assertEquals(ReportsFormat.XLSX, attributes.getFormat());
+        assertEquals(request.getName(), attributes.getReportName());
+        assertEquals(reportCreatedAt, reportStatus.getCreatedAt());
     }
 
     @Test
