@@ -16,6 +16,8 @@ import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationReq
 import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
 import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
 import com.crowdin.client.translations.model.ExportProjectTranslationRequest;
+import com.crowdin.client.translations.model.PreTranslation;
+import com.crowdin.client.translations.model.PreTranslationResponseList;
 import com.crowdin.client.translations.model.PreTranslationStatus;
 import com.crowdin.client.translations.model.PreTranslationStatusResponseObject;
 import com.crowdin.client.translations.model.ProjectBuild;
@@ -241,5 +243,25 @@ public class TranslationsApi extends CrowdinApi {
         String builtUrl = String.format("%s/projects/%d/translations/exports", this.url, projectId);
         DownloadLinkResponseObject response = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * List Pre-Translations
+     *
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<PreTranslation> listPreTranslations(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        PreTranslationResponseList preTranslationStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
+        return PreTranslationResponseList.to(preTranslationStatusResponseObject);
     }
 }
