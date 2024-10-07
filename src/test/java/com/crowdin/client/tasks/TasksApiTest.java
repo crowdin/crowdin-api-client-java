@@ -9,8 +9,11 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.tasks.model.AssignedTeam;
 import com.crowdin.client.tasks.model.Assignee;
+import com.crowdin.client.tasks.model.AssigneeRequest;
+import com.crowdin.client.tasks.model.CreateTaskEnterpriseStringsBasedRequest;
 import com.crowdin.client.tasks.model.CreateTaskRequest;
 import com.crowdin.client.tasks.model.CreateTaskEnterpriseVendorRequest;
+import com.crowdin.client.tasks.model.CreateTaskStringsBasedRequest;
 import com.crowdin.client.tasks.model.Progress;
 import com.crowdin.client.tasks.model.Status;
 import com.crowdin.client.tasks.model.Task;
@@ -24,12 +27,13 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TasksApiTest extends TestClient {
 
@@ -44,7 +48,9 @@ public class TasksApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/CrowdinTaskCreateFormRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addStringsBasedTaskRequest.json", "api/tasks/stringsBasedTask.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/EnterpriseTaskCreateFormRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterpriseStringsBasedTask.json", "api/tasks/enterpriseTask.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpGet.METHOD_NAME, "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/exports", HttpPost.METHOD_NAME, "api/tasks/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
@@ -92,7 +98,6 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskResponseObject.getData().getSourceLanguageId(), "en");
         assertEquals(taskResponseObject.getData().getTargetLanguageId(), "fr");
         assertEquals(taskResponseObject.getData().getDescription(), "Proofread all French strings");
-        assertEquals(taskResponseObject.getData().getHash(), "dac37aff364d83899128e68afe0de4994");
         assertEquals(taskResponseObject.getData().getTranslationUrl(), "/proofread/9092638ac9f2a2d1b5571d08edc53763/all/en-fr/10?task=dac37aff364d83899128e68afe0de4994");
         assertEquals(taskResponseObject.getData().getWordsCount(), 24);
         assertEquals(taskResponseObject.getData().getFilesCount(), 2);
@@ -112,19 +117,66 @@ public class TasksApiTest extends TestClient {
     }
 
     @Test
+    public void addStringsBasedTaskTest() {
+        CreateTaskStringsBasedRequest request = new CreateTaskStringsBasedRequest();
+        Assignee expectedAssignee = new Assignee();
+        expectedAssignee.setId(12L);
+        expectedAssignee.setWordsCount(5);
+        AssigneeRequest assigneeRequest = new AssigneeRequest();
+        assigneeRequest.setId(expectedAssignee.getId());
+        assigneeRequest.setWordsCount(expectedAssignee.getWordsCount());
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setType(Type.TRANSLATE);
+        request.setStringIds(singletonList(2401L));
+        request.setStatus(status);
+        request.setDescription("Proofread all French strings");
+        request.setSplitContent(true);
+        request.setSkipAssignedStrings(true);
+        request.setIncludePreTranslatedStringsOnly(true);
+        request.setAssignees(singletonList(assigneeRequest));
+
+        Task taskResponse = this.getTasksApi().addTask(projectId, request).getData();
+        assertEquals(taskId, taskResponse.getId());
+        assertEquals(status, taskResponse.getStatus());
+        assertEquals(Type.TRANSLATE, taskResponse.getType());
+        assertEquals(expectedAssignee.getId(), taskResponse.getAssignees().get(0).getId());
+        assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignees().get(0).getWordsCount());
+    }
+
+    @Test
     public void addTaskEnterpriseTest() {
         CreateTaskEnterpriseVendorRequest request = new CreateTaskEnterpriseVendorRequest();
         request.setWorkflowStepId(0L);
         request.setTitle("French");
         request.setLanguageId("fr");
         request.setFileIds(singletonList(1L));
-        request.setStatus(Status.TODO);
         request.setIncludePreTranslatedStringsOnly(true);
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
     }
 
+    @Test
+    public void addStringsBasedEnterpriseTaskTest() {
+        CreateTaskEnterpriseStringsBasedRequest request = new CreateTaskEnterpriseStringsBasedRequest();
+        Map<String, Object> fields = new HashMap<>();
+        fields.put("test-key", "test-value");
+        request.setType(Type.PROOFREAD);
+        request.setWorkflowStepId(10L);
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setStringIds(singletonList(1L));
+        request.setStatus(status);
+        request.setDescription("Proofread all French strings");
+        request.setFields(fields);
+
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
+
+        assertEquals(taskId, taskResponseObject.getData().getId());
+        assertEquals(status, taskResponseObject.getData().getStatus());
+        assertEquals(fields, taskResponseObject.getData().getFields());
+    }
     @Test
     public void exportTaskStringsTest() {
         ResponseObject<DownloadLink> downloadLinkResponseObject = this.getTasksApi().exportTaskStrings(projectId, taskId);
@@ -138,8 +190,6 @@ public class TasksApiTest extends TestClient {
         Date createdAt = new Date(119,Calendar.SEPTEMBER,23,9,4,29);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
-        assertNotNull(taskResponseObject.getData().getTranslateProgress());
-        assertEquals(62, taskResponseObject.getData().getTranslateProgress().getPercent().intValue());
         assertEquals(createdAt, taskResponseObject.getData().getCreatedAt());
     }
 

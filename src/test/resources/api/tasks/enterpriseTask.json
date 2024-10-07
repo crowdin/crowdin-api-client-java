@@ -1,0 +1,111 @@
+{
+  "data": {
+    "id": 2,
+    "projectId": 13,
+    "creatorId": 6,
+    "type": 1,
+    "status": "todo",
+    "title": "French",
+    "assignees": [
+      {
+        "id": 1,
+        "username": "john_smith",
+        "fullName": "John Smith",
+        "avatarUrl": "",
+        "wordsCount": 5,
+        "wordsLeft": 3
+      }
+    ],
+    "assignedTeams": [
+      {
+        "id": 1,
+        "wordsCount": 5
+      }
+    ],
+    "progress": {
+      "total": 24,
+      "done": 15,
+      "percent": 62
+    },
+    "translateProgress": {
+      "total": 24,
+      "done": 15,
+      "percent": 62
+    },
+    "sourceLanguageId": "en",
+    "targetLanguageId": "fr",
+    "description": "Proofread all French strings",
+    "translationUrl": "/proofread/9092638ac9f2a2d1b5571d08edc53763/all/en-fr/10?task=dac37aff364d83899128e68afe0de4994",
+    "webUrl": "https://crowdin.com/project/example-project/tasks/1",
+    "wordsCount": 24,
+    "commentsCount": 0,
+    "deadline": "2019-09-27T07:00:14+00:00",
+    "startedAt": "2019-09-27T07:00:14+00:00",
+    "resolvedAt": "2019-09-27T07:00:14+00:00",
+    "timeRange": "2019-08-23T09:04:29+00:00|2019-07-23T09:04:29+00:00",
+    "workflowStepId": 10,
+    "buyUrl": "https://www.paypal.com/cgi-bin/webscr?cmd=...",
+    "createdAt": "2019-09-23T09:04:29+00:00",
+    "updatedAt": "2019-09-23T09:04:29+00:00",
+    "sourceLanguage": {
+      "id": "es",
+      "name": "Spanish",
+      "editorCode": "es",
+      "twoLettersCode": "es",
+      "threeLettersCode": "spa",
+      "locale": "es-ES",
+      "androidCode": "es-rES",
+      "osxCode": "es.lproj",
+      "osxLocale": "es",
+      "pluralCategoryNames": [
+        "one"
+      ],
+      "pluralRules": "(n != 1)",
+      "pluralExamples": [
+        "0, 2-999; 1.2, 2.07..."
+      ],
+      "textDirection": "ltr",
+      "dialectOf": "es"
+    },
+    "targetLanguages": [
+      {
+        "id": "es",
+        "name": "Spanish",
+        "editorCode": "es",
+        "twoLettersCode": "es",
+        "threeLettersCode": "spa",
+        "locale": "es-ES",
+        "androidCode": "es-rES",
+        "osxCode": "es.lproj",
+        "osxLocale": "es",
+        "pluralCategoryNames": [
+          "one"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+          "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": "es"
+      }
+    ],
+    "labelIds": [
+      13,
+      27
+    ],
+    "excludeLabelIds": [
+      5,
+      8
+    ],
+    "precedingTaskId": 1,
+    "filesCount": 3,
+    "fileIds": [
+      24,
+      25,
+      38
+    ],
+    "fields": {
+      "test-key": "test-value"
+    }
+  }
+}

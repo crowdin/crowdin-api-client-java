@@ -1,0 +1,19 @@
+{
+  "title": "French",
+  "languageId": "fr",
+  "type": 0,
+  "stringIds": [
+    2401
+  ],
+  "status": "todo",
+  "description": "Proofread all French strings",
+  "splitContent": true,
+  "skipAssignedStrings": true,
+  "includePreTranslatedStringsOnly": true,
+  "assignees": [
+    {
+      "id": 12,
+      "wordsCount": 5
+    }
+  ]
+}

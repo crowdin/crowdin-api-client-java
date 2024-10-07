@@ -7,10 +7,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CreateTaskVendorOhtStringsBasedRequest extends AddTaskStringsBasedRequest {
 
-    private Type type;
+    private TypeVendor type;
     private String vendor;
     private String expertise;
-    private Boolean skipUntranslatedStrings;
+    private Boolean editService;
     private Boolean includePreTranslatedStringsOnly;
-    private Boolean includeUntranslatedStringsOnly;
 }

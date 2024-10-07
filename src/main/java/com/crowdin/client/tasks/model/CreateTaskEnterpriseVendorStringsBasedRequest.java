@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateTaskEnterpriseVendorStringsBasedRequest extends AddTaskStringsBasedRequest {
+public class CreateTaskEnterpriseVendorStringsBasedRequest extends AddEnterpriseTaskStringsBasedRequest {
 
     private Long workflowStepId;
     private Boolean skipAssignedStrings;

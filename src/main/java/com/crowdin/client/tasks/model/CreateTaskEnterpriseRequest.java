@@ -8,10 +8,11 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateTaskEnterpriseRequest extends AddTaskRequest {
+public class CreateTaskEnterpriseRequest extends AddEnterpriseTaskFilesBasedRequest {
 
     private Type type;
     private Long workflowStepId;
+    private Status status;
     private Boolean splitContent;
     private Boolean skipAssignedStrings;
     private List<AssigneeRequest> assignees;
@@ -19,5 +20,5 @@ public class CreateTaskEnterpriseRequest extends AddTaskRequest {
     private Boolean includePreTranslatedStringsOnly;
     private Date deadline;
     private Date startedAt;
-
+    private Date dateFrom;
 }
