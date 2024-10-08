@@ -1,0 +1,14 @@
+{
+  "type": 1,
+  "workflowStepId": 10,
+  "title": "French",
+  "languageId": "fr",
+  "stringIds": [
+    1
+  ],
+  "status": "todo",
+  "description": "Proofread all French strings",
+  "fields": {
+    "test-key": "test-value"
+  }
+}

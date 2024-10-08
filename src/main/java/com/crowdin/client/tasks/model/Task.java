@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Task {
@@ -19,13 +20,16 @@ public class Task {
     private List<Assignee> assignees;
     private List<AssignedTeam> assignedTeams;
     private List<Long> fileIds;
+    private List<Long> labelIds;
+    private List<Long> excludeLabelIds;
     private Progress progress;
+    @Deprecated
     private TranslateProgress translateProgress;
     private String sourceLanguageId;
     private String targetLanguageId;
     private String description;
-    private String hash;
     private String translationUrl;
+    private String webUrl;
     private Integer wordsCount;
     private Integer filesCount;
     private Integer commentsCount;
@@ -39,5 +43,6 @@ public class Task {
     private Date updatedAt;
     private Language sourceLanguage;
     private List<Language> targetLanguages;
-    private List<Long> branchIds;
+    private Map<String, Object> fields;
+    private Long precedingTaskId;
 }

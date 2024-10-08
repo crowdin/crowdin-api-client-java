@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateTaskVendorGengoRequest extends AddTaskRequest {
+public class CreateTaskVendorGengoRequest extends AddTaskFilesBasedRequest {
 
     private TypeVendor type;
     private String vendor;

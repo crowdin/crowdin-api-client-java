@@ -5,11 +5,13 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateLanguageServiceTaskRequest extends AddTaskRequest {
+public class CreateLanguageServiceTaskRequest extends AddTaskFilesBasedRequest {
 
-    private Type type;
+    private TypeVendor type;
     private String vendor;
+    @Deprecated
     private Boolean skipUntranslatedStrings;
     private Boolean includePreTranslatedStringsOnly;
+    @Deprecated
     private Boolean includeUntranslatedStringsOnly;
 }

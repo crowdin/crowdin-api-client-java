@@ -5,13 +5,13 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public abstract class AddTaskStringsBasedRequest extends AddTaskRequest {
+public abstract class AddEnterpriseTaskStringsBasedRequest extends AddTaskRequest {
     private String languageId;
     private List<Long> stringIds;
-    private Status status;
-    private Date dateFrom;
     private Date dateTo;
+    private Map<String, Object> fields;
 }

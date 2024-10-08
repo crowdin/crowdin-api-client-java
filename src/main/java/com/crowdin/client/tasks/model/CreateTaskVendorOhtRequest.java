@@ -5,12 +5,15 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateTaskVendorOhtRequest extends AddTaskRequest {
+public class CreateTaskVendorOhtRequest extends AddTaskFilesBasedRequest {
 
-    private Type type;
+    private TypeVendor type;
     private String vendor;
     private String expertise;
+    @Deprecated
     private Boolean skipUntranslatedStrings;
+    private Boolean editService;
     private Boolean includePreTranslatedStringsOnly;
+    @Deprecated
     private Boolean includeUntranslatedStringsOnly;
 }

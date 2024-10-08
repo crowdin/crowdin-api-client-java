@@ -7,9 +7,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class CreateLanguageServiceTaskStringsBasedRequest extends AddTaskStringsBasedRequest {
 
-    private Type type;
+    private TypeVendor type;
     private String vendor;
+    @Deprecated
     private Boolean skipUntranslatedStrings;
     private Boolean includePreTranslatedStringsOnly;
+    @Deprecated
     private Boolean includeUntranslatedStringsOnly;
 }

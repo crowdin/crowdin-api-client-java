@@ -1,0 +1,12 @@
+{
+  "precedingTaskId": 1,
+  "type": 1,
+  "title": "French",
+  "description": "Proofread all French strings",
+  "assignees": [
+    {
+      "id": 1,
+      "wordsCount": 5
+    }
+  ]
+}

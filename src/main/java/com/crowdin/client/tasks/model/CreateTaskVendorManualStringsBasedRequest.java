@@ -13,6 +13,7 @@ public class CreateTaskVendorManualStringsBasedRequest extends AddTaskStringsBas
     private TypeVendor type;
     private String vendor;
     private Boolean skipAssignedStrings;
+    @Deprecated
     private Boolean skipUntranslatedStrings;
     private Boolean includePreTranslatedStringsOnly;
     private List<AssigneeRequest> assignees;
