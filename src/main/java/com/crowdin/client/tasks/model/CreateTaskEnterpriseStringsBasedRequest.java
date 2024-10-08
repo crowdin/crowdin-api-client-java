@@ -13,6 +13,8 @@ public class CreateTaskEnterpriseStringsBasedRequest extends AddEnterpriseTaskSt
     private Type type;
     private Long workflowStepId;
     private Status status;
+    @Deprecated
+    private Boolean splitFiles;
     private Boolean splitContent;
     private Boolean skipAssignedStrings;
     private List<AssigneeRequest> assignees;

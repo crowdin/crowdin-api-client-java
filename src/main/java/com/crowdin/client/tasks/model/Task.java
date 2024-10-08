@@ -23,6 +23,8 @@ public class Task {
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
     private Progress progress;
+    @Deprecated
+    private TranslateProgress translateProgress;
     private String sourceLanguageId;
     private String targetLanguageId;
     private String description;

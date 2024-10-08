@@ -10,6 +10,10 @@ public class CreateTaskVendorOhtStringsBasedRequest extends AddTaskStringsBasedR
     private TypeVendor type;
     private String vendor;
     private String expertise;
+    @Deprecated
+    private Boolean skipUntranslatedStrings;
     private Boolean editService;
     private Boolean includePreTranslatedStringsOnly;
+    @Deprecated
+    private Boolean includeUntranslatedStringsOnly;
 }
