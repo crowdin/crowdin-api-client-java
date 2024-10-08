@@ -20,7 +20,7 @@ public class PreTranslation {
     @Data
     public static class Attributes {
         private List<String> languageIds;
-        private List<Integer> fileIds;
+        private List<Long> fileIds;
         private String method;
         private String autoApproveOption;
         private Boolean duplicateTranslations;

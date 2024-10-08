@@ -264,7 +264,7 @@ public class TranslationsApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        PreTranslationResponseList preTranslationStatusResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
+        PreTranslationResponseList preTranslationStatusResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
         return PreTranslationResponseList.to(preTranslationStatusResponseList);
     }
 
