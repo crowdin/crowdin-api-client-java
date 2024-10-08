@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "data": {
+        "identifier": "9e7de270-4f83-41cb-b606-2f90631f26e2",
+        "status": "finished",
+        "progress": 100,
+        "attributes": {
+          "method": "tm",
+          "fileIds": [
+            2
+          ],
+          "languageIds": [
+            "uk"
+          ],
+          "autoApproveOption": "none",
+          "fallbackLanguages": null,
+          "duplicateTranslations": false,
+          "skipApprovedTranslations": false,
+          "translateUntranslatedOnly": true,
+          "translateWithPerfectMatchOnly": false
+        },
+        "createdAt": "2024-01-01T01:00:00+00:00",
+        "updatedAt": "2024-01-01T01:01:00+00:00",
+        "startedAt": "2024-01-01T01:00:00+00:00",
+        "finishedAt": "2024-01-01T01:01:00+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 100
+  }
+}
