@@ -264,12 +264,12 @@ public class TranslationsApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        PreTranslationResponseList preTranslationStatusResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
-        return PreTranslationResponseList.to(preTranslationStatusResponseList);
+        PreTranslationResponseList preTranslationResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
+        return PreTranslationResponseList.to(preTranslationResponseList);
     }
 
     /**
-     * Edit Pre-Translations
+     * Edit Pre-Translation
      *
      * @param projectId project identifier
      * @param preTranslationId pre-translation identifier
@@ -279,12 +279,12 @@ public class TranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<PreTranslation> editPreTranslation(Long projectId, String preTranslationId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
-        PreTranslationResponseObject preTranslationStatusResponseObject = this.httpClient.patch(
+        PreTranslationResponseObject preTranslationResponseObject = this.httpClient.patch(
                 this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId,
                 request,
                 new HttpRequestConfig(),
                 PreTranslationResponseObject.class
         );
-        return ResponseObject.of(preTranslationStatusResponseObject.getData());
+        return ResponseObject.of(preTranslationResponseObject.getData());
     }
 }
