@@ -38,4 +38,21 @@ public class ClientsApi extends CrowdinApi {
         ClientResponseList vendorResponseList = this.httpClient.get(this.url + "/clients", new HttpRequestConfig(queryParams), ClientResponseList.class);
         return ClientResponseList.to(vendorResponseList);
     }
+
+    // New method to remove string approvals
+    public void removeStringApprovals(String projectId, String stringId) throws HttpException, HttpBadRequestException {
+        String url = String.format("%s/projects/%s/strings/%s/approvals/remove", this.url, projectId, stringId);
+        this.httpClient.post(url, null, Void.class); // Assuming no body is needed and the response is not used
+    }
+
+    // Updated method to delete string translations
+    public void deleteStringTranslations(String projectId, String stringId, String languageId) throws HttpException, HttpBadRequestException {
+        String url;
+        if (languageId != null) {
+            url = String.format("%s/projects/%s/strings/%s/translations/%s", this.url, projectId, stringId, languageId);
+        } else {
+            url = String.format("%s/projects/%s/strings/%s/translations", this.url, projectId, stringId);
+        }
+        this.httpClient.delete(url, null);
+    }
 }
