@@ -193,7 +193,7 @@ public class StringTranslationsApi extends CrowdinApi {
                 "stringId", Optional.ofNullable(stringId),
                 "languageId", Optional.ofNullable(languageId)
         );
-        this.httpClient.get(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
     }
 
     /**
@@ -218,8 +218,8 @@ public class StringTranslationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public void deleteStringTranslation(Long projectId, Long translationId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations/" + translationId, new HttpRequestConfig(), Void.class);
+    public void deleteStringTranslations(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
+        deleteStringTranslations(projectId, stringId, null);
     }
 
     /**

@@ -50,6 +50,11 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpGet.METHOD_NAME, "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/translations/alignment", this.url, projectId), HttpPost.METHOD_NAME, "api/stringtranslations/alignTranslationRequest.json", "api/stringtranslations/alignTranslationResponse.json")
+                RequestMock.build(String.format("%s/projects/%d/translations?stringId=%d", this.url, projectId, stringId), HttpDelete.METHOD_NAME),
+                RequestMock.build(String.format("%s/projects/%d/translations?stringId=%d&languageId=%s", this.url, projectId, stringId, language), HttpDelete.METHOD_NAME)
+                RequestMock.build(String.format("%s/projects/%d/approvals?stringId=%d", this.url, projectId, stringId), HttpDelete.METHOD_NAME),
+                RequestMock.build(String.format("%s/projects/%d/approvals", this.url, projectId), HttpGet.METHOD_NAME, "api/stringtranslations/listTranslationApprovals.json"),
+                RequestMock.build(String.format("%s/projects/%d/strings/%d", this.url, projectId, stringId), HttpGet.METHOD_NAME, "api/stringtranslations/getStringInfo.json")
         );
     }
 
@@ -89,6 +94,25 @@ public class StringTranslationsApiTest extends TestClient {
     @Test
     public void removeApprovalTest() {
         this.getStringTranslationsApi().removeApproval(projectId, approvalId);
+    }
+
+    @Test
+    public void removeStringApprovalsTest() {
+        StringTranslationsApi api = this.getStringTranslationsApi();
+
+        ResponseList<Approval> approvalsBefore = api.listTranslationApprovals(projectId, null, stringId, null, null, null, null, null, null);
+        assertFalse(approvalsBefore.getData().isEmpty(), "Approvals should exist before removal");
+
+        assertDoesNotThrow(() -> api.removeStringApprovals(projectId, stringId));
+
+        ResponseList<Approval> approvalsAfter = api.listTranslationApprovals(projectId, null, stringId, null, null, null, null, null, null);
+        assertTrue(approvalsAfter.getData().isEmpty(), "Approvals should be empty after removal");
+
+        ResponseObject<SourceString> sourceString = api.getStringInfo(projectId, stringId);
+        assertNotNull(sourceString.getData(), "String should still exist after approval removal");
+        assertEquals(stringId, sourceString.getData().getId(), "String ID should match");
+
+        assertDoesNotThrow(() -> api.removeStringApprovals(projectId, stringId), "Removing non-existent approvals should not throw an exception");
     }
 
     @Test
@@ -141,6 +165,12 @@ public class StringTranslationsApiTest extends TestClient {
     public void getTranslationTest() {
         ResponseObject<StringTranslation> stringTranslationResponseObject = this.getStringTranslationsApi().getStringTranslation(projectId, translationId);
         assertEquals(stringTranslationResponseObject.getData().getId(), translationId);
+    }
+
+    @Test
+    public void deleteStringTranslationsTest() {
+        this.getStringTranslationsApi().deleteStringTranslations(projectId, stringId);
+        this.getStringTranslationsApi().deleteStringTranslations(projectId, stringId, language);
     }
 
     @Test
