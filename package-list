@@ -53,6 +53,7 @@ com.crowdin.client.stringtranslations
 com.crowdin.client.stringtranslations.model
 com.crowdin.client.tasks
 com.crowdin.client.tasks.model
+com.crowdin.client.tasks.model.pending
 com.crowdin.client.teams
 com.crowdin.client.teams.model
 com.crowdin.client.translationmemory
