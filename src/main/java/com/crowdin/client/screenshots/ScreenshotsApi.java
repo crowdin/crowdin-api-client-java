@@ -9,16 +9,7 @@ import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.screenshots.model.AddScreenshotRequest;
-import com.crowdin.client.screenshots.model.AddTagRequest;
-import com.crowdin.client.screenshots.model.ReplaceTagsRequest;
-import com.crowdin.client.screenshots.model.Screenshot;
-import com.crowdin.client.screenshots.model.ScreenshotResponseList;
-import com.crowdin.client.screenshots.model.ScreenshotResponseObject;
-import com.crowdin.client.screenshots.model.Tag;
-import com.crowdin.client.screenshots.model.TagResponseList;
-import com.crowdin.client.screenshots.model.TagResponseObject;
-import com.crowdin.client.screenshots.model.UpdateScreenshotRequest;
+import com.crowdin.client.screenshots.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -46,13 +37,11 @@ public class ScreenshotsApi extends CrowdinApi {
      */
     @Deprecated
     public ResponseList<Screenshot> listScreenshots(Long projectId, Long stringId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        ScreenshotResponseList screenshotResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots", new HttpRequestConfig(queryParams), ScreenshotResponseList.class);
-        return ScreenshotResponseList.to(screenshotResponseList);
+        ListScreenshotsParams screenshotsParams = new ListScreenshotsParams();
+        screenshotsParams.setStringIds(Optional.ofNullable(stringId).map(Object::toString).orElse(null));
+        screenshotsParams.setLimit(limit);
+        screenshotsParams.setOffset(offset);
+        return this.listScreenshots(projectId, screenshotsParams);
     }
 
     /**
@@ -69,12 +58,34 @@ public class ScreenshotsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Screenshot> listScreenshots(Long projectId, List<String> stringIds, List<String> labelIds, List<String> excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListScreenshotsParams screenshotsParams = new ListScreenshotsParams();
+        screenshotsParams.setStringIds(Optional.ofNullable(stringIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setLabelIds(Optional.ofNullable(labelIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setExcludeLabelIds(Optional.ofNullable(excludeLabelIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setLimit(limit);
+        screenshotsParams.setOffset(offset);
+        return this.listScreenshots(projectId, screenshotsParams);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param params query params
+     * @return list of screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Screenshot> listScreenshots(Long projectId, ListScreenshotsParams params) throws HttpException, HttpBadRequestException {
+        ListScreenshotsParams query = Optional.ofNullable(params).orElse(new ListScreenshotsParams());
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringIds", Optional.ofNullable(stringIds),
-                "labelIds", Optional.ofNullable(labelIds),
-                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "search", Optional.ofNullable(query.getSearch()),
+                "orderBy", Optional.ofNullable(query.getOrderBy()),
+                "stringIds", Optional.ofNullable(query.getStringIds()),
+                "labelIds", Optional.ofNullable(query.getLabelIds()),
+                "excludeLabelIds", Optional.ofNullable(query.getExcludeLabelIds()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         ScreenshotResponseList screenshotResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/screenshots", new HttpRequestConfig(queryParams), ScreenshotResponseList.class);
         return ScreenshotResponseList.to(screenshotResponseList);
