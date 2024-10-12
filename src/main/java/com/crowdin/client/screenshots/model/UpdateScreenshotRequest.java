@@ -7,4 +7,5 @@ public class UpdateScreenshotRequest {
 
     private Long storageId;
     private String name;
+    private Boolean usePreviousTags;
 }

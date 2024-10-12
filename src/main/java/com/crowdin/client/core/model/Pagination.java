@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Pagination {
-    private int offset;
-    private int limit;
+    private Integer offset;
+    private Integer limit;
 }
