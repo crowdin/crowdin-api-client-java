@@ -32,7 +32,6 @@ public class AiApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<AiSetting> getAiSetting(Long userId) throws HttpException, HttpBadRequestException {
-        System.out.println("url: " + this.url + "/users/" + userId + "/ai/settings");
         AiSettingResponseobject aiSettingResponseobject = this.httpClient.get(
                 this.url + "/users/" + userId + "/ai/settings",
                 new HttpRequestConfig(),

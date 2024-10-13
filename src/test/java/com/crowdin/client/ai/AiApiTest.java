@@ -30,7 +30,6 @@ public class AiApiTest extends TestClient {
 
     @Test
     public void getAiSettingTest() {
-        System.out.println("test-url: " + settingsApi);
         ResponseObject<AiSetting> aiSettingResponseObject = this.getAiApi().getAiSetting(userId);
         AiSetting aiSetting = aiSettingResponseObject.getData();
         assertNotNull(aiSetting);
