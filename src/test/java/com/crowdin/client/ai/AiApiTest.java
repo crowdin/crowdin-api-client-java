@@ -10,6 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class AiApiTest extends TestClient {
 
     @Override
     public List<RequestMock> getMocks() {
-        return List.of(RequestMock.build(settingsApi, HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
+        return Arrays.asList(RequestMock.build(settingsApi, HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
                 RequestMock.build(this.url + "/users/" + userId + "/ai/settings", HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json",
                         "api/ai/getAiSettingResponse.json"));
     }
