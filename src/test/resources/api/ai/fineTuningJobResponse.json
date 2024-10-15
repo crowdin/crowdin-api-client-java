@@ -1,0 +1,55 @@
+{
+  "data": {
+    "identifier": "50fb3506-4127-4ba8-8296-f97dc7e3e0c3",
+    "status": "finished",
+    "progress": 100,
+    "attributes": {
+      "dryRun": true,
+      "aiPromptId": 0,
+      "hyperparameters": {
+        "batchSize": 0,
+        "learningRateMultiplier": 0,
+        "nEpochs": 0
+      },
+      "trainingOptions": {
+        "projectIds": [
+          0
+        ],
+        "tmIds": [
+          0
+        ],
+        "dateFrom": "2019-09-23T11:26:54+00:00",
+        "dateTo": "2019-09-23T11:26:54+00:00",
+        "maxFileSize": 0,
+        "minExamplesCount": 0,
+        "maxExamplesCount": 0
+      },
+      "validationOptions": {
+        "projectIds": [
+          0
+        ],
+        "tmIds": [
+          0
+        ],
+        "dateFrom": "2019-09-23T11:26:54+00:00",
+        "dateTo": "2019-09-23T11:26:54+00:00",
+        "maxFileSize": 0,
+        "minExamplesCount": 0,
+        "maxExamplesCount": 0
+      },
+      "baseModel": "gpt-4o-mini-2024-07-18",
+      "fineTunedModel": "ft:gpt-4o-mini-2024-07-18:2024-08-12:9vQgFOfp",
+      "trainedTokensCount": 0,
+      "trainingDatasetUrl": "https://crowdin-tmp.s3.eu-central-1.amazonaws.com/72057531/ai_fine_tuning/0fc00e9e-3a80-49d1-a8cb-39c9a81c0ae2/training-dataset.jsonl",
+      "validationDatasetUrl": "https://crowdin-tmp.s3.eu-central-1.amazonaws.com/72057531/ai_fine_tuning/0fc00e9e-3a80-49d1-a8cb-39c9a81c0ae2/validation-dataset.jsonl",
+      "metadata": {
+        "cost": 0.1,
+        "costCurrency": "USD"
+      }
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "startedAt": "2019-09-23T11:26:54+00:00",
+    "finishedAt": "2019-09-23T11:26:54+00:00"
+  }
+}

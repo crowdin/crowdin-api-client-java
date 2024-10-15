@@ -1,0 +1,23 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": "ftevent-0HOW0hqwQ7G1b70qOC8S7UsT",
+        "type": "message",
+        "message": "Created fine-tuning job: ftjob-EhnfVT9MnddMBLfjMcme71if",
+        "data": {
+          "step": 135,
+          "totalSteps": 135,
+          "trainingLoss": 0.0031,
+          "validationLoss": 0.0449,
+          "fullValidationLoss": 0.0275
+        },
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
