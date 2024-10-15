@@ -1,0 +1,12 @@
+{
+  "projectIds": [
+    0
+  ],
+  "tmIds": [
+    0
+  ],
+  "purpose": "training",
+  "maxFileSize": 0,
+  "minExamplesCount": 0,
+  "maxExamplesCount": 0
+}
