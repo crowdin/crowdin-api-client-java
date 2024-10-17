@@ -1,0 +1,25 @@
+{
+  "data": {
+    "identifier": "50fb3506-4127-4ba8-8296-f97dc7e3e0c3",
+    "status": "finished",
+    "progress": 100,
+    "attributes": {
+      "projectIds": [
+        0
+      ],
+      "tmIds": [
+        0
+      ],
+      "purpose": "training",
+      "dateFrom": "2019-09-23T11:26:54+00:00",
+      "dateTo": "2019-09-23T11:26:54+00:00",
+      "maxFileSize": 0,
+      "minExamplesCount": 0,
+      "maxExamplesCount": 0
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "startedAt": "2019-09-23T11:26:54+00:00",
+    "finishedAt": "2019-09-23T11:26:54+00:00"
+  }
+}
