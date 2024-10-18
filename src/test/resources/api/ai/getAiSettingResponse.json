@@ -1,0 +1,13 @@
+{
+  "data": {
+    "assistActionAiPromptId": 2,
+    "editorSuggestionAiPromptId": 5,
+    "shortcuts": [
+      {
+        "name": "My first shortcut",
+        "prompt": "Make translation shorter",
+        "enabled": true
+      }
+    ]
+  }
+}
