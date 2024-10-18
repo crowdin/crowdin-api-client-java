@@ -1,5 +1,7 @@
 package com.crowdin.client.ai;
 
+import com.crowdin.client.ai.model.AiSettingResponse;
+import com.crowdin.client.ai.model.AiSetting;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
 import com.crowdin.client.ai.model.FineTuningDatasetDownloadResponse;
 import com.crowdin.client.ai.model.FineTuningDatasetRequest;
@@ -15,8 +17,11 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -150,6 +155,33 @@ public class AIApi extends CrowdinApi {
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param userId user identifier
+     * @return AI settings
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiSetting> getAiSetting(Long userId) {
+        String url = getAIPath(userId, "ai/settings");
+        AiSettingResponse aiSettingResponse = this.httpClient.get(url, new HttpRequestConfig(), AiSettingResponse.class);
+        return ResponseObject.of(aiSettingResponse.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @return updated AI settings
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiSetting> editAiSetting(Long userId, List<PatchRequest> request) {
+        String url = getAIPath(userId, "ai/settings");
+        AiSettingResponse aiSettingResponse = this.httpClient.patch(url, request, new HttpRequestConfig(), AiSettingResponse.class);
+        return ResponseObject.of(aiSettingResponse.getData());
+    }
 
     private String getAIPath(Long userId, String path) {
         return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
