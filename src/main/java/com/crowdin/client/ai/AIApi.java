@@ -1,5 +1,11 @@
 package com.crowdin.client.ai;
 
+import com.crowdin.client.ai.model.AiProvider;
+import com.crowdin.client.ai.model.AiProviderModel;
+import com.crowdin.client.ai.model.AiProviderModelResponseList;
+import com.crowdin.client.ai.model.AiProviderResponseList;
+import com.crowdin.client.ai.model.AiProviderRequest;
+import com.crowdin.client.ai.model.AiProviderResponseObject;
 import com.crowdin.client.ai.model.AiSettingResponse;
 import com.crowdin.client.ai.model.AiSetting;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
@@ -181,6 +187,100 @@ public class AIApi extends CrowdinApi {
         String url = getAIPath(userId, "ai/settings");
         AiSettingResponse aiSettingResponse = this.httpClient.patch(url, request, new HttpRequestConfig(), AiSettingResponse.class);
         return ResponseObject.of(aiSettingResponse.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param limit limit
+     * @param offset offset
+     * @return List of AI Providers
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseList<AiProvider> listAiProviders(final Long userId, final Integer limit, final Integer offset) {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        String url = getAIPath(userId, "ai/providers");
+        AiProviderResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), AiProviderResponseList.class);
+        return AiProviderResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request AiProviderJobRequest
+     * @return AiProvider
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiProvider> addAiProviders(final Long userId, final AiProviderRequest request) {
+        String url = getAIPath(userId, "ai/providers");
+        AiProviderResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), AiProviderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @return AiProvider
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiProvider> getAiProvider(final Long userId, final Integer aiProviderId) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId);
+        AiProviderResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiProviderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public void deleteAiProvider(final Long userId, final Integer aiProviderId) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param requests list of PatchRequest
+     * @return updated AiProvider
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiProvider> editAiProvider(final Long userId, final Integer aiProviderId, List<PatchRequest> requests) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId);
+        AiProviderResponseObject response = this.httpClient.patch(url, requests, new HttpRequestConfig(), AiProviderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @return list of AiProviderModel
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documntation</b></li>
+     * </ul>
+     */
+    public ResponseList<AiProviderModel> listAiProviderModels(final Long userId, final Integer aiProviderId) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/models");
+        AiProviderModelResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), AiProviderModelResponseList.class);
+        return AiProviderModelResponseList.to(responseList);
     }
 
     private String getAIPath(Long userId, String path) {
