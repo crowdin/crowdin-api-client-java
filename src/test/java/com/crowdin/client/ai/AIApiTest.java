@@ -1,10 +1,12 @@
 package com.crowdin.client.ai;
 
 import com.crowdin.client.ai.model.AiProvider;
-import com.crowdin.client.ai.model.AiProviderRequest;
-import com.crowdin.client.ai.model.Credentials;
 import com.crowdin.client.ai.model.AiProviderModel;
+import com.crowdin.client.ai.model.AiProviderRequest;
+import com.crowdin.client.ai.model.AiReportFormat;
+import com.crowdin.client.ai.model.AiReportGenerate;
 import com.crowdin.client.ai.model.AiSetting;
+import com.crowdin.client.ai.model.Credentials;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
 import com.crowdin.client.ai.model.FineTuningDatasetRequest;
 import com.crowdin.client.ai.model.FineTuningDatasetResponse.FineTuningDatasetData;
@@ -12,27 +14,29 @@ import com.crowdin.client.ai.model.FineTuningEvent;
 import com.crowdin.client.ai.model.FineTuningJob;
 import com.crowdin.client.ai.model.FineTuningJobRequest;
 import com.crowdin.client.ai.model.FineTuningJobRequest.Hyperparameters;
+import com.crowdin.client.ai.model.GenerateAiReportRequest;
+import com.crowdin.client.ai.model.GenerateAiReportRequestSchema;
+import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.Pagination;
-import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,7 +45,7 @@ public class AIApiTest extends TestClient {
     private static final long userId = 2L;
     private static final long aiPromptId = 3L;
     private static final long progress = 100L;
-    private static final int year = 2019;
+    private static final int year = 119;
     private static final int month = Calendar.SEPTEMBER;
     private static final int date = 23;
     private static final int hour = 11;
@@ -52,9 +56,8 @@ public class AIApiTest extends TestClient {
     private static final long size = 1L;
     private static final String status = "finished";
     private static final String jobIdentifier = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
+    private static final String aiReportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private static final TimeZone tz = TimeZone.getTimeZone("GMT");
-    private final Calendar calendar = GregorianCalendar.getInstance(tz);
-
 
     private static final String FINE_TUNING_DATASET_GENERATION_STATUS_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/datasets/%s";
     private static final String GENERATE_FINE_TUNING_DATASET_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/datasets";
@@ -63,16 +66,14 @@ public class AIApiTest extends TestClient {
     private static final String CREATE_FINE_TUNING_JOB_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/jobs";
     private static final String GET_FINE_TUNING_JOB_STATUS_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/jobs/%s";
     private static final String FINE_TUNING_DATASET_DOWNLOAD_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/datasets/%s/download";
+    private static final String GENERATE_AI_REPORT_PATH = "%s/users/%d/ai/reports";
+    private static final String CHECK_AI_REPORT_GENERATION_PATH = "%s/users/%d/ai/reports/%s";
+    private static final String DOWNLOAD_AI_REPORT_PATH = "%s/users/%d/ai/reports/%s/download";
     private static final String GET_SETTINGS = "%s/users/%d/ai/settings";
     private static final String LIST_AI_PROVIDERS = "%s/users/%d/ai/providers";
     private static final String GET_AI_PROVIDER = "%s/users/%d/ai/providers/%d";
     private static final String LIST_AI_MODELS = "%s/users/%d/ai/providers/%d/models";
 
-    private Date getDateTime(int year, int month, int date, int hour, int minute, int second) {
-        calendar.set(year, month, date, hour, minute, second);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar.getTime();
-    }
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
@@ -82,6 +83,10 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(GET_FINE_TUNING_JOB_LIST_PATH, this.url, userId), HttpGet.METHOD_NAME, "api/ai/fineTuningJobListResponse.json"),
             RequestMock.build(String.format(CREATE_FINE_TUNING_JOB_PATH, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/fineTuningJobRequest.json", "api/ai/fineTuningJobResponse.json"),
             RequestMock.build(String.format(GET_FINE_TUNING_JOB_STATUS_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/fineTuningJobStatusResponse.json"),
+            RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
+            RequestMock.build(String.format(GENERATE_AI_REPORT_PATH, this.url, userId), HttpPost.METHOD_NAME, "api/ai/generateAiReportRequest.json", "api/ai/generateAiReportResponse.json"),
+            RequestMock.build(String.format(CHECK_AI_REPORT_GENERATION_PATH, this.url, userId, aiReportId), HttpGet.METHOD_NAME, "api/ai/checkAiReportGenerationStatusResponse.json"),
+            RequestMock.build(String.format(DOWNLOAD_AI_REPORT_PATH, this.url, userId, aiReportId), HttpGet.METHOD_NAME, "api/ai/downloadAiReportResponse.json"),
             RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
             RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
             RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json", "api/ai/getAiSettingResponse.json"),
@@ -95,10 +100,10 @@ public class AIApiTest extends TestClient {
         );
     }
 
-
     @Test
     public void datasetGenerationStatusTest() {
-        Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        TimeZone.setDefault(tz);
+        Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         final ResponseObject<FineTuningDatasetData> responseObject =
             this.getAiApi().getFineTuningDatasetGenerationStatus(userId, aiPromptId, jobIdentifier);
 
@@ -113,7 +118,8 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void generateFineTuningDatasetTest() {
-        Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        TimeZone.setDefault(tz);
+        Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         FineTuningDatasetRequest datasetRequest = new FineTuningDatasetRequest();
         datasetRequest.setTmIds(Collections.singletonList(0L));
         datasetRequest.setProjectIds(Collections.singletonList(0L));
@@ -156,6 +162,7 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void createFineTuningJobTest() {
+        TimeZone.setDefault(tz);
         final Hyperparameters hyperparameters = new Hyperparameters();
         hyperparameters.setBatchSize(0L);
         hyperparameters.setNEpochs(0L);
@@ -165,7 +172,7 @@ public class AIApiTest extends TestClient {
         request.setDryRun(false);
         request.setHyperparameters(hyperparameters);
 
-        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         final ResponseObject<FineTuningJob> responseObject = this.getAiApi().createFineTuningJob(userId, aiPromptId, request);
         assertEquals(responseObject.getData().getIdentifier(), jobIdentifier);
         assertEquals(responseObject.getData().getStatus(), status);
@@ -178,10 +185,11 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void getFineTuningJobStatusTest() {
+        TimeZone.setDefault(tz);
         final ResponseObject<FineTuningJob> responseObject = this.getAiApi().getFineTuningJobStatus(userId, aiPromptId, jobIdentifier);
         FineTuningJob job = responseObject.getData();
 
-        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         assertEquals(job.getProgress(), progress);
         assertEquals(job.getStatus(), status);
         assertEquals(job.getIdentifier(), jobIdentifier);
@@ -193,9 +201,49 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void downloadFineTuningDatasetTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<FineTuningDatasetDownload> responseObject = this.getAiApi().downloadFineTuningDataset(userId, aiPromptId, jobIdentifier);
-        final Date dateCreated = getDateTime(2019, Calendar.SEPTEMBER, 20, 10, 31, 21);
+        final Date dateCreated = new Date(119, Calendar.SEPTEMBER, 20, 10, 31, 21);
         assertEquals(responseObject.getData().getExpireIn(), dateCreated);
+        assertNotNull(responseObject.getData().getUrl());
+    }
+
+    @Test
+    public void generateAiReportTest() {
+        TimeZone.setDefault(tz);
+        final Date dateFrom = new Date(year, month, date, hour, minutes, seconds);
+        final Date dateTo = new Date(year, month, date, hour, minutes, seconds);
+
+        GenerateAiReportRequestSchema schema = new GenerateAiReportRequestSchema();
+        schema.setDateFrom(dateFrom);
+        schema.setDateTo(dateTo);
+        schema.setFormat(AiReportFormat.JSON);
+        schema.setProjectIds(Collections.singletonList(0L));
+        schema.setPromptIds(Collections.singletonList(0L));
+        schema.setUserIds(Collections.singletonList(userId));
+
+        GenerateAiReportRequest request = new GenerateAiReportRequest();
+        request.setType("tokens-usage-raw-data");
+        request.setSchema(schema);
+
+        ResponseObject<AiReportGenerate> responseObject = this.getAiApi().generateAiReport(userId, request);
+        assertNotNull(responseObject.getData());
+        assertEquals(responseObject.getData().getAttributes().getReportType(), request.getType());
+    }
+
+    @Test
+    public void checkAiReportGenerationStatusTest() {
+        TimeZone.setDefault(tz);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
+        ResponseObject<AiReportGenerate> responseObject = this.getAiApi().checkAiReportGenerationStatus(userId, aiReportId);
+        assertNotNull(responseObject.getData());
+        assertEquals(responseObject.getData().getCreatedAt(), dateCreated);
+    }
+
+    @Test
+    public void downloadAiReportTest() {
+        ResponseObject<DownloadLink> responseObject = this.getAiApi().downloadAiReport(userId, aiReportId);
+        assertNotNull(responseObject.getData());
         assertNotNull(responseObject.getData().getUrl());
     }
 
@@ -239,8 +287,9 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void addAiProvidersListTest() {
+        TimeZone.setDefault(tz);
         AiProviderRequest request = new AiProviderRequest();
-        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         Credentials credentials = new Credentials();
         credentials.setApiKey("string");
         request.setName("OpenAI");
@@ -263,8 +312,9 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void getAiProviderTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<AiProvider> response = this.getAiApi().getAiProvider(userId, 1);
-        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         assertNotNull(response);
         assertEquals(response.getData().getId(), 2);
         assertEquals(response.getData().getName(), "OpenAI");
@@ -279,13 +329,14 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void editAiProviderTest() {
+        TimeZone.setDefault(tz);
         PatchRequest request = new PatchRequest();
         request.setOp(PatchOperation.REPLACE);
         request.setPath("/name");
         List<PatchRequest> patchRequests = new ArrayList<>();
         patchRequests.add(request);
         ResponseObject<AiProvider> response = this.getAiApi().editAiProvider(userId, 1, patchRequests);
-        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        final Date dateCreated = new Date(year, month, date, hour, minutes, seconds);
         assertNotNull(response);
         assertEquals(response.getData().getId(), 2);
         assertEquals(response.getData().getName(), "OpenAI");

@@ -6,6 +6,8 @@ import com.crowdin.client.ai.model.AiProviderModelResponseList;
 import com.crowdin.client.ai.model.AiProviderResponseList;
 import com.crowdin.client.ai.model.AiProviderRequest;
 import com.crowdin.client.ai.model.AiProviderResponseObject;
+import com.crowdin.client.ai.model.AiReportGenerate;
+import com.crowdin.client.ai.model.AiReportGenerateResponse;
 import com.crowdin.client.ai.model.AiSettingResponse;
 import com.crowdin.client.ai.model.AiSetting;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
@@ -19,10 +21,15 @@ import com.crowdin.client.ai.model.FineTuningJob;
 import com.crowdin.client.ai.model.FineTuningJobRequest;
 import com.crowdin.client.ai.model.FineTuningJobResponseList;
 import com.crowdin.client.ai.model.FineTuningJobResponseObject;
+import com.crowdin.client.ai.model.GenerateAiReportRequest;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
+import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
+import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.DownloadLink;
+import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
@@ -158,6 +165,51 @@ public class AIApi extends CrowdinApi {
     public ResponseObject<FineTuningDatasetDownload> downloadFineTuningDataset(final Long userId, final long aiPromptId, final String jobIdentifier) {
         String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/fine-tuning/datasets/" + jobIdentifier + "/download");
         FineTuningDatasetDownloadResponse response = this.httpClient.get(url, new HttpRequestConfig(), FineTuningDatasetDownloadResponse.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request request object
+     * @return AI report generation status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.reports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.reports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiReportGenerate> generateAiReport(final Long userId, final GenerateAiReportRequest request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/reports");
+        AiReportGenerateResponse response = this.httpClient.post(url, request, new HttpRequestConfig(), AiReportGenerateResponse.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiReportId AI report identifier, consists of 36 characters
+     * @return AI report generation status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.reports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.reports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiReportGenerate> checkAiReportGenerationStatus(final Long userId, final String aiReportId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, String.format("ai/reports/%s", aiReportId));
+        AiReportGenerateResponse response = this.httpClient.get(url, new HttpRequestConfig(), AiReportGenerateResponse.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param reportId AI report identifier, consists of 36 characters
+     * @return AI report download URL
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.reports.download.download" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.reports.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadAiReport(final Long userId, final String reportId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, String.format("ai/reports/%s/download", reportId));
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 

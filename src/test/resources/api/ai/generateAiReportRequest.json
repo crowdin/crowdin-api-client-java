@@ -1,0 +1,17 @@
+{
+  "type": "tokens-usage-raw-data",
+  "schema": {
+    "dateFrom": "2019-09-23T11:26:54.000+00:00",
+    "dateTo": "2019-09-23T11:26:54.000+00:00",
+    "format": "json",
+    "projectIds": [
+      0
+    ],
+    "promptIds": [
+      0
+    ],
+    "userIds": [
+      2
+    ]
+  }
+}
