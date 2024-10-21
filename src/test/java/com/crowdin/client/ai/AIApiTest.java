@@ -1,5 +1,6 @@
 package com.crowdin.client.ai;
 
+import com.crowdin.client.ai.model.AiSetting;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
 import com.crowdin.client.ai.model.FineTuningDatasetRequest;
 import com.crowdin.client.ai.model.FineTuningDatasetResponse.FineTuningDatasetData;
@@ -8,6 +9,8 @@ import com.crowdin.client.ai.model.FineTuningJob;
 import com.crowdin.client.ai.model.FineTuningJobRequest;
 import com.crowdin.client.ai.model.FineTuningJobRequest.Hyperparameters;
 import com.crowdin.client.core.model.Pagination;
+import com.crowdin.client.core.model.PatchRequest;
+import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
@@ -20,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +57,7 @@ public class AIApiTest extends TestClient {
     private static final String CREATE_FINE_TUNING_JOB_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/jobs";
     private static final String GET_FINE_TUNING_JOB_STATUS_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/jobs/%s";
     private static final String FINE_TUNING_DATASET_DOWNLOAD_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/datasets/%s/download";
+    private static final String GET_SETTINGS = "%s/users/%d/ai/settings";
 
     private Date getDateTime(int year, int month, int date, int hour, int minute, int second) {
         calendar.set(year, month, date, hour, minute, second);
@@ -68,7 +73,9 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(GET_FINE_TUNING_JOB_LIST_PATH, this.url, userId), HttpGet.METHOD_NAME, "api/ai/fineTuningJobListResponse.json"),
             RequestMock.build(String.format(CREATE_FINE_TUNING_JOB_PATH, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/fineTuningJobRequest.json", "api/ai/fineTuningJobResponse.json"),
             RequestMock.build(String.format(GET_FINE_TUNING_JOB_STATUS_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/fineTuningJobStatusResponse.json"),
-            RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json")
+            RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
+            RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
+            RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json", "api/ai/getAiSettingResponse.json")
         );
     }
 
@@ -174,5 +181,26 @@ public class AIApiTest extends TestClient {
         final Date dateCreated = getDateTime(2019, Calendar.SEPTEMBER, 20, 10, 31, 21);
         assertEquals(responseObject.getData().getExpireIn(), dateCreated);
         assertNotNull(responseObject.getData().getUrl());
+    }
+
+    @Test
+    public void getAiSettingTest() {
+        AiSetting aiSetting = this.getAiApi().getAiSetting(userId).getData();
+        assertNotNull(aiSetting);
+        assertEquals(aiSetting.getAssistActionAiPromptId(), 2);
+        assertEquals(aiSetting.getEditorSuggestionAiPromptId(), 5);
+        assertEquals(aiSetting.getShortcuts().size(), 1);
+    }
+
+    @Test
+    public void editAiSettingTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setPath("/assistActionAiPromptId");
+        ResponseObject<AiSetting> aiSettingResponseObject =
+                this.getAiApi().editAiSetting(userId, Collections.singletonList(request));
+        assertNotNull(aiSettingResponseObject.getData());
+        assertEquals(aiSettingResponseObject.getData().getAssistActionAiPromptId(), 2);
+        assertEquals(aiSettingResponseObject.getData().getEditorSuggestionAiPromptId(), 5);
     }
 }
