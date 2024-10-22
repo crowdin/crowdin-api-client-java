@@ -1,0 +1,6 @@
+[
+  {
+    "op": "replace",
+    "path": "/name"
+  }
+]

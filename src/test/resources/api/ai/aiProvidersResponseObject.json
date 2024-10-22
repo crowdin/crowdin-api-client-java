@@ -1,0 +1,25 @@
+{
+  "data": {
+    "id": 2,
+    "name": "OpenAI",
+    "type": "open_ai",
+    "credentials": {
+      "apiKey": "string"
+    },
+    "config": {
+      "actionRules": [
+        {
+          "action": "pre_translate",
+          "availableAiModelIds": [
+            "gpt-3.5-turbo-instruct"
+          ]
+        }
+      ]
+    },
+    "isEnabled": true,
+    "useSystemCredentials": false,
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "promptsCount": "42"
+  }
+}

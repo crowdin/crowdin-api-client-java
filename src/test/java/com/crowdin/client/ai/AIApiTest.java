@@ -1,5 +1,9 @@
 package com.crowdin.client.ai;
 
+import com.crowdin.client.ai.model.AiProvider;
+import com.crowdin.client.ai.model.AiProviderRequest;
+import com.crowdin.client.ai.model.Credentials;
+import com.crowdin.client.ai.model.AiProviderModel;
 import com.crowdin.client.ai.model.AiSetting;
 import com.crowdin.client.ai.model.FineTuningDatasetDownload;
 import com.crowdin.client.ai.model.FineTuningDatasetRequest;
@@ -16,12 +20,14 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
@@ -58,6 +64,9 @@ public class AIApiTest extends TestClient {
     private static final String GET_FINE_TUNING_JOB_STATUS_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/jobs/%s";
     private static final String FINE_TUNING_DATASET_DOWNLOAD_PATH = "%s/users/%d/ai/prompts/%d/fine-tuning/datasets/%s/download";
     private static final String GET_SETTINGS = "%s/users/%d/ai/settings";
+    private static final String LIST_AI_PROVIDERS = "%s/users/%d/ai/providers";
+    private static final String GET_AI_PROVIDER = "%s/users/%d/ai/providers/%d";
+    private static final String LIST_AI_MODELS = "%s/users/%d/ai/providers/%d/models";
 
     private Date getDateTime(int year, int month, int date, int hour, int minute, int second) {
         calendar.set(year, month, date, hour, minute, second);
@@ -75,7 +84,14 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(GET_FINE_TUNING_JOB_STATUS_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/fineTuningJobStatusResponse.json"),
             RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
             RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
-            RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json", "api/ai/getAiSettingResponse.json")
+            RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json", "api/ai/getAiSettingResponse.json"),
+            RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
+            RequestMock.build(String.format(LIST_AI_PROVIDERS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listAiProviderResponse.json"),
+            RequestMock.build(String.format(LIST_AI_PROVIDERS, this.url, userId), HttpPost.METHOD_NAME, "api/ai/addAiProviderRequestObject.json", "api/ai/aiProvidersResponseObject.json"),
+            RequestMock.build(String.format(GET_AI_PROVIDER, this.url, userId, 1), HttpGet.METHOD_NAME, "api/ai/aiProvidersResponseObject.json"),
+            RequestMock.build(String.format(GET_AI_PROVIDER, this.url, userId, 1), HttpPatch.METHOD_NAME, "api/ai/editAiProviderRequest.json", "api/ai/aiProvidersResponseObject.json"),
+            RequestMock.build(String.format(LIST_AI_MODELS, this.url, userId, 1), HttpGet.METHOD_NAME,  "api/ai/listAiProviderModels.json"),
+            RequestMock.build(String.format(GET_AI_PROVIDER, this.url, userId, 1), HttpDelete.METHOD_NAME)
         );
     }
 
@@ -202,5 +218,96 @@ public class AIApiTest extends TestClient {
         assertNotNull(aiSettingResponseObject.getData());
         assertEquals(aiSettingResponseObject.getData().getAssistActionAiPromptId(), 2);
         assertEquals(aiSettingResponseObject.getData().getEditorSuggestionAiPromptId(), 5);
+    }
+
+    @Test
+    public void listAiProvidersTest() {
+        ResponseList<AiProvider> response = this.getAiApi().listAiProviders(userId, null, null);
+        Pagination pagination = response.getPagination();
+        AiProvider aiProvider = response.getData().get(0).getData();
+        assertNotNull(response);
+        assertEquals(pagination.getOffset(), 0);
+        assertEquals(pagination.getLimit(), 25);
+        assertEquals(aiProvider.getName(), "OpenAI");
+        assertEquals(aiProvider.getType(), "open_ai");
+        assertEquals(aiProvider.getCredentials().getApiKey(), "string");
+        assertEquals(aiProvider.getIsEnabled(), true);
+        assertEquals(aiProvider.getUseSystemCredentials(), false);
+        assertEquals(aiProvider.getConfig().getActionRules().get(0).getAction(), "pre_translate");
+        assertEquals(aiProvider.getConfig().getActionRules().get(0).getAvailableAiModelIds().get(0), "gpt-3.5-turbo-instruct");
+    }
+
+    @Test
+    public void addAiProvidersListTest() {
+        AiProviderRequest request = new AiProviderRequest();
+        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        Credentials credentials = new Credentials();
+        credentials.setApiKey("string");
+        request.setName("OpenAI");
+        request.setType("open_ai");
+        request.setCredentials(credentials);
+        request.setIsEnabled(true);
+        request.setUseSystemCredentials(false);
+        ResponseObject<AiProvider> response = this.getAiApi().addAiProviders(userId, request);
+        assertNotNull(response);
+        assertEquals(response.getData().getId(), 2);
+        assertEquals(response.getData().getName(), "OpenAI");
+        assertEquals(response.getData().getType(), "open_ai");
+        assertEquals(response.getData().getCredentials().getApiKey(), "string");
+        assertEquals(response.getData().getIsEnabled(), true);
+        assertEquals(response.getData().getUseSystemCredentials(), false);
+        assertEquals(response.getData().getPromptsCount(), 42);
+        assertEquals(response.getData().getCreatedAt(), dateCreated);
+        assertEquals(response.getData().getUpdatedAt(), dateCreated);
+    }
+
+    @Test
+    public void getAiProviderTest() {
+        ResponseObject<AiProvider> response = this.getAiApi().getAiProvider(userId, 1);
+        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        assertNotNull(response);
+        assertEquals(response.getData().getId(), 2);
+        assertEquals(response.getData().getName(), "OpenAI");
+        assertEquals(response.getData().getType(), "open_ai");
+        assertEquals(response.getData().getCredentials().getApiKey(), "string");
+        assertEquals(response.getData().getIsEnabled(), true);
+        assertEquals(response.getData().getUseSystemCredentials(), false);
+        assertEquals(response.getData().getPromptsCount(), 42);
+        assertEquals(response.getData().getCreatedAt(), dateCreated);
+        assertEquals(response.getData().getUpdatedAt(), dateCreated);
+    }
+
+    @Test
+    public void editAiProviderTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setPath("/name");
+        List<PatchRequest> patchRequests = new ArrayList<>();
+        patchRequests.add(request);
+        ResponseObject<AiProvider> response = this.getAiApi().editAiProvider(userId, 1, patchRequests);
+        final Date dateCreated = getDateTime(year, month, date, hour, minutes, seconds);
+        assertNotNull(response);
+        assertEquals(response.getData().getId(), 2);
+        assertEquals(response.getData().getName(), "OpenAI");
+        assertEquals(response.getData().getType(), "open_ai");
+        assertEquals(response.getData().getCredentials().getApiKey(), "string");
+        assertEquals(response.getData().getIsEnabled(), true);
+        assertEquals(response.getData().getUseSystemCredentials(), false);
+        assertEquals(response.getData().getPromptsCount(), 42);
+        assertEquals(response.getData().getCreatedAt(), dateCreated);
+        assertEquals(response.getData().getUpdatedAt(), dateCreated);
+    }
+
+    @Test
+    public void deleteAiProviderTest() {
+        this.getAiApi().deleteAiProvider(userId, 1);
+    }
+
+    @Test
+    public void listAiProviderModelsTest() {
+        ResponseList<AiProviderModel> response = this.getAiApi().listAiProviderModels(userId, 1);
+        AiProviderModel aiProviderModel = response.getData().get(0).getData();
+        assertNotNull(aiProviderModel);
+        assertEquals(aiProviderModel.getId(), "gpt-3.5-turbo-instruct");
     }
 }

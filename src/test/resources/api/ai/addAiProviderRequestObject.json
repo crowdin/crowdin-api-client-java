@@ -1,0 +1,9 @@
+{
+  "name": "OpenAI",
+  "type": "open_ai",
+  "credentials": {
+    "apiKey": "string"
+  },
+  "isEnabled": true,
+  "useSystemCredentials": false
+}
