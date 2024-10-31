@@ -104,7 +104,8 @@ public class TestHttpClient implements HttpClient {
                     if (data instanceof String) {
                         sameRequests = data.equals(requestPayloadMock);
                     } else {
-                        sameRequests = this.objectMapper.readTree(requestPayloadMock).equals(this.objectMapper.readTree(this.jsonTransformer.convert(data)));
+                        String jsonData = this.jsonTransformer.convert(data);
+                        sameRequests = this.objectMapper.readTree(requestPayloadMock).equals(this.objectMapper.readTree(jsonData));
                     }
                     if (!sameRequests && i == requestMocks.size() - 1) {
                         throw new AssertionError("No match for request payload " + requestKey);

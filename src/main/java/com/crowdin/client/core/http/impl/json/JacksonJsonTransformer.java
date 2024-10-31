@@ -17,9 +17,8 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.SneakyThrows;
-
-import java.text.SimpleDateFormat;
 
 public class JacksonJsonTransformer implements JsonTransformer {
 
@@ -48,7 +47,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
             .addDeserializer(StringsExporterSettingsResource.class, new StringsExporterSettingsDeserializer(cleanObjectMapper));
         this.objectMapper = cleanObjectMapper.copy()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
-                .setDateFormat(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX"))
+                .setDateFormat(new StdDateFormat())
                 .registerModule(module)
                 .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE)
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
