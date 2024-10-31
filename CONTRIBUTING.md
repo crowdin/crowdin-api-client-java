@@ -61,28 +61,20 @@ Unsure where to begin contributing to Crowdin Java Client? You can start by look
 
 To contribute to the Crowdin Java Client, please ensure you have the following installed:
 
-1. **Java Development Kit (JDK)**: This project requires JDK 8 or above.
-2. **Build Tool**: You can use either Maven or Gradle to build the project.
+1. **Java Development Kit (JDK)**: This project requires JDK 8 or higher.
+2. **Build Tool**: To build the project, use Gradle version 6 or higher.
 3. **Dependencies**: The project includes the Apache HTTP client for handling requests and the Jackson library for JSON parsing.
 
 Follow these steps to get started:
 
 1. Fork and clone the repository.
 2. Set up an API token and organization ID through your Crowdin account, which will be needed to authenticate API requests.
-3. If using **Maven**, run:
+3. Run the following commands to build and test the project:
    ```bash
-   mvn clean install
-   ```
-   This will build the project and install it in your local Maven repository.
-4. If using **Gradle**, run:
-   ```bash
-   gradle build
-   ```
-   This will compile and test the project to ensure it builds successfully.
+   ./gradlew build
+   ./gradlew test
 
-**Configuration Options**: You can also customize HTTP timeouts using `ClientConfig` if needed for handling requests.
-
-Once your setup is complete, you're ready to start working on issues.
+Once your setup is complete, you're ready to start working on the project.
 
 #### Pull Request Checklist
 
