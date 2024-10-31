@@ -23,8 +23,8 @@ repositories {
 
 dependencies {
 
-    compile 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.0'
@@ -46,7 +46,7 @@ jar {
 }
 
 wrapper {
-    gradleVersion = '6.2.2'
+    gradleVersion = '7.6.4'
 }
 
 jacoco {
