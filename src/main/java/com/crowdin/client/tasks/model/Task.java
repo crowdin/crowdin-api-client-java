@@ -43,6 +43,6 @@ public class Task {
     private Date updatedAt;
     private Language sourceLanguage;
     private List<Language> targetLanguages;
-    private Map<String, Object> fields;
+    private Object fields;
     private Long precedingTaskId;
 }
