@@ -15,7 +15,7 @@ task myJavadocs(type: Javadoc) {
 }
 
 sourceCompatibility = 8
-version '1.19.1'
+version '1.19.2'
 
 repositories {
     mavenCentral()
