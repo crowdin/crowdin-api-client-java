@@ -30,5 +30,6 @@ public class PreTranslationStatus {
         private boolean translateWithPerfectMatchOnly;
         private List<Long> labelIds;
         private List<Long> excludeLabelIds;
+        private Integer minimumMatchRatio;
     }
 }

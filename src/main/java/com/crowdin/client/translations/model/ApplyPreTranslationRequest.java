@@ -17,6 +17,7 @@ public class ApplyPreTranslationRequest {
     private Boolean duplicateTranslations;
     private Boolean skipApprovedTranslations;
     private Boolean translateUntranslatedOnly;
+    private Integer minimumMatchRatio;
     private Boolean translateWithPerfectMatchOnly;
     private Map<String, List<String>> fallbackLanguages;
     private List<Long> labelIds;
