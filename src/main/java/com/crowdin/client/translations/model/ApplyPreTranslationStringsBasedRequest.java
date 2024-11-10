@@ -11,10 +11,12 @@ public class ApplyPreTranslationStringsBasedRequest {
     private List<Long> branchIds;
     private Method method;
     private Long engineId;
+    private Long aiPromptId;
     private AutoApproveOption autoApproveOption;
     private Boolean duplicateTranslations;
     private Boolean skipApprovedTranslations;
     private Boolean translateUntranslatedOnly;
+    private Integer minimumMatchRatio;
     private Boolean translateWithPerfectMatchOnly;
     private List<FallbackLanguage> fallbackLanguages;
     private List<Long> labelIds;
