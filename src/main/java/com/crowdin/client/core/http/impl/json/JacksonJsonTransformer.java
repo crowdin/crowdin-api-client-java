@@ -20,6 +20,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.SneakyThrows;
 
+import java.util.Date;
+
 public class JacksonJsonTransformer implements JsonTransformer {
 
     private final ObjectMapper objectMapper;
@@ -32,6 +34,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
             .addDeserializer(Enum.class, new EnumDeserializer());
 
         SimpleModule module = new SimpleModule()
+            .addDeserializer(Date.class, new DateDeserializer())
             .addSerializer(Enum.class, new EnumSerializer())
             .addDeserializer(Enum.class, new EnumDeserializer())
             .addDeserializer(CrowdinApiException.class, new CrowdinApiExceptionDeserializer(cleanObjectMapper))

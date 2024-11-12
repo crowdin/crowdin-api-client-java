@@ -8,7 +8,7 @@
         "logo": "/resources/images/logo.png",
         "baseUrl": "https://localhost.dev",
         "manifestUrl": "https://localhost.dev",
-        "createdAt": "2019-09-20T11:34:40+00:00",
+        "createdAt": "2024-03-19 11:48:24",
         "modules": [
           {
             "key": "example-application",
