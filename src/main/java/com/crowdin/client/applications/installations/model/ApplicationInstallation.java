@@ -17,7 +17,7 @@ public class ApplicationInstallation {
     private Module[] modules;
     private String[] scopes;
     private Permissions permissions;
-    private DefaultPermissions defaultPermissions;
+    private Object defaultPermissions;
     private boolean limitReached;
 
 }
