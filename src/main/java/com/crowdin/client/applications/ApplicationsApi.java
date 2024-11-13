@@ -156,8 +156,15 @@ public class ApplicationsApi extends CrowdinApi {
      * </ul>
      */
     public void deleteApplicationInstallation(String identifier) throws HttpException, HttpBadRequestException {
+        this.deleteApplicationInstallation(identifier, null);
+    }
+
+    public void deleteApplicationInstallation(String identifier, Boolean force) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "force", Optional.ofNullable(force)
+        );
         String builtUrl = String.format("%s/applications/installations/%s", this.url, identifier);
-        this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
+        this.httpClient.delete(builtUrl, new HttpRequestConfig(queryParams), Void.class);
     }
 
     /**
