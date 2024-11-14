@@ -18,6 +18,7 @@ public class Bundle {
     private Boolean includeProjectSourceLanguage;
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
+    private String webUrl;
     private Date createdAt;
     private Date updatedAt;
 }
