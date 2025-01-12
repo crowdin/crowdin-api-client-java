@@ -6,14 +6,14 @@ import java.util.Date;
 
 @Data
 public class AiProvider {
-    private Date createdAt;
-    private Integer promptsCount;
-    private Credentials credentials;
-    private Boolean isEnabled;
+    private Long id;
     private String name;
-    private Integer id;
     private String type;
+    private Credentials credentials;
     private Config config;
+    private Boolean isEnabled;
     private Boolean useSystemCredentials;
+    private Date createdAt;
     private Date updatedAt;
+    private Integer promptsCount;
 }

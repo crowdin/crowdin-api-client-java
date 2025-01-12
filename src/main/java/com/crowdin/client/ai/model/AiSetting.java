@@ -7,8 +7,9 @@ import java.util.List;
 @Data
 public class AiSetting {
 
-    private Integer assistActionAiPromptId;
-    private Integer editorSuggestionAiPromptId;
+    private Long assistActionAiPromptId;
+    private Boolean showSuggestion;
+    private Long editorSuggestionAiPromptId;
 
     @Data
     private static class ShortCut {

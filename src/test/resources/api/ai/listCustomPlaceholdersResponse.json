@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "description": "Product description",
+        "placeholder": "%custom:productDescription%",
+        "value": "The product is the professional consulting service that transform challenges into opportunities.",
+        "createdAt": "2019-09-20T11:11:05+00:00",
+        "updatedAt": "2019-09-20T12:22:20+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
