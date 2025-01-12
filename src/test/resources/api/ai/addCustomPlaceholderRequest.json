@@ -1,0 +1,5 @@
+{
+  "description": "Product description",
+  "placeholder": "%custom:productDescription%",
+  "value": "The product is the professional consulting service that transform challenges into opportunities."
+}

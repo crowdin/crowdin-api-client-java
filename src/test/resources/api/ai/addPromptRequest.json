@@ -1,0 +1,7 @@
+{
+  "name": "Pre-translate prompt",
+  "action": "pre_translate",
+  "config": {
+    "mode": "basic"
+  }
+}

@@ -1,27 +1,8 @@
 package com.crowdin.client.ai;
 
-import com.crowdin.client.ai.model.AiProvider;
-import com.crowdin.client.ai.model.AiProviderModel;
-import com.crowdin.client.ai.model.AiProviderModelResponseList;
-import com.crowdin.client.ai.model.AiProviderResponseList;
-import com.crowdin.client.ai.model.AiProviderRequest;
-import com.crowdin.client.ai.model.AiProviderResponseObject;
-import com.crowdin.client.ai.model.AiReportGenerate;
-import com.crowdin.client.ai.model.AiReportGenerateResponse;
-import com.crowdin.client.ai.model.AiSettingResponse;
-import com.crowdin.client.ai.model.AiSetting;
-import com.crowdin.client.ai.model.FineTuningDatasetDownload;
-import com.crowdin.client.ai.model.FineTuningDatasetDownloadResponse;
-import com.crowdin.client.ai.model.FineTuningDatasetRequest;
-import com.crowdin.client.ai.model.FineTuningDatasetResponse;
+import com.crowdin.client.ai.model.*;
 import com.crowdin.client.ai.model.FineTuningDatasetResponse.FineTuningDatasetData;
-import com.crowdin.client.ai.model.FineTuningEvent;
-import com.crowdin.client.ai.model.FineTuningEventResponseList;
-import com.crowdin.client.ai.model.FineTuningJob;
-import com.crowdin.client.ai.model.FineTuningJobRequest;
-import com.crowdin.client.ai.model.FineTuningJobResponseList;
-import com.crowdin.client.ai.model.FineTuningJobResponseObject;
-import com.crowdin.client.ai.model.GenerateAiReportRequest;
+import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseObject;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
@@ -46,6 +27,81 @@ public class AIApi extends CrowdinApi {
 
     public AIApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param limit query limit
+     * @param offset query offset
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompt.custom.placeholders.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseList<CustomPlaceholder> listCustomPlaceholders(Long userId, Integer limit, final Integer offset) {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        String url = getAIPath(userId, "ai/settings/custom-placeholders");
+        CustomPlaceholderResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), CustomPlaceholderResponseList.class);
+        return CustomPlaceholderResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request request
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> addCustomPlaceholder(Long userId, CustomPlaceholderRequest request) {
+        String url = getAIPath(userId, "ai/settings/custom-placeholders");
+        CustomPlaceholderResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiCustomPlaceholderId aiCustomPlaceholderId identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> getCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
+        String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
+        CustomPlaceholderResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiCustomPlaceholderId aiCustomPlaceholderId identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public void deleteCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
+        String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiCustomPlaceholderId aiCustomPlaceholderId identifier
+     * @param request request
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> editCustomPlaceholder(Long userId, long aiCustomPlaceholderId, List<PatchRequest> request) {
+        String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
+        CustomPlaceholderResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
     }
 
     /**
@@ -170,6 +226,160 @@ public class AIApi extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param aiPromptId AI prompt identifier
+     * @param request request
+     * @return AI Prompt Fine-Tuning Dataset Download URL
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.clones.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPrompt> cloneAiPrompt(final Long userId, final long aiPromptId, final AiPromptCloneRequest request) {
+        String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/clones");
+        AiPromptResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), AiPromptResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param projectId project identifier
+     * @param action action
+     * @param limit query limit
+     * @param offset query offset
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseList<AiPrompt> listAiPrompts(Long userId, Long projectId, String action, Integer limit, final Integer offset) {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "projectId", Optional.ofNullable(projectId),
+                "action", Optional.ofNullable(action),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        String url = getAIPath(userId, "ai/prompts");
+        AiPromptResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), AiPromptResponseList.class);
+        return AiPromptResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param request request
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPrompt> addAiPrompt(Long userId, AiPromptAddRequest request) {
+        String url = getAIPath(userId, "ai/prompts");
+        AiPromptResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), AiPromptResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @param request request
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.completions.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> generatePromptCompletion(Long userId, long aiPromptId, AiPromptCompletionRequest request) {
+        String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/completions");
+        AiPromptCompletionResponse response = this.httpClient.post(url, request, new HttpRequestConfig(), AiPromptCompletionResponse.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @param completionId completion identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> getPromptCompletionStatus(Long userId, long aiPromptId, String completionId) {
+        String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/completions/" + completionId);
+        AiPromptCompletionResponse response = this.httpClient.get(url, new HttpRequestConfig(), AiPromptCompletionResponse.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @param completionId completion identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public void cancelPromptCompletion(Long userId, long aiPromptId, String completionId) {
+        String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/completions/" + completionId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @param completionId completion identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.download.download" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadPromptCompletion(Long userId, long aiPromptId, String completionId) {
+        String url = getAIPath(userId, "ai/prompts/" + aiPromptId + "/completions/" + completionId + "/download");
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPrompt> getAiPrompt(Long userId, long aiPromptId) {
+        String url = getAIPath(userId,"ai/prompts/" + aiPromptId);
+        AiPromptResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiPromptResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public void deleteAiPrompt(Long userId, long aiPromptId) {
+        String url = getAIPath(userId,"ai/prompts/" + aiPromptId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiPromptId aiPrompt identifier
+     * @param request request
+     * @see <ul>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<AiPrompt> editAiPrompt(Long userId, long aiPromptId, List<PatchRequest> request) {
+        String url = getAIPath(userId,"ai/prompts/" + aiPromptId);
+        AiPromptResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), AiPromptResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
      * @param request request object
      * @return AI report generation status
      * @see <ul>
@@ -285,7 +495,7 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.get" target="_blank"><b>Enterprise API Documentation</b></li>
      * </ul>
      */
-    public ResponseObject<AiProvider> getAiProvider(final Long userId, final Integer aiProviderId) {
+    public ResponseObject<AiProvider> getAiProvider(final Long userId, final Long aiProviderId) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId);
         AiProviderResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiProviderResponseObject.class);
         return ResponseObject.of(response.getData());
@@ -299,7 +509,7 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.delete" target="_blank"><b>Enterprise API Documentation</b></li>
      * </ul>
      */
-    public void deleteAiProvider(final Long userId, final Integer aiProviderId) {
+    public void deleteAiProvider(final Long userId, final Long aiProviderId) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId);
         this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
     }
@@ -314,7 +524,7 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.patch" target="_blank"><b>Enterprise API Documentation</b></li>
      * </ul>
      */
-    public ResponseObject<AiProvider> editAiProvider(final Long userId, final Integer aiProviderId, List<PatchRequest> requests) {
+    public ResponseObject<AiProvider> editAiProvider(final Long userId, final Long aiProviderId, List<PatchRequest> requests) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId);
         AiProviderResponseObject response = this.httpClient.patch(url, requests, new HttpRequestConfig(), AiProviderResponseObject.class);
         return ResponseObject.of(response.getData());
@@ -329,10 +539,26 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documntation</b></li>
      * </ul>
      */
-    public ResponseList<AiProviderModel> listAiProviderModels(final Long userId, final Integer aiProviderId) {
+    public ResponseList<AiProviderModel> listAiProviderModels(final Long userId, final Long aiProviderId) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/models");
         AiProviderModelResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), AiProviderModelResponseList.class);
         return AiProviderModelResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param request request
+     * @return updated AiProvider
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.chat.completions.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     * </ul>
+     */
+    public ResponseObject<Map<String, Object>> createProxyChatCompletion(final Long userId, final Long aiProviderId, Map<String, Object> request) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/chat/completions");
+        ChatCompletionResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
+        return ResponseObject.of(response.getData());
     }
 
     private String getAIPath(Long userId, String path) {
