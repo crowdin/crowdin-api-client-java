@@ -4,11 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.distributions.model.AddDistributionRequest;
 import com.crowdin.client.distributions.model.AddDistributionStringsBasedRequest;
 import com.crowdin.client.distributions.model.Distribution;
@@ -44,9 +40,16 @@ public class DistributionsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Distribution> listDistributions(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Pagination pagination = new Pagination();
+        pagination.setLimit(limit);
+        pagination.setOffset(offset);
+        return listDistributions(projectId, pagination);
+    }
+
+    public ResponseList<Distribution> listDistributions(Long projectId, Pagination options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         DistributionResponseList distributionResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/distributions", new HttpRequestConfig(queryParams), DistributionResponseList.class);
         return DistributionResponseList.to(distributionResponseList);

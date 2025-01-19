@@ -13,7 +13,10 @@ public class Glossary {
     private Long groupId;
     private Long userId;
     private Integer terms;
+    private String languageId;
     private List<String> languageIds;
+    private List<Long> defaultProjectIds;
     private List<Long> projectIds;
+    private String webUrl;
     private Date createdAt;
 }

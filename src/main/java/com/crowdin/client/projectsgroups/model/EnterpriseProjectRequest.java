@@ -20,32 +20,43 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private Long mtEngineId;
     private String description;
     private Integer translateDuplicates;
+    private Integer tagsDetection;
     private Boolean isMtAllowed;
     private Boolean taskBasedAccessControl;
+    private List<Long> taskReviewerIds;
     private Boolean autoSubstitution;
+    private Boolean showTmSuggestionsDialects;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
     private Boolean hiddenStringsProofreadersAccess;
-    private Boolean useGlobalTm;
     private Boolean delayedWorkflowStart;
     private Boolean skipUntranslatedStrings;
-    private Boolean skipUntranslatedFiles;
     private Integer exportWithMinApprovalsCount;
+    private Integer exportStringsThatPassedWorkflow;
     private Boolean normalizePlaceholder;
-    private Boolean saveMetaInfoInSource;
-    private Boolean inContext;
-    private Boolean inContextProcessHiddenStrings;
-    private Boolean inContextPseudoLanguageId;
     private Boolean qaCheckIsActive;
     private Integer qaApprovalsCount;
     private QaCheckCategories qaCheckCategories;
     private QaCheckCategories qaChecksIgnorableCategories;
     private List<Integer> customQaCheckIds;
-    private TmContextType tmContextType;
     private Map<String, Map<String, String>> languageMapping;
+    /**
+     * @deprecated
+     */
     private Boolean glossaryAccess;
+    private String glossaryAccessOption;
     private NotificationSettings notificationSettings;
-    private TmPenalties tmPenalties;
+    private Long savingsReportSettingsTemplateId;
+    private Long assistActionAiPromptId;
+    private Long editorSuggestionAiPromptId;
+    private Long alignmentActionAiPromptId;
     private Integer defaultTmId;
     private Integer defaultGlossaryId;
+    private Boolean inContext;
+    private Boolean inContextProcessHiddenStrings;
+    private Boolean inContextPseudoLanguageId;
+    private Boolean saveMetaInfoInSource;
+    private Integer type;
+    private Boolean skipUntranslatedFiles;
+    private TmContextType tmContextType;
 }

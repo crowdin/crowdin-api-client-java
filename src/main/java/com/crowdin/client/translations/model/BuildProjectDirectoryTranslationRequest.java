@@ -12,4 +12,5 @@ public class BuildProjectDirectoryTranslationRequest {
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
     private Boolean exportStringsThatPassedWorkflow;
+    private Boolean preserveFolderHierarchy;
 }

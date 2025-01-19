@@ -13,6 +13,13 @@ public enum BooleanInt implements EnumConverter<BooleanInt> {
         return value.equals("1") ? BooleanInt.TRUE : BooleanInt.FALSE;
     }
 
+    public static BooleanInt fromInt(Integer value) {
+        if (value == null) {
+            return null;
+        }
+        return value == 1 ? BooleanInt.TRUE : BooleanInt.FALSE;
+    }
+
     @Override
     public Integer to(BooleanInt v) {
         return v.val;

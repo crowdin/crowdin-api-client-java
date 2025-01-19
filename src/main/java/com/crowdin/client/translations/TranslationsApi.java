@@ -4,13 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
 import com.crowdin.client.translations.model.ApplyPreTranslationStringsBasedRequest;
 import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
@@ -260,9 +254,16 @@ public class TranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<PreTranslation> listPreTranslations(Long projectId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Pagination pagination = new Pagination();
+        pagination.setLimit(limit);
+        pagination.setOffset(offset);
+        return listPreTranslations(projectId, pagination);
+    }
+
+    public ResponseList<PreTranslation> listPreTranslations(Long projectId, Pagination options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         PreTranslationResponseList preTranslationResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
         return PreTranslationResponseList.to(preTranslationResponseList);
