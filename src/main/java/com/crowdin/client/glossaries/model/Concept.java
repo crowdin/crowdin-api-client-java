@@ -13,6 +13,7 @@ public class Concept {
     private Long glossaryId;
     private String subject;
     private String definition;
+    private Boolean translatable;
     private String note;
     private String url;
     private String figure;
