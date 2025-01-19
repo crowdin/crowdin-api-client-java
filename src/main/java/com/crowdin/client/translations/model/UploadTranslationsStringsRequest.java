@@ -10,4 +10,5 @@ public class UploadTranslationsStringsRequest {
     private Boolean importEqSuggestions;
     private Boolean autoApproveImported;
     private Boolean translateHidden;
+    private Boolean addToTm;
 }
