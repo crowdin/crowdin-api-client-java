@@ -8,6 +8,9 @@ import java.util.List;
 public class Config {
     private List<Option> options;
     private List<Location> locations;
+    private Integer min;
+    private Integer max;
+    private String units;
 
     @Data
     public static class Option {

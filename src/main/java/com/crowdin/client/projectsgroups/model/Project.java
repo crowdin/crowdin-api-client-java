@@ -11,21 +11,15 @@ public class Project {
 
     private Long id;
     private Type type;
-    private Long groupId;
     private Long userId;
     private String sourceLanguageId;
     private List<String> targetLanguageIds;
+    private String languageAccessPolicy;
     private String name;
-    private String cname;
     private String identifier;
     private String description;
     private String visibility;
     private String logo;
-    private String background;
-    private boolean isExternal;
-    private String externalType;
-    private Long workflowId;
-    private boolean hasCrowdsourcing;
     private boolean publicDownloads;
     private Date createdAt;
     private Date updatedAt;
@@ -33,5 +27,17 @@ public class Project {
     private Language sourceLanguage;
     private List<Language> targetLanguages;
     private String webUrl;
-
+    private Long savingsReportSettingsTemplateId;
+    //community
+    private String cname;
+    //enterprise
+    private Long groupId;
+    private String background;
+    private boolean isExternal;
+    private String externalType;
+    private Long externalProjectId;
+    private Long externalOrganizationId;
+    private Long workflowId;
+    private boolean hasCrowdsourcing;
+    private String publicUrl;
 }
