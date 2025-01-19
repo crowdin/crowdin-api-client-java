@@ -11,6 +11,7 @@ public class SourceString {
     private Long id;
     private Long projectId;
     private Long fileId;
+    private Long directoryId;
     private Long branchId;
     private Long masterStringId;
     private String identifier;
@@ -26,4 +27,5 @@ public class SourceString {
     private Date createdAt;
     private Date updatedAt;
     private boolean isDuplicate;
+    private String webUrl;
 }
