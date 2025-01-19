@@ -36,14 +36,12 @@ public class FieldsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Field> listFields(String entity, String search, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "entity", Optional.ofNullable(entity),
-                "search", Optional.ofNullable(search),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        FieldResponseObjectList responseObject = this.httpClient.get(this.url + "/fields", new HttpRequestConfig(queryParams), FieldResponseObjectList.class);
-        return FieldResponseObjectList.to(responseObject);
+        ListFieldsParams params = new ListFieldsParams();
+        params.setEntity(entity);
+        params.setSearch(search);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        return listFields(params);
     }
 
     public ResponseList<Field> listFields(ListFieldsParams params) throws HttpException, HttpBadRequestException {

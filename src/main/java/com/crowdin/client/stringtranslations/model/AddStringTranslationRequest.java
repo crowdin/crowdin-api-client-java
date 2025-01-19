@@ -9,4 +9,5 @@ public class AddStringTranslationRequest {
     private String languageId;
     private String text;
     private PluralCategoryName pluralCategoryName;
+    private Boolean addToTm;
 }

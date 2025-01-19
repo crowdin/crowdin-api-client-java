@@ -10,13 +10,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.sourcefiles.model.Branch;
 import com.crowdin.client.sourcefiles.model.BranchResponseList;
 import com.crowdin.client.sourcefiles.model.FileInfo;
@@ -46,7 +40,15 @@ public class BundlesApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Bundle> listBundles(Long projectId) throws HttpException, HttpBadRequestException {
-        BundleResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles", new HttpRequestConfig(), BundleResponseList.class);
+        return listBundles(projectId, new Pagination());
+    }
+
+    public ResponseList<Bundle> listBundles(Long projectId, Pagination options) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
+        );
+        BundleResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/bundles", new HttpRequestConfig(queryParams), BundleResponseList.class);
         return BundleResponseList.to(response);
     }
 

@@ -37,13 +37,11 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Group> listGroups(Long parentId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "parentId", Optional.ofNullable(parentId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        GroupResponseList groupResponseList = this.httpClient.get(this.url + "/groups", new HttpRequestConfig(queryParams), GroupResponseList.class);
-        return GroupResponseList.to(groupResponseList);
+        ListGroupOptions options = new ListGroupOptions();
+        options.setParentId(parentId);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listGroups(options);
     }
 
     public ResponseList<Group> listGroups(ListGroupOptions options) throws HttpException, HttpBadRequestException {
@@ -117,14 +115,12 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<? extends Project> listProjects(Long groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "groupId", Optional.ofNullable(groupId),
-                "hasManagerAccess", Optional.ofNullable(hasManagerAccess),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        ProjectResponseList projectResponseList = this.httpClient.get(this.url + "/projects", new HttpRequestConfig(queryParams), ProjectResponseList.class);
-        return ProjectResponseList.to(projectResponseList);
+        ListProjectOptions options = new ListProjectOptions();
+        options.setGroupId(groupId);
+        options.setHasManagerAccess(hasManagerAccess);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listProjects(options);
     }
 
     public ResponseList<? extends Project> listProjects(ListProjectOptions options) throws HttpException, HttpBadRequestException {
