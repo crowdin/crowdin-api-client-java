@@ -11,26 +11,7 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.glossaries.model.AddGlossaryRequest;
-import com.crowdin.client.glossaries.model.AddTermRequest;
-import com.crowdin.client.glossaries.model.Concept;
-import com.crowdin.client.glossaries.model.ConceptResponseList;
-import com.crowdin.client.glossaries.model.ConceptResponseObject;
-import com.crowdin.client.glossaries.model.ExportGlossaryRequest;
-import com.crowdin.client.glossaries.model.Glossary;
-import com.crowdin.client.glossaries.model.GlossaryExportStatus;
-import com.crowdin.client.glossaries.model.GlossaryExportStatusResponseObject;
-import com.crowdin.client.glossaries.model.GlossaryImportStatus;
-import com.crowdin.client.glossaries.model.GlossaryImportStatusResponseObject;
-import com.crowdin.client.glossaries.model.GlossaryResponseList;
-import com.crowdin.client.glossaries.model.GlossaryResponseObject;
-import com.crowdin.client.glossaries.model.ImportGlossaryRequest;
-import com.crowdin.client.glossaries.model.SearchConcordance;
-import com.crowdin.client.glossaries.model.SearchConcordanceRequest;
-import com.crowdin.client.glossaries.model.SearchConcordanceResponseList;
-import com.crowdin.client.glossaries.model.Term;
-import com.crowdin.client.glossaries.model.TermResponseList;
-import com.crowdin.client.glossaries.model.TermResponseObject;
+import com.crowdin.client.glossaries.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -72,9 +53,17 @@ public class GlossariesApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Concept> listConcepts(Long glossaryId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListConceptsParams params = new ListConceptsParams();
+        params.setLimit(limit);
+        params.setOffset(offset);
+        return listConcepts(glossaryId, params);
+    }
+
+    public ResponseList<Concept> listConcepts(Long glossaryId, ListConceptsParams params) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "orderBy", Optional.ofNullable(params.getOrderBy()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
         ConceptResponseList conceptResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/concepts", new HttpRequestConfig(queryParams), ConceptResponseList.class);
         return ConceptResponseList.to(conceptResponseList);
@@ -132,10 +121,19 @@ public class GlossariesApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Glossary> listGlossaries(Long groupId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListGlossariesParams params = new ListGlossariesParams();
+        params.setGroupId(groupId);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        return listGlossaries(params);
+    }
+
+    public ResponseList<Glossary> listGlossaries(ListGlossariesParams params) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "groupId", Optional.ofNullable(groupId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "groupId", Optional.ofNullable(params.getGroupId()),
+                "userId", Optional.ofNullable(params.getUserId()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
         GlossaryResponseList glossaryResponseList = this.httpClient.get(this.url + "/glossaries", new HttpRequestConfig(queryParams), GlossaryResponseList.class);
         return GlossaryResponseList.to(glossaryResponseList);
@@ -277,13 +275,26 @@ public class GlossariesApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Term> listTerms(Long glossaryId, Long userId, String languageId, Long conceptId, @Deprecated Long translationOfTermId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListTermsParams params = new ListTermsParams();
+        params.setUserId(userId);
+        params.setLanguageId(languageId);
+        params.setConceptId(conceptId);
+        params.setTranslationOfTermId(translationOfTermId);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        return listTerms(glossaryId, params);
+    }
+
+    public ResponseList<Term> listTerms(Long glossaryId, ListTermsParams params) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "userId", Optional.ofNullable(userId),
-                "languageId", Optional.ofNullable(languageId),
-                "conceptId", Optional.ofNullable(conceptId),
-                "translationOfTermId", Optional.ofNullable(translationOfTermId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "orderBy", Optional.ofNullable(params.getOrderBy()),
+                "userId", Optional.ofNullable(params.getUserId()),
+                "languageId", Optional.ofNullable(params.getLanguageId()),
+                "conceptId", Optional.ofNullable(params.getConceptId()),
+                "translationOfTermId", Optional.ofNullable(params.getTranslationOfTermId()),
+                "croql", Optional.ofNullable(params.getCroql()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
         TermResponseList termResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms", new HttpRequestConfig(queryParams), TermResponseList.class);
         return TermResponseList.to(termResponseList);

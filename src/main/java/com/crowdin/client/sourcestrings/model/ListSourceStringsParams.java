@@ -13,6 +13,7 @@ public class ListSourceStringsParams {
     private Long fileId;
     private Long branchId;
     private Long directoryId;
+    private Long taskId;
     private String croql;
     private String filter;
     private String scope;

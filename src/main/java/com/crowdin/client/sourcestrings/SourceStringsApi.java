@@ -57,19 +57,18 @@ public class SourceStringsApi extends CrowdinApi {
      */
     @Deprecated
     public ResponseList<SourceString> listSourceStrings(Long projectId, Long fileId, Integer denormalizePlaceholders, Long branchId, String labelIds, String croql, String filter, String scope, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "fileId", Optional.ofNullable(fileId),
-                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
-                "branchId", Optional.ofNullable(branchId),
-                "labelIds", Optional.ofNullable(labelIds),
-                "croql", Optional.ofNullable(croql),
-                "filter", Optional.ofNullable(filter),
-                "scope", Optional.ofNullable(scope),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
-        );
-        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
-        return SourceStringResponseList.to(sourceStringResponseList);
+        ListSourceStringsParams params = ListSourceStringsParams.builder()
+                .fileId(fileId)
+                .denormalizePlaceholders(denormalizePlaceholders)
+                .branchId(branchId)
+                .labelIds(labelIds)
+                .croql(croql)
+                .filter(filter)
+                .scope(scope)
+                .limit(limit)
+                .offset(offset)
+                .build();
+        return listSourceStrings(projectId, params);
     }
 
     public ResponseList<SourceString> listSourceStrings(Long projectId, ListSourceStringsParams params) throws HttpException, HttpBadRequestException {
@@ -80,6 +79,7 @@ public class SourceStringsApi extends CrowdinApi {
                 "fileId", Optional.ofNullable(params.getFileId()),
                 "branchId", Optional.ofNullable(params.getBranchId()),
                 "directoryId", Optional.ofNullable(params.getDirectoryId()),
+                "taskId", Optional.ofNullable(params.getTaskId()),
                 "croql", Optional.ofNullable(params.getCroql()),
                 "filter", Optional.ofNullable(params.getFilter()),
                 "scope", Optional.ofNullable(params.getScope()),

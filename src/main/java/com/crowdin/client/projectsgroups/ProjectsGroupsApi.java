@@ -11,22 +11,7 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.projectsgroups.model.AddGroupRequest;
-import com.crowdin.client.projectsgroups.model.AddProjectFileFormatSettingsRequest;
-import com.crowdin.client.projectsgroups.model.AddProjectRequest;
-import com.crowdin.client.projectsgroups.model.FileFormatSettingsResource;
-import com.crowdin.client.projectsgroups.model.FileFormatSettingsResponseList;
-import com.crowdin.client.projectsgroups.model.FileFormatSettingsResponseObject;
-import com.crowdin.client.projectsgroups.model.Group;
-import com.crowdin.client.projectsgroups.model.GroupResponseList;
-import com.crowdin.client.projectsgroups.model.GroupResponseObject;
-import com.crowdin.client.projectsgroups.model.Project;
-import com.crowdin.client.projectsgroups.model.ProjectResponseList;
-import com.crowdin.client.projectsgroups.model.ProjectResponseObject;
-import com.crowdin.client.projectsgroups.model.StringsExporterSettingsRequest;
-import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResource;
-import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResponseList;
-import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResponseObject;
+import com.crowdin.client.projectsgroups.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -52,10 +37,20 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Group> listGroups(Long parentId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListGroupOptions options = new ListGroupOptions();
+        options.setParentId(parentId);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listGroups(options);
+    }
+
+    public ResponseList<Group> listGroups(ListGroupOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "parentId", Optional.ofNullable(parentId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "parentId", Optional.ofNullable(options.getParentId()),
+                "userId", Optional.ofNullable(options.getUserId()),
+                "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         GroupResponseList groupResponseList = this.httpClient.get(this.url + "/groups", new HttpRequestConfig(queryParams), GroupResponseList.class);
         return GroupResponseList.to(groupResponseList);
@@ -120,11 +115,22 @@ public class ProjectsGroupsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<? extends Project> listProjects(Long groupId, Integer hasManagerAccess, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListProjectOptions options = new ListProjectOptions();
+        options.setGroupId(groupId);
+        options.setHasManagerAccess(hasManagerAccess);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listProjects(options);
+    }
+
+    public ResponseList<? extends Project> listProjects(ListProjectOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "groupId", Optional.ofNullable(groupId),
-                "hasManagerAccess", Optional.ofNullable(hasManagerAccess),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "groupId", Optional.ofNullable(options.getGroupId()),
+                "hasManagerAccess", Optional.ofNullable(options.getHasManagerAccess()),
+                "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "type", Optional.ofNullable(options.getType()),
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         ProjectResponseList projectResponseList = this.httpClient.get(this.url + "/projects", new HttpRequestConfig(queryParams), ProjectResponseList.class);
         return ProjectResponseList.to(projectResponseList);

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class AddDistributionRequest {
-    private Enum exportMode;
+    private ExportMode exportMode;
     private String name;
     private List<Long> fileIds;
     private List<Integer> bundleIds;

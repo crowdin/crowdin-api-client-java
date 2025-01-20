@@ -3,6 +3,7 @@ package com.crowdin.client.glossaries.model;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class GlossaryExportStatus {
@@ -20,5 +21,6 @@ public class GlossaryExportStatus {
     public static class Attributes {
 
         private GlossariesFormat format;
+        private List<String> exportFields;
     }
 }

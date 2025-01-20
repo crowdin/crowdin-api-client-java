@@ -15,42 +15,64 @@ import java.util.Map;
 @ToString(callSuper = true)
 public class ProjectSettings extends Project {
 
-    private Integer clientOrganizationId;
     private Integer translateDuplicates;
     private Integer tagsDetection;
     private Boolean glossaryAccess;
+    private String glossaryAccessOption;
     private Boolean isMtAllowed;
     private Boolean taskBasedAccessControl;
     private Boolean hiddenStringsProofreadersAccess;
     private Boolean autoSubstitution;
     private Boolean exportTranslatedOnly;
-    private Boolean skipTranslatedOnly;
     private Boolean skipUntranslatedStrings;
-    private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
-    private Integer exportWithMinApprovalsCount;
-    private boolean autoTranslateDialects;
-    private boolean useGlobalTm;
+    private Boolean autoTranslateDialects;
+    private Boolean useGlobalTm;
     private Boolean showTmSuggestionsDialects;
-    private TmContextType tmContextType;
+    private Boolean isSuspended;
+    private Boolean qaCheckIsActive;
+    private QaCheckCategories qaCheckCategories;
+    private QaCheckCategories qaChecksIgnorableCategories;
+    private Map<String, Map<String, String>> languageMapping;
+    private NotificationSettings notificationSettings;
+    private Long defaultTmId;
+    private Long defaultGlossaryId;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private Map<String, AssignedTm> assignedTms;
+    private List<Long> assignedGlossaries;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private TmPenalties tmPenalties;
     private Boolean normalizePlaceholder;
-    private Boolean saveMetaInfoInSource;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private TmPreTranslate tmPreTranslate;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private MtPreTranslate mtPreTranslate;
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+    private AiPreTranslate aiPreTranslate;
+    private Long assistActionAiPromptId;
+    private Long editorSuggestionAiPromptId;
     private Boolean inContext;
     private Boolean inContextProcessHiddenStrings;
     private String inContextPseudoLanguageId;
     private Language inContextPseudoLanguage;
-    private Boolean isSuspended;
-    private Boolean qaCheckIsActive;
+    private Boolean saveMetaInfoInSource;
+    private Boolean skipUntranslatedFiles;
+    private TmContextType tmContextType;
+    //enterprise
+    private Long clientOrganizationId;
+    private List<Long> taskReviewerIds;
+    private Integer exportWithMinApprovalsCount;
+    private Boolean exportStringsThatPassedWorkflow;
     private Integer qaApprovalsCount;
-    private QaCheckCategories qaCheckCategories;
-    private QaCheckCategories qaChecksIgnorableCategories;
     private List<Long> customQaCheckIds;
-    private Map<String, Map<String, String>> languageMapping;
+    private List<Long> externalQaCheckIds;
     private Boolean delayedWorkflowStart;
-    private NotificationSettings notificationSettings;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
-    private TmPenalties tmPenalties;
-    private Integer defaultTmId;
-    private Integer defaultGlossaryId;
+    private Long alignmentActionAiPromptId;
+
+    @Data
+    public static class AssignedTm {
+
+        private Integer priority;
+    }
 
 }

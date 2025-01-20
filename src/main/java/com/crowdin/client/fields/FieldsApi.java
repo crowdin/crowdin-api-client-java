@@ -9,10 +9,7 @@ import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.fields.model.Field;
-import com.crowdin.client.fields.model.FieldRequest;
-import com.crowdin.client.fields.model.FieldResponseObject;
-import com.crowdin.client.fields.model.FieldResponseObjectList;
+import com.crowdin.client.fields.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -39,11 +36,21 @@ public class FieldsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Field> listFields(String entity, String search, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListFieldsParams params = new ListFieldsParams();
+        params.setEntity(entity);
+        params.setSearch(search);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        return listFields(params);
+    }
+
+    public ResponseList<Field> listFields(ListFieldsParams params) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "entity", Optional.ofNullable(entity),
-                "search", Optional.ofNullable(search),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "entity", Optional.ofNullable(params.getEntity()),
+                "search", Optional.ofNullable(params.getSearch()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "type", Optional.ofNullable(params.getType()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
         FieldResponseObjectList responseObject = this.httpClient.get(this.url + "/fields", new HttpRequestConfig(queryParams), FieldResponseObjectList.class);
         return FieldResponseObjectList.to(responseObject);

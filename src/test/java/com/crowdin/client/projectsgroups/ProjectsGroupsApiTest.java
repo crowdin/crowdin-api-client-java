@@ -7,7 +7,7 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.projectsgroups.model.AddGroupRequest;
-import com.crowdin.client.projectsgroups.model.FilesBasedProjectRequest;
+import com.crowdin.client.projectsgroups.model.ProjectRequest;
 import com.crowdin.client.projectsgroups.model.Group;
 import com.crowdin.client.projectsgroups.model.Project;
 import com.crowdin.client.projectsgroups.model.ProjectSettings;
@@ -112,7 +112,7 @@ public class ProjectsGroupsApiTest extends TestClient {
 
     @Test
     public void addProjectTest() {
-        FilesBasedProjectRequest request = new FilesBasedProjectRequest();
+        ProjectRequest request = new ProjectRequest();
         request.setType(0);
         request.setNormalizePlaceholder(true);
         request.setSaveMetaInfoInSource(true);

@@ -4,10 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringtranslations.model.*;
 
 import java.util.Map;
@@ -53,15 +50,29 @@ public class StringTranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Approval> listTranslationApprovals(Long projectId, Long fileId, Long stringId, String languageId, Long translationId, String labelIds, String excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListTranslationApprovalsOptions options = new ListTranslationApprovalsOptions();
+        options.setFileId(fileId);
+        options.setStringId(stringId);
+        options.setLanguageId(languageId);
+        options.setTranslationId(translationId);
+        options.setLabelIds(labelIds);
+        options.setExcludeLabelIds(excludeLabelIds);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listTranslationApprovals(projectId, options);
+    }
+
+    public ResponseList<Approval> listTranslationApprovals(Long projectId, ListTranslationApprovalsOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "fileId", Optional.ofNullable(fileId),
-                "stringId", Optional.ofNullable(stringId),
-                "languageId", Optional.ofNullable(languageId),
-                "translationId", Optional.ofNullable(translationId),
-                "labelIds", Optional.ofNullable(labelIds),
-                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "fileId", Optional.ofNullable(options.getFileId()),
+                "labelIds", Optional.ofNullable(options.getLabelIds()),
+                "excludeLabelIds", Optional.ofNullable(options.getExcludeLabelIds()),
+                "stringId", Optional.ofNullable(options.getStringId()),
+                "languageId", Optional.ofNullable(options.getLanguageId()),
+                "translationId", Optional.ofNullable(options.getTranslationId()),
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         ApprovalResponseList approvalResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), ApprovalResponseList.class);
         return ApprovalResponseList.to(approvalResponseList);
@@ -126,17 +137,33 @@ public class StringTranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, Long branchId, Long directoryId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListLanguageTranslationsOptions options = new ListLanguageTranslationsOptions();
+        options.setStringIds(stringIds);
+        options.setLabelIds(labelIds);
+        options.setFileId(fileId);
+        options.setBranchId(branchId);
+        options.setDirectoryId(directoryId);
+        options.setCroql(croql);
+        options.setDenormalizePlaceholders(BooleanInt.fromInt(denormalizePlaceholders));
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listLanguageTranslations(projectId, languageId, options);
+    }
+
+    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, ListLanguageTranslationsOptions options) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-            "stringIds", Optional.ofNullable(stringIds),
-            "labelIds", Optional.ofNullable(labelIds),
-            "fileId", Optional.ofNullable(fileId),
-            "branchId", Optional.ofNullable(branchId),
-            "directoryId", Optional.ofNullable(directoryId),
-            "croql", Optional.ofNullable(croql),
-            "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
-            "limit", Optional.ofNullable(limit),
-            "offset", Optional.ofNullable(offset)
+            "stringIds", Optional.ofNullable(options.getStringIds()),
+            "labelIds", Optional.ofNullable(options.getLabelIds()),
+            "fileId", Optional.ofNullable(options.getFileId()),
+            "branchId", Optional.ofNullable(options.getBranchId()),
+            "directoryId", Optional.ofNullable(options.getDirectoryId()),
+            "passedWorkflow", Optional.ofNullable(options.getPassedWorkflow()),
+            "minApprovalCount", Optional.ofNullable(options.getMinApprovalCount()),
+            "croql", Optional.ofNullable(options.getCroql()),
+            "denormalizePlaceholders", Optional.ofNullable(options.getDenormalizePlaceholders()),
+            "limit", Optional.ofNullable(options.getLimit()),
+            "offset", Optional.ofNullable(options.getOffset())
         );
         LanguageTranslationsResponseList languageTranslationsResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), LanguageTranslationsResponseList.class);
         return LanguageTranslationsResponseList.to(languageTranslationsResponseList);
@@ -155,11 +182,22 @@ public class StringTranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<StringTranslation> listStringTranslations(Long projectId, Long stringId, String languageId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListStringTranslationsOptions options = new ListStringTranslationsOptions();
+        options.setStringId(stringId);
+        options.setLanguageId(languageId);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listStringTranslations(projectId, options);
+    }
+
+    public ResponseList<StringTranslation> listStringTranslations(Long projectId, ListStringTranslationsOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId),
-                "languageId", Optional.ofNullable(languageId),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "stringId", Optional.ofNullable(options.getStringId()),
+                "languageId", Optional.ofNullable(options.getLanguageId()),
+                "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "denormalizePlaceholders", Optional.ofNullable(options.getDenormalizePlaceholders()),
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         StringTranslationResponseList stringTranslationResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), StringTranslationResponseList.class);
         return StringTranslationResponseList.to(stringTranslationResponseList);
@@ -252,14 +290,27 @@ public class StringTranslationsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Vote> listTranslationVotes(Long projectId, Long stringId, String languageId, Long translationId, String labelIds, String excludeLabelIds, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        ListTranslationVotesOptions options = new ListTranslationVotesOptions();
+        options.setStringId(stringId);
+        options.setLanguageId(languageId);
+        options.setTranslationId(translationId);
+        options.setLabelIds(labelIds);
+        options.setExcludeLabelIds(excludeLabelIds);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        return listTranslationVotes(projectId, options);
+    }
+
+    public ResponseList<Vote> listTranslationVotes(Long projectId, ListTranslationVotesOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId),
-                "languageId", Optional.ofNullable(languageId),
-                "translationId", Optional.ofNullable(translationId),
-                "labelIds", Optional.ofNullable(labelIds),
-                "excludeLabelIds", Optional.ofNullable(excludeLabelIds),
-                "limit", Optional.ofNullable(limit),
-                "offset", Optional.ofNullable(offset)
+                "stringId", Optional.ofNullable(options.getStringId()),
+                "languageId", Optional.ofNullable(options.getLanguageId()),
+                "translationId", Optional.ofNullable(options.getTranslationId()),
+                "fileId", Optional.ofNullable(options.getFileId()),
+                "labelIds", Optional.ofNullable(options.getLabelIds()),
+                "excludeLabelIds", Optional.ofNullable(options.getExcludeLabelIds()),
+                "limit", Optional.ofNullable(options.getLimit()),
+                "offset", Optional.ofNullable(options.getOffset())
         );
         VoteResponseList voteResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/votes", new HttpRequestConfig(queryParams), VoteResponseList.class);
         return VoteResponseList.to(voteResponseList);
