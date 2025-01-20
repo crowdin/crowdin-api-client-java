@@ -1,5 +1,5 @@
 {
-  "name": "pre-translate-efficiency",
+  "name": "pre-translate-accuracy",
   "schema": {
     "unit": "strings",
     "format": "xlsx",

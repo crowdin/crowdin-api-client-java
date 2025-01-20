@@ -59,7 +59,7 @@ public class ReportsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generateReport.json", "api/reports/reportGenerationStatus.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generatePreTranslateEfficiencyReport.json", "api/reports/preTranslateEfficiencyReportStatus.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generatePreTranslateAccuracyReport.json", "api/reports/preTranslateAccuracyReportStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listReportSettingsTemplate.json"),
@@ -151,12 +151,12 @@ public class ReportsApiTest extends TestClient {
     }
 
     @Test
-    public void testGeneratePreTranslateEfficiencyReport() {
+    public void testGeneratePreTranslateAccuracyReport() {
         TimeZone.setDefault(tz);
         Date reportCreatedAt = getDate(2019, Calendar.SEPTEMBER, 23, 11, 26, 54);
 
-        PreTranslateEfficiencyGenerateReportRequest request = new PreTranslateEfficiencyGenerateReportRequest();
-        PreTranslateEfficiencyGenerateReportRequest.GeneralSchema schema = new PreTranslateEfficiencyGenerateReportRequest.GeneralSchema();
+        PreTranslateAccuracyGenerateReportRequest request = new PreTranslateAccuracyGenerateReportRequest();
+        PreTranslateAccuracyGenerateReportRequest.GeneralSchema schema = new PreTranslateAccuracyGenerateReportRequest.GeneralSchema();
         schema.setUnit(Unit.STRINGS);
         schema.setPostEditingCategories(singletonList(postEditingCategory));
         schema.setLanguageId(languageId);
