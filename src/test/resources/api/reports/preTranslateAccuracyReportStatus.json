@@ -5,7 +5,7 @@
     "progress": 100,
     "attributes": {
       "format": "xlsx",
-      "reportName": "pre-translate-efficiency",
+      "reportName": "pre-translate-accuracy",
       "schema": {}
     },
     "createdAt": "2019-09-23T11:26:54+00:00",
