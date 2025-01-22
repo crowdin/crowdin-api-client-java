@@ -72,7 +72,12 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId + "/exports", HttpPost.METHOD_NAME, "api/reports/exportReportArchiveReques.json", "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/users/" + userId + "/reports/archives/" + archiveId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
-                RequestMock.build(this.url + "/users/" + userId + "/reports/archives" + archiveId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"));
+                RequestMock.build(this.url + "/users/" + userId + "/reports/archives" + archiveId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listUserReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addUserReportSettingsTemplate.json", "api/reports/userReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpGet.METHOD_NAME, "api/reports/userReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpPatch.METHOD_NAME, "api/reports/editUserReportSettingsTemplate.json", "api/reports/userReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/users/" + userId + "/reports/settings-templates/" + reportSettingsTemplateId, HttpDelete.METHOD_NAME));
     }
 
     private ReportSettingsTemplate createSettingsTemplate() {
@@ -225,6 +230,49 @@ public class ReportsApiTest extends TestClient {
     @Test
     public void deleteReportSettingsTemplateTest() {
         this.getReportsApi().deleteReportSettingsTemplate(projectId, reportSettingsTemplateId);
+    }
+
+    @Test
+    public void listUserReportSettingsTemplateTest() {
+        ResponseList<ReportSettingsTemplate> userReportSettingsTemplateResponseList = this.getReportsApi().listUserReportSettingsTemplate(userId, null, null);
+        assertEquals(userReportSettingsTemplateResponseList.getData().size(), 1);
+        assertEquals(userReportSettingsTemplateResponseList.getData().get(0).getData().getId(), userId);
+        assertEquals(userReportSettingsTemplateResponseList.getData().get(0).getData().getName(), name);
+    }
+
+    @Test
+    public void addUserReportSettingsTemplateTest() {
+        ReportSettingsTemplate request = createSettingsTemplate();
+        request.setIsPublic(null);
+        ResponseObject<ReportSettingsTemplate> userReportSettingsTemplateResponseObject = this.getReportsApi().addUserReportSettingsTemplate(userId, request);
+        ReportSettingsTemplate response = userReportSettingsTemplateResponseObject.getData();
+        assertEquals(request.getName(), response.getName());
+        assertEquals(request.getCurrency(), response.getCurrency());
+        assertEquals(request.getUnit(), response.getUnit());
+        assertEquals(request.getConfig(), response.getConfig());
+    }
+
+    @Test
+    public void getUserReportSettingsTemplateTest() {
+        ResponseObject<ReportSettingsTemplate> responseObject = this.getReportsApi().getUserReportSettingsTemplate(userId, reportSettingsTemplateId);
+        assertEquals(responseObject.getData().getId(), userId);
+        assertEquals(responseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void editUserReportSettingsTemplateTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setValue(name);
+        request.setPath("name");
+        ResponseObject<ReportSettingsTemplate> responseObject = this.getReportsApi().editUserReportSettingsTemplate(userId, reportSettingsTemplateId, singletonList(request));
+        assertEquals(responseObject.getData().getId(), userId);
+        assertEquals(responseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void deleteUserReportSettingsTemplateTest() {
+        this.getReportsApi().deleteUserReportSettingsTemplate(userId, reportSettingsTemplateId);
     }
 
     @Test
