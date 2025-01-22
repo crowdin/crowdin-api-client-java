@@ -1,0 +1,29 @@
+{
+  "name": "my report template",
+  "currency": "USD",
+  "unit": "strings",
+  "config": {
+    "regularRates": [
+      {
+        "mode": "no_match",
+        "value": 0.1
+      }
+    ],
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          20
+        ],
+        "rates": [
+          {
+            "mode": "tm_match",
+            "value": 0.1
+          }
+        ]
+      }
+    ]
+  }
+}
