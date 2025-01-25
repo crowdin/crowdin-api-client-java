@@ -102,6 +102,70 @@ public class ReportsApi extends CrowdinApi {
     }
 
     /**
+     * @return list of report settings template
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ReportSettingsTemplate.OrganizationReportSettingsTemplate> listOrganizationReportSettingsTemplates(ListOrganizationReportSettingsParams params) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "projectId", Optional.ofNullable(params.getProjectId()),
+                "groupId", Optional.ofNullable(params.getGroupId()),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
+        );
+        OrganizationReportSettingsTemplateList reportSettingsTemplateList = this.httpClient.get(this.url + "/reports/settings-templates", new HttpRequestConfig(queryParams), OrganizationReportSettingsTemplateList.class);
+        return OrganizationReportSettingsTemplateList.to(reportSettingsTemplateList);
+    }
+
+    /**
+     * @param request   request object
+     * @return report settings template
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ReportSettingsTemplate.OrganizationReportSettingsTemplate> addOrganizationReportSettingsTemplate(ReportSettingsTemplate.OrganizationReportSettingsTemplate request) throws HttpException, HttpBadRequestException {
+        OrganizationReportSettingsTemplateResponseObject responseObject = this.httpClient.post(this.url + "/reports/settings-templates", request, new HttpRequestConfig(), OrganizationReportSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @return report settings template
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ReportSettingsTemplate.OrganizationReportSettingsTemplate> getOrganizationReportSettingsTemplate(Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
+        OrganizationReportSettingsTemplateResponseObject responseObject = this.httpClient.get(this.url + "/reports/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), OrganizationReportSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @param request                  request object
+     * @return report settings template
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ReportSettingsTemplate.OrganizationReportSettingsTemplate> editOrganizationReportSettingsTemplate(Long reportSettingsTemplateId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        OrganizationReportSettingsTemplateResponseObject responseObject = this.httpClient.patch(this.url + "/reports/settings-templates/" + reportSettingsTemplateId, request, new HttpRequestConfig(), OrganizationReportSettingsTemplateResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param reportSettingsTemplateId report settings template identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Reports/operation/api.reports.settings-templates.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteOrganizationReportSettingsTemplate(Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
+        this.httpClient.delete(this.url + "/reports/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
      * @param projectId project identifier
      * @param request   request object
      * @return report status
@@ -214,7 +278,7 @@ public class ReportsApi extends CrowdinApi {
      * </ul>
      */
     public void deleteReportSettingsTemplate(Long projectId, Long reportSettingsTemplateId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/reports/settings-templates/" + reportSettingsTemplateId, new HttpRequestConfig(), Void.class);
     }
 
     // -- USER REPORTS -- //

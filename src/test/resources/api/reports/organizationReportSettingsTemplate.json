@@ -1,0 +1,36 @@
+{
+  "data": {
+    "id": 2,
+    "name": "my report template",
+    "currency": "USD",
+    "unit": "strings",
+    "mode": "simple",
+    "config": {
+      "regularRates": [
+        {
+          "mode": "no_match",
+          "value": 0.1
+        }
+      ],
+      "individualRates": [
+        {
+          "languageIds": [
+            "uk"
+          ],
+          "userIds": [
+            20
+          ],
+          "rates": [
+            {
+              "mode": "tm_match",
+              "value": 0.1
+            }
+          ]
+        }
+      ]
+    },
+    "createdAt": "2022-10-15T11:57:57+00:00",
+    "updatedAt": "2022-10-17T11:57:57+00:00",
+    "isPublic": false
+  }
+}

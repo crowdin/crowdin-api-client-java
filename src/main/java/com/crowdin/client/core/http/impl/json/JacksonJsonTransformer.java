@@ -72,4 +72,7 @@ public class JacksonJsonTransformer implements JsonTransformer {
         return this.objectMapper.writeValueAsString(obj);
     }
 
+    public ObjectMapper getObjectMapper() {
+        return this.objectMapper;
+    }
 }

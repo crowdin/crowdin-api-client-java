@@ -2,7 +2,6 @@ package com.crowdin.client.framework;
 
 import com.crowdin.client.core.http.HttpClient;
 import com.crowdin.client.core.http.HttpRequestConfig;
-import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
@@ -25,8 +24,8 @@ import java.util.stream.Collectors;
 public class TestHttpClient implements HttpClient {
 
     private Map<String, List<RequestMock>> requestMocks = new HashMap<>();
-    private JsonTransformer jsonTransformer = new JacksonJsonTransformer();
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private JacksonJsonTransformer jsonTransformer = new JacksonJsonTransformer();
+    private ObjectMapper objectMapper = jsonTransformer.getObjectMapper();
 
     public void initializeMocks(List<RequestMock> requestMocks) {
         this.requestMocks = requestMocks.stream().collect(
