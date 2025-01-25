@@ -16,12 +16,6 @@
         ],
         "userIds": [
           20
-        ],
-        "rates": [
-          {
-            "mode": "tm_match",
-            "value": 0.1
-          }
         ]
       }
     ]

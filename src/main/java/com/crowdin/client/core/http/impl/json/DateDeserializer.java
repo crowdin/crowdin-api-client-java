@@ -19,6 +19,11 @@ public class DateDeserializer extends JsonDeserializer<Date> {
             return null;
         }
 
+        return deserializeDate(date);
+    }
+
+    @SneakyThrows
+    public static Date deserializeDate(String date) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             return format.parse(date);

@@ -6,7 +6,13 @@ public enum MatchType implements EnumConverter<MatchType> {
     PERFECT("perfect"),
     OPTION_100("100"),
     OPTION_99_82("99-82"),
-    OPTION_81_60("81-60");
+    OPTION_99_95("99-95"),
+    OPTION_94_90("94-90"),
+    OPTION_89_80("89-80"),
+    OPTION_81_60("81-60"),
+    TM_MATCH("tm_match"),
+    APPROVAL("approval"),
+    NO_MATCH("no_match");
 
     private String value;
 

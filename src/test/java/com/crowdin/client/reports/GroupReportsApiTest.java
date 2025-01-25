@@ -1,24 +1,16 @@
 package com.crowdin.client.reports;
 
+import com.crowdin.client.core.http.impl.json.DateDeserializer;
 import com.crowdin.client.core.model.DownloadLink;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.reports.model.BaseRatesForm;
-import com.crowdin.client.reports.model.Currency;
-import com.crowdin.client.reports.model.GenerateGroupReportRequest;
-import com.crowdin.client.reports.model.GroupReportStatus;
-import com.crowdin.client.reports.model.GroupingParameter;
-import com.crowdin.client.reports.model.Match;
-import com.crowdin.client.reports.model.MatchType;
-import com.crowdin.client.reports.model.ReportsFormat;
-import com.crowdin.client.reports.model.Unit;
+import com.crowdin.client.reports.model.*;
 import lombok.SneakyThrows;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class GroupReportsApiTest extends TestClient {
     private final Long groupId = 1L;
     private final String reportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
 
     @Override
     public List<RequestMock> getMocks() {
@@ -48,7 +39,7 @@ public class GroupReportsApiTest extends TestClient {
         GenerateGroupReportRequest request = new GenerateGroupReportRequest();
         request.setName("group-translation-costs-pe");
         request.setSchema(
-                new GenerateGroupReportRequest.GroupTranslationCostsPerEditingSchema(){{
+                new GenerateGroupReportRequest.GroupTranslationCostsPostEditingSchema(){{
                     setProjectIds(Arrays.asList(1L, 2L, 3L));
                     setUnit(Unit.WORDS);
                     setCurrency(Currency.USD);
@@ -57,13 +48,13 @@ public class GroupReportsApiTest extends TestClient {
                         setFullTranslation(0.1f);
                         setProofread(0.12f);
                     }});
-                    setIndividualRates(Collections.singletonList(new GenerateGroupReportRequest.IndividualRate() {{
+                    setIndividualRates(Collections.singletonList(new IndividualRate() {{
                         setLanguageIds(Collections.singletonList("uk"));
                         setUserIds(Collections.singletonList(1L));
                         setFullTranslation(0.1f);
                         setProofread(0.12f);
                     }}));
-                    setNetRateSchemes(new GenerateGroupReportRequest.NetRateSchemes() {{
+                    setNetRateSchemes(new NetRateSchemes() {{
                         setTmMatch(Collections.singletonList(new Match() {{
                             setMatchType(MatchType.PERFECT);
                             setPrice(0.1f);
@@ -140,10 +131,10 @@ public class GroupReportsApiTest extends TestClient {
         assertEquals("costs-estimation", attributes.getReportName());
         assertEquals(Collections.singletonList(0L), attributes.getProjectIds());
 
-        assertEquals(dateFormat.parse("2019-09-23T11:26:54+00:00"), reportStatus.getCreatedAt());
-        assertEquals(dateFormat.parse("2019-09-23T11:26:54+00:00"), reportStatus.getUpdatedAt());
-        assertEquals(dateFormat.parse("2019-09-23T11:26:54+00:00"), reportStatus.getStartedAt());
-        assertEquals(dateFormat.parse("2019-09-23T11:26:54+00:00"), reportStatus.getFinishedAt());
+        assertEquals(DateDeserializer.deserializeDate("2019-09-23T11:26:54+00:00"), reportStatus.getCreatedAt());
+        assertEquals(DateDeserializer.deserializeDate("2019-09-23T11:26:54+00:00"), reportStatus.getUpdatedAt());
+        assertEquals(DateDeserializer.deserializeDate("2019-09-23T11:26:54+00:00"), reportStatus.getStartedAt());
+        assertEquals(DateDeserializer.deserializeDate("2019-09-23T11:26:54+00:00"), reportStatus.getFinishedAt());
     }
 
     private void assertDownloadLink(DownloadLink downloadLink) {

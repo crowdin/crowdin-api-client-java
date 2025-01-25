@@ -7,20 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class GenerateGroupReportRequest {
-
-    private String name;
+@EqualsAndHashCode(callSuper = true)
+public class TranslationCostsPostEndingGenerateReportRequest extends GenerateReportRequest {
+    private String name = "translation-costs-pe";
     private Schema schema;
 
     @Data
-    public static abstract class Schema {
-
-    }
-
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    public static class GroupTranslationCostsPostEditingSchema extends Schema {
-        private List<Long> projectIds;
+    public static class Schema {
         private Unit unit;
         private Currency currency;
         private ReportsFormat format;
@@ -29,21 +22,27 @@ public class GenerateGroupReportRequest {
         private NetRateSchemes netRateSchemes;
         private Boolean excludeApprovalsForEditedTranslations;
         private Boolean preTranslatedStringsCategorizationAdjustment;
-        private GroupingParameter groupBy;
-        private Date dateFrom;
-        private Date dateTo;
-        private List<Long> userIds;
     }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
-    public static class GroupTopMembersSchema extends Schema {
-        private List<Long> projectIds;
-        private Unit unit;
-        private String languageId;
-        private ReportsFormat format;
-        private GroupingParameter groupBy;
+    public static class GeneralSchema extends Schema {
+        private String groupBy;
         private Date dateFrom;
         private Date dateTo;
+        private String languageId;
+        private List<Long> userIds;
+        private List<Long> fileIds;
+        private List<Long> directoryIds;
+        private List<Long> branchIds;
+        private List<Long> labelIds;
+        private LabelIncludeType labelIncludeType;
+        private Long workflowStepId;
+    }
+
+    @Data
+    @EqualsAndHashCode(callSuper = true)
+    public static class ByTaskSchema extends Schema {
+        private Long taskId;
     }
 }

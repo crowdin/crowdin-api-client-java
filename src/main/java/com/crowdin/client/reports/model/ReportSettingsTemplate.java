@@ -2,6 +2,7 @@ package com.crowdin.client.reports.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,15 @@ public class ReportSettingsTemplate {
     private Date createdAt;
     private Date updatedAt;
     private Boolean isPublic;
+    private Boolean isGlobal;
+
+    @EqualsAndHashCode(callSuper = true)
+    @Data
+    public static class OrganizationReportSettingsTemplate extends ReportSettingsTemplate {
+
+        private Long projectId;
+        private Long groupId;
+    }
 
     @Data
     public static class Config {
@@ -29,13 +39,6 @@ public class ReportSettingsTemplate {
     public static class RegularRate {
         private Mode mode;
         private double value;
-    }
-
-    @Data
-    public static class IndividualRate {
-        private List<String> languageIds;
-        private List<Integer> userIds;
-        private List<RegularRate> rates;
     }
 
     public enum Mode implements EnumConverter<Mode> {

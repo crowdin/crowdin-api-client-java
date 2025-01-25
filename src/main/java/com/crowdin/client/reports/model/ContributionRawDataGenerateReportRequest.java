@@ -8,24 +8,30 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class PreTranslateAccuracyGenerateReportRequest extends GenerateReportRequest {
-    //'pre-translate-efficiency' | 'pre-translate-accuracy'
-    private String name;
+public class ContributionRawDataGenerateReportRequest extends GenerateReportRequest {
+    private String name = "contribution-raw-data";
     private Schema schema;
 
     @Data
     public static class Schema {
-        private Unit unit = Unit.WORDS;
-        private ReportsFormat format = ReportsFormat.XLSX;
-        private List<String> postEditingCategories;
+        private String mode;
+        private Unit unit;
+        private List<String> columns;
+        private List<Long> tmIds;
+        private List<Long> mtIds;
+        private List<Long> aiPromptIds;
+        private Date dateFrom;
+        private Date dateTo;
     }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class GeneralSchema extends Schema {
         private String languageId;
-        private Date dateFrom;
-        private Date dateTo;
+        private Long userId;
+        private List<Long> fileIds;
+        private List<Long> directoryIds;
+        private List<Long> branchIds;
     }
 
     @Data
@@ -33,5 +39,4 @@ public class PreTranslateAccuracyGenerateReportRequest extends GenerateReportReq
     public static class ByTaskSchema extends Schema {
         private Long taskId;
     }
-
 }

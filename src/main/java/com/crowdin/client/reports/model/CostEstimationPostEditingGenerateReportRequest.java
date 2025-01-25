@@ -17,6 +17,9 @@ public class CostEstimationPostEditingGenerateReportRequest extends GenerateRepo
         private Unit unit;
         private Currency currency;
         private ReportsFormat format;
+        private BaseRatesForm baseRates;
+        private List<IndividualRate> individualRates;
+        private NetRateSchemes netRateSchemes;
         private Boolean calculateInternalMatches;
         private Boolean includePreTranslatedStrings;
     }
@@ -24,9 +27,6 @@ public class CostEstimationPostEditingGenerateReportRequest extends GenerateRepo
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class GeneralSchema extends Schema {
-        private BaseRatesForm baseRates;
-        private List<IndividualRate> individualRates;
-        private NetRateSchemes netRateSchemes;
         private String languageId;
         private List<Long> fileIds;
         private List<Long> directoryIds;
@@ -35,27 +35,12 @@ public class CostEstimationPostEditingGenerateReportRequest extends GenerateRepo
         private Date dateTo;
         private List<Long> labelIds;
         private LabelIncludeType labelIncludeType;
+        private Long workflowStepId;
     }
 
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class ByTaskSchema extends Schema {
-        private BaseRatesForm baseRates;
-        private List<IndividualRate> individualRates;
-        private NetRateSchemes netRateSchemes;
         private Long taskId;
-    }
-
-    @Data
-    public static class IndividualRate {
-        private List<String> languageIds;
-        private List<Long> userIds;
-        private float fullTranslation;
-        private float proofread;
-    }
-
-    @Data
-    public static class NetRateSchemes {
-        private List<Match> tmMatch;
     }
 }
