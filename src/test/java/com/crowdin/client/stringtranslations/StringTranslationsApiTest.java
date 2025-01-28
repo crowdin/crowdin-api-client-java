@@ -35,6 +35,7 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpGet.METHOD_NAME, "api/stringtranslations/listApprovals.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpPost.METHOD_NAME, "api/stringtranslations/addApprovalRequest.json", "api/stringtranslations/approval.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpGet.METHOD_NAME, "api/stringtranslations/approval.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plain.json"),
                 RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, secondProjectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plural.json"),
@@ -84,6 +85,11 @@ public class StringTranslationsApiTest extends TestClient {
     public void getApprovalTest() {
         ResponseObject<Approval> approvalResponseObject = this.getStringTranslationsApi().getApproval(projectId, approvalId);
         assertEquals(approvalResponseObject.getData().getId(), approvalId);
+    }
+
+    @Test
+    public void removeStringApprovalsTest() {
+        this.getStringTranslationsApi().removeStringApprovals(projectId, null);
     }
 
     @Test
