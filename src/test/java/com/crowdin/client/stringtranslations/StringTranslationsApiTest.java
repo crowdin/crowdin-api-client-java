@@ -11,8 +11,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -35,14 +34,14 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpGet.METHOD_NAME, "api/stringtranslations/listApprovals.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpPost.METHOD_NAME, "api/stringtranslations/addApprovalRequest.json", "api/stringtranslations/approval.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpGet.METHOD_NAME, "api/stringtranslations/approval.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/projects/" + projectId + "/approvals", HttpDelete.METHOD_NAME, null, Collections.singletonMap("stringId", stringId)),
                 RequestMock.build(this.url + "/projects/" + projectId + "/approvals/" + approvalId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plain.json"),
                 RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, secondProjectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_plural.json"),
                 RequestMock.build(String.format("%s/projects/%d/languages/%s/translations", this.url, thirdProjectId, language), HttpGet.METHOD_NAME, "api/stringtranslations/listLanguageTranslations_ICU.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpGet.METHOD_NAME, "api/stringtranslations/listStringTranslations..json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpPost.METHOD_NAME, "api/stringtranslations/addTranslationRequest.json", "api/stringtranslations/translation.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations", HttpDelete.METHOD_NAME, null, Collections.singletonMap("stringId", stringId)),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpGet.METHOD_NAME, "api/stringtranslations/translation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpPut.METHOD_NAME, "api/stringtranslations/translation.json"),
@@ -89,7 +88,7 @@ public class StringTranslationsApiTest extends TestClient {
 
     @Test
     public void removeStringApprovalsTest() {
-        this.getStringTranslationsApi().removeStringApprovals(projectId, null);
+        this.getStringTranslationsApi().removeStringApprovals(projectId, stringId);
     }
 
     @Test
@@ -140,7 +139,7 @@ public class StringTranslationsApiTest extends TestClient {
 
     @Test
     public void deleteTranslationsTest() {
-        this.getStringTranslationsApi().deleteStringTranslations(projectId, null, null);
+        this.getStringTranslationsApi().deleteStringTranslations(projectId, stringId, null);
     }
 
     @Test

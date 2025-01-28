@@ -7,6 +7,7 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringtranslations.model.*;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -116,7 +117,7 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public void removeStringApprovals(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId)
+                "stringId", Optional.of(stringId)
         );
         this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), Void.class);
     }
@@ -243,10 +244,10 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public void deleteStringTranslations(Long projectId, Long stringId, String languageId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId),
+                "stringId", Optional.of(stringId),
                 "languageId", Optional.ofNullable(languageId)
         );
-        this.httpClient.get(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
     }
 
     /**
