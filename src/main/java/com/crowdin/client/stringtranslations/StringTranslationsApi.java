@@ -7,7 +7,6 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringtranslations.model.*;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
