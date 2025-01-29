@@ -108,6 +108,21 @@ public class StringTranslationsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param stringId string identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.approvals.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void removeStringApprovals(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "stringId", Optional.of(stringId)
+        );
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
      * @param approvalId approval identifier
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.delete" target="_blank"><b>API Documentation</b></a></li>
@@ -228,10 +243,10 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public void deleteStringTranslations(Long projectId, Long stringId, String languageId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(stringId),
+                "stringId", Optional.of(stringId),
                 "languageId", Optional.ofNullable(languageId)
         );
-        this.httpClient.get(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
     }
 
     /**
