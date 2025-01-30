@@ -66,7 +66,7 @@ public class MachineTranslationEnginesApiTest extends TestClient {
     }
 
     @Test
-    public void geMtTest() {
+    public void getMtTest() {
         ResponseObject<MachineTranslation> machineTranslationResponseObject = this.getMachineTranslationEnginesApi().getMt(mtId);
         assertEquals(machineTranslationResponseObject.getData().getId(), mtId);
         assertEquals(machineTranslationResponseObject.getData().getName(), name);
