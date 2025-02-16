@@ -20,6 +20,9 @@ import com.crowdin.client.teams.model.TeamMember;
 import com.crowdin.client.teams.model.TeamMemberResponseList;
 import com.crowdin.client.teams.model.TeamResponseList;
 import com.crowdin.client.teams.model.TeamResponseObject;
+import com.crowdin.client.teams.model.GroupTeam;
+import com.crowdin.client.teams.model.GroupTeamResponseList;
+import com.crowdin.client.teams.model.GroupTeamResponseObject;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +35,51 @@ public class TeamsApi extends CrowdinApi {
 
     public TeamsApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * List group teams. For Crowdin Enterprise only
+     * @param groupId group identifier
+     * @param orderBy
+     * @return list of group teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.teams.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<GroupTeam> listGroupTeams(Long groupId, String orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(orderBy)
+        );
+        GroupTeamResponseList response = this.httpClient.get(this.url + "/groups/" + groupId + "/teams", new HttpRequestConfig(queryParams), GroupTeamResponseList.class);
+        return GroupTeamResponseList.to(response);
+    }
+
+    /**
+     * Update group teams. For Crowdin Enterprise only
+     * @param groupId group identifier
+     * @param request request object
+     * @return list of updated group teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.teams.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<GroupTeam> updateGroupTeams(Long groupId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        GroupTeamResponseList response = this.httpClient.patch(this.url + "/groups/" + groupId + "/teams", request, new HttpRequestConfig(), GroupTeamResponseList.class);
+        return GroupTeamResponseList.to(response);
+    }
+
+    /**
+     * Get group team. For Crowdin Enterprise only
+     * @param groupId group identifier
+     * @param teamId team identifier
+     * @return group team
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.teams.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupTeam> getGroupTeam(Long groupId, Long teamId) throws HttpException, HttpBadRequestException {
+        GroupTeamResponseObject response = this.httpClient.get(this.url + "/groups/" + groupId + "/teams/" + teamId, new HttpRequestConfig(), GroupTeamResponseObject.class);
+        return ResponseObject.of(response.getData());
     }
 
     /**

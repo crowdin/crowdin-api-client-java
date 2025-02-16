@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UsersApiTest extends TestClient {
@@ -26,6 +27,7 @@ public class UsersApiTest extends TestClient {
     private final Long projectId2 = 13L;
     private final Long userId = 1L;
     private final Long memberId = 3L;
+    private final Long groupId = 27L;
 
     private final String name = "Smith";
 
@@ -40,6 +42,9 @@ public class UsersApiTest extends TestClient {
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+                RequestMock.build(this.url + "/groups/" + groupId + "/managers", HttpGet.METHOD_NAME, "api/users/listGroupManagers.json"),
+                RequestMock.build(this.url + "/groups/" + groupId + "/managers", HttpPatch.METHOD_NAME, "api/users/editGroupManagers.json", "api/users/listGroupManagers.json"),
+                RequestMock.build(this.url + "/groups/" + groupId + "/managers/" + userId, HttpGet.METHOD_NAME, "api/users/groupManager.json"),
                 RequestMock.build(String.format("%s/projects/%d/members", this.url, projectId2), HttpGet.METHOD_NAME, "api/users/listProjectMembersEnterprise.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/members", HttpPost.METHOD_NAME, "api/users/addProjectMember.json", "api/users/projectTeamMembers.json"),
                 RequestMock.build(String.format("%s/projects/%d/members/%d", this.url, projectId, memberId), HttpGet.METHOD_NAME, "api/users/getProjectMemberResponse.json"),
@@ -54,6 +59,41 @@ public class UsersApiTest extends TestClient {
                 RequestMock.build(this.url + "/users/" + userId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/users/" + userId, HttpPatch.METHOD_NAME, "api/users/editUser.json", "api/users/user.json")
         );
+    }
+
+    @Test
+    public void listGroupManagersTest() {
+        ResponseList<GroupManager> response = this.getUsersApi().listGroupManagers(groupId, null, null);
+        assertNotNull(response);
+        assertEquals(1, response.getData().size());
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(userId, response.getData().get(0).getData().getUser().getId());
+    }
+
+    @Test
+    public void updateGroupManagersTest() {
+        PatchRequest requestAdd = new PatchRequest();
+        requestAdd.setOp(PatchOperation.ADD);
+        requestAdd.setValue(singletonMap("userId", userId));
+        requestAdd.setPath("/-");
+
+        PatchRequest requestRemove = new PatchRequest();
+        requestRemove.setOp(PatchOperation.REMOVE);
+        requestRemove.setPath("/24");
+
+        List<PatchRequest> requests = Arrays.asList(requestAdd, requestRemove);
+        ResponseList<GroupManager> responseList = this.getUsersApi().updateGroupManagers(groupId, requests);
+        assertEquals(1, responseList.getData().size());
+        assertEquals(userId, responseList.getData().get(0).getData().getUser().getId());
+    }
+
+    @Test
+    public void getGroupManagerTest() {
+        ResponseObject<GroupManager> response = this.getUsersApi().getGroupManager(groupId, userId);
+        assertNotNull(response);
+        assertNotNull(response.getData());
+        assertEquals(groupId, response.getData().getId());
+        assertEquals(userId, response.getData().getUser().getId());
     }
 
     @Test

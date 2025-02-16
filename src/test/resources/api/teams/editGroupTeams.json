@@ -1,0 +1,13 @@
+[
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "teamId": 1
+    }
+  },
+  {
+    "op": "remove",
+    "path": "/24"
+  }
+]

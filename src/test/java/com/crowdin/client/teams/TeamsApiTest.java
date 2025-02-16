@@ -14,6 +14,7 @@ import com.crowdin.client.teams.model.AddTeamToProjectRequest;
 import com.crowdin.client.teams.model.ProjectTeamResources;
 import com.crowdin.client.teams.model.Team;
 import com.crowdin.client.teams.model.TeamMember;
+import com.crowdin.client.teams.model.GroupTeam;
 import com.crowdin.client.users.model.TranslatorRole;
 import com.crowdin.client.users.model.TranslatorRoleName;
 import com.crowdin.client.users.model.TranslatorRolePermissions;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TeamsApiTest extends TestClient {
@@ -37,11 +39,15 @@ public class TeamsApiTest extends TestClient {
     private final Long projectId = 12L;
     private final Long userId = 3L;
     private final Long teamId = 1L;
+    private final Long groupId = 27L;
     private final String name = "French";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+                RequestMock.build(this.url + "/groups/" + groupId + "/teams", HttpGet.METHOD_NAME, "api/teams/listGroupTeams.json"),
+                RequestMock.build(this.url + "/groups/" + groupId + "/teams", HttpPatch.METHOD_NAME, "api/teams/editGroupTeams.json", "api/teams/listGroupTeams.json"),
+                RequestMock.build(this.url + "/groups/" + groupId + "/teams/" + teamId, HttpGet.METHOD_NAME, "api/teams/groupTeam.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/teams", HttpPost.METHOD_NAME, "api/teams/addTeamToProjectRequest.json", "api/teams/projectTeamResources.json"),
                 RequestMock.build(this.url + "/teams", HttpGet.METHOD_NAME, "api/teams/listTeams.json"),
                 RequestMock.build(this.url + "/teams", HttpPost.METHOD_NAME, "api/teams/addTeamRequest.json", "api/teams/team.json"),
@@ -53,6 +59,43 @@ public class TeamsApiTest extends TestClient {
                 RequestMock.build(this.url + "/teams/" + teamId + "/members", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/teams/" + teamId + "/members/" + userId, HttpDelete.METHOD_NAME)
         );
+    }
+
+    @Test
+    public void listGroupTeamsTest() {
+        ResponseList<GroupTeam> response = this.getTeamsApi().listGroupTeams(groupId, null);
+        assertNotNull(response);
+        assertEquals(1, response.getData().size());
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
+        assertEquals(name, response.getData().get(0).getData().getTeam().getName());
+    }
+
+    @Test
+    public void updateGroupTeamsTest() {
+        PatchRequest requestAdd = new PatchRequest();
+        requestAdd.setOp(PatchOperation.ADD);
+        requestAdd.setPath("/-");
+        requestAdd.setValue(singletonMap("teamId", 1));
+
+        PatchRequest requestRemove = new PatchRequest();
+        requestRemove.setOp(PatchOperation.REMOVE);
+        requestRemove.setPath("/24");
+
+        List<PatchRequest> requests = Arrays.asList(requestAdd, requestRemove);
+        ResponseList<GroupTeam> response = this.getTeamsApi().updateGroupTeams(groupId, requests);
+        assertNotNull(response);
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
+    }
+
+    @Test
+    public void getGroupTeamTest() {
+        ResponseObject<GroupTeam> response = this.getTeamsApi().getGroupTeam(groupId, teamId);
+        assertNotNull(response);
+        assertEquals(groupId, response.getData().getId());
+        assertEquals(teamId, response.getData().getTeam().getId());
+        assertEquals(name, response.getData().getTeam().getName());
     }
 
     @Test
