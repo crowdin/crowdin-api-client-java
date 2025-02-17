@@ -22,6 +22,53 @@ public class UsersApi extends CrowdinApi {
     }
 
     /**
+     * List group managers. For Crowdin Enterprise only
+     * @param groupId Group Identifier. Get via List Groups
+     * @param teamIds Defines team ids. It can be one team id or a list of comma-separated ones.
+     * @param orderBy
+     * @return list of group managers
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.managers.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<GroupManager> listGroupManagers(Long groupId, List<Long> teamIds, String orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "teamIds", Optional.ofNullable(teamIds),
+                "orderBy", Optional.ofNullable(orderBy)
+        );
+        GroupManagerResponseList response = this.httpClient.get(this.url + "/groups/" + groupId + "/managers", new HttpRequestConfig(queryParams), GroupManagerResponseList.class);
+        return GroupManagerResponseList.to(response);
+    }
+
+    /**
+     * Update group managers. For Crowdin Enterprise only
+     * @param groupId group identifier
+     * @param request request object
+     * @return list of updated group managers
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.managers.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<GroupManager> updateGroupManagers(Long groupId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        GroupManagerResponseList response = this.httpClient.patch(this.url + "/groups/" + groupId + "/managers", request, new HttpRequestConfig(), GroupManagerResponseList.class);
+        return GroupManagerResponseList.to(response);
+    }
+
+    /**
+     * Get group manager. For Crowdin Enterprise only
+     * @param groupId group identifier
+     * @param userId user identifier
+     * @return group manager
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.managers.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<GroupManager> getGroupManager(Long groupId, Long userId) throws HttpException, HttpBadRequestException {
+        GroupManagerResponseObject response = this.httpClient.get(this.url + "/groups/" + groupId + "/managers/" + userId, new HttpRequestConfig(), GroupManagerResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
      * List project members. For Crowdin Enterprise only
      * @param projectId Project Identifier. Get via List Projects
      * @param search Search users by firstName, lastName or username
