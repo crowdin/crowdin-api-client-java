@@ -35,7 +35,7 @@ public class AIApi extends CrowdinApi {
      * @param offset query offset
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompt.custom.placeholders.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<CustomPlaceholder> listCustomPlaceholders(Long userId, Integer limit, final Integer offset) {
@@ -53,7 +53,7 @@ public class AIApi extends CrowdinApi {
      * @param request request
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<CustomPlaceholder> addCustomPlaceholder(Long userId, CustomPlaceholderRequest request) {
@@ -67,7 +67,7 @@ public class AIApi extends CrowdinApi {
      * @param aiCustomPlaceholderId aiCustomPlaceholderId identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<CustomPlaceholder> getCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
@@ -81,7 +81,7 @@ public class AIApi extends CrowdinApi {
      * @param aiCustomPlaceholderId aiCustomPlaceholderId identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.delete" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
@@ -95,7 +95,7 @@ public class AIApi extends CrowdinApi {
      * @param request request
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.patch" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<CustomPlaceholder> editCustomPlaceholder(Long userId, long aiCustomPlaceholderId, List<PatchRequest> request) {
@@ -111,7 +111,7 @@ public class AIApi extends CrowdinApi {
      * @return dataset generation status
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      * */
     public ResponseObject<FineTuningDatasetData> getFineTuningDatasetGenerationStatus(
@@ -128,7 +128,7 @@ public class AIApi extends CrowdinApi {
      * @return fine-tuning dataset
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<FineTuningDatasetData> generateFineTuningDataset(
@@ -145,7 +145,7 @@ public class AIApi extends CrowdinApi {
      * @return fine-tuning event list
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.events.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.events.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.events.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<FineTuningEvent> getFineTuningEventList(
@@ -160,7 +160,7 @@ public class AIApi extends CrowdinApi {
      * @return fine-tuning job list
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<FineTuningJob> getFineTuningJobList(
@@ -183,7 +183,7 @@ public class AIApi extends CrowdinApi {
      * @return AI Prompt Fine-Tuning Dataset Job
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<FineTuningJob> createFineTuningJob(final Long userId, final Long aiPromptId, final FineTuningJobRequest request) {
@@ -199,7 +199,7 @@ public class AIApi extends CrowdinApi {
      * @return AI Prompt Fine-Tuning Dataset Job Status
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.jobs.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.jobs.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<FineTuningJob> getFineTuningJobStatus(final Long userId, final Long aiPromptId, final String jobIdentifier) {
@@ -215,7 +215,7 @@ public class AIApi extends CrowdinApi {
      * @return AI Prompt Fine-Tuning Dataset Download URL
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.fine-tuning.datasets.download.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.download.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.fine-tuning.datasets.download.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<FineTuningDatasetDownload> downloadFineTuningDataset(final Long userId, final long aiPromptId, final String jobIdentifier) {
@@ -231,7 +231,7 @@ public class AIApi extends CrowdinApi {
      * @return AI Prompt Fine-Tuning Dataset Download URL
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.clones.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPrompt> cloneAiPrompt(final Long userId, final long aiPromptId, final AiPromptCloneRequest request) {
@@ -248,7 +248,7 @@ public class AIApi extends CrowdinApi {
      * @param offset query offset
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<AiPrompt> listAiPrompts(Long userId, Long projectId, String action, Integer limit, final Integer offset) {
@@ -268,7 +268,7 @@ public class AIApi extends CrowdinApi {
      * @param request request
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPrompt> addAiPrompt(Long userId, AiPromptAddRequest request) {
@@ -283,7 +283,7 @@ public class AIApi extends CrowdinApi {
      * @param request request
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompts.completions.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> generatePromptCompletion(Long userId, long aiPromptId, AiPromptCompletionRequest request) {
@@ -298,7 +298,7 @@ public class AIApi extends CrowdinApi {
      * @param completionId completion identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> getPromptCompletionStatus(Long userId, long aiPromptId, String completionId) {
@@ -313,7 +313,7 @@ public class AIApi extends CrowdinApi {
      * @param completionId completion identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.delete" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void cancelPromptCompletion(Long userId, long aiPromptId, String completionId) {
@@ -327,7 +327,7 @@ public class AIApi extends CrowdinApi {
      * @param completionId completion identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.prompts.completions.download.download" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.completions.download.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<DownloadLink> downloadPromptCompletion(Long userId, long aiPromptId, String completionId) {
@@ -341,7 +341,7 @@ public class AIApi extends CrowdinApi {
      * @param aiPromptId aiPrompt identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPrompt> getAiPrompt(Long userId, long aiPromptId) {
@@ -355,7 +355,7 @@ public class AIApi extends CrowdinApi {
      * @param aiPromptId aiPrompt identifier
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.delete" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteAiPrompt(Long userId, long aiPromptId) {
@@ -369,7 +369,7 @@ public class AIApi extends CrowdinApi {
      * @param request request
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.patch" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiPrompt> editAiPrompt(Long userId, long aiPromptId, List<PatchRequest> request) {
@@ -428,7 +428,7 @@ public class AIApi extends CrowdinApi {
      * @return AI settings
      * @see <ul>
      * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.get" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiSetting> getAiSetting(Long userId) {
@@ -458,7 +458,7 @@ public class AIApi extends CrowdinApi {
      * @return List of AI Providers
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.getMany" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<AiProvider> listAiProviders(final Long userId, final Integer limit, final Integer offset) {
@@ -477,7 +477,7 @@ public class AIApi extends CrowdinApi {
      * @return AiProvider
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiProvider> addAiProviders(final Long userId, final AiProviderRequest request) {
@@ -492,7 +492,7 @@ public class AIApi extends CrowdinApi {
      * @return AiProvider
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.get" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.get" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiProvider> getAiProvider(final Long userId, final Long aiProviderId) {
@@ -506,7 +506,7 @@ public class AIApi extends CrowdinApi {
      * @param aiProviderId id of AiProvider
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.delete" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.delete" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteAiProvider(final Long userId, final Long aiProviderId) {
@@ -521,7 +521,7 @@ public class AIApi extends CrowdinApi {
      * @return updated AiProvider
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.providers.patch" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.patch" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiProvider> editAiProvider(final Long userId, final Long aiProviderId, List<PatchRequest> requests) {
@@ -536,7 +536,7 @@ public class AIApi extends CrowdinApi {
      * @return list of AiProviderModel
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documntation</b></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documntation</b></a></li>
      * </ul>
      */
     public ResponseList<AiProviderModel> listAiProviderModels(final Long userId, final Long aiProviderId) {
@@ -552,7 +552,7 @@ public class AIApi extends CrowdinApi {
      * @return updated AiProvider
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.providers.chat.completions.post" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post" target="_blank"><b>Enterprise API Documentation</b></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.chat.completions.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<Map<String, Object>> createProxyChatCompletion(final Long userId, final Long aiProviderId, Map<String, Object> request) {
