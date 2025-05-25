@@ -1,0 +1,20 @@
+{
+  "data": {
+    "viewer": {
+      "projects": {
+        "edges": [
+          {
+            "node": {
+              "name": "test1"
+            }
+          },
+          {
+            "node": {
+              "name": "test2"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

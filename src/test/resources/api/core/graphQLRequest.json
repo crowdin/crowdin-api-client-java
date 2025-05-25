@@ -1,0 +1,3 @@
+{
+  "query": "query { viewer { projects(first: 2) { edges { node { name } } } } }"
+}

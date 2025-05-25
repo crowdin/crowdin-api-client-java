@@ -103,6 +103,31 @@ public class Main {
 }
 ```
 
+## GraphQL API
+
+This library also provides possibility to use [GraphQL API](https://support.crowdin.com/developer/graphql-api/)
+
+```java
+import com.crowdin.client.Client;
+import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.GraphQLRequest;
+
+import java.util.Map;
+
+public class GraphQLExample {
+
+    public static void main(String[] args) {
+        Credentials credentials = new Credentials("token", "organization");
+        Client client = new Client(credentials);
+        String query = "query { viewer { projects(first: 2) { edges { node { name } } } } }";
+        GraphQLRequest request = new GraphQLRequest(query);
+        Map<String, Object> response = client.graphql(request).getData();
+        System.out.println(response);
+    }
+
+}
+```
+
 ## Seeking Assistance
 
 If you find any problems or would like to suggest a feature, please read the [How can I contribute](/CONTRIBUTING.md#how-can-i-contribute) section in our contributing guidelines.
