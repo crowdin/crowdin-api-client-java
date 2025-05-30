@@ -25,6 +25,8 @@ import com.crowdin.client.translations.model.UploadTranslationsResponseObject;
 import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
 import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
 import com.crowdin.client.translations.model.UploadTranslationsStringsResponseObject;
+import com.crowdin.client.translations.model.PreTranslationReportResponse;
+import com.crowdin.client.translations.model.PreTranslationReportResponseObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -287,5 +289,20 @@ public class TranslationsApi extends CrowdinApi {
                 PreTranslationResponseObject.class
         );
         return ResponseObject.of(preTranslationResponseObject.getData());
+    }
+    
+    /**
+     * Get Pre-Translation Report
+     *
+     * @param projectId         project identifier
+     * @param preTranslationId  Pre-translation identifier
+     */
+    public ResponseObject<PreTranslationReportResponse> getPreTranslationReport(Long projectId, String preTranslationId) throws HttpException , HttpBadRequestException{
+        PreTranslationReportResponseObject response = this.httpClient.get(
+            this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report",
+            new HttpRequestConfig(),
+            PreTranslationReportResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 }
