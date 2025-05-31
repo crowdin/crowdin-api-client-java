@@ -25,6 +25,8 @@ import com.crowdin.client.translations.model.UploadTranslationsRequest;
 import com.crowdin.client.translations.model.UploadTranslationsResponse;
 import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
 import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
+import com.crowdin.client.translations.model.PreTranslationReportResponse;
+
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -69,7 +71,8 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpGet.METHOD_NAME, "api/translations/listPreTranslations.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpPatch.METHOD_NAME, "api/translations/editPreTranslationRequest.json", "api/translations/editPreTranslationResponse.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpPatch.METHOD_NAME, "api/translations/editPreTranslationRequest.json", "api/translations/editPreTranslationResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report", HttpGet.METHOD_NAME, "api/translations/preTranslationReportResponse.json")
                 );
     }
 
@@ -265,5 +268,17 @@ public class TranslationsApiTest extends TestClient {
 
         assertEquals(language, preTranslationResponseObject.getData().getAttributes().getLanguageIds().get(0));
         assertEquals(fileId, preTranslationResponseObject.getData().getAttributes().getFileIds().get(0));
+    }
+    
+    @Test
+    public void getPreTranslationReportTest() {
+    	 ResponseObject<PreTranslationReportResponse> response = this.getTranslationsApi().getPreTranslationReport(projectId, preTranslationId);    	 
+    	 PreTranslationReportResponse report = response.getData();
+         assertNotNull(report);
+         assertEquals(Method.AI, report.getPreTranslateType());
+         PreTranslationReportResponse.TargetLanguage lang = report.getLanguages().get(0);
+         assertEquals(language, lang.getId());
+         PreTranslationReportResponse.File file = lang.getFiles().get(0);
+         assertEquals(fileId, file.getId());
     }
 }

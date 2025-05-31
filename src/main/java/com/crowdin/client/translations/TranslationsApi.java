@@ -25,6 +25,8 @@ import com.crowdin.client.translations.model.UploadTranslationsResponseObject;
 import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
 import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
 import com.crowdin.client.translations.model.UploadTranslationsStringsResponseObject;
+import com.crowdin.client.translations.model.PreTranslationReportResponse;
+import com.crowdin.client.translations.model.PreTranslationReportResponseObject;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -287,5 +289,25 @@ public class TranslationsApi extends CrowdinApi {
                 PreTranslationResponseObject.class
         );
         return ResponseObject.of(preTranslationResponseObject.getData());
+    }
+    
+    /**
+     * Pre-Translation Report
+     * 
+     * @param projectId project identifier
+     * @param preTranslationId pre-translation identifier
+     * @return pre-translation report data
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#tag/Translations/operation/api.projects.pre-translations.report.getReport" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/Translations/operation/api.projects.pre-translations.report.getReport" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<PreTranslationReportResponse> getPreTranslationReport(Long projectId, String preTranslationId) throws HttpException, HttpBadRequestException {
+        PreTranslationReportResponseObject response = this.httpClient.get(
+            this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report",
+            new HttpRequestConfig(),
+            PreTranslationReportResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 }
