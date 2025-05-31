@@ -72,7 +72,7 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpGet.METHOD_NAME, "api/translations/listPreTranslations.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpPatch.METHOD_NAME, "api/translations/editPreTranslationRequest.json", "api/translations/editPreTranslationResponse.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report",HttpGet.METHOD_NAME,"api/translations/preTranslationReportResponse.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report", HttpGet.METHOD_NAME, "api/translations/preTranslationReportResponse.json")
                 );
     }
 
@@ -275,8 +275,8 @@ public class TranslationsApiTest extends TestClient {
     	 ResponseObject<PreTranslationReportResponse> response = this.getTranslationsApi().getPreTranslationReport(projectId, preTranslationId);    	 
     	 PreTranslationReportResponse report = response.getData();
          assertNotNull(report);
-         assertEquals("ai", report.getPreTranslateType());
-         PreTranslationReportResponse.Language lang = report.getLanguages().get(0);
+         assertEquals(Method.AI, report.getPreTranslateType());
+         PreTranslationReportResponse.TargetLanguage lang = report.getLanguages().get(0);
          assertEquals(language, lang.getId());
          PreTranslationReportResponse.File file = lang.getFiles().get(0);
          assertEquals(fileId, file.getId());
