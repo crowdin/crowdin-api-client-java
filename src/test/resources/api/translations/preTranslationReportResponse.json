@@ -1,0 +1,18 @@
+{
+  "data": {
+    "languages": [
+      {
+        "id": "uk",
+        "files": [
+          {
+            "id": "2",
+            "statistics": { "phrases": 6, "words": 13 }
+          }
+        ],
+        "skipped": { "ai_error": 6 },
+        "skippedQaCheckCategories": ["spellcheck"]
+      }
+    ],
+    "preTranslateType": "ai"
+  }
+}
