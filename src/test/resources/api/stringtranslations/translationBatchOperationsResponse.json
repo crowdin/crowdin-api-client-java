@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 190695,
+        "text": "Цю стрічку перекладено",
+        "pluralCategoryName": "few",
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "rating": 10,
+        "provider": "tm",
+        "isPreTranslated": true,
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ]
+}

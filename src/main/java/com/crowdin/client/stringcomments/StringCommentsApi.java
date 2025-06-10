@@ -114,4 +114,19 @@ public class StringCommentsApi extends CrowdinApi {
         StringCommentResponseObject response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), StringCommentResponseObject.class);
         return ResponseObject.of(response.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return list of updated string comment objects
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/String-Comments/operation/api.projects.comments.batchPatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Comments/operation/api.projects.comments.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringComment> stringCommentBatchOperations(Long projectId, List<PatchRequest> request) {
+        String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
+        StringCommentResponseList response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), StringCommentResponseList.class);
+        return StringCommentResponseList.to(response);
+    }
 }
