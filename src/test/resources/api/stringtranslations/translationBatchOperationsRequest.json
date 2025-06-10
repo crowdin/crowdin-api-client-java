@@ -1,0 +1,17 @@
+[
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "stringId": 35434,
+      "languageId": "fr",
+      "text": "Цю стрічку перекладено",
+      "pluralCategoryName": "few",
+      "addToTm": false
+    }
+  },
+  {
+    "op": "remove",
+    "path": "/2815"
+  }
+]

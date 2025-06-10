@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2,
+        "text": "@BeMyEyes  Please provide more details on where the text will be used",
+        "userId": 6,
+        "stringId": 742,
+        "user": {
+          "id": 12,
+          "username": "john_smith",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "string": {
+          "id": 742,
+          "text": "HTML page example",
+          "type": "text",
+          "hasPlurals": false,
+          "isIcu": false,
+          "context": "Document Title\\r\\nXPath: /html/head/title",
+          "fileId": 22
+        },
+        "projectId": 1,
+        "languageId": "bg",
+        "type": "issue",
+        "issueType": "source_mistake",
+        "issueStatus": "unresolved",
+        "resolverId": 12,
+        "resolver": {
+          "id": 12,
+          "username": "john_smith",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "resolvedAt": "2019-09-20T11:05:24+00:00",
+        "createdAt": "2019-09-20T11:05:24+00:00"
+      }
+    }
+  ]
+}

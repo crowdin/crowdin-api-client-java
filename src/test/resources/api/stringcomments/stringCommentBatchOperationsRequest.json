@@ -1,0 +1,27 @@
+[
+  {
+    "op": "replace",
+    "path": "/2814/text",
+    "value": "some issue edited"
+  },
+  {
+    "op": "replace",
+    "path": "/2814/issueStatus",
+    "value": "resolved"
+  },
+  {
+    "op": "add",
+    "path": "/-",
+    "value": {
+      "text": "some issue",
+      "stringId": 1,
+      "type": "issue",
+      "targetLanguageId": "en",
+      "issueType": "translation_mistake"
+    }
+  },
+  {
+    "op": "remove",
+    "path": "/2815"
+  }
+]

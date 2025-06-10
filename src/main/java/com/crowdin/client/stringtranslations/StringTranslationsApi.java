@@ -7,6 +7,7 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringtranslations.model.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -131,6 +132,32 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public void removeApproval(Long projectId, Long approvalId) throws HttpException, HttpBadRequestException {
         this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals/" + approvalId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.approvals.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Translations/operation/api.projects.approvals.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Approval> approvalBatchOperations(Long projectId, List<PatchRequest> request) {
+        String url = this.url + "/projects/" + projectId + "/approvals";
+        ApprovalResponseList response = this.httpClient.patch(url, request, new HttpRequestConfig(), ApprovalResponseList.class);
+        return ApprovalResponseList.to(response);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/String-Translations/operation/api.projects.translations.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Translations/operation/api.projects.translations.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringTranslation> translationBatchOperations(Long projectId, List<PatchRequest> request) {
+        String url = this.url + "/projects/" + projectId + "/translations";
+        StringTranslationResponseList response = this.httpClient.patch(url, request, new HttpRequestConfig(), StringTranslationResponseList.class);
+        return StringTranslationResponseList.to(response);
     }
 
     /**

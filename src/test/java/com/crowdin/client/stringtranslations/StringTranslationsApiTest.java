@@ -1,22 +1,21 @@
 package com.crowdin.client.stringtranslations;
 
+import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.stringtranslations.model.*;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class StringTranslationsApiTest extends TestClient {
 
@@ -51,7 +50,20 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpPost.METHOD_NAME, "api/stringtranslations/addVoteRequest.json", "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpGet.METHOD_NAME, "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpDelete.METHOD_NAME),
-                RequestMock.build(String.format("%s/projects/%d/translations/alignment", this.url, projectId), HttpPost.METHOD_NAME, "api/stringtranslations/alignTranslationRequest.json", "api/stringtranslations/alignTranslationResponse.json")
+                RequestMock.build(String.format("%s/projects/%d/translations/alignment", this.url, projectId), HttpPost.METHOD_NAME, "api/stringtranslations/alignTranslationRequest.json", "api/stringtranslations/alignTranslationResponse.json"),
+
+                RequestMock.build(
+                        this.url + "/projects/" + projectId + "/approvals",
+                        HttpPatch.METHOD_NAME,
+                        "api/stringtranslations/approvalBatchOperationsRequest.json",
+                        "api/stringtranslations/approvalBatchOperationsResponse.json"
+                ),
+                RequestMock.build(
+                        this.url + "/projects/" + projectId + "/translations",
+                        HttpPatch.METHOD_NAME,
+                        "api/stringtranslations/translationBatchOperationsRequest.json",
+                        "api/stringtranslations/translationBatchOperationsResponse.json"
+                )
         );
     }
 
@@ -189,4 +201,55 @@ public class StringTranslationsApiTest extends TestClient {
         this.getStringTranslationsApi().cancelVote(projectId, voteId);
     }
 
+    @Test
+    public void approvalBatchOperationsTest() {
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/-");
+                setValue(new AddApprovalRequest() {{
+                    setTranslationId(200L);
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/2815");
+            }});
+        }};
+
+        ResponseList<Approval> response = this.getStringTranslationsApi().approvalBatchOperations(projectId, request);
+        assertNotNull(response);
+        assertNotNull(response.getData());
+
+        assertEquals("uk", response.getData().get(0).getData().getLanguageId());
+        assertEquals(190695, response.getData().get(0).getData().getTranslationId());
+    }
+
+    @Test
+    public void translationBatchOperationsTest() {
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/-");
+                setValue(new AddStringTranslationRequest() {{
+                    setStringId(35434L);
+                    setLanguageId("fr");
+                    setText("Цю стрічку перекладено");
+                    setPluralCategoryName(PluralCategoryName.FEW);
+                    setAddToTm(false);
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/2815");
+            }});
+        }};
+
+        ResponseList<StringTranslation> response = this.getStringTranslationsApi().translationBatchOperations(projectId, request);
+        assertNotNull(response);
+        assertNotNull(response.getData());
+
+        assertEquals(190695, response.getData().get(0).getData().getId());
+        assertEquals("tm",  response.getData().get(0).getData().getProvider());
+    }
 }
