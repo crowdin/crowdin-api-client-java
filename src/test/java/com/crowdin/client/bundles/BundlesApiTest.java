@@ -81,6 +81,7 @@ public class BundlesApiTest extends TestClient {
         request.setExportPattern(pattern);
         request.setIsMultilingual(true);
         request.setIncludeProjectSourceLanguage(true);
+        request.setIncludeInContextPseudoLanguage(false);
         request.setLabelIds(Collections.singletonList(0L));
 
         ResponseObject<Bundle> response = this.getBundlesApi().addBundle(projectId, request);
