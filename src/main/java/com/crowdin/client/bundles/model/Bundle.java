@@ -16,6 +16,7 @@ public class Bundle {
     private String exportPattern;
     private boolean isMultilingual;
     private Boolean includeProjectSourceLanguage;
+    private Boolean includeInContextPseudoLanguage;
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
     private String webUrl;

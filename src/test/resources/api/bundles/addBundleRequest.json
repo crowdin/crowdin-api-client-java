@@ -10,6 +10,7 @@
   "exportPattern": "strings-%two_letter_code%.resx",
   "isMultilingual": true,
   "includeProjectSourceLanguage": true,
+  "includeInContextPseudoLanguage": false,
   "labelIds": [
     0
   ]
