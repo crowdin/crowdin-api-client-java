@@ -2,15 +2,26 @@
   "data": {
     "languages": [
       {
-        "id": "uk",
+        "id": "es",
         "files": [
           {
-            "id": "2",
-            "statistics": { "phrases": 6, "words": 13 }
+            "id": "10191",
+            "statistics": {
+              "phrases": 6,
+              "words": 13
+            }
           }
         ],
-        "skipped": { "ai_error": 6 },
-        "skippedQaCheckCategories": ["spellcheck"]
+        "skipped": {
+          "translation_eq_source": 2,
+          "qa_check": 1,
+          "hidden_strings": 0,
+          "ai_error": 6
+        },
+        "skippedQaCheckCategories": {
+          "duplicate": 1,
+          "spellcheck": 1
+        }
       }
     ],
     "preTranslateType": "ai"
