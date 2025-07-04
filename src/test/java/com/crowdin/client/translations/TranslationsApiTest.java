@@ -35,6 +35,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -272,13 +273,30 @@ public class TranslationsApiTest extends TestClient {
     
     @Test
     public void getPreTranslationReportTest() {
-    	 ResponseObject<PreTranslationReportResponse> response = this.getTranslationsApi().getPreTranslationReport(projectId, preTranslationId);    	 
-    	 PreTranslationReportResponse report = response.getData();
-         assertNotNull(report);
-         assertEquals(Method.AI, report.getPreTranslateType());
-         PreTranslationReportResponse.TargetLanguage lang = report.getLanguages().get(0);
-         assertEquals(language, lang.getId());
-         PreTranslationReportResponse.File file = lang.getFiles().get(0);
-         assertEquals(fileId, file.getId());
+        ResponseObject<PreTranslationReportResponse> response = this.getTranslationsApi().getPreTranslationReport(projectId, preTranslationId);
+        PreTranslationReportResponse report = response.getData();
+        assertNotNull(report);
+
+        assertEquals(Method.AI, report.getPreTranslateType());
+
+        PreTranslationReportResponse.TargetLanguage language = report.getLanguages().get(0);
+        assertEquals("es", language.getId());
+
+        PreTranslationReportResponse.File file = language.getFiles().get(0);
+        assertEquals(10191, file.getId());
+
+        PreTranslationReportResponse.Statistics statistics = file.getStatistics();
+        assertEquals(6, statistics.getPhrases());
+        assertEquals(13, statistics.getWords());
+
+        Map<String, Integer> skipped = language.getSkipped();
+        assertEquals(2, skipped.get("translation_eq_source"));
+        assertEquals(1, skipped.get("qa_check"));
+        assertEquals(0, skipped.get("hidden_strings"));
+        assertEquals(6, skipped.get("ai_error"));
+
+        Map<String, Integer> skippedQaCheckCategories = language.getSkippedQaCheckCategories();
+        assertEquals(1,  skippedQaCheckCategories.get("duplicate"));
+        assertEquals(1, skippedQaCheckCategories.get("spellcheck"));
     }
 }
