@@ -4,7 +4,7 @@ import com.crowdin.client.core.model.EnumConverter;
 
 public enum Type implements EnumConverter<Type> {
 
-    GOOGLE, GOOGLE_AUTOML, MICROSOFT, DEEPL, AMAZON, MODERNMT, CROWDIN;
+    GOOGLE, GOOGLE_AUTOML, MICROSOFT, DEEPL, AMAZON, MODERNMT, CROWDIN, CUSTOM_MT;
 
     public static Type from(String value) {
         return Type.valueOf(value.toUpperCase());
