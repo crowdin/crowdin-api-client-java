@@ -10,9 +10,11 @@ import java.util.List;
 public class UpdateFileRequest extends UpdateOrRestoreFileRequest {
 
     private Long storageId;
+    private String name;
     private UpdateOption updateOption;
     private ImportOptions importOptions;
     private ExportOptions exportOptions;
     private List<Long> attachLabelIds;
     private List<Long> detachLabelIds;
+    private Boolean replaceModifiedContext;
 }
