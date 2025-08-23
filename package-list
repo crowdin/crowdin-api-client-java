@@ -51,6 +51,8 @@ com.crowdin.client.storage
 com.crowdin.client.storage.model
 com.crowdin.client.stringcomments
 com.crowdin.client.stringcomments.model
+com.crowdin.client.stringcorrections
+com.crowdin.client.stringcorrections.model
 com.crowdin.client.stringtranslations
 com.crowdin.client.stringtranslations.model
 com.crowdin.client.tasks
