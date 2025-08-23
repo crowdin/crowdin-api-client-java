@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": 190695,
+    "text": "This string has been corrected",
+    "pluralCategoryName": "few",
+    "user": {
+      "id": 19,
+      "username": "john_doe",
+      "fullName": "John Smith",
+      "avatarUrl": ""
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00"
+  }
+}
