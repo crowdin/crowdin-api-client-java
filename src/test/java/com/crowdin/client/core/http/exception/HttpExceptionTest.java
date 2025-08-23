@@ -9,7 +9,7 @@ public class HttpExceptionTest {
 
     @Test
     public void httpExceptionFromTest() {
-        HttpException message = HttpException.fromMessage("Exception message!");
+        HttpException message = HttpException.fromMessage("Exception message!", null);
         assertEquals(message.getError().getMessage(), "Exception message!");
     }
 }

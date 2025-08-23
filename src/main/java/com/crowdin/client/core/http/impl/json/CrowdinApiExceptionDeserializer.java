@@ -36,7 +36,7 @@ public class CrowdinApiExceptionDeserializer extends JsonDeserializer<CrowdinApi
         } else if (treeNode.get("error") != null) {
             return this.objectMapper.treeToValue(treeNode, HttpException.class);
         } else {
-            return HttpException.fromMessage(treeNode.toString());
+            return HttpException.fromMessage(treeNode.toString(), null);
         }
     }
 }

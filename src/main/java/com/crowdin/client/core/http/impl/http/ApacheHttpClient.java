@@ -120,6 +120,7 @@ public class ApacheHttpClient implements HttpClient {
                              Class<T> clazz,
                              String method) throws HttpException, HttpBadRequestException {
         HttpUriRequest request = this.buildRequest(method, url, data, config);
+        String httpResponse = null;
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode < 200 || statusCode >= 300) {
@@ -134,9 +135,10 @@ public class ApacheHttpClient implements HttpClient {
             if (Void.class.equals(clazz)) {
                 return null;
             }
-            return this.jsonTransformer.parse(this.toString(response.getEntity()), clazz);
+            httpResponse = this.toString(response.getEntity());
+            return this.jsonTransformer.parse(httpResponse, clazz);
         } catch (IOException e) {
-            throw HttpException.fromMessage(e.getMessage());
+            throw HttpException.fromMessage(e.getMessage(), httpResponse);
         }
     }
 
