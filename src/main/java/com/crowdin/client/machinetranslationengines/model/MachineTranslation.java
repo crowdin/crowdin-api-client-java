@@ -12,7 +12,7 @@ public class MachineTranslation {
     private Long groupId;
     private String name;
     private Type type;
-    private Map<String, String> credentials;
+    private Map<String, Object> credentials;
     private List<Long> projectIds;
     private List<String> supportedLanguageIds;
     private Map<String, List<String>> supportedLanguagePairs;
