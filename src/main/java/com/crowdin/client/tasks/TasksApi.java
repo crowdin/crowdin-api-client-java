@@ -12,15 +12,7 @@ import com.crowdin.client.core.model.DownloadLinkResponseObject;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.tasks.model.AddTaskRequest;
-import com.crowdin.client.tasks.model.AddTaskSettingsTemplateRequest;
-import com.crowdin.client.tasks.model.Status;
-import com.crowdin.client.tasks.model.Task;
-import com.crowdin.client.tasks.model.TaskResponseList;
-import com.crowdin.client.tasks.model.TaskResponseObject;
-import com.crowdin.client.tasks.model.TaskSettingsTemplate;
-import com.crowdin.client.tasks.model.TaskSettingsTemplateResponseList;
-import com.crowdin.client.tasks.model.TaskSettingsTemplateResponseObject;
+import com.crowdin.client.tasks.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -246,6 +238,85 @@ public class TasksApi extends CrowdinApi {
         String url = formUrl_taskSettingsTemplateId(projectId, taskSettingsTemplateId);
         TaskSettingsTemplateResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), TaskSettingsTemplateResponseObject.class);
         return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of task comments
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TaskComment> listTasksComments(Long projectId, Long taskId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        TaskCommentResponseList taskCommentResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/comments", new HttpRequestConfig(queryParams), TaskCommentResponseList.class);
+        return TaskCommentResponseList.to(taskCommentResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param request request object
+     * @return newly created task comment
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskComment> addTaskComment(Long projectId, Long taskId, CreateTaskCommentRequest request) throws HttpException, HttpBadRequestException {
+        TaskCommentResponseObject taskCommentResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/comments", request, new HttpRequestConfig(), TaskCommentResponseObject.class);
+        return ResponseObject.of(taskCommentResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId comment identifier
+     * @return task comment
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskComment> getTaskComment(Long projectId, Long taskId, Long commentId) throws HttpException, HttpBadRequestException {
+        TaskCommentResponseObject taskCommentResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/comments/" + commentId, new HttpRequestConfig(), TaskCommentResponseObject.class);
+        return ResponseObject.of(taskCommentResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId task identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteTaskComment(Long projectId, Long taskId, Long commentId) throws HttpException, HttpBadRequestException {
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/comments/" + commentId, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param taskId task identifier
+     * @param commentId task identifier
+     * @param request request object
+     * @return updated task comment
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Tasks/operation/api.projects.tasks.comments.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<TaskComment> editTaskComment(Long projectId, Long taskId, Long commentId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        TaskCommentResponseObject taskCommentResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/tasks/" + taskId + "/comments/" + commentId, request, new HttpRequestConfig(), TaskCommentResponseObject.class);
+        return ResponseObject.of(taskCommentResponseObject.getData());
     }
 
     //<editor-fold desc="Helper methods">

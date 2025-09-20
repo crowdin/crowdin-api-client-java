@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1233,
+        "userId": 5,
+        "taskId": 203,
+        "text": "translate task",
+        "timeSpent": 3600,
+        "createdAt": "2025-08-23T09:04:29+00:00",
+        "updatedAt": "2025-08-23T09:04:29+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 10,
+    "limit": 20
+  }
+}
