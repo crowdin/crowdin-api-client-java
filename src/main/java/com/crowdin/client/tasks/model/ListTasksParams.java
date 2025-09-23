@@ -10,5 +10,5 @@ import java.util.EnumSet;
 @Data
 public class ListTasksParams extends Pagination {
     private EnumSet<Status> statuses;
-    private Integer assigneeId;
+    private Long assigneeId;
 }

@@ -42,21 +42,20 @@ public class TasksApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId) throws HttpException, HttpBadRequestException {
-        EnumSet<Status> statuses = (status != null) ? EnumSet.of(status) : null;
-
-        ListTasksParams params = new ListTasksParams();
-        params.setStatuses(statuses);
-        params.setLimit(limit);
-        params.setOffset(offset);
-        params.setAssigneeId(assigneeId);
-
-        return listTasksInternal(projectId, params);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(status != null ? status.to(status) : null),
+                "assigneeId", Optional.ofNullable(assigneeId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
     }
 
     /**
      * Lists tasks for a given project, filtered by multiple statuses.
      *
-     * @param projectId  ID of the project
+     * @param projectId identifier
      * @param params Query params
      * @return List of tasks
      * @see <ul>
@@ -65,7 +64,28 @@ public class TasksApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<Task> listTasks(Long projectId, ListTasksParams params) throws HttpException, HttpBadRequestException {
-        return listTasksInternal(projectId, params);
+        ListTasksParams query = Optional.ofNullable(params).orElse(new ListTasksParams());
+
+        EnumSet<Status> statuses = query.getStatuses();
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(
+                        statuses == null ? null : statuses.stream()
+                                .map(status -> status.to(status))
+                                .collect(Collectors.joining(","))
+                ),
+                "assigneeId", Optional.ofNullable(query.getAssigneeId()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
+        );
+
+        TaskResponseList taskResponseList = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/tasks",
+                new HttpRequestConfig(queryParams),
+                TaskResponseList.class
+        );
+
+        return TaskResponseList.to(taskResponseList);
     }
 
     /**
@@ -176,34 +196,6 @@ public class TasksApi extends CrowdinApi {
         TaskResponseObject taskResponseObject = this.httpClient.patch(this.url + "/user/tasks/" + taskId, request, new HttpRequestConfig(queryParams), TaskResponseObject.class);
         return ResponseObject.of(taskResponseObject.getData());
     }
-
-    //<editor-fold desc="List Tasks Common Method">
-    private ResponseList<Task> listTasksInternal(Long projectId, ListTasksParams params) throws HttpException, HttpBadRequestException {
-        ListTasksParams query = Optional.ofNullable(params).orElse(new ListTasksParams());
-
-        EnumSet<Status> statuses = query.getStatuses();
-
-        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "status", Optional.ofNullable(
-                        statuses == null ? null : statuses.stream()
-                                .map(status -> status.to(status))
-                                .collect(Collectors.joining(","))
-                ),
-                "assigneeId", Optional.ofNullable(query.getAssigneeId()),
-                "limit", Optional.ofNullable(query.getLimit()),
-                "offset", Optional.ofNullable(query.getOffset())
-        );
-
-        TaskResponseList taskResponseList = this.httpClient.get(
-                this.url + "/projects/" + projectId + "/tasks",
-                new HttpRequestConfig(queryParams),
-                TaskResponseList.class
-        );
-
-        return TaskResponseList.to(taskResponseList);
-    }
-
-    //</editor-fold>
 
     //<editor-fold desc="Task Settings Templates">
 
