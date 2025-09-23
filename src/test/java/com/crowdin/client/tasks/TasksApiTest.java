@@ -86,6 +86,20 @@ public class TasksApiTest extends TestClient {
     }
 
     @Test
+    void listTasksTest_withNullStatuses() {
+        ListTasksParams listTasksParams = new ListTasksParams();
+        listTasksParams.setStatuses(null);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, listTasksParams);
+
+        assertNotNull(taskResponseList);
+        assertEquals(1, taskResponseList.getData().size());
+        assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
+
+        assertListTasks(taskResponseList);
+    }
+
+    @Test
     public void listTasksTest_multipleStatuses() {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
 
