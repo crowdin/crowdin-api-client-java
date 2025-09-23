@@ -7,40 +7,28 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.tasks.model.AssignedTeam;
-import com.crowdin.client.tasks.model.Assignee;
-import com.crowdin.client.tasks.model.AssigneeRequest;
-import com.crowdin.client.tasks.model.CreateTaskEnterpriseStringsBasedRequest;
-import com.crowdin.client.tasks.model.CreateTaskRequest;
-import com.crowdin.client.tasks.model.CreateTaskEnterpriseVendorRequest;
-import com.crowdin.client.tasks.model.CreateTaskStringsBasedRequest;
-import com.crowdin.client.tasks.model.Progress;
-import com.crowdin.client.tasks.model.Status;
-import com.crowdin.client.tasks.model.Task;
-import com.crowdin.client.tasks.model.Type;
+import com.crowdin.client.tasks.model.*;
 import com.crowdin.client.tasks.model.pending.CreateEnterprisePendingTaskRequest;
 import com.crowdin.client.tasks.model.pending.CreatePendingTaskRequest;
+import lombok.SneakyThrows;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 import static java.util.Collections.singletonList;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TasksApiTest extends TestClient {
 
     private final Long projectId = 12L;
     private final Long enterpriseProjectId = 13L;
+    private final Long multiStatusProjectId = 14L;
+    private final Long singleStatusProjectId = 15L;
     private final Long taskId = 2L;
     private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
@@ -61,26 +49,61 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/user/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
-                RequestMock.build(this.url + "/user/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json")
+                RequestMock.build(this.url + "/user/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + multiStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/multiStatusListTasks.json", new HashMap<String, String>() {{
+                    put("status", "todo,done");
+                }}),
+                RequestMock.build(this.url + "/projects/" + singleStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/singleStatusListTasks.json", new HashMap<String, String>() {{
+                    put("status", "in_progress");
+                }})
         );
     }
 
     @Test
     public void listTasksTest() {
-        Assignee assignee = new Assignee();
-        assignee.setId(1L);
-        assignee.setUsername("john_smith");
-        assignee.setFullName("john_smith");
-        assignee.setAvatarUrl("");
-        assignee.setWordsCount(5);
-        assignee.setWordsLeft(3);
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null, null);
-        assertEquals(taskResponseList.getData().size(), 1);
-        assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
-        assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
-        assertEquals(new Date(119, Calendar.SEPTEMBER,27,7,0,14), taskResponseList.getData().get(0).getData().getDeadline());
-        assertEquals(taskResponseList.getData().get(0).getData().getAssignees().get(0), assignee);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
+
+        assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
+
+        assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_testSingleStatus() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(singleStatusProjectId, null, null, Status.IN_PROGRESS, null);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
+        assertEquals(singleStatusProjectId, taskResponseList.getData().get(0).getData().getProjectId());
+        assertEquals(Status.IN_PROGRESS, taskResponseList.getData().get(0).getData().getStatus());
+
+        assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_multipleStatuses() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+
+        EnumSet<Status> statuses = EnumSet.of(Status.TODO, Status.DONE);
+
+        ListTasksParams listTasksParams = new ListTasksParams();
+        listTasksParams.setStatuses(statuses);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(multiStatusProjectId, listTasksParams);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
+        assertEquals(multiStatusProjectId, taskResponseList.getData().get(0).getData().getProjectId());
+
+        Status responseProjectStatus = taskResponseList.getData().get(0).getData().getStatus();
+        assertTrue(statuses.contains(responseProjectStatus));
+
+        assertListTasks(taskResponseList);
     }
 
     @Test
@@ -282,4 +305,21 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
     }
+
+    //<editor-fold desc="Common method for listTasks assertion">
+    @SneakyThrows
+    private void assertListTasks(ResponseList<Task> taskResponseList) {
+        Assignee assignee = new Assignee();
+        assignee.setId(1L);
+        assignee.setUsername("john_smith");
+        assignee.setFullName("john_smith");
+        assignee.setAvatarUrl("");
+        assignee.setWordsCount(5);
+        assignee.setWordsLeft(3);
+
+        assertEquals(taskId, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(new Date(119, Calendar.SEPTEMBER,27,7,0,14), taskResponseList.getData().get(0).getData().getDeadline());
+        assertEquals(assignee, taskResponseList.getData().get(0).getData().getAssignees().get(0));
+    }
+    //</editor-fold>
 }
