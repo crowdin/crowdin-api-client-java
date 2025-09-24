@@ -14,9 +14,11 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.tasks.model.*;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TasksApi extends CrowdinApi {
     public TasksApi(Credentials credentials) {
@@ -41,12 +43,48 @@ public class TasksApi extends CrowdinApi {
      */
     public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "status", Optional.ofNullable(status),
+                "status", Optional.ofNullable(status != null ? status.to(status) : null),
                 "assigneeId", Optional.ofNullable(assigneeId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
         TaskResponseList taskResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
+    }
+
+    /**
+     * Lists tasks for a given project, filtered by multiple statuses.
+     *
+     * @param projectId project identifier
+     * @param params Query params
+     * @return List of tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listTasks(Long projectId, ListTasksParams params) throws HttpException, HttpBadRequestException {
+        ListTasksParams query = Optional.ofNullable(params).orElse(new ListTasksParams());
+
+        EnumSet<Status> statuses = query.getStatuses();
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(
+                        statuses == null ? null : statuses.stream()
+                                .map(status -> status.to(status))
+                                .collect(Collectors.joining(","))
+                ),
+                "assigneeId", Optional.ofNullable(query.getAssigneeId()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
+        );
+
+        TaskResponseList taskResponseList = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/tasks",
+                new HttpRequestConfig(queryParams),
+                TaskResponseList.class
+        );
+
         return TaskResponseList.to(taskResponseList);
     }
 
