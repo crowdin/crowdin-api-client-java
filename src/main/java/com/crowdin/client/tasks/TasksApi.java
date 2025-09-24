@@ -55,7 +55,7 @@ public class TasksApi extends CrowdinApi {
     /**
      * Lists tasks for a given project, filtered by multiple statuses.
      *
-     * @param projectId identifier
+     * @param projectId project identifier
      * @param params Query params
      * @return List of tasks
      * @see <ul>
