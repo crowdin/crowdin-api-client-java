@@ -1,10 +1,6 @@
 package com.crowdin.client.tasks;
 
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.tasks.model.*;
@@ -29,6 +25,9 @@ public class TasksApiTest extends TestClient {
     private final Long enterpriseProjectId = 13L;
     private final Long multiStatusProjectId = 14L;
     private final Long singleStatusProjectId = 15L;
+    private final Long tasksProjectIdSortByIdAsc = 16L;
+    private final Long tasksProjectIdSortByIdDesc = 17L;
+    private final Long tasksProjectIdSortByIdDescTitleAsc = 18L;
     private final Long taskId = 2L;
     private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
@@ -55,6 +54,15 @@ public class TasksApiTest extends TestClient {
                 }}),
                 RequestMock.build(this.url + "/projects/" + singleStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/singleStatusListTasks.json", new HashMap<String, String>() {{
                     put("status", "in_progress");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdAsc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdDesc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdDescTitleAsc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdDescTitleAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc%2Ctitle%20asc");
                 }})
         );
     }
@@ -70,6 +78,80 @@ public class TasksApiTest extends TestClient {
         assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
 
         assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_noSortDefined() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null, null, null);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
+
+        assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
+
+        assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDefault() {
+        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
+        orderBy.put("id", null);
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderBy);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(1, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(2, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdAsc() {
+        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
+        orderBy.put("id", SortOrder.ASC);
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderBy);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(1, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(2, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDesc() {
+        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
+        orderBy.put("id", SortOrder.DESC);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDesc, null, null, null, null, orderBy);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(2, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(1, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDescTitleAsc() {
+        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
+        orderBy.put("id", SortOrder.DESC);
+        orderBy.put("title", null);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDescTitleAsc, null, null, null, null, orderBy);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(2, taskResponseList.getData().get(0).getData().getId());
+        assertNotNull(taskResponseList.getData().get(0).getData().getTitle());
+        assertEquals("French#1", taskResponseList.getData().get(0).getData().getTitle());
+
+
+        assertEquals(1, taskResponseList.getData().get(1).getData().getId());
+        assertNotNull(taskResponseList.getData().get(1).getData().getTitle());
+        assertEquals("French#2", taskResponseList.getData().get(1).getData().getTitle());
     }
 
     @Test
