@@ -95,9 +95,13 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest_testSortByIdDefault() {
-        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
-        orderBy.put("id", null);
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderBy);
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderByFields);
 
         assertNotNull(taskResponseList.getData().get(0).getData());
         assertEquals(2, taskResponseList.getData().size());
@@ -108,9 +112,14 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest_testSortByIdAsc() {
-        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
-        orderBy.put("id", SortOrder.ASC);
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderBy);
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.ASC);
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderByFields);
 
         assertNotNull(taskResponseList.getData().get(0).getData());
         assertEquals(2, taskResponseList.getData().size());
@@ -121,10 +130,14 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest_testSortByIdDesc() {
-        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
-        orderBy.put("id", SortOrder.DESC);
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.DESC);
 
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDesc, null, null, null, null, orderBy);
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDesc, null, null, null, null, orderByFields);
 
         assertNotNull(taskResponseList.getData().get(0).getData());
         assertEquals(2, taskResponseList.getData().size());
@@ -135,11 +148,18 @@ public class TasksApiTest extends TestClient {
 
     @Test
     public void listTasksTest_testSortByIdDescTitleAsc() {
-        Map<String, SortOrder> orderBy = new LinkedHashMap<>();
-        orderBy.put("id", SortOrder.DESC);
-        orderBy.put("title", null);
+        OrderByField orderByIdDesc = new OrderByField();
+        orderByIdDesc.setFieldName("id");
+        orderByIdDesc.setOrderBy(SortOrder.DESC);
 
-        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDescTitleAsc, null, null, null, null, orderBy);
+        OrderByField orderByTitleNull = new OrderByField();
+        orderByTitleNull.setFieldName("title");
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderByIdDesc);
+        orderByFields.add(orderByTitleNull);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDescTitleAsc, null, null, null, null, orderByFields);
 
         assertNotNull(taskResponseList.getData().get(0).getData());
         assertEquals(2, taskResponseList.getData().size());

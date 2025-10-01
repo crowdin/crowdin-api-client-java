@@ -4,7 +4,6 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.http.impl.util.SortOrderGenerator;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.tasks.model.*;
 
@@ -52,20 +51,20 @@ public class TasksApi extends CrowdinApi {
      * @param offset starting offset in the collection (default 0)
      * @param status filter by status
      * @param assigneeId filter by assignee id
-     * @param orderBy sort keys and strategy
+     * @param orderBy list of OrderByField
      * @return list of tasks
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId, Map<String, SortOrder> orderBy) throws HttpException, HttpBadRequestException {
+    public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "status", Optional.ofNullable(status),
                 "assigneeId", Optional.ofNullable(assigneeId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
-                "orderBy",  Optional.ofNullable(SortOrderGenerator.generateSortParam(orderBy))
+                "orderBy",  Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         TaskResponseList taskResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
         return TaskResponseList.to(taskResponseList);
