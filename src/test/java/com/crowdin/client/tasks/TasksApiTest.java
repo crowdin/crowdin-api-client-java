@@ -48,6 +48,9 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/user/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
+                RequestMock.build(this.url + "/user/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/user/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + multiStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/multiStatusListTasks.json", new HashMap<String, String>() {{
                     put("status", "todo,done");
@@ -409,6 +412,14 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
+    }
+
+    @Test
+    public void listUserTasksTest_orderByNull() {
+        ResponseList<Task> taskResponseList = this.getTasksApi().listUserTasks(null, null, null, null, null);
+        assertEquals(1, taskResponseList.getData().size());
+        assertEquals(taskId, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(status, taskResponseList.getData().get(0).getData().getStatus());
     }
 
     @Test

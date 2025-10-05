@@ -199,6 +199,30 @@ public class TasksApi extends CrowdinApi {
     }
 
     /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status filter by status
+     * @param isArchived filter by archived status
+     * @return list of user tasks
+     * @param orderBy list of OrderByField
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listUserTasks(Integer limit, Integer offset, Status status, BooleanInt isArchived, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(status),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "isArchived", Optional.ofNullable(isArchived),
+                "orderBy",  Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/user/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
+    }
+
+    /**
      * @param taskId task identifier
      * @param projectId project identifier (filter)
      * @param request request object (only for archived flag)

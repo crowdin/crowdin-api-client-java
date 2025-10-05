@@ -4,13 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.projectsgroups.model.*;
 
 import java.util.List;
@@ -123,11 +117,37 @@ public class ProjectsGroupsApi extends CrowdinApi {
         return listProjects(options);
     }
 
+    /**
+     * @param groupId group identifier (optional)
+     * @param hasManagerAccess projects with manager access (default 0)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of projects
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<? extends Project> listProjects(Long groupId, Integer hasManagerAccess, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListProjectOptions options = new ListProjectOptions();
+        options.setGroupId(groupId);
+        options.setHasManagerAccess(hasManagerAccess);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        options.setOrderByFields(orderBy);
+        return listProjects(options);
+    }
+
     public ResponseList<? extends Project> listProjects(ListProjectOptions options) throws HttpException, HttpBadRequestException {
+        String orderBy = options.getOrderByFields() != null
+                ? OrderByField.generateSortParam(options.getOrderByFields())
+                : options.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(options.getGroupId()),
                 "hasManagerAccess", Optional.ofNullable(options.getHasManagerAccess()),
-                "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "orderBy", Optional.ofNullable(orderBy),
                 "type", Optional.ofNullable(options.getType()),
                 "limit", Optional.ofNullable(options.getLimit()),
                 "offset", Optional.ofNullable(options.getOffset())
