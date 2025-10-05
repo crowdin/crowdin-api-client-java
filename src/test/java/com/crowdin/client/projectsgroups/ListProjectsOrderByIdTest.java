@@ -13,20 +13,20 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ListProjectsOrderByIdTest extends TestClient {
-    private final Long projectId = 8L;
-    private final String projectName = "Knowledge Base#1";
+    private final Long projectId = 9L;
+    private final String projectName = "Knowledge Base#2";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
-                RequestMock.build(this.url + "/projects", HttpGet.METHOD_NAME, "api/projectsgroups/listProjectsOrderByIdAsc.json", new HashMap<String, String>() {{
+                RequestMock.build(this.url + "/projects", HttpGet.METHOD_NAME, "api/projectsgroups/listProjectsOrderByIdDesc.json", new HashMap<String, String>() {{
                     put("orderBy", "id%20desc");
                 }})
         );
     }
 
     @Test
-    public void listProjectsTest() {
+    public void listProjectsTest_orderByIdDesc() {
         OrderByField orderByField = new OrderByField();
         orderByField.setFieldName("id");
         orderByField.setOrderBy(SortOrder.DESC);
@@ -35,8 +35,8 @@ public class ListProjectsOrderByIdTest extends TestClient {
 
         ResponseList<? extends Project> projectResponseList = this.getProjectsGroupsApi().listProjects(null, null, null, null, orderByFields);
         assertEquals(2, projectResponseList.getData().size());
-        assertEquals(8, projectResponseList.getData().get(0).getData().getId());
-        assertEquals(9, projectResponseList.getData().get(1).getData().getId());
+        assertEquals(9, projectResponseList.getData().get(0).getData().getId());
+        assertEquals(8, projectResponseList.getData().get(1).getData().getId());
         assertEquals(projectResponseList.getData().get(0).getData().getId(), projectId);
         assertEquals(projectResponseList.getData().get(0).getData().getName(), projectName);
     }
