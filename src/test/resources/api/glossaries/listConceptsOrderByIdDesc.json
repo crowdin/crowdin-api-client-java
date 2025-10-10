@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 3,
+        "userId": 6,
+        "glossaryId": 6,
+        "subject": "general",
+        "definition": "Some definition",
+        "note": "Any kind of note, such as a usage note, explanation, or instruction",
+        "url": "Base URL",
+        "figure": "Figure URL",
+        "languagesDetails": [
+          {
+            "languageId": "en",
+            "userId": 12,
+            "definition": "Some definition",
+            "note": "Some note",
+            "createdAt": "2019-09-19T14:14:00+00:00",
+            "updatedAt": "2019-09-19T14:14:00+00:00"
+          }
+        ],
+        "createdAt": "2019-09-23T07:19:47+00:00",
+        "updatedAt": "2019-09-23T07:19:47+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 2,
+        "userId": 6,
+        "glossaryId": 6,
+        "subject": "general",
+        "definition": "Some definition",
+        "note": "Any kind of note, such as a usage note, explanation, or instruction",
+        "url": "Base URL",
+        "figure": "Figure URL",
+        "languagesDetails": [
+          {
+            "languageId": "en",
+            "userId": 12,
+            "definition": "Some definition",
+            "note": "Some note",
+            "createdAt": "2019-09-19T14:14:00+00:00",
+            "updatedAt": "2019-09-19T14:14:00+00:00"
+          }
+        ],
+        "createdAt": "2019-09-23T07:19:47+00:00",
+        "updatedAt": "2019-09-23T07:19:47+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

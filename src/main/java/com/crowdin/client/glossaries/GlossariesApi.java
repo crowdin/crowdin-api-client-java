@@ -4,13 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.glossaries.model.*;
 
 import java.util.List;
@@ -59,11 +53,36 @@ public class GlossariesApi extends CrowdinApi {
         return listConcepts(glossaryId, params);
     }
 
+    /**
+     * @param glossaryId glossary identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByFields
+     * @return list of concepts
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Concept> listConcepts(Long glossaryId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListConceptsParams params = new ListConceptsParams();
+        params.setLimit(limit);
+        params.setOffset(offset);
+        params.setOrderByList(orderBy);
+        return listConcepts(glossaryId, params);
+    }
+
     public ResponseList<Concept> listConcepts(Long glossaryId, ListConceptsParams params) throws HttpException, HttpBadRequestException {
+        ListConceptsParams query = Optional.ofNullable(params).orElse(new ListConceptsParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "orderBy", Optional.ofNullable(params.getOrderBy()),
-                "limit", Optional.ofNullable(params.getLimit()),
-                "offset", Optional.ofNullable(params.getOffset())
+                "orderBy", Optional.ofNullable(orderBy),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         ConceptResponseList conceptResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/concepts", new HttpRequestConfig(queryParams), ConceptResponseList.class);
         return ConceptResponseList.to(conceptResponseList);
@@ -128,12 +147,39 @@ public class GlossariesApi extends CrowdinApi {
         return listGlossaries(params);
     }
 
+    /**
+     * @param groupId group identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of glossaries
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Glossary> listGlossaries(Long groupId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListGlossariesParams params = new ListGlossariesParams();
+        params.setGroupId(groupId);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        params.setOrderByList(orderBy);
+        return listGlossaries(params);
+    }
+
     public ResponseList<Glossary> listGlossaries(ListGlossariesParams params) throws HttpException, HttpBadRequestException {
+        ListGlossariesParams query = Optional.ofNullable(params).orElse(new ListGlossariesParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "groupId", Optional.ofNullable(params.getGroupId()),
-                "userId", Optional.ofNullable(params.getUserId()),
-                "limit", Optional.ofNullable(params.getLimit()),
-                "offset", Optional.ofNullable(params.getOffset())
+                "groupId", Optional.ofNullable(query.getGroupId()),
+                "userId", Optional.ofNullable(query.getUserId()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(orderBy)
         );
         GlossaryResponseList glossaryResponseList = this.httpClient.get(this.url + "/glossaries", new HttpRequestConfig(queryParams), GlossaryResponseList.class);
         return GlossaryResponseList.to(glossaryResponseList);
@@ -285,16 +331,49 @@ public class GlossariesApi extends CrowdinApi {
         return listTerms(glossaryId, params);
     }
 
+    /**
+     * @param glossaryId glossary identifier
+     * @param userId user identifier
+     * @param languageId language identifier
+     * @param conceptId concept identifier
+     * @param translationOfTermId term identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of terms
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.terms.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.terms.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Term> listTerms(Long glossaryId, Long userId, String languageId, Long conceptId, @Deprecated Long translationOfTermId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListTermsParams params = new ListTermsParams();
+        params.setUserId(userId);
+        params.setLanguageId(languageId);
+        params.setConceptId(conceptId);
+        params.setTranslationOfTermId(translationOfTermId);
+        params.setLimit(limit);
+        params.setOffset(offset);
+        params.setOrderByList(orderBy);
+        return listTerms(glossaryId, params);
+    }
+
     public ResponseList<Term> listTerms(Long glossaryId, ListTermsParams params) throws HttpException, HttpBadRequestException {
+        ListTermsParams query = Optional.ofNullable(params).orElse(new ListTermsParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "orderBy", Optional.ofNullable(params.getOrderBy()),
-                "userId", Optional.ofNullable(params.getUserId()),
-                "languageId", Optional.ofNullable(params.getLanguageId()),
-                "conceptId", Optional.ofNullable(params.getConceptId()),
-                "translationOfTermId", Optional.ofNullable(params.getTranslationOfTermId()),
-                "croql", Optional.ofNullable(params.getCroql()),
-                "limit", Optional.ofNullable(params.getLimit()),
-                "offset", Optional.ofNullable(params.getOffset())
+                "orderBy", Optional.ofNullable(orderBy),
+                "userId", Optional.ofNullable(query.getUserId()),
+                "languageId", Optional.ofNullable(query.getLanguageId()),
+                "conceptId", Optional.ofNullable(query.getConceptId()),
+                "translationOfTermId", Optional.ofNullable(query.getTranslationOfTermId()),
+                "croql", Optional.ofNullable(query.getCroql()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         TermResponseList termResponseList = this.httpClient.get(this.url + "/glossaries/" + glossaryId + "/terms", new HttpRequestConfig(queryParams), TermResponseList.class);
         return TermResponseList.to(termResponseList);

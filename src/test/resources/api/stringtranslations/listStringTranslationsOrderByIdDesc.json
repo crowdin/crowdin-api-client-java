@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 190695,
+        "text": "Цю стрічку перекладено",
+        "pluralCategoryName": "few",
+        "user": {
+          "id": 19,
+          "login": "john_doe"
+        },
+        "rating": 10,
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 190694,
+        "text": "Цю стрічку перекладено",
+        "pluralCategoryName": "few",
+        "user": {
+          "id": 19,
+          "login": "john_doe"
+        },
+        "rating": 10,
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

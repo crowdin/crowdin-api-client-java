@@ -1,9 +1,6 @@
 package com.crowdin.client.screenshots;
 
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.screenshots.model.AddScreenshotRequest;
@@ -28,7 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ScreenshotsApiTest extends TestClient {
 
     private final Long projectId = 3L;
+    private final Long project2Id = 4L;
+    private final Long project3Id = 5L;
     private final Long screenshotId = 2L;
+    private final Long screenshot2Id = 3L;
     private final Long storageId = 71L;
     private final Long fileId = 48L;
     private final Long tagId = 98L;
@@ -41,6 +41,12 @@ public class ScreenshotsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots", HttpGet.METHOD_NAME, "api/screenshots/listScreenshots.json"),
+                RequestMock.build(this.url + "/projects/" + project2Id + "/screenshots", HttpGet.METHOD_NAME, "api/screenshots/listScreenshotsOrderByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + project3Id + "/screenshots", HttpGet.METHOD_NAME, "api/screenshots/listScreenshotsOrderByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots", HttpPost.METHOD_NAME, "api/screenshots/addScreenshotRequest.json", "api/screenshots/screenshot.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, HttpGet.METHOD_NAME, "api/screenshots/screenshot.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, HttpPut.METHOD_NAME, "api/screenshots/updateScreenshotRequest.json", "api/screenshots/screenshot.json"),
@@ -68,6 +74,84 @@ public class ScreenshotsApiTest extends TestClient {
         ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, null, null, null, null, null);
         assertEquals(screenshotResponseList.getData().size(), 1);
         assertEquals(screenshotResponseList.getData().get(0).getData().getId(), screenshotId);
+    }
+
+    @Test
+    public void newListScreenshotsTest_orderByNull() {
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(
+                projectId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+
+        assertEquals(1, screenshotResponseList.getData().size());
+        assertEquals(screenshotId, screenshotResponseList.getData().get(0).getData().getId());
+    }
+
+    @Test
+    public void newListScreenshotsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(
+                project2Id,
+                null,
+                null,
+                null,
+                null,
+                null,
+                singletonList(orderById)
+        );
+
+        assertEquals(2, screenshotResponseList.getData().size());
+        assertEquals(screenshotId, screenshotResponseList.getData().get(0).getData().getId());
+        assertEquals(screenshot2Id, screenshotResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void newListScreenshotsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(
+                project2Id,
+                null,
+                null,
+                null,
+                null,
+                null,
+                singletonList(orderById)
+        );
+
+        assertEquals(2, screenshotResponseList.getData().size());
+        assertEquals(screenshotId, screenshotResponseList.getData().get(0).getData().getId());
+        assertEquals(screenshot2Id, screenshotResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void newListScreenshotsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(
+                project3Id,
+                null,
+                null,
+                null,
+                null,
+                null,
+                singletonList(orderById)
+        );
+
+        assertEquals(2, screenshotResponseList.getData().size());
+        assertEquals(screenshot2Id, screenshotResponseList.getData().get(0).getData().getId());
+        assertEquals(screenshotId, screenshotResponseList.getData().get(1).getData().getId());
     }
 
     @Test

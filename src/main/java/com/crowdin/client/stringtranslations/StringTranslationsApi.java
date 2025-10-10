@@ -63,17 +63,54 @@ public class StringTranslationsApi extends CrowdinApi {
         return listTranslationApprovals(projectId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param stringId string identifier
+     * @param languageId language identifier
+     * @param translationId translation identifier
+     * @param labelIds filter approvals by labelIds
+     * @param excludeLabelIds exclude approvals by labelIds
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of approvals
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Approval> listTranslationApprovals(Long projectId, Long fileId, Long stringId, String languageId, Long translationId, String labelIds, String excludeLabelIds, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListTranslationApprovalsOptions options = new ListTranslationApprovalsOptions();
+        options.setFileId(fileId);
+        options.setStringId(stringId);
+        options.setLanguageId(languageId);
+        options.setTranslationId(translationId);
+        options.setLabelIds(labelIds);
+        options.setExcludeLabelIds(excludeLabelIds);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        options.setOrderByList(orderBy);
+        return listTranslationApprovals(projectId, options);
+    }
+
     public ResponseList<Approval> listTranslationApprovals(Long projectId, ListTranslationApprovalsOptions options) throws HttpException, HttpBadRequestException {
+        ListTranslationApprovalsOptions query = Optional.ofNullable(options).orElse(new ListTranslationApprovalsOptions());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "orderBy", Optional.ofNullable(options.getOrderBy()),
-                "fileId", Optional.ofNullable(options.getFileId()),
-                "labelIds", Optional.ofNullable(options.getLabelIds()),
-                "excludeLabelIds", Optional.ofNullable(options.getExcludeLabelIds()),
-                "stringId", Optional.ofNullable(options.getStringId()),
-                "languageId", Optional.ofNullable(options.getLanguageId()),
-                "translationId", Optional.ofNullable(options.getTranslationId()),
-                "limit", Optional.ofNullable(options.getLimit()),
-                "offset", Optional.ofNullable(options.getOffset())
+                "fileId", Optional.ofNullable(query.getFileId()),
+                "labelIds", Optional.ofNullable(query.getLabelIds()),
+                "excludeLabelIds", Optional.ofNullable(query.getExcludeLabelIds()),
+                "stringId", Optional.ofNullable(query.getStringId()),
+                "languageId", Optional.ofNullable(query.getLanguageId()),
+                "translationId", Optional.ofNullable(query.getTranslationId()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(orderBy)
         );
         ApprovalResponseList approvalResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), ApprovalResponseList.class);
         return ApprovalResponseList.to(approvalResponseList);
@@ -192,6 +229,40 @@ public class StringTranslationsApi extends CrowdinApi {
         return listLanguageTranslations(projectId, languageId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param stringIds filter translations by stringIds
+     * @param labelIds filter translations by labelIds
+     * @param fileId filter translations by file identifier
+     * @param branchId filter translations by branchId
+     * @param directoryId filter translations by directoryId
+     * @param croql filter translations by croql
+     * @param denormalizePlaceholders enable denormalize placeholders
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of language translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.languages.translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, String stringIds, String labelIds, Long fileId, Long branchId, Long directoryId, String croql, Integer denormalizePlaceholders, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListLanguageTranslationsOptions options = new ListLanguageTranslationsOptions();
+        options.setStringIds(stringIds);
+        options.setLabelIds(labelIds);
+        options.setFileId(fileId);
+        options.setBranchId(branchId);
+        options.setDirectoryId(directoryId);
+        options.setCroql(croql);
+        options.setDenormalizePlaceholders(BooleanInt.fromInt(denormalizePlaceholders));
+        options.setLimit(limit);
+        options.setOffset(offset);
+        options.setOrderByList(orderBy);
+        return listLanguageTranslations(projectId, languageId, options);
+    }
+
     public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, ListLanguageTranslationsOptions options) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -205,7 +276,8 @@ public class StringTranslationsApi extends CrowdinApi {
             "croql", Optional.ofNullable(options.getCroql()),
             "denormalizePlaceholders", Optional.ofNullable(options.getDenormalizePlaceholders()),
             "limit", Optional.ofNullable(options.getLimit()),
-            "offset", Optional.ofNullable(options.getOffset())
+            "offset", Optional.ofNullable(options.getOffset()),
+            "orderBy", Optional.ofNullable(OrderByField.generateSortParam(options.getOrderByList()))
         );
         LanguageTranslationsResponseList languageTranslationsResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), LanguageTranslationsResponseList.class);
         return LanguageTranslationsResponseList.to(languageTranslationsResponseList);
@@ -232,14 +304,43 @@ public class StringTranslationsApi extends CrowdinApi {
         return listStringTranslations(projectId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param stringId string identifier
+     * @param languageId language identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderBy field
+     * @return list of string translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringTranslation> listStringTranslations(Long projectId, Long stringId, String languageId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListStringTranslationsOptions options = new ListStringTranslationsOptions();
+        options.setStringId(stringId);
+        options.setLanguageId(languageId);
+        options.setLimit(limit);
+        options.setOffset(offset);
+        options.setOrderByList(orderBy);
+        return listStringTranslations(projectId, options);
+    }
+
     public ResponseList<StringTranslation> listStringTranslations(Long projectId, ListStringTranslationsOptions options) throws HttpException, HttpBadRequestException {
+        ListStringTranslationsOptions query = Optional.ofNullable(options).orElse(new ListStringTranslationsOptions());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "stringId", Optional.ofNullable(options.getStringId()),
-                "languageId", Optional.ofNullable(options.getLanguageId()),
-                "orderBy", Optional.ofNullable(options.getOrderBy()),
-                "denormalizePlaceholders", Optional.ofNullable(options.getDenormalizePlaceholders()),
-                "limit", Optional.ofNullable(options.getLimit()),
-                "offset", Optional.ofNullable(options.getOffset())
+                "stringId", Optional.ofNullable(query.getStringId()),
+                "languageId", Optional.ofNullable(query.getLanguageId()),
+                "denormalizePlaceholders", Optional.ofNullable(query.getDenormalizePlaceholders()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(orderBy)
         );
         StringTranslationResponseList stringTranslationResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), StringTranslationResponseList.class);
         return StringTranslationResponseList.to(stringTranslationResponseList);

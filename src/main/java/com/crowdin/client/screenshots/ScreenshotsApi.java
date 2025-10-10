@@ -4,11 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.screenshots.model.*;
 
 import java.util.List;
@@ -69,6 +65,32 @@ public class ScreenshotsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
+     * @param stringIds string identifiers
+     * @param labelIds label identifiers
+     * @param excludeLabelIds exclude label identifiers
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of screenshots
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Screenshot> listScreenshots(Long projectId, List<String> stringIds, List<String> labelIds, List<String> excludeLabelIds, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListScreenshotsParams screenshotsParams = new ListScreenshotsParams();
+        screenshotsParams.setStringIds(Optional.ofNullable(stringIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setLabelIds(Optional.ofNullable(labelIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setExcludeLabelIds(Optional.ofNullable(excludeLabelIds).map(l -> String.join(",", l)).orElse(null));
+        screenshotsParams.setLimit(limit);
+        screenshotsParams.setOffset(offset);
+        screenshotsParams.setOrderByList(orderBy);
+
+        return this.listScreenshots(projectId, screenshotsParams);
+    }
+
+    /**
+     * @param projectId project identifier
      * @param params query params
      * @return list of screenshots
      * @see <ul>
@@ -78,9 +100,14 @@ public class ScreenshotsApi extends CrowdinApi {
      */
     public ResponseList<Screenshot> listScreenshots(Long projectId, ListScreenshotsParams params) throws HttpException, HttpBadRequestException {
         ListScreenshotsParams query = Optional.ofNullable(params).orElse(new ListScreenshotsParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "search", Optional.ofNullable(query.getSearch()),
-                "orderBy", Optional.ofNullable(query.getOrderBy()),
+                "orderBy", Optional.ofNullable(orderBy),
                 "stringIds", Optional.ofNullable(query.getStringIds()),
                 "labelIds", Optional.ofNullable(query.getLabelIds()),
                 "excludeLabelIds", Optional.ofNullable(query.getExcludeLabelIds()),
