@@ -4,11 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.sourcestrings.model.*;
 
 import java.util.List;
@@ -71,9 +67,22 @@ public class SourceStringsApi extends CrowdinApi {
         return listSourceStrings(projectId, params);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param params Query params
+     * @return list of source strings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<SourceString> listSourceStrings(Long projectId, ListSourceStringsParams params) throws HttpException, HttpBadRequestException {
+        String orderBy = params.getOrderByList() != null
+                ? OrderByField.generateSortParam(params.getOrderByList())
+                : params.getOrderBy();
+
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "orderBy", Optional.ofNullable(params.getOrderBy()),
+                "orderBy", Optional.ofNullable(orderBy),
                 "denormalizePlaceholders", Optional.ofNullable(params.getDenormalizePlaceholders()),
                 "labelIds", Optional.ofNullable(params.getLabelIds()),
                 "fileId", Optional.ofNullable(params.getFileId()),

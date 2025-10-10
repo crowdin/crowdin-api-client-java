@@ -135,13 +135,13 @@ public class ProjectsGroupsApi extends CrowdinApi {
         options.setHasManagerAccess(hasManagerAccess);
         options.setLimit(limit);
         options.setOffset(offset);
-        options.setOrderByFields(orderBy);
+        options.setOrderByList(orderBy);
         return listProjects(options);
     }
 
     public ResponseList<? extends Project> listProjects(ListProjectOptions options) throws HttpException, HttpBadRequestException {
-        String orderBy = options.getOrderByFields() != null
-                ? OrderByField.generateSortParam(options.getOrderByFields())
+        String orderBy = options.getOrderByList() != null
+                ? OrderByField.generateSortParam(options.getOrderByList())
                 : options.getOrderBy();
 
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(

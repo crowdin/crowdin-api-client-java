@@ -15,5 +15,5 @@ public class ListProjectOptions extends Pagination {
     private Integer hasManagerAccess;
     private String orderBy;
     private Integer type;
-    private List<OrderByField> orderByFields;
+    private List<OrderByField> orderByList;
 }
