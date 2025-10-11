@@ -4,25 +4,8 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
-import com.crowdin.client.teams.model.AddTeamMembersRequest;
-import com.crowdin.client.teams.model.AddTeamMembersResponse;
-import com.crowdin.client.teams.model.AddTeamMembersResponseInternal;
-import com.crowdin.client.teams.model.AddTeamRequest;
-import com.crowdin.client.teams.model.AddTeamToProjectRequest;
-import com.crowdin.client.teams.model.ProjectTeamResources;
-import com.crowdin.client.teams.model.Team;
-import com.crowdin.client.teams.model.TeamMember;
-import com.crowdin.client.teams.model.TeamMemberResponseList;
-import com.crowdin.client.teams.model.TeamResponseList;
-import com.crowdin.client.teams.model.TeamResponseObject;
-import com.crowdin.client.teams.model.GroupTeam;
-import com.crowdin.client.teams.model.GroupTeamResponseList;
-import com.crowdin.client.teams.model.GroupTeamResponseObject;
+import com.crowdin.client.core.model.*;
+import com.crowdin.client.teams.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -51,6 +34,27 @@ public class TeamsApi extends CrowdinApi {
                 "orderBy", Optional.ofNullable(orderBy)
         );
         GroupTeamResponseList response = this.httpClient.get(this.url + "/groups/" + groupId + "/teams", new HttpRequestConfig(queryParams), GroupTeamResponseList.class);
+        return GroupTeamResponseList.to(response);
+    }
+
+    /**
+     * List group teams. For Crowdin Enterprise only
+     * @param params ListGroupTeamsParams object
+     * @return list of group teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.teams.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<GroupTeam> listGroupTeams(ListGroupTeamsParams params) throws HttpException, HttpBadRequestException {
+        if (params == null) {
+            throw new NullPointerException("params is null");
+        }
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(params.getOrderByList()))
+        );
+
+        GroupTeamResponseList response = this.httpClient.get(this.url + "/groups/" + params.getGroupId() + "/teams", new HttpRequestConfig(queryParams), GroupTeamResponseList.class);
         return GroupTeamResponseList.to(response);
     }
 
@@ -106,6 +110,25 @@ public class TeamsApi extends CrowdinApi {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
+        );
+        TeamResponseList teamResponseList = this.httpClient.get(this.url + "/teams", new HttpRequestConfig(queryParams), TeamResponseList.class);
+        return TeamResponseList.to(teamResponseList);
+    }
+
+    /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Team> listTeams(Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         TeamResponseList teamResponseList = this.httpClient.get(this.url + "/teams", new HttpRequestConfig(queryParams), TeamResponseList.class);
         return TeamResponseList.to(teamResponseList);

@@ -1,20 +1,9 @@
 package com.crowdin.client.teams;
 
-import com.crowdin.client.core.model.LanguageAccessRule;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.teams.model.AddTeamMembersRequest;
-import com.crowdin.client.teams.model.AddTeamMembersResponse;
-import com.crowdin.client.teams.model.AddTeamRequest;
-import com.crowdin.client.teams.model.AddTeamToProjectRequest;
-import com.crowdin.client.teams.model.ProjectTeamResources;
-import com.crowdin.client.teams.model.Team;
-import com.crowdin.client.teams.model.TeamMember;
-import com.crowdin.client.teams.model.GroupTeam;
+import com.crowdin.client.teams.model.*;
 import com.crowdin.client.users.model.TranslatorRole;
 import com.crowdin.client.users.model.TranslatorRoleName;
 import com.crowdin.client.users.model.TranslatorRolePermissions;
@@ -39,13 +28,23 @@ public class TeamsApiTest extends TestClient {
     private final Long projectId = 12L;
     private final Long userId = 3L;
     private final Long teamId = 1L;
+    private final Long team2Id = 2L;
     private final Long groupId = 27L;
+    private final Long group2Id = 28L;
+    private final Long group3Id = 29L;
     private final String name = "French";
+    private final String name2 = "French-#2";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/groups/" + groupId + "/teams", HttpGet.METHOD_NAME, "api/teams/listGroupTeams.json"),
+                RequestMock.build(this.url + "/groups/" + group2Id + "/teams", HttpGet.METHOD_NAME, "api/teams/listGroupTeamsOrderByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/groups/" + group3Id + "/teams", HttpGet.METHOD_NAME, "api/teams/listGroupTeamsOrderByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/groups/" + groupId + "/teams", HttpPatch.METHOD_NAME, "api/teams/editGroupTeams.json", "api/teams/listGroupTeams.json"),
                 RequestMock.build(this.url + "/groups/" + groupId + "/teams/" + teamId, HttpGet.METHOD_NAME, "api/teams/groupTeam.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/teams", HttpPost.METHOD_NAME, "api/teams/addTeamToProjectRequest.json", "api/teams/projectTeamResources.json"),
@@ -69,6 +68,86 @@ public class TeamsApiTest extends TestClient {
         assertEquals(groupId, response.getData().get(0).getData().getId());
         assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
         assertEquals(name, response.getData().get(0).getData().getTeam().getName());
+    }
+
+    @Test
+    public void listGroupTeamsTest_groupIdCannotBeNull() {
+        assertThrows(NullPointerException.class, () -> {
+            ListGroupTeamsParams params = new ListGroupTeamsParams(null);
+        });
+    }
+
+    @Test
+    public void listGroupTeamsTest_orderByNull() {
+        ListGroupTeamsParams params = new ListGroupTeamsParams(groupId);
+        ResponseList<GroupTeam> response = this.getTeamsApi().listGroupTeams(params);
+        assertNotNull(response);
+        assertEquals(1, response.getData().size());
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
+        assertEquals(name, response.getData().get(0).getData().getTeam().getName());
+    }
+
+    @Test
+    public void listGroupTeamsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ListGroupTeamsParams params = new ListGroupTeamsParams(group2Id);
+        params.setOrderByList(singletonList(orderById));
+
+        ResponseList<GroupTeam> response = this.getTeamsApi().listGroupTeams(params);
+        assertNotNull(response);
+        assertEquals(2, response.getData().size());
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
+        assertEquals(name, response.getData().get(0).getData().getTeam().getName());
+
+        assertEquals(group2Id, response.getData().get(1).getData().getId());
+        assertEquals(team2Id, response.getData().get(1).getData().getTeam().getId());
+        assertEquals(name2, response.getData().get(1).getData().getTeam().getName());
+    }
+
+    @Test
+    public void listGroupTeamsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ListGroupTeamsParams params = new ListGroupTeamsParams(group2Id);
+        params.setOrderByList(singletonList(orderById));
+
+        ResponseList<GroupTeam> response = this.getTeamsApi().listGroupTeams(params);
+        assertNotNull(response);
+        assertEquals(2, response.getData().size());
+        assertEquals(groupId, response.getData().get(0).getData().getId());
+        assertEquals(teamId, response.getData().get(0).getData().getTeam().getId());
+        assertEquals(name, response.getData().get(0).getData().getTeam().getName());
+
+        assertEquals(group2Id, response.getData().get(1).getData().getId());
+        assertEquals(team2Id, response.getData().get(1).getData().getTeam().getId());
+        assertEquals(name2, response.getData().get(1).getData().getTeam().getName());
+    }
+
+    @Test
+    public void listGroupTeamsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ListGroupTeamsParams params = new ListGroupTeamsParams(group3Id);
+        params.setOrderByList(singletonList(orderById));
+
+        ResponseList<GroupTeam> response = this.getTeamsApi().listGroupTeams(params);
+        assertNotNull(response);
+        assertEquals(2, response.getData().size());
+        assertEquals(group2Id, response.getData().get(0).getData().getId());
+        assertEquals(team2Id, response.getData().get(0).getData().getTeam().getId());
+        assertEquals(name2, response.getData().get(0).getData().getTeam().getName());
+
+        assertEquals(groupId, response.getData().get(1).getData().getId());
+        assertEquals(teamId, response.getData().get(1).getData().getTeam().getId());
+        assertEquals(name, response.getData().get(1).getData().getTeam().getName());
     }
 
     @Test
@@ -133,6 +212,14 @@ public class TeamsApiTest extends TestClient {
     @Test
     public void listTeamsTest() {
         ResponseList<Team> teamResponseList = this.getTeamsApi().listTeams(null, null);
+        assertEquals(teamResponseList.getData().size(), 1);
+        assertEquals(teamResponseList.getData().get(0).getData().getId(), teamId);
+        assertEquals(teamResponseList.getData().get(0).getData().getName(), name);
+    }
+
+    @Test
+    public void listTeamsTest_orderByNull() {
+        ResponseList<Team> teamResponseList = this.getTeamsApi().listTeams(null, null, null);
         assertEquals(teamResponseList.getData().size(), 1);
         assertEquals(teamResponseList.getData().get(0).getData().getId(), teamId);
         assertEquals(teamResponseList.getData().get(0).getData().getName(), name);

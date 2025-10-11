@@ -1,9 +1,6 @@
 package com.crowdin.client.labels;
 
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.labels.model.AddLabelRequest;
@@ -18,10 +15,7 @@ import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -29,8 +23,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class LabelsApiTest extends TestClient {
 
     private final Long projectId = 8L;
+    private final Long project2Id = 9L;
+    private final Long project3Id = 10L;
     private final String labelTitle = "main";
+    private final String labelTitle2 = "main-#2";
     private final Long labelId = 34L;
+    private final Long labelId2 = 35L;
 
     private final Map<String, Object> unassignLabelToScreenshotsUrlParams = new HashMap<String, Object>() {{
         put("screenshotIds", "1");
@@ -44,6 +42,18 @@ public class LabelsApiTest extends TestClient {
         return Arrays.asList(
             RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpGet.METHOD_NAME,
                 "api/labels/listLabels.json"),
+
+                RequestMock.build(String.format("%s/projects/%d/labels", this.url, project2Id), HttpGet.METHOD_NAME,
+                        "api/labels/listLabelsOrderByIdAsc.json",
+                        new HashMap<String, String>() {{
+                            put("orderBy", "id%20asc");
+                        }}),
+                RequestMock.build(String.format("%s/projects/%d/labels", this.url, project3Id), HttpGet.METHOD_NAME,
+                        "api/labels/listLabelsOrderByIdDesc.json",
+                        new HashMap<String, String>() {{
+                            put("orderBy", "id%20desc");
+                        }}),
+
             RequestMock.build(String.format("%s/projects/%d/labels", this.url, projectId), HttpPost.METHOD_NAME,
                 "api/labels/addLabelRequest.json", "api/labels/label.json"),
             RequestMock.build(String.format("%s/projects/%d/labels/%d", this.url, projectId, labelId), HttpGet.METHOD_NAME,
@@ -68,6 +78,59 @@ public class LabelsApiTest extends TestClient {
         assertEquals(1, labelResponseList.getData().size());
         assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
         assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());
+    }
+
+    @Test
+    public void listLabelsTest_orderByNull() {
+        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(projectId, null, null, null, null);
+        assertEquals(1, labelResponseList.getData().size());
+        assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
+        assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());
+    }
+
+    @Test
+    public void listLabelsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(project2Id, null, null, null, Collections.singletonList(orderById));
+        assertEquals(2, labelResponseList.getData().size());
+        assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
+        assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());
+
+        assertEquals(labelTitle2, labelResponseList.getData().get(1).getData().getTitle());
+        assertEquals(labelId2, labelResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listLabelsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(project2Id, null, null, null, Collections.singletonList(orderById));
+        assertEquals(2, labelResponseList.getData().size());
+        assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
+        assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());
+
+        assertEquals(labelTitle2, labelResponseList.getData().get(1).getData().getTitle());
+        assertEquals(labelId2, labelResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listLabelsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ResponseList<Label> labelResponseList = this.getLabelsApi().listLabels(project3Id, null, null, null, Collections.singletonList(orderById));
+        assertEquals(2, labelResponseList.getData().size());
+
+        assertEquals(labelTitle2, labelResponseList.getData().get(0).getData().getTitle());
+        assertEquals(labelId2, labelResponseList.getData().get(0).getData().getId());
+
+        assertEquals(labelTitle, labelResponseList.getData().get(1).getData().getTitle());
+        assertEquals(labelId, labelResponseList.getData().get(1).getData().getId());
     }
 
     @Test
