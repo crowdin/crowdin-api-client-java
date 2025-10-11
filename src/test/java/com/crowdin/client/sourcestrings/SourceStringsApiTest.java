@@ -1,10 +1,7 @@
 package com.crowdin.client.sourcestrings;
 
 import com.crowdin.client.core.http.exceptions.HttpBatchBadRequestException;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.sourcefiles.model.UpdateOption;
@@ -28,7 +25,10 @@ public class SourceStringsApiTest extends TestClient {
 
     private final String text = "Not all videos are shown to users. See more";
     private final Long projectId = 3L;
+    private final Long project2Id = 4L;
+    private final Long project3Id = 5L;
     private final Long id = 2814L;
+    private final Long id2 = 2815L;
     private final Long branchId = 667L;
     private final Long storageId = 61L;
     private final Long labelId = 1L;
@@ -40,7 +40,12 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/uploads/" + uploadId, HttpGet.METHOD_NAME, "api/strings/uploadStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/uploads", HttpPost.METHOD_NAME, "api/strings/uploadStringsReq.json", "api/strings/uploadStrings.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpGet.METHOD_NAME, "api/strings/listStrings.json"),
+                RequestMock.build(this.url + "/projects/" + project2Id + "/strings", HttpGet.METHOD_NAME, "api/strings/listStringsOrderByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + project3Id + "/strings", HttpGet.METHOD_NAME, "api/strings/listStringsOrderByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringRequest.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addPluralStringRequest.json", "api/strings/pluralString.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringStringsBasedRequest.json", "api/strings/string.json"),
@@ -89,6 +94,97 @@ public class SourceStringsApiTest extends TestClient {
         assertEquals(sourceStringResponseList.getData().get(0).getData().getBranchId(), branchId);
         assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
         assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+    }
+
+    @Test
+    public void listStringsTest_orderByNull() {
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(projectId, ListSourceStringsParams.builder().build());
+        assertEquals(1, sourceStringResponseList.getData().size());
+        assertEquals(id, sourceStringResponseList.getData().get(0).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(0).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(0).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+    }
+
+    @Test
+    public void listStringsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ListSourceStringsParams params = ListSourceStringsParams
+                .builder()
+                .orderByList(singletonList(orderById))
+                .build();
+
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(project2Id, params);
+        assertEquals(2, sourceStringResponseList.getData().size());
+
+        assertEquals(id, sourceStringResponseList.getData().get(0).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(0).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(0).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+
+        assertEquals(id2, sourceStringResponseList.getData().get(1).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(1).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(1).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(1).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(1).getData().isDuplicate());
+    }
+
+    @Test
+    public void listStringsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ListSourceStringsParams params = ListSourceStringsParams
+                .builder()
+                .orderByList(singletonList(orderById))
+                .build();
+
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(project2Id, params);
+        assertEquals(2, sourceStringResponseList.getData().size());
+
+        assertEquals(id, sourceStringResponseList.getData().get(0).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(0).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(0).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+
+        assertEquals(id2, sourceStringResponseList.getData().get(1).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(1).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(1).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(1).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(1).getData().isDuplicate());
+    }
+
+    @Test
+    public void listStringsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ListSourceStringsParams params = ListSourceStringsParams
+                .builder()
+                .orderByList(singletonList(orderById))
+                .build();
+
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().listSourceStrings(project3Id, params);
+        assertEquals(2, sourceStringResponseList.getData().size());
+
+        assertEquals(id2, sourceStringResponseList.getData().get(0).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(0).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(0).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(0).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+
+        assertEquals(id, sourceStringResponseList.getData().get(1).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(1).getData().getText());
+        assertEquals(branchId, sourceStringResponseList.getData().get(1).getData().getBranchId());
+        assertNull(sourceStringResponseList.getData().get(1).getData().getMasterStringId());
+        assertFalse(sourceStringResponseList.getData().get(1).getData().isDuplicate());
     }
 
     @Test

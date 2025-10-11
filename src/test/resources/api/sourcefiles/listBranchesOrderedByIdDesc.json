@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 35,
+        "projectId": 4,
+        "name": "develop-master-#2",
+        "title": "Master branch",
+        "exportPattern": "%three_letters_code%",
+        "priority": "normal",
+        "createdAt": "2019-09-16T13:48:04+00:00",
+        "updatedAt": "2019-09-19T13:25:27+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 34,
+        "projectId": 4,
+        "name": "develop-master-#1",
+        "title": "Master branch",
+        "exportPattern": "%three_letters_code%",
+        "priority": "normal",
+        "createdAt": "2019-09-16T13:48:04+00:00",
+        "updatedAt": "2019-09-19T13:25:27+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

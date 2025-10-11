@@ -1,0 +1,78 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 3,
+        "userId": 6,
+        "url": "https://production-enterprise-screenshots.downloads.crowdin.com/992000002/6/2/middle.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIGJKLQV66ZXPMMEA%2F20190923%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190923T093016Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=8df06f57594f7d1804b7c037629f6916224415e9b935c4f6619fbe002fb25e73",
+        "name": "translate_with_siri.jpg",
+        "size": {
+          "width": 267,
+          "height": 176
+        },
+        "tagsCount": 1,
+        "tags": [
+          {
+            "id": 98,
+            "screenshotId": 2,
+            "stringId": 2822,
+            "position": {
+              "x": 474,
+              "y": 147,
+              "width": 490,
+              "height": 99
+            },
+            "createdAt": "2019-09-23T09:35:31+00:00"
+          }
+        ],
+        "labels": [
+          1
+        ],
+        "labelIds": [
+          1
+        ],
+        "createdAt": "2019-09-23T09:29:19+00:00",
+        "updatedAt": "2019-09-23T09:29:19+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 2,
+        "userId": 6,
+        "url": "https://production-enterprise-screenshots.downloads.crowdin.com/992000002/6/2/middle.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIGJKLQV66ZXPMMEA%2F20190923%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190923T093016Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=8df06f57594f7d1804b7c037629f6916224415e9b935c4f6619fbe002fb25e73",
+        "name": "translate_with_siri.jpg",
+        "size": {
+          "width": 267,
+          "height": 176
+        },
+        "tagsCount": 1,
+        "tags": [
+          {
+            "id": 98,
+            "screenshotId": 2,
+            "stringId": 2822,
+            "position": {
+              "x": 474,
+              "y": 147,
+              "width": 490,
+              "height": 99
+            },
+            "createdAt": "2019-09-23T09:35:31+00:00"
+          }
+        ],
+        "labels": [
+          1
+        ],
+        "labelIds": [
+          1
+        ],
+        "createdAt": "2019-09-23T09:29:19+00:00",
+        "updatedAt": "2019-09-23T09:29:19+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

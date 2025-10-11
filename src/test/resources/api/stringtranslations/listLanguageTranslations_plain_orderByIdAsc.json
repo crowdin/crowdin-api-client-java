@@ -1,0 +1,38 @@
+{
+  "data": [
+    {
+      "data": {
+        "stringId": 35434,
+        "contentType": "text/plain",
+        "translationId": 190694,
+        "text": "Цю стрічку перекладено",
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    },
+    {
+      "data": {
+        "stringId": 35435,
+        "contentType": "text/plain",
+        "translationId": 190694,
+        "text": "Цю стрічку перекладено",
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "createdAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

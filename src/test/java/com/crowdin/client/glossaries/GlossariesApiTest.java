@@ -1,10 +1,6 @@
 package com.crowdin.client.glossaries;
 
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.glossaries.model.*;
@@ -26,9 +22,12 @@ public class GlossariesApiTest extends TestClient {
 
     private final Long projectId = 2L;
     private final Long glossaryId = 2L;
+    private final Long glossary2Id = 3L;
+    private final Long glossary3Id = 4L;
     private final Long groupId = 2L;
     private final Long conceptId = 3L;
     private final Long termId = 2L;
+    private final Long term2Id = 3L;
     private final String name = "Be My Eyes iOS's Glossary";
     private final String subject = "general";
     private final String text = "Voir";
@@ -42,6 +41,12 @@ public class GlossariesApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts", HttpGet.METHOD_NAME, "api/glossaries/listConcepts.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossary2Id + "/concepts", HttpGet.METHOD_NAME, "api/glossaries/listConceptsOrderByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/glossaries/" + glossary3Id + "/concepts", HttpGet.METHOD_NAME, "api/glossaries/listConceptsOrderByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpGet.METHOD_NAME, "api/glossaries/concept.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpPut.METHOD_NAME, "api/glossaries/updateConcept.json", "api/glossaries/concept.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, HttpDelete.METHOD_NAME),
@@ -56,6 +61,12 @@ public class GlossariesApiTest extends TestClient {
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/imports", HttpPost.METHOD_NAME, "api/glossaries/importGlossary.json", "api/glossaries/importGlossaryStatus.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/imports/" + importId, HttpGet.METHOD_NAME, "api/glossaries/importGlossaryStatus.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms", HttpGet.METHOD_NAME, "api/glossaries/listTerms.json"),
+                RequestMock.build(this.url + "/glossaries/" + glossary2Id + "/terms", HttpGet.METHOD_NAME, "api/glossaries/listTermsOrderByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/glossaries/" + glossary3Id + "/terms", HttpGet.METHOD_NAME, "api/glossaries/listTermsOrderByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms", HttpPost.METHOD_NAME, "api/glossaries/addTermRequest.json", "api/glossaries/term.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpGet.METHOD_NAME, "api/glossaries/term.json"),
@@ -85,6 +96,49 @@ public class GlossariesApiTest extends TestClient {
         assertEquals(conceptResponseList.getData().size(), 1);
         assertEquals(conceptResponseList.getData().get(0).getData().getId(), glossaryId);
         assertEquals(conceptResponseList.getData().get(0).getData().getSubject(), subject);
+    }
+
+    @Test
+    public void listConceptsTest_orderByNull() {
+        ResponseList<Concept> conceptResponseList = this.getGlossariesApi().listConcepts(glossaryId, null, null, null);
+        assertEquals(1, conceptResponseList.getData().size());
+        assertEquals(glossaryId, conceptResponseList.getData().get(0).getData().getId());
+        assertEquals(subject, conceptResponseList.getData().get(0).getData().getSubject());
+    }
+
+    @Test
+    public void listConceptsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ResponseList<Concept> conceptResponseList = this.getGlossariesApi().listConcepts(glossary2Id, null, null, singletonList(orderById));
+        assertEquals(2, conceptResponseList.getData().size());
+        assertEquals(glossaryId, conceptResponseList.getData().get(0).getData().getId());
+        assertEquals(glossary2Id, conceptResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listConceptsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ResponseList<Concept> conceptResponseList = this.getGlossariesApi().listConcepts(glossary2Id, null, null, singletonList(orderById));
+        assertEquals(2, conceptResponseList.getData().size());
+        assertEquals(glossaryId, conceptResponseList.getData().get(0).getData().getId());
+        assertEquals(glossary2Id, conceptResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listConceptsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ResponseList<Concept> conceptResponseList = this.getGlossariesApi().listConcepts(glossary3Id, null, null, singletonList(orderById));
+        assertEquals(2, conceptResponseList.getData().size());
+        assertEquals(glossary2Id, conceptResponseList.getData().get(0).getData().getId());
+        assertEquals(glossaryId, conceptResponseList.getData().get(1).getData().getId());
     }
 
     @Test
@@ -210,6 +264,51 @@ public class GlossariesApiTest extends TestClient {
         assertEquals(termResponseList.getData().size(), 1);
         assertEquals(termResponseList.getData().get(0).getData().getId(), termId);
         assertEquals(new Date(119,Calendar.SEPTEMBER,23,7,19,47), termResponseList.getData().get(0).getData().getCreatedAt());
+    }
+
+    @Test
+    public void listTermsTest_orderByNull() {
+        TimeZone.setDefault(tz);
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossaryId, null, null, null, null, null, null, null);
+        assertEquals(1, termResponseList.getData().size());
+        assertEquals(termId, termResponseList.getData().get(0).getData().getId());
+
+    }
+
+    @Test
+    public void listTermsTest_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        TimeZone.setDefault(tz);
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossary2Id, null, null, null, null, null, null, singletonList(orderById));
+        assertEquals(2, termResponseList.getData().size());
+        assertEquals(termId, termResponseList.getData().get(0).getData().getId());
+        assertEquals(term2Id, termResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTermsTest_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossary2Id, null, null, null, null, null, null, singletonList(orderById));
+        assertEquals(2, termResponseList.getData().size());
+        assertEquals(termId, termResponseList.getData().get(0).getData().getId());
+        assertEquals(term2Id, termResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTermsTest_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ResponseList<Term> termResponseList = this.getGlossariesApi().listTerms(glossary3Id, null, null, null, null, null, null, singletonList(orderById));
+        assertEquals(2, termResponseList.getData().size());
+        assertEquals(term2Id, termResponseList.getData().get(0).getData().getId());
+        assertEquals(termId, termResponseList.getData().get(1).getData().getId());
     }
 
     @Test

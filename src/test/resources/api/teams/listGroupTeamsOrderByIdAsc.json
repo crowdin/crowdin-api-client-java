@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 27,
+        "team": {
+          "id": 1,
+          "name": "French",
+          "totalMembers": 8,
+          "createdAt": "2019-09-23T09:04:29+00:00",
+          "updatedAt": "2019-09-23T09:04:29+00:00"
+        }
+      }
+    },
+    {
+      "data": {
+        "id": 28,
+        "team": {
+          "id": 2,
+          "name": "French-#2",
+          "totalMembers": 8,
+          "createdAt": "2019-09-23T09:04:29+00:00",
+          "updatedAt": "2019-09-23T09:04:29+00:00"
+        }
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

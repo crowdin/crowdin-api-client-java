@@ -1,9 +1,6 @@
 package com.crowdin.client.translationmemory;
 
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.translationmemory.model.*;
@@ -18,12 +15,18 @@ import org.junit.jupiter.api.Test;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class TranslationMemorySegmentsApiTest extends TestClient {
     private final Long tmId = 1L;
+    private final Long tm2Id = 2L;
+    private final Long tm3Id = 3L;
     private final Long segmentId = 1L;
+
+    private final Long tmsId = 4L;
+    private final Long tms2Id = 5L;
 
     @Override
     public List<RequestMock> getMocks() {
@@ -36,6 +39,26 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
                         new HashMap<String, Integer>() {{
                             put("limit", 20);
                             put("offset", 10);
+                        }}
+                ),
+
+                // LIST
+                RequestMock.build(
+                        formUrl_tmSegments(tm2Id),
+                        HttpGet.METHOD_NAME,
+                        "api/translationmemory/segments/listTmSegmentsResponseOrderByIdAsc.json",
+                        new HashMap<String, String>() {{
+                            put("orderBy", "id%20asc");
+                        }}
+                ),
+
+                // LIST
+                RequestMock.build(
+                        formUrl_tmSegments(tm3Id),
+                        HttpGet.METHOD_NAME,
+                        "api/translationmemory/segments/listTmSegmentsResponseOrderByIdDesc.json",
+                        new HashMap<String, String>() {{
+                            put("orderBy", "id%20desc");
                         }}
                 ),
 
@@ -84,14 +107,57 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
 
     @Test
     public void listTmSegments() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tmId, 20, 10);
         assertTmSegment(response.getData().get(0).getData());
     }
 
     @Test
+    public void listTmSegments_orderByNull() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tmId, 20, 10, null);
+        assertTmSegment(response.getData().get(0).getData());
+    }
+
+    @Test
+    public void listTmSegments_orderByIdNull() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tm2Id, null, null, singletonList(orderById));
+        assertEquals(2, response.getData().size());
+        assertEquals(tmsId, response.getData().get(0).getData().getId());
+        assertEquals(tms2Id, response.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTmSegments_orderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tm2Id, null, null, singletonList(orderById));
+        assertEquals(2, response.getData().size());
+        assertEquals(tmsId, response.getData().get(0).getData().getId());
+        assertEquals(tms2Id, response.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTmSegments_orderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tm3Id, null, null, singletonList(orderById));
+        assertEquals(2, response.getData().size());
+        assertEquals(tms2Id, response.getData().get(0).getData().getId());
+        assertEquals(tmsId, response.getData().get(1).getData().getId());
+    }
+
+    @Test
     public void createTmSegment() {
         CreateTmSegmentRequest request = new CreateTmSegmentRequest() {{
-           setRecords(Collections.singletonList(new TmSegmentRecordForm() {{
+           setRecords(singletonList(new TmSegmentRecordForm() {{
                setLanguageId("uk");
                setText("Перекладений текст");
            }}));

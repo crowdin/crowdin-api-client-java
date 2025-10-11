@@ -4,13 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
 import com.crowdin.client.translationmemory.model.CreateTmSegmentRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordance;
@@ -75,6 +69,30 @@ public class TranslationMemoryApi extends CrowdinApi {
                 "userId", Optional.ofNullable(userId),
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
+        );
+        TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpRequestConfig(queryParams), TranslationMemoryResponseList.class);
+        return TranslationMemoryResponseList.to(translationMemoryResponseList);
+    }
+
+    /**
+     * @param groupId group identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param userId filter by user identifier
+     * @param orderBy list of OrderByField
+     * @return list of translation memories
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TranslationMemory> listTms(Long groupId, Integer limit, Integer offset, Integer userId, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "groupId", Optional.ofNullable(groupId),
+                "userId", Optional.ofNullable(userId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpRequestConfig(queryParams), TranslationMemoryResponseList.class);
         return TranslationMemoryResponseList.to(translationMemoryResponseList);
@@ -230,6 +248,28 @@ public class TranslationMemoryApi extends CrowdinApi {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
+        );
+        TmSegmentResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TmSegmentResponseList.class);
+        return TmSegmentResponseList.to(responseList);
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of translation memory segments
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TmSegment> listTmSegments(Long tmId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegments(tmId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         TmSegmentResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TmSegmentResponseList.class);
         return TmSegmentResponseList.to(responseList);

@@ -1,0 +1,138 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 48,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileB.js",
+        "title": "File B",
+        "context": "Context for fileB.js",
+        "type": "js",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "exportQuotes": "single",
+          "exportPattern": "/files/fileB.js"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id" : 47,
+        "projectId" : 2,
+        "branchId" : null,
+        "directoryId" : 5,
+        "revisionId" : 6,
+        "status" : "active",
+        "priority" : "high",
+        "importOptions" : {
+          "cleanTagsAggressively" : false,
+          "translateHiddenText" : true,
+          "translateHyperlinkUrls" : false,
+          "translateHiddenRowsAndColumns" : false,
+          "importNotes" : true,
+          "importHiddenSlides" : false,
+          "contentSegmentation" : true,
+          "customSegmentation" : false
+        },
+        "exportOptions" : {
+          "exportPattern" : "guide.odt"
+        },
+        "excludedTargetLanguages" : null,
+        "createdAt" : "2014-06-04T10:28:51+00:00",
+        "updatedAt" : "2022-02-23T09:16:35+00:00",
+        "name" : "guide.odt",
+        "title" : null,
+        "type" : "docx",
+        "context": "Context for guide.odt",
+        "path" : "/docs/guide.odt"
+      }
+    },
+    {
+      "data": {
+        "id": 46,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileB.properties",
+        "title": "File B",
+        "context": "Context for fileB.properties",
+        "type": "properties",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "escapeSpecialCharacters": 1,
+          "exportPattern": "/files/fileB.properties"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 45,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "fileA.properties",
+        "title": "File A",
+        "context": "Context for fileA.properties",
+        "type": "properties",
+        "revisionId": 1,
+        "status": "active",
+        "priority": "normal",
+        "importOptions": {},
+        "exportOptions": {
+          "escapeQuotes": 3,
+          "exportPattern": "/files/fileA.properties"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 44,
+        "projectId": 2,
+        "branchId": 34,
+        "directoryId": 4,
+        "name": "umbrella_app.xliff",
+        "title": "source_app_info",
+        "context": "Context for translators",
+        "type": "xliff",
+        "parserVersion": 1,
+        "revisionId": 1,
+        "status": "active",
+        "path": "/path/to",
+        "priority": "normal",
+        "importOptions": {
+          "firstLineContainsHeader": false,
+          "importTranslations": true,
+          "scheme": {
+            "identifier": 0,
+            "sourcePhrase": 1,
+            "en": 2,
+            "de": 3
+          }
+        },
+        "exportOptions": {
+          "exportPattern": "/localization/%locale%/%file_name%.%file_extension%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

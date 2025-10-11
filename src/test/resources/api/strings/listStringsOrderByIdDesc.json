@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2815,
+        "projectId": 2,
+        "fileId": 48,
+        "branchId": 667,
+        "identifier": "6a1821e6499ebae94de4b880fd93b985",
+        "text": "Not all videos are shown to users. See more",
+        "type": "text",
+        "context": "shown on main page",
+        "maxLength": 35,
+        "isHidden": false,
+        "revision": 1,
+        "hasPlurals": false,
+        "isIcu": false,
+        "labelIds": [
+          3
+        ],
+        "createdAt": "2019-09-20T12:43:57+00:00",
+        "updatedAt": "2019-09-20T13:24:01+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 2814,
+        "projectId": 2,
+        "fileId": 48,
+        "branchId": 667,
+        "identifier": "6a1821e6499ebae94de4b880fd93b985",
+        "text": "Not all videos are shown to users. See more",
+        "type": "text",
+        "context": "shown on main page",
+        "maxLength": 35,
+        "isHidden": false,
+        "revision": 1,
+        "hasPlurals": false,
+        "isIcu": false,
+        "labelIds": [
+          3
+        ],
+        "createdAt": "2019-09-20T12:43:57+00:00",
+        "updatedAt": "2019-09-20T13:24:01+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
