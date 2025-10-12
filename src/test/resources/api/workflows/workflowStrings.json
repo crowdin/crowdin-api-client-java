@@ -1,0 +1,43 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 2814,
+        "projectId": 1,
+        "branchId": 12,
+        "identifier": "name",
+        "text": "Not all videos are shown to users. See more",
+        "type": "text",
+        "context": "shown on main page",
+        "maxLength": 35,
+        "isHidden": false,
+        "isDuplicate": true,
+        "masterStringId": 1,
+        "hasPlurals": false,
+        "isIcu": false,
+        "labelIds": [
+          3
+        ],
+        "webUrl": "https://example.crowdin.com/editor/1/all/en-pl?filter=basic&value=0&view=comfortable#2",
+        "createdAt": "2019-09-20T12:43:57+00:00",
+        "updatedAt": "2019-09-20T13:24:01+00:00",
+        "fields": {
+          "some-field-1": "some value 1",
+          "some-field-2": 12,
+          "some-field-3": true,
+          "some-field-4": [
+            "en",
+            "ja"
+          ]
+        },
+        "fileId": 48,
+        "directoryId": 13,
+        "revision": 1
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
