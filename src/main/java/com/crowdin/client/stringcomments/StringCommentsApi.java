@@ -2,11 +2,7 @@ package com.crowdin.client.stringcomments;
 
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringcomments.model.AddStringCommentRequest;
 import com.crowdin.client.stringcomments.model.IssueStatus;
 import com.crowdin.client.stringcomments.model.StringComment;
@@ -51,6 +47,36 @@ public class StringCommentsApi extends CrowdinApi {
             "stringId", Optional.ofNullable(stringId),
             "issueType", Optional.ofNullable(issueType),
             "issueStatus", Optional.ofNullable(issueStatus)
+        );
+        StringCommentResponseList response = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), StringCommentResponseList.class);
+        return StringCommentResponseList.to(response);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stringId string Identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param type defines string comment type
+     * @param issueType defines issue type
+     * @param issueStatus defines issue resolution status
+     * @param orderBy list of OrderByField
+     * @return list of string comments
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.comments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.comments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringComment> listStringComments(Long projectId, Long stringId, Integer limit, Integer offset, Type type, String issueType, IssueStatus issueStatus, List<OrderByField> orderBy) {
+        String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "type", Optional.ofNullable(type),
+                "stringId", Optional.ofNullable(stringId),
+                "issueType", Optional.ofNullable(issueType),
+                "issueStatus", Optional.ofNullable(issueStatus),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         StringCommentResponseList response = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), StringCommentResponseList.class);
         return StringCommentResponseList.to(response);
