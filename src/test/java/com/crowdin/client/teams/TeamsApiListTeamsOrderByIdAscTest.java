@@ -54,4 +54,21 @@ public class TeamsApiListTeamsOrderByIdAscTest extends TestClient {
         assertEquals(team2Id, teamResponseList.getData().get(1).getData().getId());
         assertEquals(name2, teamResponseList.getData().get(1).getData().getName());
     }
+
+    @Test
+    public void listTeamsTest_newOrderByIdAsc() {
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.ASC);
+
+        ListTeamsParams query = new ListTeamsParams();
+        query.setOrderBy(singletonList(orderBy));
+
+        ResponseList<Team> teamResponseList = this.getTeamsApi().listTeams(null, null, singletonList(orderBy));
+        assertEquals(2, teamResponseList.getData().size());
+        assertEquals(teamId, teamResponseList.getData().get(0).getData().getId());
+        assertEquals(name, teamResponseList.getData().get(0).getData().getName());
+        assertEquals(team2Id, teamResponseList.getData().get(1).getData().getId());
+        assertEquals(name2, teamResponseList.getData().get(1).getData().getName());
+    }
 }
