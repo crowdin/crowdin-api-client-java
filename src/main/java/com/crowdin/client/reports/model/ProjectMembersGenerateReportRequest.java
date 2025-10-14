@@ -3,6 +3,8 @@ package com.crowdin.client.reports.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ProjectMembersGenerateReportRequest extends GenerateReportRequest {
@@ -12,6 +14,7 @@ public class ProjectMembersGenerateReportRequest extends GenerateReportRequest {
     @Data
     public static class Schema {
         private ReportsFormat format;
-
+        private Date dateFrom;    // Probably optional date filtering
+        private Date dateTo;
     }
 }

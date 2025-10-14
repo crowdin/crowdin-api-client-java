@@ -17,7 +17,6 @@ public class GroupQaCheckIssuesGenerateReportRequest extends GenerateReportReque
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
-        private List<Long> languageIds;
         private List<Long> projectIds;
     }
 }

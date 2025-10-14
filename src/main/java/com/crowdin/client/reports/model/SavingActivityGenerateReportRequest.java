@@ -17,6 +17,6 @@ public class SavingActivityGenerateReportRequest extends GenerateReportRequest {
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
-        private List<Long> languageIds;
+        private String languageId;
     }
 }

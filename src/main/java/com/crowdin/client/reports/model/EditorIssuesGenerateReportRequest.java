@@ -13,8 +13,9 @@ public class EditorIssuesGenerateReportRequest extends GenerateReportRequest {
 
     @Data
     public static class Schema {
-        private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
+        private ReportsFormat format;
+        private String issueType;
     }
 }
