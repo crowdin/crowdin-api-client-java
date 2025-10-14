@@ -1,0 +1,62 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 28,
+        "user": {
+          "id": 2,
+          "username": "john_smith",
+          "firstName": "John",
+          "lastName": "Smith",
+          "status": "active",
+          "avatarUrl": "",
+          "createdAt": "2019-07-11T07:40:22+00:00",
+          "lastSeen": "2019-10-23T11:44:02+00:00",
+          "twoFactor": "enabled",
+          "isAdmin": true,
+          "timezone": "Europe/Kyiv"
+        },
+        "teams": [
+          {
+            "id": 2,
+            "name": "Translators Team",
+            "totalMembers": 8,
+            "createdAt": "2019-09-23T09:04:29+00:00",
+            "updatedAt": "2019-09-23T09:04:29+00:00"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "id": 27,
+        "user": {
+          "id": 1,
+          "username": "john_smith",
+          "firstName": "John",
+          "lastName": "Smith",
+          "status": "active",
+          "avatarUrl": "",
+          "createdAt": "2019-07-11T07:40:22+00:00",
+          "lastSeen": "2019-10-23T11:44:02+00:00",
+          "twoFactor": "enabled",
+          "isAdmin": true,
+          "timezone": "Europe/Kyiv"
+        },
+        "teams": [
+          {
+            "id": 2,
+            "name": "Translators Team",
+            "totalMembers": 8,
+            "createdAt": "2019-09-23T09:04:29+00:00",
+            "updatedAt": "2019-09-23T09:04:29+00:00"
+          }
+        ]
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

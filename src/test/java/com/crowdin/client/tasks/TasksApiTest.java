@@ -1,10 +1,6 @@
 package com.crowdin.client.tasks;
 
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.tasks.model.*;
@@ -29,6 +25,9 @@ public class TasksApiTest extends TestClient {
     private final Long enterpriseProjectId = 13L;
     private final Long multiStatusProjectId = 14L;
     private final Long singleStatusProjectId = 15L;
+    private final Long tasksProjectIdSortByIdAsc = 16L;
+    private final Long tasksProjectIdSortByIdDesc = 17L;
+    private final Long tasksProjectIdSortByIdDescTitleAsc = 18L;
     private final Long taskId = 2L;
     private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
@@ -49,12 +48,24 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/user/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json"),
+                RequestMock.build(this.url + "/user/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/user/tasks/" + taskId, HttpPatch.METHOD_NAME, "api/tasks/editTask.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + multiStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/multiStatusListTasks.json", new HashMap<String, String>() {{
                     put("status", "todo,done");
                 }}),
                 RequestMock.build(this.url + "/projects/" + singleStatusProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/singleStatusListTasks.json", new HashMap<String, String>() {{
                     put("status", "in_progress");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdAsc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20asc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdDesc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdDesc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdDescTitleAsc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdDescTitleAsc.json", new HashMap<String, String>() {{
+                    put("orderBy", "id%20desc%2Ctitle%20asc");
                 }})
         );
     }
@@ -70,6 +81,100 @@ public class TasksApiTest extends TestClient {
         assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
 
         assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_noSortDefined() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(projectId, null, null, null, null, null);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
+
+        assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
+
+        assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDefault() {
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderByFields);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(1, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(2, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdAsc() {
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.ASC);
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdAsc, null, null, null, null, orderByFields);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(1, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(2, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDesc() {
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.DESC);
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderBy);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDesc, null, null, null, null, orderByFields);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(2, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(1, taskResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listTasksTest_testSortByIdDescTitleAsc() {
+        OrderByField orderByIdDesc = new OrderByField();
+        orderByIdDesc.setFieldName("id");
+        orderByIdDesc.setOrderBy(SortOrder.DESC);
+
+        OrderByField orderByTitleNull = new OrderByField();
+        orderByTitleNull.setFieldName("title");
+
+        List<OrderByField> orderByFields = new ArrayList<>();
+        orderByFields.add(orderByIdDesc);
+        orderByFields.add(orderByTitleNull);
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(tasksProjectIdSortByIdDescTitleAsc, null, null, null, null, orderByFields);
+
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(2, taskResponseList.getData().size());
+
+        assertEquals(2, taskResponseList.getData().get(0).getData().getId());
+        assertNotNull(taskResponseList.getData().get(0).getData().getTitle());
+        assertEquals("French#1", taskResponseList.getData().get(0).getData().getTitle());
+
+
+        assertEquals(1, taskResponseList.getData().get(1).getData().getId());
+        assertNotNull(taskResponseList.getData().get(1).getData().getTitle());
+        assertEquals("French#2", taskResponseList.getData().get(1).getData().getTitle());
     }
 
     @Test
@@ -307,6 +412,14 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskResponseList.getData().size(), 1);
         assertEquals(taskResponseList.getData().get(0).getData().getId(), taskId);
         assertEquals(taskResponseList.getData().get(0).getData().getStatus(), status);
+    }
+
+    @Test
+    public void listUserTasksTest_orderByNull() {
+        ResponseList<Task> taskResponseList = this.getTasksApi().listUserTasks(null, null, null, null, null);
+        assertEquals(1, taskResponseList.getData().size());
+        assertEquals(taskId, taskResponseList.getData().get(0).getData().getId());
+        assertEquals(status, taskResponseList.getData().get(0).getData().getStatus());
     }
 
     @Test

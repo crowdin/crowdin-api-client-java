@@ -4,14 +4,7 @@ import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.crowdin.client.core.model.BooleanInt;
-import com.crowdin.client.core.model.ClientConfig;
-import com.crowdin.client.core.model.Credentials;
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.DownloadLinkResponseObject;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.tasks.model.*;
 
 import java.util.EnumSet;
@@ -51,6 +44,32 @@ public class TasksApi extends CrowdinApi {
         TaskResponseList taskResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
         return TaskResponseList.to(taskResponseList);
     }
+
+    /**
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status filter by status
+     * @param assigneeId filter by assignee id
+     * @param orderBy list of OrderByField
+     * @return list of tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listTasks(Long projectId, Integer limit, Integer offset, Status status, Integer assigneeId, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(status),
+                "assigneeId", Optional.ofNullable(assigneeId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "orderBy",  Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
+    }
+
 
     /**
      * Lists tasks for a given project, filtered by multiple statuses.
@@ -174,6 +193,30 @@ public class TasksApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "isArchived", Optional.ofNullable(isArchived)
+        );
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/user/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
+    }
+
+    /**
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param status filter by status
+     * @param isArchived filter by archived status
+     * @return list of user tasks
+     * @param orderBy list of OrderByField
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.user.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listUserTasks(Integer limit, Integer offset, Status status, BooleanInt isArchived, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(status),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "isArchived", Optional.ofNullable(isArchived),
+                "orderBy",  Optional.ofNullable(OrderByField.generateSortParam(orderBy))
         );
         TaskResponseList taskResponseList = this.httpClient.get(this.url + "/user/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
         return TaskResponseList.to(taskResponseList);

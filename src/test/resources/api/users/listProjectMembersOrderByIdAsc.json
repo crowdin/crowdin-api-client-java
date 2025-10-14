@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "username": "john_smith",
+        "fullName": "John Smith",
+        "avatarUrl": "",
+        "joinedAt": "2019-07-11T07:40:22+00:00",
+        "timezone": "Europe/Kiev"
+      }
+    },
+    {
+      "data": {
+        "id": 2,
+        "username": "john_smith",
+        "fullName": "John Smith",
+        "avatarUrl": "",
+        "joinedAt": "2019-07-11T07:40:22+00:00",
+        "timezone": "Europe/Kiev"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

@@ -77,6 +77,74 @@ public class ListProjectBranchesExample {
 }
 ```
 
+### Sorting results
+
+You can sort the results of `list*` methods by one or multiple fields using the `OrderByField` class.  
+If sort direction is not specified, results will be sorted in ascending (`ASC`) order by default.
+
+#### Example: Sort string comments by `id` descending
+
+```java
+import com.crowdin.client.Client;
+import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.stringcomments.model.OrderByField;
+import com.crowdin.client.stringcomments.model.SortOrder;
+import com.crowdin.client.stringcomments.model.StringComment;
+
+import java.util.Collections;
+import java.util.List;
+
+public class ListCommentsSortedExample {
+
+    public static void main(String[] args) {
+        Credentials credentials = new Credentials("your-token", "your-organization");
+        Client client = new Client(credentials);
+
+        OrderByField orderByIdDesc = new OrderByField();
+        orderByIdDesc.setFieldName("id");
+        orderByIdDesc.setOrderBy(SortOrder.DESC); // Optional: default is ASC
+
+        List<StringComment> comments = client
+                .getStringCommentsApi()
+                .listStringComments(
+                        123L, // projectId
+                        null, null, null, null, null, null,
+                        Collections.singletonList(orderByIdDesc)
+                )
+                .getData()
+                .stream()
+                .map(response -> response.getData())
+                .toList();
+
+        comments.forEach(comment -> System.out.println(comment.getId()));
+    }
+
+}
+```
+#### Example: Sort by multiple fields
+
+You can also sort by multiple fields, for example: first by `createdAt`, then by `id`.
+
+```java
+import java.util.Arrays;
+import com.crowdin.client.stringcomments.model.OrderByField;
+import com.crowdin.client.stringcomments.model.SortOrder;
+
+public class ListCommentsSortedExample {
+
+    public static void main(String[] args) {
+        OrderByField orderByCreatedAtAsc = new OrderByField();
+        orderByCreatedAtAsc.setFieldName("createdAt"); // ASC by default
+        
+        OrderByField orderByIdDesc = new OrderByField();
+        orderByIdDesc.setFieldName("id");
+        orderByIdDesc.setOrderBy(SortOrder.DESC);
+
+        List<OrderByField> orderBy = Arrays.asList(orderByCreatedAtAsc, orderByIdDesc);
+    }
+}
+```
+
 ### Customization
 
 This client uses [Apache http client](https://hc.apache.org/) and [Jackson json library](https://github.com/FasterXML/jackson).  

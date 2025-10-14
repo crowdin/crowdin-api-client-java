@@ -84,6 +84,14 @@ public class TranslationMemoryApiTest extends TestClient {
     }
 
     @Test
+    public void listTmsTest_orderByNull() {
+        ResponseList<TranslationMemory> translationMemoryResponseList = this.getTranslationMemoryApi().listTms(null, null, null, null, null);
+        assertEquals(1, translationMemoryResponseList.getData().size());
+        assertEquals(tmId, translationMemoryResponseList.getData().get(0).getData().getId());
+        assertEquals(name, translationMemoryResponseList.getData().get(0).getData().getName());
+    }
+
+    @Test
     public void addTmTest() {
         AddTranslationMemoryRequest request = new AddTranslationMemoryRequest();
         request.setName(name);
