@@ -4,6 +4,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.sourcestrings.model.SourceString;
 import com.crowdin.client.workflows.model.WorkflowStep;
 import com.crowdin.client.workflows.model.WorkflowTemplate;
 import org.apache.http.client.methods.HttpGet;
@@ -27,6 +28,7 @@ public class WorkflowsApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps", HttpGet.METHOD_NAME, "api/workflows/listWorkflows.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps/" + workflowId, HttpGet.METHOD_NAME, "api/workflows/workflow.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps/" + workflowId + "/strings", HttpGet.METHOD_NAME, "api/workflows/workflowStrings.json"),
                 RequestMock.build(this.url + "/workflow-templates", HttpGet.METHOD_NAME, "api/workflows/listWorkflowTemplates.json"),
                 RequestMock.build(this.url + "/workflow-templates/" + workflowTemplateId, HttpGet.METHOD_NAME, "api/workflows/workflowTemplate.json")
         );
@@ -43,6 +45,13 @@ public class WorkflowsApiTest extends TestClient {
         ResponseObject<WorkflowStep> workflowStep = this.getWorkflowsApi().getWorkflowStep(projectId, workflowId);
         assertEquals(workflowStep.getData().getId(), workflowId);
         assertEquals(workflowStep.getData().getTitle(), workflowTitle);
+    }
+
+    @Test
+    public void listWorkflowStepStringsTest() {
+        ResponseList<SourceString> workflowStepStrings = this.getWorkflowsApi().listWorkflowStepStrings(projectId, workflowId, null, null, null, null, null);
+        assertEquals(1, workflowStepStrings.getData().size());
+        assertEquals(projectId, workflowStepStrings.getData().get(0).getData().getProjectId());
     }
 
     @Test
