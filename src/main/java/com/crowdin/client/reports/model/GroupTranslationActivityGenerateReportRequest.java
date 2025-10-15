@@ -14,18 +14,10 @@ public class GroupTranslationActivityGenerateReportRequest extends GenerateRepor
 
     @Data
     public static class Schema {
-        private List<Long> projectIds;
         private Unit unit;
-        private Currency currency;
+        private List<Long> projectIds;
         private ReportsFormat format;
-        private BaseRatesForm baseRates;
-        private List<IndividualRate> individualRates;
-        private NetRateSchemes netRateSchemes;
-        private Boolean excludeApprovalsForEditedTranslations;
-        private Boolean preTranslatedStringsCategorizationAdjustment;
-        private String groupBy;
         private Date dateFrom;
         private Date dateTo;
-        private List<Long> userIds;
     }
 }

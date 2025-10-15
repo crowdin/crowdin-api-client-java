@@ -14,9 +14,10 @@ public class TranslationActivityGenerateReportRequest extends GenerateReportRequ
 
     @Data
     public static class Schema {
+        private Unit unit;
+        private String languageId;
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
-        private String languageIds;
     }
 }

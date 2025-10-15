@@ -13,8 +13,9 @@ public class SourceContentUpdatesGenerateReportRequest extends GenerateReportReq
 
     @Data
     public static class Schema {
+        private Unit unit;
         private ReportsFormat format;
-        private Date dateFrom;    // Probably optional date filtering
+        private Date dateFrom;
         private Date dateTo;
     }
 }

@@ -14,9 +14,8 @@ public class QaCheckIssuesGenerateReportRequest extends GenerateReportRequest {
 
     @Data
     public static class Schema {
-        private String unit;
-        private String languageId;
         private ReportsFormat format;
+        private String languageId;
         private Date dateFrom;
         private Date dateTo;
     }

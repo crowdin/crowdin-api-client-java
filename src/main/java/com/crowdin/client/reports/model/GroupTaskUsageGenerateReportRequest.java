@@ -9,23 +9,20 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class GroupTaskUsageGenerateReportRequest extends GenerateReportRequest {
-    private String name = "group-task-usage"; // Note: The example shows "group-translation-costs-pe"
+    private String name = "group-task-usage";
     private Schema schema;
 
     @Data
     public static class Schema {
-        private List<Long> projectIds;
-        private Unit unit;
-        private Currency currency;
         private ReportsFormat format;
-        private BaseRatesForm baseRates;
-        private List<IndividualRate> individualRates;
-        private NetRateSchemes netRateSchemes;
-        private Boolean excludeApprovalsForEditedTranslations;
-        private Boolean preTranslatedStringsCategorizationAdjustment;
-        private String groupBy;
+        private String type;
+        private List<Long> projectIds;
         private Date dateFrom;
         private Date dateTo;
-        private List<Long> userIds;
+        private String groupBy;
+        private Integer taskType;
+        private String languageId;
+        private Integer creatorId;
+        private Integer assigneeId;
     }
 }

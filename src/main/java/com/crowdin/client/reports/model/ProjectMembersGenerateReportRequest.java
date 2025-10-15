@@ -14,7 +14,7 @@ public class ProjectMembersGenerateReportRequest extends GenerateReportRequest {
     @Data
     public static class Schema {
         private ReportsFormat format;
-        private Date dateFrom;    // Probably optional date filtering
+        private Date dateFrom;
         private Date dateTo;
     }
 }
