@@ -158,7 +158,7 @@ public class TeamsApi extends CrowdinApi {
                                 .collect(Collectors.joining(","))
                 ),
                 "languageIds", Optional.ofNullable(
-                        query.getLanguageIs() == null ? null : String.join(",", query.getLanguageIs())
+                        query.getLanguageIds() == null ? null : String.join(",", query.getLanguageIds())
                 ),
                 "groupIds", Optional.ofNullable(
                         query.getGroupIds() == null ? null : query.getGroupIds().stream()

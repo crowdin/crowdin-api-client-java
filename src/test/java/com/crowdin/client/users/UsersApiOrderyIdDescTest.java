@@ -5,11 +5,11 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.SortOrder;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.users.model.ListUsersParams;
 import com.crowdin.client.users.model.User;
 import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -44,6 +44,22 @@ public class UsersApiOrderyIdDescTest extends TestClient {
                 null,
                 singletonList(orderById)
         );
+
+        assertEquals(2, userResponseList.getData().size());
+        assertEquals(user2Id, userResponseList.getData().get(0).getData().getId());
+        assertEquals(userId, userResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listUsersTest_newOrderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ListUsersParams listUsersParams = new ListUsersParams();
+        listUsersParams.setOrderBy(singletonList(orderById));
+
+        ResponseList<User> userResponseList = this.getUsersApi().listUsers(listUsersParams);
 
         assertEquals(2, userResponseList.getData().size());
         assertEquals(user2Id, userResponseList.getData().get(0).getData().getId());
