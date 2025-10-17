@@ -15,6 +15,7 @@ com.crowdin.client.core.http
 com.crowdin.client.core.http.exceptions
 com.crowdin.client.core.http.impl.http
 com.crowdin.client.core.http.impl.json
+com.crowdin.client.core.http.impl.util
 com.crowdin.client.core.model
 com.crowdin.client.dictionaries
 com.crowdin.client.dictionaries.model
