@@ -10,6 +10,7 @@ import com.crowdin.client.users.model.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class UsersApi extends CrowdinApi {
     public UsersApi(Credentials credentials) {
@@ -238,6 +239,54 @@ public class UsersApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        UserResponseList userResponseList = this.httpClient.get(this.url + "/users", new HttpRequestConfig(queryParams), UserResponseList.class);
+        return UserResponseList.to(userResponseList);
+    }
+
+    /**
+     * @param params ListUsersParams
+     * @return list of teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<User> listUsers(ListUsersParams params) throws HttpException, HttpBadRequestException {
+        ListUsersParams query = Optional.ofNullable(params).orElse(new ListUsersParams());
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "status", Optional.ofNullable(query.getStatus()),
+                "search", Optional.ofNullable(query.getSearch()),
+                "twoFactor", Optional.ofNullable(query.getTwoFactor()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "organizationRoles", Optional.ofNullable(
+                        query.getOrganizationRoles() == null ? null : query.getOrganizationRoles().stream()
+                                .map(organizationRole -> organizationRole.to(organizationRole))
+                                .collect(Collectors.joining(","))
+                ),
+                "teamId", Optional.ofNullable(query.getTeamId()),
+                "projectIds", Optional.ofNullable(
+                        query.getProjectIds() == null ? null : query.getProjectIds().stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(","))
+                ),
+                "projectRoles", Optional.ofNullable(
+                        query.getProjectRoles() == null ? null : query.getProjectRoles().stream()
+                                .map(projectRole -> projectRole.to(projectRole))
+                                .collect(Collectors.joining(","))
+                ),
+                "languageIds", Optional.ofNullable(
+                        query.getLanguageIds() == null ? null : String.join(",", query.getLanguageIds())
+                ),
+                "groupIds", Optional.ofNullable(
+                        query.getGroupIds() == null ? null : query.getGroupIds().stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(","))
+                ),
+                "lastSeenFrom", Optional.ofNullable(query.getLastSeenFrom()),
+                "lastSeenTo", Optional.ofNullable(query.getLastSeenTo())
         );
         UserResponseList userResponseList = this.httpClient.get(this.url + "/users", new HttpRequestConfig(queryParams), UserResponseList.class);
         return UserResponseList.to(userResponseList);

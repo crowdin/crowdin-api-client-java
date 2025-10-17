@@ -10,6 +10,7 @@ import com.crowdin.client.teams.model.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class TeamsApi extends CrowdinApi {
     public TeamsApi(Credentials credentials) {
@@ -129,6 +130,44 @@ public class TeamsApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TeamResponseList teamResponseList = this.httpClient.get(this.url + "/teams", new HttpRequestConfig(queryParams), TeamResponseList.class);
+        return TeamResponseList.to(teamResponseList);
+    }
+
+    /**
+     * @param params ListTeamsParams
+     * @return list of teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Team> listTeams(ListTeamsParams params) throws HttpException, HttpBadRequestException {
+        ListTeamsParams query = Optional.ofNullable(params).orElse(new ListTeamsParams());
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "search", Optional.ofNullable(query.getSearch()),
+                "projectIds", Optional.ofNullable(
+                        query.getProjectIds() == null ? null : query.getProjectIds().stream()
+                                .map(String::valueOf)
+                                .collect(Collectors.joining(","))
+                ),
+                "projectRoles", Optional.ofNullable(
+                        query.getProjectRoles() == null ? null : query.getProjectRoles().stream()
+                                .map(projectRole -> projectRole.to(projectRole))
+                                .collect(Collectors.joining(","))
+                ),
+                "languageIds", Optional.ofNullable(
+                        query.getLanguageIds() == null ? null : String.join(",", query.getLanguageIds())
+                ),
+                "groupIds", Optional.ofNullable(
+                        query.getGroupIds() == null ? null : query.getGroupIds().stream()
+                        .map(String::valueOf)
+                        .collect(Collectors.joining(","))
+                ),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         TeamResponseList teamResponseList = this.httpClient.get(this.url + "/teams", new HttpRequestConfig(queryParams), TeamResponseList.class);
         return TeamResponseList.to(teamResponseList);

@@ -5,6 +5,7 @@ import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.SortOrder;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import com.crowdin.client.teams.model.ListTeamsParams;
 import com.crowdin.client.teams.model.Team;
 import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Test;
@@ -45,5 +46,22 @@ public class TeamsApiListTeamsOrderByIdDescTest extends TestClient {
         assertEquals(teamId, teamResponseList.getData().get(1).getData().getId());
         assertEquals(name, teamResponseList.getData().get(1).getData().getName());
 
+    }
+
+    @Test
+    public void listTeamsTest_newOrderByIdDesc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ListTeamsParams query = new ListTeamsParams();
+        query.setOrderBy(singletonList(orderById));
+
+        ResponseList<Team> teamResponseList = this.getTeamsApi().listTeams(query);
+        assertEquals(2, teamResponseList.getData().size());
+        assertEquals(team2Id, teamResponseList.getData().get(0).getData().getId());
+        assertEquals(name2, teamResponseList.getData().get(0).getData().getName());
+        assertEquals(teamId, teamResponseList.getData().get(1).getData().getId());
+        assertEquals(name, teamResponseList.getData().get(1).getData().getName());
     }
 }

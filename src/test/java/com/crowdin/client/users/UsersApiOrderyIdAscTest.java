@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
-import static java.util.Collections.singletonList;
+import static java.util.Collections.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UsersApiOrderyIdAscTest extends TestClient {
@@ -59,6 +59,22 @@ public class UsersApiOrderyIdAscTest extends TestClient {
                 null,
                 singletonList(orderById)
         );
+
+        assertEquals(2, userResponseList.getData().size());
+        assertEquals(userId, userResponseList.getData().get(0).getData().getId());
+        assertEquals(user2Id, userResponseList.getData().get(1).getData().getId());
+    }
+
+    @Test
+    public void listUsersTest_newOrderByIdAsc() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ListUsersParams listUsersParams = new ListUsersParams();
+        listUsersParams.setOrderBy(singletonList(orderById));
+
+        ResponseList<User> userResponseList = this.getUsersApi().listUsers(listUsersParams);
 
         assertEquals(2, userResponseList.getData().size());
         assertEquals(userId, userResponseList.getData().get(0).getData().getId());
