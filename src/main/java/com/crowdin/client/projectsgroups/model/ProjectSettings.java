@@ -29,6 +29,7 @@ public class ProjectSettings extends Project {
     private Boolean autoTranslateDialects;
     private Boolean useGlobalTm;
     private Boolean showTmSuggestionsDialects;
+    private Boolean tmApprovedSuggestionsOnly;
     private Boolean isSuspended;
     private Boolean qaCheckIsActive;
     private QaCheckCategories qaCheckCategories;

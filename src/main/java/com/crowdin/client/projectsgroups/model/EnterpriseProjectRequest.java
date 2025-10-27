@@ -26,6 +26,7 @@ public class EnterpriseProjectRequest extends AddProjectRequest {
     private List<Long> taskReviewerIds;
     private Boolean autoSubstitution;
     private Boolean showTmSuggestionsDialects;
+    private Boolean tmApprovedSuggestionsOnly;
     private Boolean autoTranslateDialects;
     private Boolean publicDownloads;
     private Boolean hiddenStringsProofreadersAccess;

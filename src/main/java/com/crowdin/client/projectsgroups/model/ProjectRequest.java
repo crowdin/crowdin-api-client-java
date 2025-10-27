@@ -27,6 +27,7 @@ public class ProjectRequest extends AddProjectRequest {
     private Boolean hiddenStringsProofreadersAccess;
     private Boolean useGlobalTm;
     private Boolean showTmSuggestionsDialects;
+    private Boolean tmApprovedSuggestionsOnly;
     private Boolean skipUntranslatedStrings;
     private Boolean exportApprovedOnly;
     private Boolean qaCheckIsActive;
