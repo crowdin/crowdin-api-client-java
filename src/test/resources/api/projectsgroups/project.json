@@ -31,6 +31,7 @@
         "months": 2,
         "penalty": 1
       }
-    }
+    },
+    "tmApprovedSuggestionsOnly": false
   }
 }

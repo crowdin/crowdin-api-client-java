@@ -131,6 +131,7 @@ public class ProjectsGroupsApiTest extends TestClient {
             setSpecialSymbols(false);
             setWrongTranslation(false);
         }});
+        request.setTmApprovedSuggestionsOnly(false);
 
         ResponseObject<? extends Project> projectResponseObject = this.getProjectsGroupsApi().addProject(request);
         assertEquals(projectResponseObject.getData().getId(), projectId);
@@ -192,6 +193,8 @@ public class ProjectsGroupsApiTest extends TestClient {
         assertNotNull(lastModified);
         assertEquals(2, lastModified.getMonths());
         assertEquals(1, lastModified.getPenalty());
+
+        assertFalse(projectSettings.getTmApprovedSuggestionsOnly());
     }
 
     @Test

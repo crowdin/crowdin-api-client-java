@@ -29,6 +29,7 @@
     "autoTranslateDialects": true,
     "publicDownloads": true,
     "useGlobalTm": false,
+    "tmApprovedSuggestionsOnly": false,
     "inContext": true,
     "inContextPseudoLanguageId": "uk",
     "isSuspended": false,

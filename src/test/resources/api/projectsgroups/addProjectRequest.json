@@ -15,5 +15,6 @@
     "symbolRegister": true,
     "specialSymbols": false,
     "wrongTranslation": false
-  }
+  },
+  "tmApprovedSuggestionsOnly": false
 }
