@@ -21,5 +21,6 @@ public class BranchMergeStatus {
 
         private Integer sourceBranchId;
         private Boolean deleteAfterMerge;
+        private Boolean acceptSourceChanges;
     }
 }
