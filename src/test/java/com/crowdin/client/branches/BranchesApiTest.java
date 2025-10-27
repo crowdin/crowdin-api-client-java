@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BranchesApiTest extends TestClient {
 
@@ -56,9 +57,11 @@ class BranchesApiTest extends TestClient {
         request.setDeleteAfterMerge(true);
         request.setSourceBranchId(sourceBranchId);
         request.setDryRun(false);
+        request.setAcceptSourceChanges(true);
 
         ResponseObject<BranchMergeStatus> response = this.getBranchesApi().mergeBranch(projectId, id, request);
         assertEquals(response.getData().getIdentifier(), mergeId);
+        assertTrue(response.getData().getAttributes().getAcceptSourceChanges());
     }
 
     @Test

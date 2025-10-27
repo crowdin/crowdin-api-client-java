@@ -1,5 +1,6 @@
 {
   "deleteAfterMerge": true,
   "sourceBranchId": 8,
-  "dryRun": false
+  "dryRun": false,
+  "acceptSourceChanges": true
 }
