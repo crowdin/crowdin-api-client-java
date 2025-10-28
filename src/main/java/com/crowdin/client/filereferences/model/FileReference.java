@@ -1,3 +1,5 @@
+import com.crowdin.client.filereferences.model.AddFileReferenceRequest;
+
 package com.crowdin.client.filereferences.model;
 
 import lombok.Data;
