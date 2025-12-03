@@ -1,0 +1,17 @@
+{
+  "data": {
+    "identifier": "import-strings-123",
+    "status": "ok",
+    "progress": 100,
+    "attributes": {
+      "storageId": 14,
+      "branchId": 211,
+      "importEqSuggestions": false,
+      "autoApproveImported": true,
+      "translateHidden": true,
+      "addToTm": true,
+      "languageIds": ["es"]
+    }
+  }
+}
+

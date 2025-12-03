@@ -1,0 +1,27 @@
+{
+  "data": {
+    "languages": [
+      {
+        "id": "uk",
+        "branches": [
+          {
+            "id": 211,
+            "statistics": {
+              "phrases": 10,
+              "words": 24
+            }
+          }
+        ],
+        "skipped": {
+          "translation_eq_source": 1,
+          "qa_check": 0
+        },
+        "skippedQaCheckCategories": {
+          "duplicate": 0,
+          "spellcheck": 0
+        }
+      }
+    ]
+  }
+}
+
