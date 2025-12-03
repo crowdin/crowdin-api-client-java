@@ -5,28 +5,7 @@ import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
-import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
-import com.crowdin.client.translations.model.ApplyPreTranslationStringsBasedRequest;
-import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
-import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
-import com.crowdin.client.translations.model.BuildProjectTranslationRequest;
-import com.crowdin.client.translations.model.ExportProjectTranslationRequest;
-import com.crowdin.client.translations.model.PreTranslation;
-import com.crowdin.client.translations.model.PreTranslationResponseList;
-import com.crowdin.client.translations.model.PreTranslationResponseObject;
-import com.crowdin.client.translations.model.PreTranslationStatus;
-import com.crowdin.client.translations.model.PreTranslationStatusResponseObject;
-import com.crowdin.client.translations.model.ProjectBuild;
-import com.crowdin.client.translations.model.ProjectBuildResponseList;
-import com.crowdin.client.translations.model.ProjectBuildResponseObject;
-import com.crowdin.client.translations.model.UploadTranslationsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsResponse;
-import com.crowdin.client.translations.model.UploadTranslationsResponseObject;
-import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
-import com.crowdin.client.translations.model.UploadTranslationsStringsResponseObject;
-import com.crowdin.client.translations.model.PreTranslationReportResponse;
-import com.crowdin.client.translations.model.PreTranslationReportResponseObject;
+import com.crowdin.client.translations.model.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -158,6 +137,8 @@ public class TranslationsApi extends CrowdinApi {
     }
 
     /**
+     * @deprecated
+     *
      * @param projectId project identifier
      * @param languageId language identifier
      * @param request request body
@@ -177,6 +158,9 @@ public class TranslationsApi extends CrowdinApi {
         return ResponseObject.of(projectBuildResponseObject.getData());
     }
 
+    /**
+     * @deprecated
+     */
     public ResponseObject<UploadTranslationsStringsResponse> uploadTranslationStringsBased(Long projectId, String languageId, UploadTranslationsStringsRequest request) throws HttpException, HttpBadRequestException {
         UploadTranslationsStringsResponseObject projectBuildResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/" + languageId,
@@ -309,5 +293,89 @@ public class TranslationsApi extends CrowdinApi {
             PreTranslationReportResponseObject.class
         );
         return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Translations/operation/api.projects.translations.enterprise.imports" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsStatus> importTranslations(Long projectId, ImportTranslationsRequest request) throws HttpException, HttpBadRequestException {
+        ImportTranslationsStatusResponseObject resp = this.httpClient.post(this.url + "/projects/" + projectId + "/translations/imports", request, new HttpRequestConfig(), ImportTranslationsStatusResponseObject.class);
+        return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request body
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/string-based/#tag/Translations/operation/api.projects.translations.imports" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/string-based/#tag/Translations/operation/api.projects.translations.enterprise.imports" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsStringsBasedStatus> importTranslations(Long projectId, ImportTranslationsStringsBasedRequest request) throws HttpException, HttpBadRequestException {
+        ImportTranslationsStringsBasedStatusResponseObject resp = this.httpClient.post(this.url + "/projects/" + projectId + "/translations/imports", request, new HttpRequestConfig(), ImportTranslationsStringsBasedStatusResponseObject.class);
+        return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Translations/operation/api.projects.translations.enterprise.imports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsStatus> importTranslationsStatus(Long projectId, String importId) throws HttpException, HttpBadRequestException {
+        ImportTranslationsStatusResponseObject resp = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/imports/" + importId, new HttpRequestConfig(), ImportTranslationsStatusResponseObject.class);
+        return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/string-based/#tag/Translations/operation/api.projects.translations.imports.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/string-based/#tag/Translations/operation/api.projects.translations.enterprise.imports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsStringsBasedStatus> importTranslationsStringsBasedStatus(Long projectId, String importId) throws HttpException, HttpBadRequestException {
+        ImportTranslationsStringsBasedStatusResponseObject resp = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/imports/" + importId, new HttpRequestConfig(), ImportTranslationsStringsBasedStatusResponseObject.class);
+        return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/Translations/operation/api.projects.translations.imports.report.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/Translations/operation/api.projects.translations.imports.report.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsReportResponse> importTranslationsReport(Long projectId, String importId) throws HttpException, HttpBadRequestException {
+        ImportTranslationsReportResponseObject resp = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/imports/" + importId + "/report", new HttpRequestConfig(), ImportTranslationsReportResponseObject.class);
+        return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param importId import identifier
+     * @return import translations
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/string-based/#tag/Translations/operation/api.projects.translations.imports.report.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/string-based/#tag/Translations/operation/api.projects.translations.imports.report.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ImportTranslationsStringsBasedReportResponse> importTranslationsStringsBasedReport(Long projectId, String importId) throws HttpException, HttpBadRequestException {
+        ImportTranslationsStringsBasedReportResponseObject resp = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/imports/" + importId + "/report", new HttpRequestConfig(), ImportTranslationsStringsBasedReportResponseObject.class);
+        return ResponseObject.of(resp.getData());
     }
 }

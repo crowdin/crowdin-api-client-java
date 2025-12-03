@@ -1,0 +1,17 @@
+{
+  "data": {
+    "identifier": "import-123",
+    "status": "in_progress",
+    "progress": 10,
+    "attributes": {
+      "storageId": 14,
+      "fileId": 2,
+      "importEqSuggestions": true,
+      "autoApproveImported": false,
+      "translateHidden": true,
+      "addToTm": false,
+      "languageIds": ["uk"]
+    }
+  }
+}
+

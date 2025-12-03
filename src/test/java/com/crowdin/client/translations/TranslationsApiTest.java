@@ -1,32 +1,9 @@
 package com.crowdin.client.translations;
 
-import com.crowdin.client.core.model.DownloadLink;
-import com.crowdin.client.core.model.PatchOperation;
-import com.crowdin.client.core.model.PatchRequest;
-import com.crowdin.client.core.model.ResponseList;
-import com.crowdin.client.core.model.ResponseObject;
+import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
-import com.crowdin.client.translations.model.ApplyPreTranslationRequest;
-import com.crowdin.client.translations.model.ApplyPreTranslationStringsBasedRequest;
-import com.crowdin.client.translations.model.AutoApproveOption;
-import com.crowdin.client.translations.model.BuildProjectDirectoryTranslationRequest;
-import com.crowdin.client.translations.model.BuildProjectFileTranslationRequest;
-import com.crowdin.client.translations.model.CharTransformation;
-import com.crowdin.client.translations.model.CrowdinTranslationCraeteProjectPseudoBuildForm;
-import com.crowdin.client.translations.model.CrowdinTranslationCreateProjectBuildForm;
-import com.crowdin.client.translations.model.CrowdinTranslationCreateProjectPseudoBuildForm;
-import com.crowdin.client.translations.model.ExportProjectTranslationRequest;
-import com.crowdin.client.translations.model.Method;
-import com.crowdin.client.translations.model.PreTranslation;
-import com.crowdin.client.translations.model.PreTranslationStatus;
-import com.crowdin.client.translations.model.ProjectBuild;
-import com.crowdin.client.translations.model.UploadTranslationsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsResponse;
-import com.crowdin.client.translations.model.UploadTranslationsStringsRequest;
-import com.crowdin.client.translations.model.UploadTranslationsStringsResponse;
-import com.crowdin.client.translations.model.PreTranslationReportResponse;
-
+import com.crowdin.client.translations.model.*;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -53,6 +30,8 @@ public class TranslationsApiTest extends TestClient {
     private final Long storageId = 14L;
     private final Long buildId = 2L;
     private final String link = "test.com";
+    private final String importId = "import-123";
+    private final String importIdStringsBased = "import-strings-123";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -73,8 +52,14 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpGet.METHOD_NAME, "api/translations/listPreTranslations.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpPatch.METHOD_NAME, "api/translations/editPreTranslationRequest.json", "api/translations/editPreTranslationResponse.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report", HttpGet.METHOD_NAME, "api/translations/preTranslationReportResponse.json")
-                );
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report", HttpGet.METHOD_NAME, "api/translations/preTranslationReportResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports", HttpPost.METHOD_NAME, "api/translations/importTranslationsRequest.json", "api/translations/importTranslationsResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports", HttpPost.METHOD_NAME, "api/translations/importTranslationsStringsBasedRequest.json", "api/translations/importTranslationsStringsBasedResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports/" + importId, HttpGet.METHOD_NAME, "api/translations/importTranslationsResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports/" + importIdStringsBased, HttpGet.METHOD_NAME, "api/translations/importTranslationsStringsBasedResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports/" + importId + "/report", HttpGet.METHOD_NAME, "api/translations/importTranslationsReportResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports/" + importIdStringsBased + "/report", HttpGet.METHOD_NAME, "api/translations/importTranslationsStringsBasedReportResponse.json")
+        );
     }
 
     @Test
@@ -270,7 +255,7 @@ public class TranslationsApiTest extends TestClient {
         assertEquals(language, preTranslationResponseObject.getData().getAttributes().getLanguageIds().get(0));
         assertEquals(fileId, preTranslationResponseObject.getData().getAttributes().getFileIds().get(0));
     }
-    
+
     @Test
     public void getPreTranslationReportTest() {
         ResponseObject<PreTranslationReportResponse> response = this.getTranslationsApi().getPreTranslationReport(projectId, preTranslationId);
@@ -296,7 +281,57 @@ public class TranslationsApiTest extends TestClient {
         assertEquals(6, skipped.get("ai_error"));
 
         Map<String, Integer> skippedQaCheckCategories = language.getSkippedQaCheckCategories();
-        assertEquals(1,  skippedQaCheckCategories.get("duplicate"));
+        assertEquals(1, skippedQaCheckCategories.get("duplicate"));
         assertEquals(1, skippedQaCheckCategories.get("spellcheck"));
+    }
+
+    @Test
+    public void importTranslationsTest() {
+        ImportTranslationsRequest request = new ImportTranslationsRequest();
+        request.setStorageId(storageId);
+        request.setFileId(fileId);
+        request.setTranslateHidden(true);
+        request.setLanguageIds(singletonList("uk"));
+        ResponseObject<ImportTranslationsStatus> importTranslationsStatusResponseObject = this.getTranslationsApi().importTranslations(projectId, request);
+        assertEquals(importId, importTranslationsStatusResponseObject.getData().getIdentifier());
+    }
+
+    @Test
+    public void importTranslationStringsBasedTest() {
+        ImportTranslationsStringsBasedRequest request = new ImportTranslationsStringsBasedRequest();
+        request.setStorageId(storageId);
+        request.setBranchId(branchId);
+        request.setAddToTm(true);
+        request.setLanguageIds(singletonList("es"));
+        ResponseObject<ImportTranslationsStringsBasedStatus> importTranslationsStringsBasedStatusResponseObject = this.getTranslationsApi().importTranslations(projectId, request);
+        assertEquals(importIdStringsBased, importTranslationsStringsBasedStatusResponseObject.getData().getIdentifier());
+    }
+
+    @Test
+    public void importTranslationsStatusTest() {
+        ResponseObject<ImportTranslationsStatus> importTranslationsStatusResponseObject = this.getTranslationsApi().importTranslationsStatus(projectId, importId);
+        assertEquals(importId, importTranslationsStatusResponseObject.getData().getIdentifier());
+    }
+
+    @Test
+    public void importTranslationStringsBasedStatusTest() {
+        ResponseObject<ImportTranslationsStringsBasedStatus> importTranslationsStringsBasedStatusResponseObject = this.getTranslationsApi().importTranslationsStringsBasedStatus(projectId, importIdStringsBased);
+        assertEquals(importIdStringsBased, importTranslationsStringsBasedStatusResponseObject.getData().getIdentifier());
+    }
+
+    @Test
+    public void getImportTranslationsReportTest() {
+        ResponseObject<ImportTranslationsReportResponse> response = this.getTranslationsApi().importTranslationsReport(projectId, importId);
+        assertEquals(1, response.getData().getLanguages().size());
+        assertEquals(1, response.getData().getLanguages().get(0).getFiles().size());
+        assertEquals(fileId, response.getData().getLanguages().get(0).getFiles().get(0).getId());
+    }
+
+    @Test
+    public void getImportTranslationStringsBasedReportTest() {
+        ResponseObject<ImportTranslationsStringsBasedReportResponse> response = this.getTranslationsApi().importTranslationsStringsBasedReport(projectId, importIdStringsBased);
+        assertEquals(1, response.getData().getLanguages().size());
+        assertEquals(1, response.getData().getLanguages().get(0).getBranches().size());
+        assertEquals(branchId, response.getData().getLanguages().get(0).getBranches().get(0).getId());
     }
 }
