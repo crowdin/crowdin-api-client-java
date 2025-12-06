@@ -481,4 +481,67 @@ public class SourceFilesApi extends CrowdinApi {
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/preview", new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of asset references
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.references.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.references.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<AssetReference> listAssetReferences(Long projectId, Long fileId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        AssetReferenceResponseList assetReferenceResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/references", new HttpRequestConfig(queryParams), AssetReferenceResponseList.class);
+        return AssetReferenceResponseList.to(assetReferenceResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param referenceId reference identifier
+     * @return asset reference
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.references.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.references.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AssetReference> getAssetReference(Long projectId, Long fileId, Long referenceId) throws HttpException, HttpBadRequestException {
+        AssetReferenceResponseObject assetResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/files/" + fileId + "/references/" + referenceId, new HttpRequestConfig(), AssetReferenceResponseObject.class);
+        return ResponseObject.of(assetResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param request request object
+     * @return newly created asset reference
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.references.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.references.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AssetReference> addAssetReference(Long projectId, Long fileId, AddAssetReferenceRequest request) throws HttpException, HttpBadRequestException {
+        AssetReferenceResponseObject post = this.httpClient.post(this.url + "/projects/" + projectId + "/files/" + fileId + "/references", request, new HttpRequestConfig(), AssetReferenceResponseObject.class);
+        return ResponseObject.of(post.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param referenceId reference identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.references.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.references.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteAssetReference(Long projectId, Long fileId, Long referenceId) throws HttpException, HttpBadRequestException {
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/files/" + fileId + "/references/" + referenceId, new HttpRequestConfig(), Void.class);
+    }
 }

@@ -1,0 +1,15 @@
+{
+  "data": {
+    "id": 123,
+    "name": "design_reference.png",
+    "url": "https://example.com/reference/design_reference.png",
+    "user": {
+      "id": 1,
+      "username": "john_doe",
+      "fullName": "John Smith",
+      "avatarUrl": ""
+    },
+    "createdAt": "2019-09-20T11:05:24+00:00",
+    "mimeType": "image/png"
+  }
+}
