@@ -35,6 +35,7 @@ public class SourceFilesApiTest extends TestClient {
     private final Long project4Id = 6L;
     private final Long fileId = 44L;
     private final Long storageId = 61L;
+    private final Long referenceId = 123L;
     private final Long fileRevisionId = 2L;
     private final Long buildId = 42L;
     private final String branchName = "develop-master";
@@ -43,6 +44,7 @@ public class SourceFilesApiTest extends TestClient {
     private final String directoryName = "main";
     private final String directory2Name = "main-#2";
     private final String fileName = "umbrella_app.xliff";
+    private final String referenceName = "design_reference.png";
     private final String context = "Context for translators";
     private final String downloadLink = "test.com";
     private final String status = "finished";
@@ -95,7 +97,11 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId), HttpGet.METHOD_NAME, "api/sourcefiles/listReviewedSourceFileBuilds.json"),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", url, projectId), HttpPost.METHOD_NAME, "api/sourcefiles/buildReviewedSourceFilesRequest.json", "api/sourcefiles/buildReviewedSourceFiles.json"),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/checkReviewedSourceFilesBuildStatus.json"),
-                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d/download", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/downloadReviewedSourceFiles.json")
+                RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d/download", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/downloadReviewedSourceFiles.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/references", HttpGet.METHOD_NAME, "api/sourcefiles/listAssetReferences.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/references", HttpPost.METHOD_NAME, "api/sourcefiles/addAssetReferenceRequest.json","api/sourcefiles/assetReference.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/references/" + referenceId, HttpGet.METHOD_NAME, "api/sourcefiles/assetReference.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/references/" + referenceId, HttpDelete.METHOD_NAME)
         );
     }
 
@@ -640,4 +646,36 @@ public class SourceFilesApiTest extends TestClient {
         assertNull(((DocxFileImportOptions) importOptions).getSrxStorageId());
     }
     //</editor-fold>
+
+    @Test
+    public void listAssetReferencesTest() {
+        ResponseList<AssetReference> referenceResponseList = this.getSourceFilesApi().listAssetReferences(projectId, fileId, null, null);
+        assertEquals(1, referenceResponseList.getData().size());
+        assertEquals(referenceId, referenceResponseList.getData().get(0).getData().getId());
+        assertEquals(referenceName, referenceResponseList.getData().get(0).getData().getName());
+    }
+
+    @Test
+    public void addAssetReferenceTest() {
+        AddAssetReferenceRequest request = new AddAssetReferenceRequest();
+        request.setName(referenceName);
+        request.setStorageId(67890L);
+        ResponseObject<AssetReference> assetReferenceObject = this.getSourceFilesApi().addAssetReference(projectId, fileId, request);
+        assertEquals(referenceId, assetReferenceObject.getData().getId());
+        assertEquals(referenceName, assetReferenceObject.getData().getName());
+    }
+
+    @Test
+    public void getAssetReferenceTest() {
+        TimeZone.setDefault(tz);
+        ResponseObject<AssetReference> assetReferenceObject = this.getSourceFilesApi().getAssetReference(projectId, fileId, referenceId);
+        assertEquals(referenceId, assetReferenceObject.getData().getId());
+        assertEquals(referenceName, assetReferenceObject.getData().getName());
+        assertEquals(new Date(119,Calendar.SEPTEMBER, 20, 11, 5, 24), assetReferenceObject.getData().getCreatedAt());
+    }
+
+    @Test
+    public void deleteAssetReferenceTest() {
+        this.getSourceFilesApi().deleteAssetReference(projectId, fileId, referenceId);
+    }
 }
