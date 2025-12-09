@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "data": {
+        "providerId": 0,
+        "providerType": "string",
+        "providerName": "string",
+        "id": "string",
+        "displayName": "string",
+        "supportReasoning": true,
+        "intelligence": 0,
+        "speed": 0,
+        "price": {
+          "input": 0.1,
+          "output": 0.1
+        },
+        "modalities": {
+          "input": {
+            "text": true,
+            "image": true,
+            "audio": true
+          },
+          "output": {
+            "text": true,
+            "image": true,
+            "audio": true
+          }
+        },
+        "contextWindow": 0,
+        "maxOutputTokens": 0,
+        "knowledgeCutoff": "2019-08-24T14:15:22Z",
+        "releaseDate": "2019-08-24T14:15:22Z",
+        "features": {
+          "streaming": true,
+          "structuredOutput": true,
+          "functionCalling": true
+        }
+      }
+    }
+  ]
+}
