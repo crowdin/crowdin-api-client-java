@@ -2,6 +2,8 @@ package com.crowdin.client.stringcomments;
 
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
+import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
+import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.stringcomments.model.AddStringCommentRequest;
 import com.crowdin.client.stringcomments.model.IssueStatus;
@@ -146,13 +148,27 @@ public class StringCommentsApi extends CrowdinApi {
      * @param request request object
      * @return list of updated string comment objects
      * @see <ul>
-     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/String-Comments/operation/api.projects.comments.batchPatch" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/String-Comments/operation/api.projects.comments.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.comments.batchPatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.comments.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<StringComment> stringCommentBatchOperations(Long projectId, List<PatchRequest> request) {
         String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
         StringCommentResponseList response = this.httpClient.patch(builtUrl, request, new HttpRequestConfig(), StringCommentResponseList.class);
         return StringCommentResponseList.to(response);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param commentId comment identifier
+     * @param attachmentId attachment identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.comments.attachments.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.comments.attachments.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteAttachmentFromStringComment(Long projectId, Long commentId, Long attachmentId) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/comments/%d/attachments/%d", this.url, projectId, commentId, attachmentId);
+        this.httpClient.delete(builtUrl, new HttpRequestConfig(), Void.class);
     }
 }

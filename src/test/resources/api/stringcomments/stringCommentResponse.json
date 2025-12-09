@@ -23,6 +23,18 @@
     "type": "issue",
     "issueType": "source_mistake",
     "issueStatus": "unresolved",
-    "createdAt": "2019-09-20T11:05:24+00:00"
+    "createdAt": "2019-09-20T11:05:24+00:00",
+    "attachments": [
+      {
+        "id": 10,
+        "name": "screenshot.png",
+        "mime": "image/png",
+        "size": 12345,
+        "category": "image",
+        "thumbnailUrl": "https://example.com/thumbnail.png",
+        "url": "https://example.com/original.png",
+        "downloadUrl": "https://example.com/raw.png"
+      }
+    ]
   }
 }

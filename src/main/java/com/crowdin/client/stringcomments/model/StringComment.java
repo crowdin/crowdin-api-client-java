@@ -3,6 +3,7 @@ package com.crowdin.client.stringcomments.model;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class StringComment {
@@ -18,6 +19,7 @@ public class StringComment {
     private String issueType;
     private IssueStatus issueStatus;
     private Date createdAt;
+    private List<Attachment> attachments;
 
     @Data
     public static class User {
