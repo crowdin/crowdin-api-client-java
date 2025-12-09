@@ -2,6 +2,8 @@ package com.crowdin.client.stringcomments.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class AddStringCommentRequest {
 
@@ -11,4 +13,5 @@ public class AddStringCommentRequest {
     private Type type;
     private String issueType;
     private IssueStatus issueStatus;
+    private List<Attachment> attachments;
 }

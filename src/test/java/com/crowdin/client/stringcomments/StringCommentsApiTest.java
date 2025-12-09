@@ -4,6 +4,7 @@ import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.stringcomments.model.AddStringCommentRequest;
+import com.crowdin.client.stringcomments.model.Attachment;
 import com.crowdin.client.stringcomments.model.IssueStatus;
 import com.crowdin.client.stringcomments.model.StringComment;
 import com.crowdin.client.stringcomments.model.Type;
@@ -23,10 +24,12 @@ public class StringCommentsApiTest extends TestClient {
     private final Long projectId = 8L;
     private final Long project2Id = 9L;
     private final Long project3Id = 10L;
-    private final Long stringId = 64L;
+    private final Long stringId = 1L;
     private final Long stringCommentId = 512L;
+    private final Long attachmentId = 123L;
+    private final Long attachmentId2 = 10L;
 
-    private final String text = "some issue";
+    private final String text = "some issue with translation";
     private final String targetLanguageId = "en";
     private final Type type = Type.ISSUE;
     private final String issueType = "translation_mistake";
@@ -58,7 +61,8 @@ public class StringCommentsApiTest extends TestClient {
                     HttpPatch.METHOD_NAME,
                     "api/stringcomments/stringCommentBatchOperationsRequest.json",
                     "api/stringcomments/stringCommentBatchOperationsResponse.json"
-            )
+            ),
+            RequestMock.build(String.format("%s/projects/%d/comments/%d/attachments/%d", this.url, projectId, stringCommentId, attachmentId), HttpDelete.METHOD_NAME)
         );
     }
 
@@ -68,6 +72,7 @@ public class StringCommentsApiTest extends TestClient {
         assertNotNull(responseList);
         assertNotNull(responseList.getData());
         assertEquals(1, responseList.getData().size(), "Size of list should be 1");
+        assertEquals(attachmentId2, responseList.getData().get(0).getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -85,6 +90,7 @@ public class StringCommentsApiTest extends TestClient {
         assertNotNull(responseList);
         assertNotNull(responseList.getData());
         assertEquals(1, responseList.getData().size(), "Size of list should be 1");
+        assertEquals(attachmentId2, responseList.getData().get(0).getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -108,6 +114,7 @@ public class StringCommentsApiTest extends TestClient {
 
         assertEquals(2, responseList.getData().get(0).getData().getId(), "Id of list should be 2");
         assertEquals(3, responseList.getData().get(1).getData().getId(), "Id of list should be 3");
+        assertEquals(attachmentId2, responseList.getData().get(0).getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -132,6 +139,7 @@ public class StringCommentsApiTest extends TestClient {
 
         assertEquals(2, responseList.getData().get(0).getData().getId(), "Id of list should be 2");
         assertEquals(3, responseList.getData().get(1).getData().getId(), "Id of list should be 3");
+        assertEquals(attachmentId2, responseList.getData().get(0).getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -156,21 +164,28 @@ public class StringCommentsApiTest extends TestClient {
 
         assertEquals(3, responseList.getData().get(0).getData().getId(), "Id of list should be 3");
         assertEquals(2, responseList.getData().get(1).getData().getId(), "Id of list should be 2");
+        assertEquals(attachmentId2, responseList.getData().get(0).getData().getAttachments().get(0).getId());
     }
 
     @Test
     public void addStringCommentTest() {
+        Attachment attachment = new Attachment();
+        attachment.setId(attachmentId);
+        List<Attachment> attachments = Collections.singletonList(attachment);
+
         AddStringCommentRequest request = new AddStringCommentRequest() {{
             setText(text);
             setTargetLanguageId(targetLanguageId);
             setStringId(stringId);
             setType(type);
             setIssueType(issueType);
-            setIssueStatus(issueStatus);
+            setAttachments(attachments);
         }};
         ResponseObject<StringComment> response = this.getStringCommentsApi().addStringComment(projectId, request);
         assertNotNull(response);
         assertNotNull(response.getData());
+
+        assertEquals(attachmentId2, response.getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -178,6 +193,8 @@ public class StringCommentsApiTest extends TestClient {
         ResponseObject<StringComment> response = this.getStringCommentsApi().getStringComment(projectId, stringCommentId);
         assertNotNull(response);
         assertNotNull(response.getData());
+
+        assertEquals(attachmentId2, response.getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -197,6 +214,7 @@ public class StringCommentsApiTest extends TestClient {
         assertNotNull(response);
         assertNotNull(response.getData());
 
+        assertEquals(attachmentId2, response.getData().getAttachments().get(0).getId());
     }
 
     @Test
@@ -234,5 +252,11 @@ public class StringCommentsApiTest extends TestClient {
         assertNotNull(response.getData());
 
         assertEquals(IssueStatus.UNRESOLVED, response.getData().get(0).getData().getIssueStatus());
+        assertEquals(attachmentId2, response.getData().get(0).getData().getAttachments().get(0).getId());
+    }
+
+    @Test
+    public void deleteAttachmentFromStringCommentTest() {
+        this.getStringCommentsApi().deleteAttachmentFromStringComment(projectId, stringCommentId, attachmentId);
     }
 }

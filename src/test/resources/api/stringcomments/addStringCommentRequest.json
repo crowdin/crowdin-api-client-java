@@ -1,8 +1,12 @@
 {
-  "text": "some issue",
+  "stringId": 1,
+  "text": "some issue with translation",
   "targetLanguageId": "en",
-  "stringId": 64,
   "type": "issue",
   "issueType": "translation_mistake",
-  "issueStatus": "resolved"
+  "attachments": [
+    {
+      "id": 123
+    }
+  ]
 }
