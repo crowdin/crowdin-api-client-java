@@ -561,6 +561,32 @@ public class AIApi extends CrowdinApi {
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param userId user identifier
+     * @param limit maximum numbers of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param providerType provider (e.g. open_ai)
+     * @param enabled filter by enabled providers
+     * @param orderBy
+     * @return List of supported AI models for a specific AI provider
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#tag/AI/operation/api.ai.providers.supported-models.crowdin.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/AI/operation/api.ai.providers.supported-models.enterprise.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<AiSupportedModel> listSupportedAiProviderModels(Long userId, Integer limit, Integer offset, String providerType, Boolean enabled, String orderBy) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "providerType", Optional.ofNullable(providerType),
+                "enabled", Optional.ofNullable(enabled),
+                "orderBy", Optional.ofNullable(orderBy)
+        );
+        String url = getAIPath(userId, "ai/providers/supported-models");
+        AiSupportedModelResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), AiSupportedModelResponseList.class);
+        return AiSupportedModelResponseList.to(responseList);
+    }
+
     private String getAIPath(Long userId, String path) {
         return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
     }

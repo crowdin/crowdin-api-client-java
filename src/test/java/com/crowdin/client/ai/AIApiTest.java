@@ -25,6 +25,7 @@ public class AIApiTest extends TestClient {
     private static final long userId = 2L;
     private static final long customPlaceholderId = 2L;
     private static final long aiPromptId = 3L;
+    private static final long providerId = 0L;
     private static final long progress = 100L;
     private static final int year = 119;
     private static final int month = Calendar.SEPTEMBER;
@@ -64,6 +65,7 @@ public class AIApiTest extends TestClient {
     private static final String AI_PROMPT_COMPLETION = "%s/users/%d/ai/prompts/%d/completions/%s";
     private static final String AI_PROMPT_COMPLETION_DOWNLOAD = "%s/users/%d/ai/prompts/%d/completions/%s/download";
     private static final String PROXY_CHAT = "%s/users/%d/ai/providers/%d/chat/completions";
+    private static final String LIST_SUPPORTED_AI_PROVIDER_MODELS = "%s/users/%d/ai/providers/supported-models";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -103,7 +105,8 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpGet.METHOD_NAME, "api/ai/promptResponse.json"),
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpDelete.METHOD_NAME),
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpPatch.METHOD_NAME, "api/ai/editPromptRequest.json", "api/ai/promptResponse.json"),
-            RequestMock.build(String.format(PROXY_CHAT, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/proxyChatCompletionRequest.json", "api/ai/proxyChatCompletionResponse.json")
+            RequestMock.build(String.format(PROXY_CHAT, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/proxyChatCompletionRequest.json", "api/ai/proxyChatCompletionResponse.json"),
+            RequestMock.build(String.format(LIST_SUPPORTED_AI_PROVIDER_MODELS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listSupportedAiProviderModels.json")
         );
     }
 
@@ -514,5 +517,18 @@ public class AIApiTest extends TestClient {
         ResponseObject<Map<String, Object>> proxyChatCompletion = this.getAiApi().createProxyChatCompletion(userId, aiPromptId, req);
 
         assertEquals(proxyChatCompletion.getData().size(), 0);
+    }
+
+    @Test
+    public void listSupportedAiProviderModelsTest() {
+        ResponseList<AiSupportedModel> response = this.getAiApi().listSupportedAiProviderModels(userId, null, null, null, null, null);
+
+        assertEquals(1, response.getData().size());
+        assertEquals(providerId, response.getData().get(0).getData().getProviderId());
+        assertTrue(response.getData().get(0).getData().getFeatures().getStreaming());
+        assertEquals(new Date(year, Calendar.AUGUST, 24, 14, 15, 22), response.getData().get(0).getData().getKnowledgeCutoff());
+        assertTrue(response.getData().get(0).getData().getModalities().getInput().getText());
+        assertTrue(response.getData().get(0).getData().getModalities().getOutput().getImage());
+        assertEquals(0.1, response.getData().get(0).getData().getPrice().getInput());
     }
 }
