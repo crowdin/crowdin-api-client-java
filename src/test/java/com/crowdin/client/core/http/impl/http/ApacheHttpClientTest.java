@@ -8,12 +8,10 @@ import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.BooleanInt;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.labels.model.Label;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.methods.*;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.message.BasicStatusLine;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +83,8 @@ public class ApacheHttpClientTest {
     public void testGetRequest() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a GET request and check the response
@@ -107,7 +106,8 @@ public class ApacheHttpClientTest {
     public void testGetRequestError() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, "FAIL"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, "FAIL"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(errorResponse));
 
 
@@ -119,7 +119,8 @@ public class ApacheHttpClientTest {
     public void testDeleteRequest() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity("Mocked response body"));
 
 
@@ -143,7 +144,8 @@ public class ApacheHttpClientTest {
         requestData.setIsSystem(BooleanInt.TRUE);
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response
@@ -165,7 +167,8 @@ public class ApacheHttpClientTest {
         InputStream requestData = new ByteArrayInputStream(jsonResponse.getBytes(StandardCharsets.UTF_8));
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POSt request and check the response
@@ -186,7 +189,8 @@ public class ApacheHttpClientTest {
     public void tesPostRequestWithString() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response
@@ -207,7 +211,8 @@ public class ApacheHttpClientTest {
     public void tesPostRequestWithNullData() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
-        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        //when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, "OK"));
+        when(mockedResponse.getCode()).thenReturn(200);
         when(mockedResponse.getEntity()).thenReturn(new StringEntity(jsonResponse));
 
         // Make a POST request and check the response

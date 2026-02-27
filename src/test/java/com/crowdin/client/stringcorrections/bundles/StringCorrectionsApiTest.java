@@ -7,10 +7,14 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.stringcorrections.model.AddCorrectionRequest;
 import com.crowdin.client.stringcorrections.model.Correction;
 import com.crowdin.client.stringcorrections.model.ListCorrectionsQueryParams;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+//import org.apache.hc.client5.http.classic.methods.HttpDelete;
+//import org.apache.hc.client5.http.classic.methods.HttpGet;
+//import org.apache.hc.client5.http.classic.methods.HttpPost;
+//import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

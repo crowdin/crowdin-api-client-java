@@ -6,9 +6,9 @@ import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.impl.http.ApacheHttpClient;
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.*;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,7 +25,7 @@ public abstract class CrowdinApi {
         this(credentials, ClientConfig.builder()
                 .httpClient(new ApacheHttpClient(credentials, new JacksonJsonTransformer(), Collections.emptyMap(), HttpClientBuilder
                         .create()
-                        .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+                        .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(StandardCookieSpec.RELAXED).build())
                         .build()))
                 .build());
     }

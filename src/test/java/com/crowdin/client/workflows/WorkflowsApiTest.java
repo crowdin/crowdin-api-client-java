@@ -7,7 +7,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.sourcestrings.model.SourceString;
 import com.crowdin.client.workflows.model.WorkflowStep;
 import com.crowdin.client.workflows.model.WorkflowTemplate;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

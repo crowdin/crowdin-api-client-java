@@ -8,27 +8,41 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpHead;
-import org.apache.http.client.methods.HttpPatch;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.methods.*;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.client5.http.auth.AuthScope;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
+import org.apache.hc.client5.http.cookie.StandardCookieSpec;
+import org.apache.hc.client5.http.config.RequestConfig;
+//import org.apache.http.client.methods.HttpUriRequest;
+//import org.apache.http.client.methods.RequestBuilder;
+//import org.apache.http.entity.ContentType;
+//import org.apache.http.entity.InputStreamEntity;
+//import org.apache.http.entity.StringEntity;
+//import org.apache.http.impl.client.BasicCredentialsProvider;
+//import org.apache.http.impl.client.CloseableHttpClient;
+//import org.apache.http.impl.client.HttpClientBuilder;
+
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.InputStreamEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+
+import org.apache.hc.client5.http.impl.auth.BasicCredentialsProvider;
+
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.util.Timeout;
+
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.InputStreamEntity;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +52,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class ApacheHttpClient implements HttpClient {
 
@@ -62,11 +77,12 @@ public class ApacheHttpClient implements HttpClient {
         this.defaultHeaders = defaultHeaders;
         this.proxy = proxy;
         this.proxyCreds = proxyCreds;
-        RequestConfig.Builder requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD);
+        RequestConfig.Builder requestConfig = RequestConfig.custom().setCookieSpec(StandardCookieSpec.RELAXED);
         if (timeoutMs != null) {
-            requestConfig.setConnectionRequestTimeout(timeoutMs);
-            requestConfig.setConnectTimeout(timeoutMs);
-            requestConfig.setSocketTimeout(timeoutMs);
+            Timeout timeout = Timeout.of(timeoutMs, TimeUnit.MILLISECONDS);
+            requestConfig.setConnectionRequestTimeout(timeout);
+            requestConfig.setConnectTimeout(timeout);
+            requestConfig.setResponseTimeout(timeout);
         }
         this.httpClient = (proxy != null)
             ? HttpClientBuilder.create()
@@ -74,7 +90,7 @@ public class ApacheHttpClient implements HttpClient {
                 .setDefaultRequestConfig(requestConfig.build())
                 .setDefaultCredentialsProvider((proxyCreds != null)
                     ? new BasicCredentialsProvider() {{
-                            setCredentials(new AuthScope(proxy.getHost(), proxy.getPort()), new UsernamePasswordCredentials(proxyCreds.getUsername(), proxyCreds.getPassword()));
+                            setCredentials(new AuthScope(proxy.getHost(), proxy.getPort()), new UsernamePasswordCredentials(proxyCreds.getUsername(), proxyCreds.getPassword().toCharArray()));
                         }}
                     : new BasicCredentialsProvider())
                 .build()
@@ -119,10 +135,10 @@ public class ApacheHttpClient implements HttpClient {
                              HttpRequestConfig config,
                              Class<T> clazz,
                              String method) throws HttpException, HttpBadRequestException {
-        HttpUriRequest request = this.buildRequest(method, url, data, config);
+        HttpUriRequestBase request = this.buildRequest(method, url, data, config);
         String httpResponse = null;
         try (CloseableHttpResponse response = httpClient.execute(request)) {
-            int statusCode = response.getStatusLine().getStatusCode();
+            int statusCode = response.getCode();
             if (statusCode < 200 || statusCode >= 300) {
                 String error = this.toString(response.getEntity());
                 throw this.jsonTransformer.parse(error, CrowdinApiException.class);
@@ -142,30 +158,32 @@ public class ApacheHttpClient implements HttpClient {
         }
     }
 
-    private <V> HttpUriRequest buildRequest(String httpMethod, String url, V data, HttpRequestConfig config) {
-        RequestBuilder requestBuilder = RequestBuilder.create(httpMethod);
-        requestBuilder.setUri(URI.create(this.appendUrlParams(url, config.getUrlParams())));
-        requestBuilder.addHeader("Authorization", "Bearer " + this.credentials.getToken());
+    private <V> HttpUriRequestBase buildRequest(String httpMethod, String url, V data, HttpRequestConfig config) {
+        //RequestBuilder requestBuilder = RequestBuilder.create(httpMethod);
+        HttpUriRequestBase request = new HttpUriRequestBase(httpMethod, URI.create(this.appendUrlParams(url, config.getUrlParams())));
+
+        //requestBuilder.setUri(URI.create(this.appendUrlParams(url, config.getUrlParams())));
+        request.addHeader("Authorization", "Bearer " + this.credentials.getToken());
         if (data != null) {
             HttpEntity entity;
             if (data instanceof InputStream) {
-                entity = new InputStreamEntity((InputStream) data);
+                entity = new InputStreamEntity((InputStream) data, ContentType.APPLICATION_OCTET_STREAM);
             } else if (data instanceof String) {
                 entity = new StringEntity((String) data, ContentType.APPLICATION_OCTET_STREAM);
             } else {
                 entity = new StringEntity(this.jsonTransformer.convert(data), ContentType.APPLICATION_JSON);
             }
-            requestBuilder.setEntity(entity);
+            request.setEntity(entity);
         } else if (HttpPost.METHOD_NAME.equals(httpMethod)) {
-            requestBuilder.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
+            request.setEntity(new StringEntity("", ContentType.APPLICATION_JSON));
         }
         Map<String, Object> headers = new HashMap<>();
         headers.putAll(config.getHeaders());
         headers.putAll(this.defaultHeaders);
         for (Map.Entry<String, ?> entry : headers.entrySet()) {
-            requestBuilder = requestBuilder.addHeader(entry.getKey(), entry.getValue().toString());
+            request.addHeader(entry.getKey(), entry.getValue().toString());
         }
-        return requestBuilder.build();
+        return request;
     }
 
     private String toString(HttpEntity entity) throws IOException {

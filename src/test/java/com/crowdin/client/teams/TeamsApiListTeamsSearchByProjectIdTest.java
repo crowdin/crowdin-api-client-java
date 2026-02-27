@@ -5,7 +5,7 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.teams.model.ListTeamsParams;
 import com.crowdin.client.teams.model.Team;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

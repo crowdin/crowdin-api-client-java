@@ -8,7 +8,7 @@ import com.crowdin.client.notifications.model.SendNotificationToOrganizationMemb
 import com.crowdin.client.notifications.model.SendNotificationToOrganizationMembersRequest;
 import com.crowdin.client.notifications.model.SendNotificationToProjectMemberRequest;
 import com.crowdin.client.notifications.model.SendNotificationToProjectMemberByRoleRequest;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

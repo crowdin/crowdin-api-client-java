@@ -4,7 +4,7 @@ import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.stringtranslations.model.*;
-import org.apache.http.client.methods.*;
+import org.apache.hc.client5.http.classic.methods.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;

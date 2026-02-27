@@ -8,8 +8,8 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.issues.model.Issue;
 import com.crowdin.client.issues.model.Status;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPatch;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
