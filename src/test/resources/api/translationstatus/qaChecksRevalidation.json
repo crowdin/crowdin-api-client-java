@@ -1,0 +1,21 @@
+{
+  "data": {
+    "identifier": "b5215a34-1305-4b21-8054-fc2eb252842f",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "languageIds": [
+        "uk",
+        "fr"
+      ],
+      "qaCheckCategories": [
+        "ai"
+      ],
+      "failedOnly": false
+    },
+    "createdAt": "2025-09-23T11:51:08+00:00",
+    "updatedAt": "2025-09-23T11:51:08+00:00",
+    "startedAt": "2025-09-23T11:51:08+00:00",
+    "finishedAt": null
+  }
+}
