@@ -66,6 +66,7 @@ public class AIApiTest extends TestClient {
     private static final String AI_PROMPT_COMPLETION_DOWNLOAD = "%s/users/%d/ai/prompts/%d/completions/%s/download";
     private static final String PROXY_CHAT = "%s/users/%d/ai/providers/%d/chat/completions";
     private static final String LIST_SUPPORTED_AI_PROVIDER_MODELS = "%s/users/%d/ai/providers/supported-models";
+    private static final String AI_TRANSLATE_STRING = "%s/users/%d/ai/translate";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -106,7 +107,8 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpDelete.METHOD_NAME),
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpPatch.METHOD_NAME, "api/ai/editPromptRequest.json", "api/ai/promptResponse.json"),
             RequestMock.build(String.format(PROXY_CHAT, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/proxyChatCompletionRequest.json", "api/ai/proxyChatCompletionResponse.json"),
-            RequestMock.build(String.format(LIST_SUPPORTED_AI_PROVIDER_MODELS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listSupportedAiProviderModels.json")
+            RequestMock.build(String.format(LIST_SUPPORTED_AI_PROVIDER_MODELS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listSupportedAiProviderModels.json"),
+            RequestMock.build(String.format(AI_TRANSLATE_STRING, this.url, userId), HttpPost.METHOD_NAME, "api/ai/aiTranslateRequest.json", "api/ai/aiTranslateResponse.json")
         );
     }
 
@@ -530,5 +532,26 @@ public class AIApiTest extends TestClient {
         assertTrue(response.getData().get(0).getData().getModalities().getInput().getText());
         assertTrue(response.getData().get(0).getData().getModalities().getOutput().getImage());
         assertEquals(0.1, response.getData().get(0).getData().getPrice().getInput());
+    }
+
+    @Test
+    public void aiTranslateStringsTest() {
+        AiTranslateRequest request = new AiTranslateRequest();
+        request.setStrings(Collections.singletonList("Some text to translate!"));
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("uk");
+        request.setTmIds(Collections.singletonList(123L));
+        request.setGlossaryIds(Collections.singletonList(456L));
+        request.setAiPromptId(789L);
+        request.setAiProviderId(12L);
+        request.setAiModelId("gpt-4.1");
+        request.setInstructions(Collections.singletonList("Keep a formal tone"));
+        request.setAttachmentIds(Collections.singletonList(123L));
+        ResponseObject<AiTranslate> response = this.getAiApi().aiTranslateStrings(userId, request);
+
+        assertEquals("en", response.getData().getSourceLanguageId());
+        assertEquals("uk", response.getData().getTargetLanguageId());
+        assertEquals(2, response.getData().getTranslations().size());
+        assertEquals("Перекладений текст 1", response.getData().getTranslations().get(0));
     }
 }
