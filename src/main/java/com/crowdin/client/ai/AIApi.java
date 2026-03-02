@@ -590,10 +590,10 @@ public class AIApi extends CrowdinApi {
     /**
      * @param userId user identifier
      * @param request AiTranslateRequest
-     * @return AiTranslateResponse
+     * @return translated strings
      * @see <ul>
-     *     <li><a href="https://developer.crowdin.com/api/v2/#tag/AI/operation/api.users.ai.translate.strings.post" target="_blank"><b>API Documentation</b>></a></li>
-     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/AI/operation/api.ai.translate.strings.post" target="_blank"><b>Enterprise API Documentation</b>></a></li>
+     * <li><a href="https://developer.crowdin.com/api/v2/#tag/AI/operation/api.users.ai.translate.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/AI/operation/api.ai.translate.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<AiTranslate> aiTranslateStrings(Long userId, AiTranslateRequest request) {
