@@ -1,0 +1,22 @@
+{
+  "strings": [
+    "Some text to translate!"
+  ],
+  "sourceLanguageId": "en",
+  "targetLanguageId": "uk",
+  "tmIds": [
+    123
+  ],
+  "glossaryIds": [
+    456
+  ],
+  "aiPromptId": 789,
+  "aiProviderId": 12,
+  "aiModelId": "gpt-4.1",
+  "instructions": [
+    "Keep a formal tone"
+  ],
+  "attachmentIds": [
+    123
+  ]
+}

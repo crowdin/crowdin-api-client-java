@@ -587,9 +587,24 @@ public class AIApi extends CrowdinApi {
         return AiSupportedModelResponseList.to(responseList);
     }
 
+    /**
+     * @param userId user identifier
+     * @param request AiTranslateRequest
+     * @return translated strings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#tag/AI/operation/api.users.ai.translate.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/AI/operation/api.ai.translate.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiTranslate> aiTranslateStrings(Long userId, AiTranslateRequest request) {
+        String url = getAIPath(userId, "ai/translate");
+        AiTranslateResponse response = this.httpClient.post(url, request, new HttpRequestConfig(), AiTranslateResponse.class);
+
+        return ResponseObject.of(response.getData());
+    }
+
     private String getAIPath(Long userId, String path) {
         return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
     }
-
 }
 

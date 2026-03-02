@@ -1,0 +1,10 @@
+{
+  "data": {
+    "sourceLanguageId": "en",
+    "targetLanguageId": "uk",
+    "translations": [
+      "Перекладений текст 1",
+      "Перекладений текст 2"
+    ]
+  }
+}
