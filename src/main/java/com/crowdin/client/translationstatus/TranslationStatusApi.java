@@ -162,8 +162,8 @@ public class TranslationStatusApi extends CrowdinApi {
      * @param revalidationId qa checks revalidation identifier
      * @return status of qa checks revalidation job
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>API Documentation</b></a></b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<QaCheckRevalidation> getQaChecksRevalidationStatus(Long projectId, String revalidationId) throws HttpException, HttpBadRequestException {
@@ -177,8 +177,8 @@ public class TranslationStatusApi extends CrowdinApi {
      * @param request QaCheckRevalidationRequest
      * @return QaCheckRevalidation
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>API Documentation</b><a/></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>Enterprise API Documentation</b><a/></li>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<QaCheckRevalidation> revalidateQaChecks(Long projectId, QaCheckRevalidationRequest request) throws HttpException, HttpBadRequestException {
@@ -191,8 +191,8 @@ public class TranslationStatusApi extends CrowdinApi {
      * @param projectId project identifier
      * @param revalidationId qa checks revalidation identifier
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>API Documentation</b><a/></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>Enterprise API Documentation</b><a/></li>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void cancelQaChecksRevalidation(Long projectId, String revalidationId) throws HttpException, HttpBadRequestException {
