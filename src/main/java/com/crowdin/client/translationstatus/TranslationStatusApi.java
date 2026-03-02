@@ -7,6 +7,7 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.ResponseList;
+import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.translationstatus.model.Category;
 import com.crowdin.client.translationstatus.model.FileBranchProgress;
 import com.crowdin.client.translationstatus.model.FileProgressResponseList;
@@ -14,6 +15,9 @@ import com.crowdin.client.translationstatus.model.LanguageProgress;
 import com.crowdin.client.translationstatus.model.LanguageProgressResponseList;
 import com.crowdin.client.translationstatus.model.QaCheck;
 import com.crowdin.client.translationstatus.model.QaCheckResponseList;
+import com.crowdin.client.translationstatus.model.QaCheckRevalidation;
+import com.crowdin.client.translationstatus.model.QaCheckRevalidationRequest;
+import com.crowdin.client.translationstatus.model.QaCheckRevalidationResponseObject;
 import com.crowdin.client.translationstatus.model.Validation;
 
 import java.util.Map;
@@ -151,5 +155,47 @@ public class TranslationStatusApi extends CrowdinApi {
         String builtUrl = String.format("%s/projects/%d/qa-checks", this.url, projectId);
         QaCheckResponseList qaCheckResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), QaCheckResponseList.class);
         return QaCheckResponseList.to(qaCheckResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param revalidationId qa checks revalidation identifier
+     * @return status of qa checks revalidation job
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<QaCheckRevalidation> getQaChecksRevalidationStatus(Long projectId, String revalidationId) throws HttpException, HttpBadRequestException {
+        QaCheckRevalidationResponseObject qaCheckRevalidationResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/qa-checks/revalidate/" + revalidationId, new HttpRequestConfig(), QaCheckRevalidationResponseObject.class);
+
+        return ResponseObject.of(qaCheckRevalidationResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request QaCheckRevalidationRequest
+     * @return QaCheckRevalidation
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<QaCheckRevalidation> revalidateQaChecks(Long projectId, QaCheckRevalidationRequest request) throws HttpException, HttpBadRequestException {
+        QaCheckRevalidationResponseObject qaCheckRevalidationResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/qa-checks/revalidate", request, new HttpRequestConfig(), QaCheckRevalidationResponseObject.class);
+
+        return ResponseObject.of(qaCheckRevalidationResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param revalidationId qa checks revalidation identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#operation/api.projects.qa-checks.revalidate.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void cancelQaChecksRevalidation(Long projectId, String revalidationId) throws HttpException, HttpBadRequestException {
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/qa-checks/revalidate/" + revalidationId, new HttpRequestConfig(), Void.class);
     }
 }

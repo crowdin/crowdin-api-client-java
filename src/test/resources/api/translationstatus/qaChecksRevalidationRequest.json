@@ -1,0 +1,10 @@
+{
+  "qaCheckCategories": [
+    "ai"
+  ],
+  "languageIds": [
+    "uk",
+    "fr"
+  ],
+  "failedOnly": true
+}
