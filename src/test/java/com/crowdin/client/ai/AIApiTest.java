@@ -67,6 +67,10 @@ public class AIApiTest extends TestClient {
     private static final String PROXY_CHAT = "%s/users/%d/ai/providers/%d/chat/completions";
     private static final String LIST_SUPPORTED_AI_PROVIDER_MODELS = "%s/users/%d/ai/providers/supported-models";
     private static final String AI_TRANSLATE_STRING = "%s/users/%d/ai/translate";
+    private static final String AI_FILE_TRANSLATIONS = "%s/users/%d/ai/file-translations";
+    private static final String AI_FILE_TRANSLATION = "%s/users/%d/ai/file-translations/%s";
+    private static final String AI_FILE_TRANSLATION_DOWNLOAD = "%s/users/%d/ai/file-translations/%s/download";
+    private static final String AI_FILE_TRANSLATION_STRINGS = "%s/users/%d/ai/file-translations/%s/translations";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -108,7 +112,12 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(AI_PROMPT, this.url, userId, aiPromptId), HttpPatch.METHOD_NAME, "api/ai/editPromptRequest.json", "api/ai/promptResponse.json"),
             RequestMock.build(String.format(PROXY_CHAT, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/proxyChatCompletionRequest.json", "api/ai/proxyChatCompletionResponse.json"),
             RequestMock.build(String.format(LIST_SUPPORTED_AI_PROVIDER_MODELS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listSupportedAiProviderModels.json"),
-            RequestMock.build(String.format(AI_TRANSLATE_STRING, this.url, userId), HttpPost.METHOD_NAME, "api/ai/aiTranslateRequest.json", "api/ai/aiTranslateResponse.json")
+            RequestMock.build(String.format(AI_TRANSLATE_STRING, this.url, userId), HttpPost.METHOD_NAME, "api/ai/aiTranslateRequest.json", "api/ai/aiTranslateResponse.json"),
+            RequestMock.build(String.format(AI_FILE_TRANSLATIONS, this.url, userId), HttpPost.METHOD_NAME, "api/ai/addAiFileTranslationRequest.json", "api/ai/aiFileTranslationResponse.json"),
+            RequestMock.build(String.format(AI_FILE_TRANSLATION, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/aiFileTranslationResponse.json"),
+            RequestMock.build(String.format(AI_FILE_TRANSLATION, this.url, userId, jobIdentifier), HttpDelete.METHOD_NAME),
+            RequestMock.build(String.format(AI_FILE_TRANSLATION_DOWNLOAD, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadAiFileTranslationResponse.json"),
+            RequestMock.build(String.format(AI_FILE_TRANSLATION_STRINGS, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadAiFileTranslationStringsResponse.json")
         );
     }
 
@@ -553,5 +562,60 @@ public class AIApiTest extends TestClient {
         assertEquals("uk", response.getData().getTargetLanguageId());
         assertEquals(2, response.getData().getTranslations().size());
         assertEquals("Перекладений текст 1", response.getData().getTranslations().get(0));
+    }
+
+    @Test
+    public void addAiFileTranslationTest() {
+        AiFileTranslationAddRequest request = new AiFileTranslationAddRequest();
+        request.setStorageId(123L);
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("uk");
+        request.setType("xliff");
+        request.setParserVersion(1);
+        request.setTmIds(Collections.singletonList(123L));
+        request.setGlossaryIds(Collections.singletonList(456L));
+        request.setAiPromptId(789L);
+        request.setAiProviderId(12L);
+        request.setAiModelId("gpt-4.1");
+        request.setInstructions(Collections.singletonList("Keep a formal tone"));
+        request.setAttachmentIds(Collections.singletonList(123L));
+
+        ResponseObject<AiFileTranslation> response = this.getAiApi().addAiFileTranslation(userId, request);
+        assertEquals(jobIdentifier, response.getData().getIdentifier());
+        assertEquals(status, response.getData().getStatus());
+        assertEquals(progress, response.getData().getProgress());
+        assertEquals("translate", response.getData().getAttributes().getStage());
+        assertEquals("en", response.getData().getAttributes().getSourceLanguageId());
+        assertEquals("uk", response.getData().getAttributes().getTargetLanguageId());
+    }
+
+    @Test
+    public void getAiFileTranslationStatusTest() {
+        ResponseObject<AiFileTranslation> response = this.getAiApi().getAiFileTranslationStatus(userId, jobIdentifier);
+        assertEquals(jobIdentifier, response.getData().getIdentifier());
+        assertEquals(status, response.getData().getStatus());
+        assertEquals("file.pdf", response.getData().getAttributes().getDownloadName());
+        assertEquals("chrome", response.getData().getAttributes().getDetectedType());
+    }
+
+    @Test
+    public void cancelAiFileTranslationTest() {
+        this.getAiApi().cancelAiFileTranslation(userId, jobIdentifier);
+    }
+
+    @Test
+    public void downloadAiFileTranslationTest() {
+        ResponseObject<DownloadLink> response = this.getAiApi().downloadAiFileTranslation(userId, jobIdentifier);
+        assertNotNull(response.getData());
+        assertNotNull(response.getData().getUrl());
+        assertFalse(response.getData().getUrl().isEmpty());
+    }
+
+    @Test
+    public void downloadAiFileTranslationStringsTest() {
+        ResponseObject<DownloadLink> response = this.getAiApi().downloadAiFileTranslationStrings(userId, jobIdentifier);
+        assertNotNull(response.getData());
+        assertNotNull(response.getData().getUrl());
+        assertFalse(response.getData().getUrl().isEmpty());
     }
 }

@@ -603,6 +603,79 @@ public class AIApi extends CrowdinApi {
         return ResponseObject.of(response.getData());
     }
 
+    /**
+     * @param userId user identifier
+     * @param request request body
+     * @return file translation job
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiFileTranslation> addAiFileTranslation(Long userId, AiFileTranslationAddRequest request) {
+        String url = getAIPath(userId, "ai/file-translations");
+        AiFileTranslationResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), AiFileTranslationResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier AI file translation job identifier
+     * @return file translation job status
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiFileTranslation> getAiFileTranslationStatus(Long userId, String jobIdentifier) {
+        String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier);
+        AiFileTranslationResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiFileTranslationResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier AI file translation job identifier
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void cancelAiFileTranslation(Long userId, String jobIdentifier) {
+        String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier AI file translation job identifier
+     * @return translated file download link
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadAiFileTranslation(Long userId, String jobIdentifier) {
+        String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier + "/download");
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param jobIdentifier AI file translation job identifier
+     * @return translated strings download link
+     * @see <ul>
+     * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.download-strings" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.file-translations.download-strings" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadAiFileTranslationStrings(Long userId, String jobIdentifier) {
+        String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier + "/translations");
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
     private String getAIPath(Long userId, String path) {
         return userId != null ? String.format("%s/users/%d/%s", this.url, userId, path) : String.format("%s/%s", this.url, path);
     }
