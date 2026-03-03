@@ -1,0 +1,22 @@
+{
+  "storageId": 123,
+  "sourceLanguageId": "en",
+  "targetLanguageId": "uk",
+  "type": "xliff",
+  "parserVersion": 1,
+  "tmIds": [
+    123
+  ],
+  "glossaryIds": [
+    456
+  ],
+  "aiPromptId": 789,
+  "aiProviderId": 12,
+  "aiModelId": "gpt-4.1",
+  "instructions": [
+    "Keep a formal tone"
+  ],
+  "attachmentIds": [
+    123
+  ]
+}
