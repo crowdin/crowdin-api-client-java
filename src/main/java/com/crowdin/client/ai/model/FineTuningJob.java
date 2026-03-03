@@ -20,7 +20,7 @@ public class FineTuningJob {
         private Boolean dryRun;
         private Long aiPromptId;
         private Hyperparameters hyperparameters;
-        private Options trainignOptions;
+        private Options trainingOptions;
         private Options validationOptions;
         private String baseModel;
         private String fineTunedModel;
