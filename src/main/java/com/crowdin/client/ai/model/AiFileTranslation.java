@@ -18,7 +18,7 @@ public class AiFileTranslation {
     @Data
     public static class Attributes {
         private String stage;
-        private Error error;
+        private FileTranslationError error;
         private String downloadName;
         private String sourceLanguageId;
         private String targetLanguageId;
@@ -28,7 +28,7 @@ public class AiFileTranslation {
     }
 
     @Data
-    public static class Error {
+    private static class FileTranslationError {
         private String stage;
         private String message;
     }
