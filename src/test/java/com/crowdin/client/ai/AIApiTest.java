@@ -15,6 +15,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -71,6 +72,8 @@ public class AIApiTest extends TestClient {
     private static final String AI_FILE_TRANSLATION = "%s/users/%d/ai/file-translations/%s";
     private static final String AI_FILE_TRANSLATION_DOWNLOAD = "%s/users/%d/ai/file-translations/%s/download";
     private static final String AI_FILE_TRANSLATION_STRINGS = "%s/users/%d/ai/file-translations/%s/translations";
+    private static final String AI_GATEWAY = "%s/users/%d/ai/providers/%d/gateway/chat/completions";
+    private static final String gatewayPath = "chat/completions";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -117,7 +120,12 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(AI_FILE_TRANSLATION, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/aiFileTranslationResponse.json"),
             RequestMock.build(String.format(AI_FILE_TRANSLATION, this.url, userId, jobIdentifier), HttpDelete.METHOD_NAME),
             RequestMock.build(String.format(AI_FILE_TRANSLATION_DOWNLOAD, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadAiFileTranslationResponse.json"),
-            RequestMock.build(String.format(AI_FILE_TRANSLATION_STRINGS, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadAiFileTranslationStringsResponse.json")
+            RequestMock.build(String.format(AI_FILE_TRANSLATION_STRINGS, this.url, userId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadAiFileTranslationStringsResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpGet.METHOD_NAME, "api/ai/aiGatewayResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPost.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPut.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpDelete.METHOD_NAME),
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPatch.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json")
         );
     }
 
@@ -617,5 +625,40 @@ public class AIApiTest extends TestClient {
         assertNotNull(response.getData());
         assertNotNull(response.getData().getUrl());
         assertFalse(response.getData().getUrl().isEmpty());
+    }
+
+    @Test
+    public void aiGatewayGetTest() {
+        ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayGet(userId, 1L, gatewayPath);
+        assertNotNull(response.getData());
+    }
+
+    @Test
+    public void aiGatewayPostTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayPost(userId, 1L, gatewayPath, req);
+        assertNotNull(response.getData());
+    }
+
+    @Test
+    public void aiGatewayPutTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayPut(userId, 1L, gatewayPath, req);
+        assertNotNull(response.getData());
+    }
+
+    @Test
+    public void aiGatewayDeleteTest() {
+        this.getAiApi().aiGatewayDelete(userId, 1L, gatewayPath);
+    }
+
+    @Test
+    public void aiGatewayPatchTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayPatch(userId, 1L, gatewayPath, req);
+        assertNotNull(response.getData());
     }
 }

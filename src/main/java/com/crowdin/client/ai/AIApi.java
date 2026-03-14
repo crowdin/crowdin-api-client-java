@@ -599,7 +599,18 @@ public class AIApi extends CrowdinApi {
     public ResponseObject<AiTranslate> aiTranslateStrings(Long userId, AiTranslateRequest request) {
         String url = getAIPath(userId, "ai/translate");
         AiTranslateResponse response = this.httpClient.post(url, request, new HttpRequestConfig(), AiTranslateResponse.class);
+        return ResponseObject.of(response.getData());
+    }
 
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path (e.g. chat/completions)
+     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.get" target="_blank"><b>API Documentation</b></a>
+     */
+    public ResponseObject<Map<String, Object>> aiGatewayGet(final Long userId, final Long aiProviderId, final String path) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        ChatCompletionResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), ChatCompletionResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
@@ -620,6 +631,19 @@ public class AIApi extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @param request request body
+     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.post" target="_blank"><b>API Documentation</b></a>
+     */
+    public ResponseObject<Map<String, Object>> aiGatewayPost(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        ChatCompletionResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
      * @param jobIdentifier AI file translation job identifier
      * @return file translation job status
      * @see <ul>
@@ -635,6 +659,19 @@ public class AIApi extends CrowdinApi {
 
     /**
      * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @param request request body
+     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.put" target="_blank"><b>API Documentation</b></a>
+     */
+    public ResponseObject<Map<String, Object>> aiGatewayPut(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        ChatCompletionResponseObject response = this.httpClient.put(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
      * @param jobIdentifier AI file translation job identifier
      * @see <ul>
      * <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.file-translations.delete" target="_blank"><b>API Documentation</b></a></li>
@@ -643,6 +680,17 @@ public class AIApi extends CrowdinApi {
      */
     public void cancelAiFileTranslation(Long userId, String jobIdentifier) {
         String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.delete" target="_blank"><b>API Documentation</b></a>
+     */
+    public void aiGatewayDelete(final Long userId, final Long aiProviderId, final String path) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
     }
 
@@ -673,6 +721,19 @@ public class AIApi extends CrowdinApi {
     public ResponseObject<DownloadLink> downloadAiFileTranslationStrings(Long userId, String jobIdentifier) {
         String url = getAIPath(userId, "ai/file-translations/" + jobIdentifier + "/translations");
         DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @param request request body
+     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.patch" target="_blank"><b>API Documentation</b></a>
+     */
+    public ResponseObject<Map<String, Object>> aiGatewayPatch(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        ChatCompletionResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 
