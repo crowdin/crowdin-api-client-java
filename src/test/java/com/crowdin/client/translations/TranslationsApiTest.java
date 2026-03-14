@@ -51,6 +51,7 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId, HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/translations/exports", this.url, projectId), HttpPost.METHOD_NAME, "api/translations/exportProjectTranslationRequest.json", "api/translations/exportProjectTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpGet.METHOD_NAME, "api/translations/listPreTranslations.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPatch.METHOD_NAME, "api/translations/batchEditPreTranslationsRequest.json", "api/translations/batchEditPreTranslationsResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpPatch.METHOD_NAME, "api/translations/editPreTranslationRequest.json", "api/translations/editPreTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report", HttpGet.METHOD_NAME, "api/translations/preTranslationReportResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/imports", HttpPost.METHOD_NAME, "api/translations/importTranslationsRequest.json", "api/translations/importTranslationsResponse.json"),
@@ -254,6 +255,22 @@ public class TranslationsApiTest extends TestClient {
 
         assertEquals(language, preTranslationResponseObject.getData().getAttributes().getLanguageIds().get(0));
         assertEquals(fileId, preTranslationResponseObject.getData().getAttributes().getFileIds().get(0));
+    }
+
+    @Test
+    public void batchEditPreTranslationsTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setPath("/status");
+        request.setValue("cancelled");
+
+        ResponseList<PreTranslation> preTranslationsResponseList = this.getTranslationsApi().batchEditPreTranslations(projectId, Arrays.asList(request));
+        assertEquals(1, preTranslationsResponseList.getData().size());
+        PreTranslation preTranslation = preTranslationsResponseList.getData().get(0).getData();
+        assertEquals(preTranslationId, preTranslation.getIdentifier());
+
+        assertEquals(language, preTranslation.getAttributes().getLanguageIds().get(0));
+        assertEquals(fileId, preTranslation.getAttributes().getFileIds().get(0));
     }
 
     @Test

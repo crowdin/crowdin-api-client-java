@@ -256,6 +256,27 @@ public class TranslationsApi extends CrowdinApi {
     }
 
     /**
+     * Pre-Translation Batch Operations
+     *
+     * @param projectId project identifier
+     * @param request list of patch operations
+     * @return list of updated pre-translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#tag/Translations/operation/api.projects.pre-translations.patchBatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/Translations/operation/api.projects.pre-translations.patchBatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<PreTranslation> batchEditPreTranslations(Long projectId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        PreTranslationResponseList preTranslationResponseList = this.httpClient.patch(
+                this.url + "/projects/" + projectId + "/pre-translations",
+                request,
+                new HttpRequestConfig(),
+                PreTranslationResponseList.class
+        );
+        return PreTranslationResponseList.to(preTranslationResponseList);
+    }
+
+    /**
      * Edit Pre-Translation
      *
      * @param projectId project identifier
