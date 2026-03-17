@@ -27,6 +27,7 @@ import com.crowdin.client.storage.StorageApi;
 import com.crowdin.client.stringcomments.StringCommentsApi;
 import com.crowdin.client.stringcorrections.StringCorrectionsApi;
 import com.crowdin.client.stringtranslations.StringTranslationsApi;
+import com.crowdin.client.styleguide.StyleGuidesApi;
 import com.crowdin.client.tasks.TasksApi;
 import com.crowdin.client.teams.TeamsApi;
 import com.crowdin.client.translationmemory.TranslationMemoryApi;
@@ -76,6 +77,7 @@ public class Client extends CrowdinApi {
     private final BranchesApi branchesApi;
     private final AIApi aiApi;
     private final StringCorrectionsApi stringCorrectionsApi;
+    private final StyleGuidesApi styleGuidesApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -113,6 +115,7 @@ public class Client extends CrowdinApi {
         this.branchesApi = new BranchesApi(credentials);
         this.aiApi = new AIApi(credentials);
         this.stringCorrectionsApi = new StringCorrectionsApi(credentials);
+        this.styleGuidesApi = new StyleGuidesApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -151,6 +154,7 @@ public class Client extends CrowdinApi {
         this.branchesApi = new BranchesApi(credentials, clientConfig);
         this.aiApi = new AIApi(credentials, clientConfig);
         this.stringCorrectionsApi = new StringCorrectionsApi(credentials, clientConfig);
+        this.styleGuidesApi = new StyleGuidesApi(credentials, clientConfig);
     }
 
 }
