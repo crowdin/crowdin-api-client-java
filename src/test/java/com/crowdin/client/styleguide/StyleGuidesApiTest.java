@@ -37,7 +37,7 @@ public class StyleGuidesApiTest extends TestClient {
                 RequestMock.build(this.url + "/style-guides", HttpPost.METHOD_NAME, "api/styleguide/addStyleGuideRequest.json", "api/styleguide/styleGuide.json"),
                 RequestMock.build(this.url + "/style-guides/" + styleGuideId, HttpGet.METHOD_NAME, "api/styleguide/styleGuide.json"),
                 RequestMock.build(this.url + "/style-guides/" + styleGuideId, HttpDelete.METHOD_NAME),
-                RequestMock.build(this.url + "/style-guides/" + styleGuideId, HttpPatch.METHOD_NAME, "api/glossaries/editGlossary.json", "api/styleguide/styleGuide.json")
+                RequestMock.build(this.url + "/style-guides/" + styleGuideId, HttpPatch.METHOD_NAME, "api/styleguide/editStyleGuide.json", "api/styleguide/styleGuide.json")
         );
     }
 

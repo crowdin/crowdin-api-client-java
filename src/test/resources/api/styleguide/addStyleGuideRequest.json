@@ -1,7 +1,7 @@
 {
   "name": "Be My Eyes iOS's Style Guide",
   "aiInstructions": "string",
-  "languageId": ["uk", "fr", "de"],
+  "languageIds": ["uk", "fr", "de"],
   "projectIds": [1, 2, 3],
   "isShared": false,
   "storageId": 1
