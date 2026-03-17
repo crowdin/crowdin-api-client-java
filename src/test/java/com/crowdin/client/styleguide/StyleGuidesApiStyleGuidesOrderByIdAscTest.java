@@ -35,7 +35,7 @@ public class StyleGuidesApiStyleGuidesOrderByIdAscTest extends TestClient {
         OrderByField orderById = new OrderByField();
         orderById.setFieldName("id");
 
-        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuide(null, null, null, singletonList(orderById));
+        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuides(null, null, null, singletonList(orderById));
         assertEquals(2, styleGuideResponseList.getData().size());
         assertEquals(styleGuideId, styleGuideResponseList.getData().get(0).getData().getId());
         assertEquals(styleGuide2Id, styleGuideResponseList.getData().get(1).getData().getId());
@@ -47,7 +47,7 @@ public class StyleGuidesApiStyleGuidesOrderByIdAscTest extends TestClient {
         orderById.setFieldName("id");
         orderById.setOrderBy(SortOrder.ASC);
 
-        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuide(null, null, null, singletonList(orderById));
+        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuides(null, null, null, singletonList(orderById));
         assertEquals(2, styleGuideResponseList.getData().size());
         assertEquals(styleGuideId, styleGuideResponseList.getData().get(0).getData().getId());
         assertEquals(styleGuide2Id, styleGuideResponseList.getData().get(1).getData().getId());

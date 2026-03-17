@@ -81,12 +81,12 @@ public class StyleGuidesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.style-guides.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<StyleGuide> listStyleGuide(Long userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+    public ResponseList<StyleGuide> listStyleGuides(Long userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         ListStyleGuidesParams params = new ListStyleGuidesParams();
         params.setUserId(userId);
         params.setLimit(limit);
         params.setOffset(offset);
-        return listStyleGuide(params);
+        return listStyleGuides(params);
     }
 
     /**
@@ -100,16 +100,16 @@ public class StyleGuidesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.style-guides.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseList<StyleGuide> listStyleGuide(Long userId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+    public ResponseList<StyleGuide> listStyleGuides(Long userId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
         ListStyleGuidesParams params = new ListStyleGuidesParams();
         params.setUserId(userId);
         params.setLimit(limit);
         params.setOffset(offset);
         params.setOrderByList(orderBy);
-        return listStyleGuide(params);
+        return listStyleGuides(params);
     }
 
-    public ResponseList<StyleGuide> listStyleGuide(ListStyleGuidesParams params) {
+    public ResponseList<StyleGuide> listStyleGuides(ListStyleGuidesParams params) throws HttpException, HttpBadRequestException {
         ListStyleGuidesParams query = Optional.ofNullable(params).orElse(new ListStyleGuidesParams());
 
         String orderBy = query.getOrderByList() != null

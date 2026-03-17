@@ -43,10 +43,14 @@ public class StyleGuidesApiTest extends TestClient {
 
     @Test
     public void listStyleGuidesTest() {
-        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuide(null, null, null);
+        ResponseList<StyleGuide> styleGuideResponseList = this.getStyleGuidesApi().listStyleGuides(null, null, null);
         assertEquals(styleGuideResponseList.getData().size(), 1);
         assertEquals(styleGuideResponseList.getData().get(0).getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseList.getData().get(0).getData().getName(), name);
+        assertEquals(styleGuideResponseList.getData().get(0).getData().getAiInstructions(), aiInstructions);
+        assertEquals(styleGuideResponseList.getData().get(0).getData().getIsShared(), isShared);
+        assertEquals(styleGuideResponseList.getData().get(0).getData().getLanguageIds(), languageIds);
+        assertEquals(styleGuideResponseList.getData().get(0).getData().getProjectIds(), projectIds);
     }
 
     @Test
@@ -61,6 +65,10 @@ public class StyleGuidesApiTest extends TestClient {
         ResponseObject<StyleGuide> styleGuideResponseObject = this.getStyleGuidesApi().addStyleGuide(request);
         assertEquals(styleGuideResponseObject.getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getName(), name);
+        assertEquals(styleGuideResponseObject.getData().getAiInstructions(), aiInstructions);
+        assertEquals(styleGuideResponseObject.getData().getIsShared(), isShared);
+        assertEquals(styleGuideResponseObject.getData().getLanguageIds(), languageIds);
+        assertEquals(styleGuideResponseObject.getData().getProjectIds(), projectIds);
     }
 
     @Test
@@ -68,6 +76,10 @@ public class StyleGuidesApiTest extends TestClient {
         ResponseObject<StyleGuide> styleGuideResponseObject = this.getStyleGuidesApi().getStyleGuide(styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getName(), name);
+        assertEquals(styleGuideResponseObject.getData().getAiInstructions(), aiInstructions);
+        assertEquals(styleGuideResponseObject.getData().getIsShared(), isShared);
+        assertEquals(styleGuideResponseObject.getData().getLanguageIds(), languageIds);
+        assertEquals(styleGuideResponseObject.getData().getProjectIds(), projectIds);
     }
 
     @Test
@@ -84,5 +96,9 @@ public class StyleGuidesApiTest extends TestClient {
         ResponseObject<StyleGuide> styleGuideResponseObject = this.getStyleGuidesApi().editStyleGuide(styleGuideId, singletonList(request));
         assertEquals(styleGuideResponseObject.getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getName(), name);
+        assertEquals(styleGuideResponseObject.getData().getAiInstructions(), aiInstructions);
+        assertEquals(styleGuideResponseObject.getData().getIsShared(), isShared);
+        assertEquals(styleGuideResponseObject.getData().getLanguageIds(), languageIds);
+        assertEquals(styleGuideResponseObject.getData().getProjectIds(), projectIds);
     }
 }
