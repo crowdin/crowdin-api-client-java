@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 3,
+        "name": "Be My Eyes iOS's Style Guide",
+        "aiInstructions": "string",
+        "userId": 2,
+        "languageId": ["uk", "fr", "de"],
+        "projectIds": [1, 2, 3],
+        "isShared": false,
+        "createdAt": "2019-09-16T13:42:04+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 2,
+        "name": "Be My Eyes iOS's Style Guide",
+        "aiInstructions": "string",
+        "userId": 2,
+        "languageId": ["uk", "fr", "de"],
+        "projectIds": [1, 2, 3],
+        "isShared": false,
+        "createdAt": "2019-09-16T13:42:04+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
