@@ -56,6 +56,8 @@ com.crowdin.client.stringcorrections
 com.crowdin.client.stringcorrections.model
 com.crowdin.client.stringtranslations
 com.crowdin.client.stringtranslations.model
+com.crowdin.client.styleguide
+com.crowdin.client.styleguide.model
 com.crowdin.client.tasks
 com.crowdin.client.tasks.model
 com.crowdin.client.tasks.model.pending
