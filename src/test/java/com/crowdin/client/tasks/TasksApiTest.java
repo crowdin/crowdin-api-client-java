@@ -41,6 +41,7 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/CrowdinTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addStringsBasedTaskRequest.json", "api/tasks/stringsBasedTask.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/pendingTaskRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/vendorTaskRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/EnterpriseTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterpriseStringsBasedTask.json", "api/tasks/enterpriseTask.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterprisePendingTask.json", "api/tasks/enterpriseTask.json"),
@@ -303,6 +304,20 @@ public class TasksApiTest extends TestClient {
         assertEquals(Type.TRANSLATE, taskResponse.getType());
         assertEquals(expectedAssignee.getId(), taskResponse.getAssignees().get(0).getId());
         assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignees().get(0).getWordsCount());
+    }
+
+    @Test
+    public void addTaskVendorTest() {
+        CreateTaskVendorRequest request = new CreateTaskVendorRequest();
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setFileIds(singletonList(1L));
+        request.setType(TypeVendor.TRANSLATE_BY_VENDOR);
+        request.setVendor("oht");
+        request.setSkipAssignedStrings(true);
+        request.setIncludePreTranslatedStringsOnly(true);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskResponseObject.getData().getId(), taskId);
     }
 
     @Test

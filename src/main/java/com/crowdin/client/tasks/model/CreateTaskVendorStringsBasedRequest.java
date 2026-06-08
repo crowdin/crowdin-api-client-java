@@ -3,15 +3,15 @@ package com.crowdin.client.tasks.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Date;
+
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class CreateLanguageServiceTaskStringsBasedRequest extends AddTaskStringsBasedRequest {
+public class CreateTaskVendorStringsBasedRequest extends AddTaskStringsBasedRequest {
 
     private TypeVendor type;
     private String vendor;
-    @Deprecated
-    private Boolean skipUntranslatedStrings;
+    private Boolean skipAssignedStrings;
     private Boolean includePreTranslatedStringsOnly;
-    @Deprecated
-    private Boolean includeUntranslatedStringsOnly;
+    private Date deadline;
 }
