@@ -4,5 +4,28 @@
     "term",
     "description",
     "partOfSpeech"
+  ],
+  "exportType": "terms",
+  "statuses": [
+    "preferred",
+    "admitted"
+  ],
+  "partsOfSpeech": [
+    "noun",
+    "verb"
+  ],
+  "types": [
+    "full form"
+  ],
+  "genders": [
+    "masculine"
+  ],
+  "authorIds": [
+    1,
+    2
+  ],
+  "languageIds": [
+    "en",
+    "uk"
   ]
 }
