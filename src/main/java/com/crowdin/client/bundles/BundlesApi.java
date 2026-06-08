@@ -6,6 +6,7 @@ import com.crowdin.client.bundles.model.BundleExport;
 import com.crowdin.client.bundles.model.BundleExportResponseObject;
 import com.crowdin.client.bundles.model.BundleResponseList;
 import com.crowdin.client.bundles.model.BundleResponseObject;
+import com.crowdin.client.bundles.model.ExportBundleRequest;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
@@ -170,8 +171,22 @@ public class BundlesApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<BundleExport> exportBundle(Long projectId, Long bundleId) throws HttpException, HttpBadRequestException {
+        return exportBundle(projectId, bundleId, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param bundleId  bundle identifier
+     * @param request   export settings (target languages, skip/approval options); may be {@code null}
+     * @return freshly created bundle export object
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<BundleExport> exportBundle(Long projectId, Long bundleId, ExportBundleRequest request) throws HttpException, HttpBadRequestException {
         BundleExportResponseObject response = this.httpClient.post(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports",
-                null,
+                request,
                 new HttpRequestConfig(),
                 BundleExportResponseObject.class);
         return ResponseObject.of(response.getData());

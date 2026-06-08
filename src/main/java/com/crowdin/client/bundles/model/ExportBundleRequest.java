@@ -5,9 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class BundleAttributes {
+public class ExportBundleRequest {
 
-    private Integer bundleId;
     private List<String> targetLanguageIds;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
