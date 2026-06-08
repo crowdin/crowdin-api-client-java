@@ -94,6 +94,7 @@ public class TasksApi extends CrowdinApi {
                                 .collect(Collectors.joining(","))
                 ),
                 "assigneeId", Optional.ofNullable(query.getAssigneeId()),
+                "batchId", Optional.ofNullable(query.getBatchId()),
                 "limit", Optional.ofNullable(query.getLimit()),
                 "offset", Optional.ofNullable(query.getOffset())
         );
