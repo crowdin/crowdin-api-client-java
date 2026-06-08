@@ -38,6 +38,8 @@ public class TranslationsApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationRequest.json", "api/translations/preTranslationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationStringsBasedRequest.json", "api/translations/preTranslationStatusStringsBased.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationScopeRequest.json", "api/translations/preTranslationStatus.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationScopeStringsBasedRequest.json", "api/translations/preTranslationStatusStringsBased.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpGet.METHOD_NAME, "api/translations/preTranslationStatus.json"),
                 RequestMock.build(String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId), HttpPost.METHOD_NAME, "api/translations/buildProjectDirectoryRequest.json", "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/files/" + fileId, HttpPost.METHOD_NAME, "api/translations/buildFileRequest.json", "api/translations/downloadLink.json"),
@@ -93,6 +95,34 @@ public class TranslationsApiTest extends TestClient {
 
         assertEquals(10000L, preTranslationStatusResponseObject.getData().getAttributes().getLabelIds().get(0));
         assertEquals(20000L, preTranslationStatusResponseObject.getData().getAttributes().getExcludeLabelIds().get(0));
+    }
+
+    @Test
+    public void applyPreTranslationScopeTest() {
+        ApplyPreTranslationRequest request = new ApplyPreTranslationRequest();
+        request.setLanguageIds(singletonList(language));
+        request.setFileIds(singletonList(fileId));
+        request.setMethod(Method.MT);
+        request.setScope(Scope.ALL);
+        request.setTranslationModifiedBefore("2024-01-01T00:00:00+00:00");
+        request.setReplaceTranslationsOption(ReplaceTranslationsOption.AUTO_TRANSLATED);
+        request.setResetApprovalStatus(true);
+        ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().applyPreTranslation(projectId, request);
+        assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
+    }
+
+    @Test
+    public void applyPreTranslationScopeStringsBasedTest() {
+        ApplyPreTranslationStringsBasedRequest request = new ApplyPreTranslationStringsBasedRequest();
+        request.setLanguageIds(singletonList(language));
+        request.setBranchIds(singletonList(branchId));
+        request.setMethod(Method.MT);
+        request.setScope(Scope.ALL);
+        request.setTranslationModifiedBefore("2024-01-01T00:00:00+00:00");
+        request.setReplaceTranslationsOption(ReplaceTranslationsOption.AUTO_TRANSLATED);
+        request.setResetApprovalStatus(true);
+        ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().applyPreTranslationStringsBased(projectId, request);
+        assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
     }
 
     @Test

@@ -15,7 +15,15 @@ public class ApplyPreTranslationStringsBasedRequest {
     private AutoApproveOption autoApproveOption;
     private Boolean duplicateTranslations;
     private Boolean skipApprovedTranslations;
+    /**
+     * @deprecated use {@link #scope} instead; cannot be combined with {@code scope}.
+     */
+    @Deprecated
     private Boolean translateUntranslatedOnly;
+    private Scope scope;
+    private String translationModifiedBefore;
+    private ReplaceTranslationsOption replaceTranslationsOption;
+    private Boolean resetApprovalStatus;
     private Integer minimumMatchRatio;
     private Boolean translateWithPerfectMatchOnly;
     private List<FallbackLanguage> fallbackLanguages;
