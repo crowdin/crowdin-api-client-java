@@ -191,7 +191,7 @@ public class SourceStringsApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param request request object
-     * @return updated source string
+     * @return list of updated source strings
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
@@ -205,7 +205,7 @@ public class SourceStringsApi extends CrowdinApi {
      * @param projectId project identifier
      * @param request request object
      * @param updateOption defines whether existing translations and approvals are kept when a string is updated (applied only when {@code text} or {@code identifier} is changed)
-     * @return updated source string
+     * @return list of updated source strings
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>

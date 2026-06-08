@@ -56,7 +56,7 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json"),
-                new RequestMock(this.url + "/projects/" + projectId + "/strings/" + id2, "api/strings/editString.json", "api/strings/string.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS), emptyMap()),
+                new RequestMock(this.url + "/projects/" + project2Id + "/strings/" + id, "api/strings/editString.json", "api/strings/string.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS), emptyMap()),
                 new RequestMock(this.url + "/projects/" + project2Id + "/strings", "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.CLEAR_TRANSLATIONS_AND_APPROVALS), emptyMap())
         );
     }
@@ -337,7 +337,7 @@ public class SourceStringsApiTest extends TestClient {
         request.setValue(text);
         request.setPath("/text");
         ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi()
-                .editSourceString(projectId, id2, singletonList(request), UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS);
+                .editSourceString(project2Id, id, singletonList(request), UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
     }
