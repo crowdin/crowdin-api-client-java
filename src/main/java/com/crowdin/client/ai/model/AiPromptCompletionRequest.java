@@ -20,5 +20,6 @@ public class AiPromptCompletionRequest {
         private List<Long> filteredStringsIds;
         private Map<String, Object> overridePromptValues;
         private String customInstruction;
+        private String projectDescription;
     }
 }
