@@ -559,6 +559,7 @@ public class AIApiTest extends TestClient {
         request.setTargetLanguageId("uk");
         request.setTmIds(Collections.singletonList(123L));
         request.setGlossaryIds(Collections.singletonList(456L));
+        request.setStyleGuideIds(Collections.singletonList(321L));
         request.setAiPromptId(789L);
         request.setAiProviderId(12L);
         request.setAiModelId("gpt-4.1");
@@ -582,6 +583,7 @@ public class AIApiTest extends TestClient {
         request.setParserVersion(1);
         request.setTmIds(Collections.singletonList(123L));
         request.setGlossaryIds(Collections.singletonList(456L));
+        request.setStyleGuideIds(Collections.singletonList(321L));
         request.setAiPromptId(789L);
         request.setAiProviderId(12L);
         request.setAiModelId("gpt-4.1");

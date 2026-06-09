@@ -13,6 +13,7 @@ public class AiFileTranslationAddRequest {
     private Integer parserVersion;
     private List<Long> tmIds;
     private List<Long> glossaryIds;
+    private List<Long> styleGuideIds;
     private Long aiPromptId;
     private Long aiProviderId;
     private String aiModelId;

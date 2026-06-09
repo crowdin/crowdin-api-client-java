@@ -11,6 +11,7 @@ public class AiTranslateRequest {
     private String targetLanguageId;
     private List<Long> tmIds;
     private List<Long> glossaryIds;
+    private List<Long> styleGuideIds;
     private Long aiPromptId;
     private Long aiProviderId;
     private String aiModelId;
