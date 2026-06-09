@@ -28,6 +28,7 @@ public class TasksApiTest extends TestClient {
     private final Long tasksProjectIdSortByIdAsc = 16L;
     private final Long tasksProjectIdSortByIdDesc = 17L;
     private final Long tasksProjectIdSortByIdDescTitleAsc = 18L;
+    private final Long batchProjectId = 19L;
     private final Long taskId = 2L;
     private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
@@ -40,6 +41,7 @@ public class TasksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/CrowdinTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addStringsBasedTaskRequest.json", "api/tasks/stringsBasedTask.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/pendingTaskRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/vendorTaskRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/EnterpriseTaskCreateFormRequest.json", "api/tasks/task.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterpriseStringsBasedTask.json", "api/tasks/enterpriseTask.json"),
                 RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/enterprisePendingTask.json", "api/tasks/enterpriseTask.json"),
@@ -66,6 +68,9 @@ public class TasksApiTest extends TestClient {
                 }}),
                 RequestMock.build(this.url + "/projects/" + tasksProjectIdSortByIdDescTitleAsc + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasksSortByIdDescTitleAsc.json", new HashMap<String, String>() {{
                     put("orderBy", "id%20desc%2Ctitle%20asc");
+                }}),
+                RequestMock.build(this.url + "/projects/" + batchProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json", new HashMap<String, Object>() {{
+                    put("batchId", 7L);
                 }})
         );
     }
@@ -81,6 +86,15 @@ public class TasksApiTest extends TestClient {
         assertEquals(projectId, taskResponseList.getData().get(0).getData().getProjectId());
 
         assertListTasks(taskResponseList);
+    }
+
+    @Test
+    public void listTasksByBatchIdTest() {
+        ListTasksParams params = new ListTasksParams();
+        params.setBatchId(7L);
+        ResponseList<Task> taskResponseList = this.getTasksApi().listTasks(batchProjectId, params);
+        assertNotNull(taskResponseList.getData().get(0).getData());
+        assertEquals(1, taskResponseList.getData().size());
     }
 
     @Test
@@ -233,6 +247,7 @@ public class TasksApiTest extends TestClient {
         request.setFileIds(singletonList(1L));
         request.setStatus(Status.TODO);
         request.setIncludePreTranslatedStringsOnly(true);
+        request.setBatchId(99L);
         ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
@@ -289,6 +304,20 @@ public class TasksApiTest extends TestClient {
         assertEquals(Type.TRANSLATE, taskResponse.getType());
         assertEquals(expectedAssignee.getId(), taskResponse.getAssignees().get(0).getId());
         assertEquals(expectedAssignee.getWordsCount(), taskResponse.getAssignees().get(0).getWordsCount());
+    }
+
+    @Test
+    public void addTaskVendorTest() {
+        CreateTaskVendorRequest request = new CreateTaskVendorRequest();
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setFileIds(singletonList(1L));
+        request.setType(TypeVendor.TRANSLATE_BY_VENDOR);
+        request.setVendor("oht");
+        request.setSkipAssignedStrings(true);
+        request.setIncludePreTranslatedStringsOnly(true);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskResponseObject.getData().getId(), taskId);
     }
 
     @Test

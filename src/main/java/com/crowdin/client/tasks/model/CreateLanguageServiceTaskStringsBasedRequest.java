@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class CreateLanguageServiceTaskStringsBasedRequest extends AddTaskStringsBasedRequest {
 
     private TypeVendor type;

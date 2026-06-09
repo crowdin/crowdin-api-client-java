@@ -8,6 +8,7 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class CreateTaskVendorManualStringsBasedRequest extends AddTaskStringsBasedRequest {
 
     private TypeVendor type;

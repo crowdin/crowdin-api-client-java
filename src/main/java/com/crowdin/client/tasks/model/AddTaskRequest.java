@@ -6,4 +6,5 @@ import lombok.Data;
 public abstract class AddTaskRequest {
     private String title;
     private String description;
+    private Long batchId;
 }

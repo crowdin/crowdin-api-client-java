@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Deprecated
 public class CreateTaskVendorGengoRequest extends AddTaskFilesBasedRequest {
 
     private TypeVendor type;

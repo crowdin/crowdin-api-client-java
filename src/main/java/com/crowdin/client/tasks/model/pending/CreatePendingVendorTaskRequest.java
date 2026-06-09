@@ -9,9 +9,9 @@ import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Deprecated
-public class CreatePendingVendorManualTaskRequest extends AddPendingTaskRequest {
+public class CreatePendingVendorTaskRequest extends AddPendingTaskRequest {
     private TypeVendor type;
     private String vendor;
+    private Boolean skipAssignedStrings;
     private List<AssigneeRequest> assignees;
 }

@@ -11,4 +11,5 @@ import java.util.EnumSet;
 public class ListTasksParams extends Pagination {
     private EnumSet<Status> statuses;
     private Long assigneeId;
+    private Long batchId;
 }
