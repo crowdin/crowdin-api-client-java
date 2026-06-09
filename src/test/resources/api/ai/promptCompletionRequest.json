@@ -1,5 +1,6 @@
 {
   "resources": {
-    "projectId": 123
+    "projectId": 123,
+    "projectDescription": "Mobile app project"
   }
 }

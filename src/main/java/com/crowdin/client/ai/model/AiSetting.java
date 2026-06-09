@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class AiSetting {
 
-    private Long assistActionAiPromptId;
     private Boolean showSuggestion;
     private Long editorSuggestionAiPromptId;
 

@@ -330,7 +330,6 @@ public class AIApiTest extends TestClient {
     public void getAiSettingTest() {
         AiSetting aiSetting = this.getAiApi().getAiSetting(userId).getData();
         assertNotNull(aiSetting);
-        assertEquals(aiSetting.getAssistActionAiPromptId(), 2);
         assertEquals(aiSetting.getEditorSuggestionAiPromptId(), 5);
         assertEquals(aiSetting.getShortcuts().size(), 1);
     }
@@ -339,11 +338,10 @@ public class AIApiTest extends TestClient {
     public void editAiSettingTest() {
         PatchRequest request = new PatchRequest();
         request.setOp(PatchOperation.REPLACE);
-        request.setPath("/assistActionAiPromptId");
+        request.setPath("/editorSuggestionAiPromptId");
         ResponseObject<AiSetting> aiSettingResponseObject =
                 this.getAiApi().editAiSetting(userId, Collections.singletonList(request));
         assertNotNull(aiSettingResponseObject.getData());
-        assertEquals(aiSettingResponseObject.getData().getAssistActionAiPromptId(), 2);
         assertEquals(aiSettingResponseObject.getData().getEditorSuggestionAiPromptId(), 5);
     }
 
@@ -477,6 +475,7 @@ public class AIApiTest extends TestClient {
         AiPromptCompletionRequest aiPromptCompletionRequest = new AiPromptCompletionRequest();
         AiPromptCompletionRequest.AiPromptResource aiPromptResource = new AiPromptCompletionRequest.AiPromptResource();
         aiPromptResource.setProjectId(123L);
+        aiPromptResource.setProjectDescription("Mobile app project");
         aiPromptCompletionRequest.setResources(aiPromptResource);
         ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> response = this.getAiApi().generatePromptCompletion(userId, aiPromptId, aiPromptCompletionRequest);
         assertEquals(response.getData().getIdentifier(), completionId);
