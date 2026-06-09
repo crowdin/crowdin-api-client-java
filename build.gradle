@@ -14,7 +14,7 @@ task myJavadocs(type: Javadoc) {
     source = sourceSets.main.allJava
 }
 
-sourceCompatibility = 8
+sourceCompatibility = 17
 version '1.33.0'
 
 repositories {
