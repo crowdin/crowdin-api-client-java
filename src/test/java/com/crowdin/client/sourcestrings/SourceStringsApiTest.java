@@ -14,7 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.*;
 
+import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +55,9 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json"),
+                new RequestMock(this.url + "/projects/" + project2Id + "/strings/" + id, "api/strings/editString.json", "api/strings/string.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS), emptyMap()),
+                new RequestMock(this.url + "/projects/" + project2Id + "/strings", "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.CLEAR_TRANSLATIONS_AND_APPROVALS), emptyMap())
         );
     }
 
@@ -324,5 +328,55 @@ public class SourceStringsApiTest extends TestClient {
         assertEquals(2, item.getProjectId());
         assertEquals(48, item.getFileId());
         assertEquals(667, item.getBranchId());
+    }
+
+    @Test
+    public void editStringWithUpdateOptionTest() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setValue(text);
+        request.setPath("/text");
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi()
+                .editSourceString(project2Id, id, singletonList(request), UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS);
+        assertEquals(sourceStringResponseObject.getData().getId(), id);
+        assertEquals(sourceStringResponseObject.getData().getText(), text);
+    }
+
+    @Test
+    public void stringBatchOperationsWithUpdateOptionTest() {
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/2814/isHidden");
+                setValue(true);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/2814/context");
+                setValue("some context");
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/-");
+                setValue(new SourceStringForm() {{
+                    setText("new added string");
+                    setIdentifier("a.b.c");
+                    setContext("context for new string");
+                    setFileId(5L);
+                    setIsHidden(false);
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/2815");
+            }});
+        }};
+
+        ResponseList<SourceString> response = this.getSourceStringsApi()
+                .stringBatchOperations(project2Id, request, UpdateOption.CLEAR_TRANSLATIONS_AND_APPROVALS);
+
+        SourceString item = response.getData().get(0).getData();
+        assertNotNull(item);
+        assertEquals(2814, item.getId());
     }
 }

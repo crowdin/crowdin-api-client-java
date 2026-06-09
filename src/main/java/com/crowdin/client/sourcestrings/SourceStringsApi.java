@@ -5,6 +5,7 @@ import com.crowdin.client.core.http.HttpRequestConfig;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
+import com.crowdin.client.sourcefiles.model.UpdateOption;
 import com.crowdin.client.sourcestrings.model.*;
 
 import java.util.List;
@@ -165,22 +166,57 @@ public class SourceStringsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<SourceString> editSourceString(Long projectId, Long stringId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
-        SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, new HttpRequestConfig(), SourceStringResponseObject.class);
+        return editSourceString(projectId, stringId, request, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stringId string identifier
+     * @param request request object
+     * @param updateOption defines whether existing translations and approvals are kept when the string is updated (applied only when {@code text} or {@code identifier} is changed)
+     * @return updated source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<SourceString> editSourceString(Long projectId, Long stringId, List<PatchRequest> request, UpdateOption updateOption) throws HttpException, HttpBadRequestException {
+        HttpRequestConfig config = new HttpRequestConfig(HttpRequestConfig.buildUrlParams(
+                "updateOption", Optional.ofNullable(updateOption)
+        ));
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/strings/" + stringId, request, config, SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
     /**
      * @param projectId project identifier
      * @param request request object
-     * @return updated source string
+     * @return list of updated source strings
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<SourceString> stringBatchOperations(Long projectId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        return stringBatchOperations(projectId, request, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @param updateOption defines whether existing translations and approvals are kept when a string is updated (applied only when {@code text} or {@code identifier} is changed)
+     * @return list of updated source strings
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.batchPatch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SourceString> stringBatchOperations(Long projectId, List<PatchRequest> request, UpdateOption updateOption) throws HttpException, HttpBadRequestException {
+        HttpRequestConfig config = new HttpRequestConfig(HttpRequestConfig.buildUrlParams(
+                "updateOption", Optional.ofNullable(updateOption)
+        ));
         String url = this.url + "/projects/" + projectId + "/strings";
-        SourceStringResponseList sourceStringResponseList = this.httpClient.patch(url, request, new HttpRequestConfig(), SourceStringResponseList.class);
+        SourceStringResponseList sourceStringResponseList = this.httpClient.patch(url, request, config, SourceStringResponseList.class);
         return SourceStringResponseList.to(sourceStringResponseList);
     }
 }
