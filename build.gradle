@@ -52,7 +52,7 @@ wrapper {
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.11"
     reportsDir = file("$buildDir/reports")
 }
 
