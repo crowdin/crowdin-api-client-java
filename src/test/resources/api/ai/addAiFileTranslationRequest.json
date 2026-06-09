@@ -10,6 +10,9 @@
   "glossaryIds": [
     456
   ],
+  "styleGuideIds": [
+    321
+  ],
   "aiPromptId": 789,
   "aiProviderId": 12,
   "aiModelId": "gpt-4.1",
