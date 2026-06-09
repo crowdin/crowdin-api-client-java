@@ -32,6 +32,7 @@ public class BundlesApiTest extends TestClient {
     private final Long projectId = 1L;
     private final Long projectId2 = 2L;
     private final Long bundleId = 14L;
+    private final Long bundleId2 = 15L;
     private final Long fileInfoCollectionResourceId = 44L;
     private final Long fileCollectionResourceId = 43L;
     private final Long branchCollectionResourceId = 44L;
@@ -58,7 +59,8 @@ public class BundlesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId2 + "/bundles/" + branchCollectionResourceId + "/branches", HttpGet.METHOD_NAME, "api/bundles/branchCollectionResource.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId + "/download", HttpGet.METHOD_NAME, "api/bundles/downloadBundle.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports", HttpPost.METHOD_NAME, "api/bundles/exportBundle.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/bundles/exportBundle.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId + "/exports/" + exportId, HttpGet.METHOD_NAME, "api/bundles/exportBundle.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/bundles/" + bundleId2 + "/exports", HttpPost.METHOD_NAME, "api/bundles/exportBundleRequest.json", "api/bundles/exportBundleWithSettings.json")
         );
     }
 
@@ -164,6 +166,29 @@ public class BundlesApiTest extends TestClient {
         ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId);
         assertEquals(exportId, response.getData().getIdentifier());
         assertEquals(2,response.getData().getAttributes().getBundleId());
+    }
+
+    @Test
+    public void exportBundleWithRequestTest() {
+        ExportBundleRequest request = new ExportBundleRequest();
+        request.setTargetLanguageIds(Arrays.asList("uk", "de"));
+        request.setSkipUntranslatedStrings(true);
+        request.setSkipUntranslatedFiles(false);
+        request.setExportApprovedOnly(false);
+        request.setExportWithMinApprovalsCount(2);
+        request.setExportStringsThatPassedWorkflow(true);
+
+        ResponseObject<BundleExport> response = this.getBundlesApi().exportBundle(projectId, bundleId2, request);
+        BundleExport export = response.getData();
+        assertEquals(exportId, export.getIdentifier());
+        assertEquals(2, export.getAttributes().getBundleId());
+        assertEquals(Arrays.asList("uk", "de"), export.getAttributes().getTargetLanguageIds());
+        assertTrue(export.getAttributes().getSkipUntranslatedStrings());
+        assertFalse(export.getAttributes().getExportApprovedOnly());
+        assertEquals(2, export.getAttributes().getExportWithMinApprovalsCount());
+        assertTrue(export.getAttributes().getExportStringsThatPassedWorkflow());
+        assertNull(export.getStartedAt());
+        assertNull(export.getFinishedAt());
     }
 
     @Test
