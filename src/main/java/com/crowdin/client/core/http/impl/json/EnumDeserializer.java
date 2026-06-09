@@ -1,19 +1,18 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.BeanProperty;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.BeanProperty;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.DatabindException;
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 
-public class EnumDeserializer extends JsonDeserializer<Enum> implements ContextualDeserializer {
+public class EnumDeserializer extends ValueDeserializer<Enum> {
 
     private JavaType type;
 
@@ -25,7 +24,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> implements Contextu
     }
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext deserializationContext, BeanProperty beanProperty) throws JsonMappingException {
+    public ValueDeserializer<?> createContextual(DeserializationContext deserializationContext, BeanProperty beanProperty) throws DatabindException {
         //beanProperty is null when the type to deserialize is the top-level type or a generic type, not a type of a bean property
         JavaType type = deserializationContext.getContextualType() != null
                 ? deserializationContext.getContextualType()
@@ -34,7 +33,7 @@ public class EnumDeserializer extends JsonDeserializer<Enum> implements Contextu
     }
 
     @Override
-    public Enum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Enum deserialize(JsonParser p, DeserializationContext ctxt) {
         String text = p.getText();
         return this.deserialize((Class<? extends Enum>) this.type.getRawClass(), text);
     }

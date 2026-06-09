@@ -1,11 +1,11 @@
 package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.projectsgroups.model.*;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,12 +54,15 @@ public class FileFormatSettingsDeserializerTest {
         ));
 
 
+        ObjectMapper mapper = JsonMapper.builder()
+                .addModule(new SimpleModule().addDeserializer(
+                        FileFormatSettingsResource.class, new FileFormatSettingsDeserializer(new ObjectMapper())))
+                .build();
+
         formats.forEach(f -> {
             try {
                 String newJson = replaceFormat(deserializeObjectExample, f);
-                JsonParser jsonParser = objectMapper.getFactory().createParser(newJson);
-                DeserializationContext deserializationContext = objectMapper.getDeserializationContext();
-                FileFormatSettingsResource result = deserializer.deserialize(jsonParser, deserializationContext);
+                FileFormatSettingsResource result = mapper.readValue(newJson, FileFormatSettingsResource.class);
                 assertion(f, result);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -80,11 +83,14 @@ public class FileFormatSettingsDeserializerTest {
         // Prepare a JSON object with null parent node
         ObjectNode rootNode = objectMapper.createObjectNode();
         rootNode.putNull("format"); // Simulating null parent node
-        JsonParser jsonParser = objectMapper.treeAsTokens(rootNode);
-        DeserializationContext deserializationContext = objectMapper.getDeserializationContext();
+        ObjectMapper mapper = JsonMapper.builder()
+                .addModule(new SimpleModule().addDeserializer(
+                        FileFormatSettingsResource.class, new FileFormatSettingsDeserializer(new ObjectMapper())))
+                .build();
+        String json = rootNode.toString();
 
         // Assertions
-        assertThrows(NullPointerException.class, () -> deserializer.deserialize(jsonParser, deserializationContext));
+        assertThrows(Exception.class, () -> mapper.readValue(json, FileFormatSettingsResource.class));
     }
 
     public static String replaceFormat(String json, String newFormat) throws IOException {

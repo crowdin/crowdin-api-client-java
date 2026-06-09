@@ -1,19 +1,19 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DateDeserializer extends JsonDeserializer<Date> {
+public class DateDeserializer extends ValueDeserializer<Date> {
 
     @Override
     @SneakyThrows
-    public Date deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
+    public Date deserialize(JsonParser p, DeserializationContext ctxt) {
         String date = p.getText();
         if (date == null || date.isEmpty()) {
             return null;

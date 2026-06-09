@@ -4,15 +4,15 @@ import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpBatchBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.TreeNode;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class CrowdinApiExceptionDeserializer extends JsonDeserializer<CrowdinApiException> {
+public class CrowdinApiExceptionDeserializer extends ValueDeserializer<CrowdinApiException> {
 
     private final ObjectMapper objectMapper;
 
@@ -21,12 +21,12 @@ public class CrowdinApiExceptionDeserializer extends JsonDeserializer<CrowdinApi
     }
 
     @Override
-    public CrowdinApiException deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        TreeNode treeNode = p.getCodec().readTree(p);
-        TreeNode errors = treeNode.get("errors");
+    public CrowdinApiException deserialize(JsonParser p, DeserializationContext ctxt) {
+        JsonNode treeNode = ctxt.readTree(p);
+        JsonNode errors = treeNode.get("errors");
 
         if (errors != null) {
-            TreeNode firstElement = errors.get(0);
+            JsonNode firstElement = errors.get(0);
 
             if (firstElement != null && firstElement.get("index") != null) {
                 return this.objectMapper.treeToValue(treeNode, HttpBatchBadRequestException.class);

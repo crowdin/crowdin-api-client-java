@@ -1,16 +1,16 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.ValueSerializer;
+import tools.jackson.databind.SerializationContext;
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 
-public class EnumSerializer extends JsonSerializer<Enum> {
+public class EnumSerializer extends ValueSerializer<Enum> {
     @Override
-    public void serialize(Enum value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+    public void serialize(Enum value, JsonGenerator gen, SerializationContext serializers) {
         Object val;
         if (value instanceof EnumConverter) {
             val = this.serialize(value, EnumConverter.class.cast(value));

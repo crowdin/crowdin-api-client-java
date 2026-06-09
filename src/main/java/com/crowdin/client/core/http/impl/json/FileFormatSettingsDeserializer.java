@@ -1,15 +1,15 @@
 package com.crowdin.client.core.http.impl.json;
 
 import com.crowdin.client.projectsgroups.model.*;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
-public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatSettingsResource> {
+public class FileFormatSettingsDeserializer extends ValueDeserializer<FileFormatSettingsResource> {
 
     private final ObjectMapper objectMapper;
 
@@ -18,8 +18,8 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
     }
 
     @Override
-    public FileFormatSettingsResource deserialize(JsonParser parser, DeserializationContext ctx) throws IOException {
-        JsonNode parentNode = parser.getCodec().readTree(parser);
+    public FileFormatSettingsResource deserialize(JsonParser parser, DeserializationContext ctxt) {
+        JsonNode parentNode = ctxt.readTree(parser);
 
         FileFormatSettingsResource resource = this.objectMapper.readValue(parentNode.toString(), FileFormatSettingsResource.class);
 

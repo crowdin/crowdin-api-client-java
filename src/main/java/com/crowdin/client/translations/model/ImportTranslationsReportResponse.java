@@ -1,7 +1,7 @@
 package com.crowdin.client.translations.model;
 
 import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.List;
