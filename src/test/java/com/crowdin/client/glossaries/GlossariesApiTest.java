@@ -221,6 +221,13 @@ public class GlossariesApiTest extends TestClient {
         ExportGlossaryRequest request = new ExportGlossaryRequest();
         request.setFormat(GlossariesFormat.CSV);
         request.setExportFields(Arrays.asList("term", "description", "partOfSpeech"));
+        request.setExportType(ExportType.TERMS);
+        request.setStatuses(Arrays.asList(Status.PREFERRED, Status.ADMITTED));
+        request.setPartsOfSpeech(Arrays.asList(PartOfSpeech.NOUN, PartOfSpeech.VERB));
+        request.setTypes(singletonList(Type.FULL_FORM));
+        request.setGenders(singletonList(Gender.MASCULINE));
+        request.setAuthorIds(Arrays.asList(1L, 2L));
+        request.setLanguageIds(Arrays.asList("en", "uk"));
         ResponseObject<GlossaryExportStatus> glossaryExportStatusResponseObject = this.getGlossariesApi().exportGlossary(glossaryId, request);
         assertEquals(glossaryExportStatusResponseObject.getData().getIdentifier(), exportId);
     }
