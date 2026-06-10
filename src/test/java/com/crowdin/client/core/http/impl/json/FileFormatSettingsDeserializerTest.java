@@ -90,7 +90,7 @@ public class FileFormatSettingsDeserializerTest {
         String json = rootNode.toString();
 
         // Assertions
-        assertThrows(Exception.class, () -> mapper.readValue(json, FileFormatSettingsResource.class));
+        assertThrows(NullPointerException.class, () -> mapper.readValue(json, FileFormatSettingsResource.class));
     }
 
     public static String replaceFormat(String json, String newFormat) throws IOException {

@@ -12,7 +12,6 @@ import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 
 public class StringsExporterSettingsDeserializer extends ValueDeserializer<StringsExporterSettingsResource> {
 

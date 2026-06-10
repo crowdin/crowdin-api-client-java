@@ -7,7 +7,6 @@ import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 
 public class FileFormatSettingsDeserializer extends ValueDeserializer<FileFormatSettingsResource> {
 

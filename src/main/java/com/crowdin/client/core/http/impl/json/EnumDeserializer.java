@@ -1,7 +1,6 @@
 package com.crowdin.client.core.http.impl.json;
 
 import tools.jackson.core.JsonParser;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.BeanProperty;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.JavaType;
@@ -10,7 +9,6 @@ import tools.jackson.databind.DatabindException;
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.SneakyThrows;
 
-import java.io.IOException;
 
 public class EnumDeserializer extends ValueDeserializer<Enum> {
 

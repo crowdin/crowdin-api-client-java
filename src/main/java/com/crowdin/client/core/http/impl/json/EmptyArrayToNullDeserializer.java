@@ -5,7 +5,6 @@ import tools.jackson.core.JsonToken;
 import tools.jackson.databind.*;
 import tools.jackson.databind.deser.std.StdDeserializer;
 
-import java.io.IOException;
 import java.util.Collection;
 
 public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> {

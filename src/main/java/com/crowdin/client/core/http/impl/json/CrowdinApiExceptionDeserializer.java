@@ -10,7 +10,6 @@ import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 
 public class CrowdinApiExceptionDeserializer extends ValueDeserializer<CrowdinApiException> {
 

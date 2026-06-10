@@ -6,7 +6,6 @@ import tools.jackson.databind.SerializationContext;
 import com.crowdin.client.core.model.EnumConverter;
 import lombok.SneakyThrows;
 
-import java.io.IOException;
 
 public class EnumSerializer extends ValueSerializer<Enum> {
     @Override

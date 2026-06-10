@@ -5,13 +5,11 @@ import com.crowdin.client.stringtranslations.model.LanguageTranslations;
 import com.crowdin.client.stringtranslations.model.PlainLanguageTranslations;
 import com.crowdin.client.stringtranslations.model.PluralLanguageTranslations;
 import tools.jackson.core.JsonParser;
-import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
