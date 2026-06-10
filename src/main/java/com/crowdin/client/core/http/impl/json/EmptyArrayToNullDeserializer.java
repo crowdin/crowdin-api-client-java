@@ -1,15 +1,13 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.*;
+import tools.jackson.databind.deser.std.StdDeserializer;
 
-import java.io.IOException;
 import java.util.Collection;
 
-public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implements ContextualDeserializer {
+public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> {
     private JavaType type;
 
     public EmptyArrayToNullDeserializer() {
@@ -22,14 +20,14 @@ public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implem
     }
 
     @Override
-    public Object deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        if (p.getCurrentToken() == JsonToken.VALUE_NULL) {
+    public Object deserialize(JsonParser p, DeserializationContext ctxt) {
+        if (p.currentToken() == JsonToken.VALUE_NULL) {
             return null;
         }
 
         Class<?> clazz = this.type != null ? this.type.getRawClass() : Object.class;
 
-        if (p.getCurrentToken() == JsonToken.START_ARRAY) {
+        if (p.currentToken() == JsonToken.START_ARRAY) {
             if (!isCollectionType(clazz)) {
                 p.nextToken();
                 return null;
@@ -46,7 +44,7 @@ public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implem
     }
 
     @Override
-    public JsonDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
+    public ValueDeserializer<?> createContextual(DeserializationContext ctxt, BeanProperty property) {
         return new EmptyArrayToNullDeserializer(property.getType());
     }
 }

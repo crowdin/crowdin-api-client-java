@@ -2,7 +2,7 @@ package com.crowdin.client.sourcestrings.model;
 
 import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
 import com.crowdin.client.sourcefiles.model.UpdateOption;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.Date;

@@ -14,7 +14,7 @@ task myJavadocs(type: Javadoc) {
     source = sourceSets.main.allJava
 }
 
-sourceCompatibility = 8
+sourceCompatibility = 17
 version '1.33.0'
 
 repositories {
@@ -27,7 +27,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.32'
 
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.3'
+    implementation platform('tools.jackson:jackson-bom:3.0.0')
+    implementation 'tools.jackson.core:jackson-databind'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0','org.mockito:mockito-core:4.11.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
@@ -51,7 +52,7 @@ wrapper {
 }
 
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.11"
     reportsDir = file("$buildDir/reports")
 }
 

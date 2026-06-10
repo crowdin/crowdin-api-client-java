@@ -5,19 +5,17 @@ import com.crowdin.client.sourcefiles.model.ImportOptions;
 import com.crowdin.client.sourcefiles.model.OtherFileImportOptions;
 import com.crowdin.client.sourcefiles.model.SpreadsheetFileImportOptions;
 import com.crowdin.client.sourcefiles.model.XmlFileImportOptions;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.TreeNode;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOptions> {
+public class FileImportOptionsDeserializer extends ValueDeserializer<ImportOptions> {
 
     private final ObjectMapper objectMapper;
 
@@ -26,9 +24,9 @@ public class FileImportOptionsDeserializer extends JsonDeserializer<ImportOption
     }
 
     @Override
-    public ImportOptions deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        TreeNode treeNode = p.getCodec().readTree(p);
-        Iterable<String> iterable = treeNode::fieldNames;
+    public ImportOptions deserialize(JsonParser p, DeserializationContext ctxt) {
+        JsonNode treeNode = ctxt.readTree(p);
+        Iterable<String> iterable = treeNode.propertyNames();
         List<String> fields = StreamSupport
                 .stream(iterable.spliterator(), false)
                 .collect(Collectors.toList());

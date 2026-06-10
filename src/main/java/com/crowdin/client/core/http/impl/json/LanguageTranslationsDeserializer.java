@@ -4,19 +4,17 @@ import com.crowdin.client.stringtranslations.model.ICULanguageTranslations;
 import com.crowdin.client.stringtranslations.model.LanguageTranslations;
 import com.crowdin.client.stringtranslations.model.PlainLanguageTranslations;
 import com.crowdin.client.stringtranslations.model.PluralLanguageTranslations;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.TreeNode;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-public class LanguageTranslationsDeserializer extends JsonDeserializer<LanguageTranslations> {
+public class LanguageTranslationsDeserializer extends ValueDeserializer<LanguageTranslations> {
 
     private final ObjectMapper objectMapper;
 
@@ -25,9 +23,9 @@ public class LanguageTranslationsDeserializer extends JsonDeserializer<LanguageT
     }
 
     @Override
-    public LanguageTranslations deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        TreeNode treeNode = p.getCodec().readTree(p);
-        Iterable<String> iterable = treeNode::fieldNames;
+    public LanguageTranslations deserialize(JsonParser p, DeserializationContext ctxt) {
+        JsonNode treeNode = ctxt.readTree(p);
+        Iterable<String> iterable = treeNode.propertyNames();
         List<String> fields = StreamSupport
             .stream(iterable.spliterator(), false)
             .collect(Collectors.toList());

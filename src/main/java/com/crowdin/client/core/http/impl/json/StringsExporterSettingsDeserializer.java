@@ -6,15 +6,14 @@ import com.crowdin.client.projectsgroups.model.StringsExporterSettings;
 import com.crowdin.client.projectsgroups.model.StringsExporterSettingsResource;
 import com.crowdin.client.projectsgroups.model.XliffStringsExporterSettings;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JsonParser;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
 
-public class StringsExporterSettingsDeserializer extends JsonDeserializer<StringsExporterSettingsResource> {
+public class StringsExporterSettingsDeserializer extends ValueDeserializer<StringsExporterSettingsResource> {
 
     private final ObjectMapper objectMapper;
 
@@ -23,8 +22,8 @@ public class StringsExporterSettingsDeserializer extends JsonDeserializer<String
     }
 
     @Override
-    public StringsExporterSettingsResource deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException {
-        JsonNode parentNode = parser.getCodec().readTree(parser);
+    public StringsExporterSettingsResource deserialize(JsonParser parser, DeserializationContext ctxt) {
+        JsonNode parentNode = ctxt.readTree(parser);
 
         StringsExporterSettingsResource resource =
                 this.objectMapper.readValue(parentNode.toString(), StringsExporterSettingsResource.class);

@@ -1,12 +1,12 @@
 package com.crowdin.client.core.http.impl.json;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
+import tools.jackson.core.json.JsonFactory;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.type.TypeFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -52,7 +52,7 @@ public class EmptyArrayToNullDeserializerTest {
 
         // Setting up behavior of mocked objects
         when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
-        when(jsonParser.getCurrentToken()).thenReturn(JsonToken.VALUE_NULL);
+        when(jsonParser.currentToken()).thenReturn(JsonToken.VALUE_NULL);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
         // Creating an instance of your deserializer
@@ -83,7 +83,7 @@ public class EmptyArrayToNullDeserializerTest {
 
         // Setting up behavior of mocked objects
         when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
-        when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
+        when(jsonParser.currentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
         // Creating an instance of your deserializer
@@ -115,7 +115,7 @@ public class EmptyArrayToNullDeserializerTest {
 
         // Setting up behavior of mocked objects
         when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
-        when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
+        when(jsonParser.currentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
         // Creating an instance of your deserializer
@@ -138,7 +138,7 @@ public class EmptyArrayToNullDeserializerTest {
 
         // Setting up behavior of mocked objects
         when(jsonFactory.createParser(errorsResponse)).thenReturn(jsonParser);
-        when(jsonParser.getCurrentToken()).thenReturn(JsonToken.START_ARRAY);
+        when(jsonParser.currentToken()).thenReturn(JsonToken.START_ARRAY);
         when(deserializationContext.readValue(jsonParser, Object.class)).thenReturn("value");
 
         // Creating an instance of your deserializer

@@ -4,9 +4,9 @@ import com.crowdin.client.core.http.exceptions.CrowdinApiException;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpBatchBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -68,12 +68,12 @@ public class CrowdinApiExceptionDeserializerTest {
     }
 
     private void testDeserialize(String json, Class<? extends CrowdinApiException> expectedExceptionClass) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        CrowdinApiExceptionDeserializer deserializer = new CrowdinApiExceptionDeserializer(objectMapper);
-        JsonParser parser = new JsonFactory().createParser(json);
-        parser.setCodec(objectMapper);
+        ObjectMapper objectMapper = JsonMapper.builder()
+                .addModule(new SimpleModule().addDeserializer(
+                        CrowdinApiException.class, new CrowdinApiExceptionDeserializer(new ObjectMapper())))
+                .build();
 
-        CrowdinApiException exception = deserializer.deserialize(parser, null);
+        CrowdinApiException exception = objectMapper.readValue(json, CrowdinApiException.class);
 
         assertTrue(expectedExceptionClass.isInstance(exception));
     }

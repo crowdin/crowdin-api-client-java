@@ -2,7 +2,7 @@ package com.crowdin.client.projectsgroups.model;
 
 import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
 import com.crowdin.client.languages.model.Language;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

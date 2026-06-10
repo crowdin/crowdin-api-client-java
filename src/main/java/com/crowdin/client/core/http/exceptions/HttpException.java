@@ -2,7 +2,6 @@ package com.crowdin.client.core.http.exceptions;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.var;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
