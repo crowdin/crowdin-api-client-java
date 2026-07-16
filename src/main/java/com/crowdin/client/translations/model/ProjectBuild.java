@@ -15,6 +15,12 @@ public class ProjectBuild {
     private String createdAt;
     private String updatedAt;
     private String finishedAt;
+    private Error error;
+
+    @Data
+    public static class Error {
+        private String message;
+    }
 
     @Data
     public static class Attributes {
