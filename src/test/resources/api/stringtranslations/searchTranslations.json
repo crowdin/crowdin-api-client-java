@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 190695,
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "rating": 10,
+        "createdAt": "2019-09-23T11:26:54+00:00",
+        "provider": "tm",
+        "providerId": 17,
+        "isPreTranslated": true,
+        "matchRate": 75,
+        "matchType": "fuzzy",
+        "text": "Цю стрічку перекладено",
+        "pluralCategoryName": "few",
+        "projectId": 8,
+        "stringId": 35,
+        "languageId": "uk"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

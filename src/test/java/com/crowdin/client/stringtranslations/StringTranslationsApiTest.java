@@ -25,8 +25,10 @@ public class StringTranslationsApiTest extends TestClient {
     private final Long approval2Id = 190696L;
     private final Long translationId = 190694L;
     private final Long translation2Id = 190695L;
+    private final Long userId = 19L;
     private final String text = "Цю стрічку перекладено";
     private final String language = "uk";
+    private final String projectIds = "8,9,10";
     private final Long stringId = 35434L;
     private final Long string2Id = 35435L;
     private final Long voteId = 6643L;
@@ -70,6 +72,11 @@ public class StringTranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpGet.METHOD_NAME, "api/stringtranslations/translation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + translationId, HttpPut.METHOD_NAME, "api/stringtranslations/translation.json"),
+                RequestMock.build(this.url + "/translations", HttpGet.METHOD_NAME, "api/stringtranslations/searchTranslations.json", new HashMap<String, String>() {{
+                    put("filter", text);
+                    put("projectIds", projectIds);
+                    put("languageIds", language);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpGet.METHOD_NAME, "api/stringtranslations/listVotes.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes", HttpPost.METHOD_NAME, "api/stringtranslations/addVoteRequest.json", "api/stringtranslations/vote.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/votes/" + voteId, HttpGet.METHOD_NAME, "api/stringtranslations/vote.json"),
@@ -399,6 +406,17 @@ public class StringTranslationsApiTest extends TestClient {
     public void restoreTranslationTest() {
         ResponseObject<StringTranslation> stringTranslationResponseObject = this.getStringTranslationsApi().restoreStringTranslation(projectId, translationId);
         assertEquals(stringTranslationResponseObject.getData().getId(), translationId);
+    }
+
+    @Test
+    public void searchTranslationsTest() {
+        ResponseList<StringTranslation> stringTranslationResponseList = this.getStringTranslationsApi().searchTranslations(text, projectIds, null, language, null, null, null);
+
+        assertEquals(translation2Id, stringTranslationResponseList.getData().get(0).getData().getId());
+        assertEquals(text, stringTranslationResponseList.getData().get(0).getData().getText());
+        assertEquals(userId, stringTranslationResponseList.getData().get(0).getData().getUser().getId());
+        assertEquals(new Date(119, Calendar.SEPTEMBER, 23, 11, 26, 54), stringTranslationResponseList.getData().get(0).getData().getCreatedAt());
+        assertTrue(stringTranslationResponseList.getData().get(0).getData().getIsPreTranslated());
     }
 
 

@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SourceFilesApiTest extends TestClient {
 
+    private final Integer userId = 4;
     private final Long branchId = 34L;
     private final Long branch2Id = 35L;
     private final Long directoryId = 4L;
@@ -33,21 +34,27 @@ public class SourceFilesApiTest extends TestClient {
     private final Long project2Id = 4L;
     private final Long project3Id = 5L;
     private final Long project4Id = 6L;
+    private final Long project5Id = 2L;
     private final Long fileId = 44L;
     private final Long storageId = 61L;
     private final Long referenceId = 123L;
     private final Long fileRevisionId = 2L;
     private final Long buildId = 42L;
     private final String branchName = "develop-master";
+    private final String branchTitle = "Master branch";
     private final String sequentBranchName1 = "develop-master-#1";
     private final String sequentBranchName2 = "develop-master-#2";
     private final String directoryName = "main";
     private final String directory2Name = "main-#2";
+    private final String directoryTitle = "<Description materials>";
     private final String fileName = "umbrella_app.xliff";
     private final String referenceName = "design_reference.png";
     private final String context = "Context for translators";
     private final String downloadLink = "test.com";
     private final String status = "finished";
+    private final String exportPattern = "%three_letters_code%";
+    private final String priority = "normal";
+    private final String projectIds = "1,2,3";
     private final List<Long> attachLabelIds = Arrays.asList(1L);
     private final List<Long> detachLabelIds = attachLabelIds;
     private final TimeZone tz = TimeZone.getTimeZone("GMT");
@@ -66,6 +73,10 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpGet.METHOD_NAME, "api/sourcefiles/branch.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpPatch.METHOD_NAME, "api/sourcefiles/editBranch.json", "api/sourcefiles/branch.json"),
+                RequestMock.build(this.url + "/branches", HttpGet.METHOD_NAME, "api/sourcefiles/searchBranches.json", new HashMap<String, String>() {{
+                    put("filter", branchName);
+                    put("projectIds", projectIds);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories", HttpGet.METHOD_NAME, "api/sourcefiles/listDirectories.json"),
                 RequestMock.build(this.url + "/projects/" + project3Id + "/directories", HttpGet.METHOD_NAME, "api/sourcefiles/listDirectoriesOrderByIdAsc.json",  new HashMap<String, String>() {{
                     put("orderBy", "id%20asc");
@@ -77,6 +88,10 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpGet.METHOD_NAME, "api/sourcefiles/directory.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpPatch.METHOD_NAME, "api/sourcefiles/editDirectory.json", "api/sourcefiles/directory.json"),
+                RequestMock.build(this.url + "/directories", HttpGet.METHOD_NAME, "api/sourcefiles/searchDirectories.json", new HashMap<String, Object>() {{
+                    put("filter", directoryName);
+                    put("userId", userId);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files", HttpGet.METHOD_NAME, "api/sourcefiles/listFiles.json"),
                 RequestMock.build(this.url + "/projects/" + project3Id + "/files", HttpGet.METHOD_NAME, "api/sourcefiles/listFiles.json", new HashMap<String, String>() {{
                     put("orderBy", "id%20asc");
@@ -94,6 +109,10 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/preview", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions", HttpGet.METHOD_NAME, "api/sourcefiles/listFileRevisions.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/revisions/" + fileRevisionId, HttpGet.METHOD_NAME, "api/sourcefiles/fileRevision.json"),
+                RequestMock.build(this.url + "/files", HttpGet.METHOD_NAME, "api/sourcefiles/searchFiles.json", new HashMap<String, String>() {{
+                    put("filter", fileName);
+                    put("projectIds", projectIds);
+                }}),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", this.url, projectId), HttpGet.METHOD_NAME, "api/sourcefiles/listReviewedSourceFileBuilds.json"),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds", url, projectId), HttpPost.METHOD_NAME, "api/sourcefiles/buildReviewedSourceFilesRequest.json", "api/sourcefiles/buildReviewedSourceFiles.json"),
                 RequestMock.build(String.format("%s/projects/%d/strings/reviewed-builds/%d", url, projectId, buildId), HttpGet.METHOD_NAME, "api/sourcefiles/checkReviewedSourceFilesBuildStatus.json"),
@@ -201,6 +220,20 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<Branch> branchResponseObject = this.getSourceFilesApi().editBranch(projectId, branchId, Arrays.asList(request));
         assertEquals(branchResponseObject.getData().getId(), branchId);
         assertEquals(branchResponseObject.getData().getName(), branchName);
+    }
+
+    @Test
+    public void searchBranchesTest() {
+        ResponseList<Branch> branchResponseList = this.getSourceFilesApi().searchBranches(branchName, projectIds, null, null, null);
+
+        assertEquals(branchId, branchResponseList.getData().get(0).getData().getId());
+        assertEquals(project5Id, branchResponseList.getData().get(0).getData().getProjectId());
+        assertEquals(branchName, branchResponseList.getData().get(0).getData().getName());
+        assertEquals(branchTitle, branchResponseList.getData().get(0).getData().getTitle());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,16,13,48,4), branchResponseList.getData().get(0).getData().getCreatedAt());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,19,13,25,27), branchResponseList.getData().get(0).getData().getUpdatedAt());
+        assertEquals(exportPattern, branchResponseList.getData().get(0).getData().getExportPattern());
+        assertEquals(priority, branchResponseList.getData().get(0).getData().getPriority().name().toLowerCase());
     }
 
     @Test
@@ -335,6 +368,17 @@ public class SourceFilesApiTest extends TestClient {
         ResponseObject<Directory> directoryResponseObject = this.getSourceFilesApi().editDirectory(projectId, directoryId, Arrays.asList(request));
         assertEquals(directoryResponseObject.getData().getId(), directoryId);
         assertEquals(directoryResponseObject.getData().getName(), directoryName);
+    }
+
+    @Test
+    public void searchDirectoriesTest() {
+        ResponseList<Directory> directoryResponseList = this.getSourceFilesApi().searchDirectories(directoryName, null, userId, null, null);
+
+        assertEquals(directoryName, directoryResponseList.getData().get(0).getData().getName());
+        assertEquals(directoryTitle, directoryResponseList.getData().get(0).getData().getTitle());
+        assertEquals(project5Id, directoryResponseList.getData().get(0).getData().getProjectId());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,19,14,14,0), directoryResponseList.getData().get(0).getData().getCreatedAt());
+        assertEquals(priority, directoryResponseList.getData().get(0).getData().getPriority().name().toLowerCase());
     }
 
     @Test
@@ -646,6 +690,17 @@ public class SourceFilesApiTest extends TestClient {
         assertNull(((DocxFileImportOptions) importOptions).getSrxStorageId());
     }
     //</editor-fold>
+
+    @Test
+    public void searchFilesTest() {
+        ResponseList<? extends FileInfo> fileInfoResponseList = this.getSourceFilesApi().searchFiles(fileName, projectIds, null, null, null);
+
+        assertEquals(fileName, fileInfoResponseList.getData().get(0).getData().getName());
+        assertEquals(branchId, fileInfoResponseList.getData().get(0).getData().getBranchId());
+        assertEquals(fileId, fileInfoResponseList.getData().get(0).getData().getId());
+        assertEquals(project5Id, fileInfoResponseList.getData().get(0).getData().getProjectId());
+
+    }
 
     @Test
     public void listAssetReferencesTest() {
