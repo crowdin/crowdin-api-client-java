@@ -418,6 +418,35 @@ public class StringTranslationsApi extends CrowdinApi {
     }
 
     /**
+     * @param filter search translations by text
+     * @param projectIds project identifiers (max 50)
+     * @param userId owner identifier
+     * @param languageIds target language identifier
+     * @param denormalizePlaceholders enable denormalize placeholders (default 0)
+     * @param limit maximum numbers of items to retrieve (max 25)
+     * @param offset a starting offset in the collection
+     * @return target-language translations by text
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.translations.getMany" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringTranslation> searchTranslations(String filter, String projectIds, Integer userId, String languageIds, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "filter", Optional.of(filter),
+                "projectIds", Optional.ofNullable(projectIds),
+                "userId", Optional.ofNullable(userId),
+                "languageIds", Optional.ofNullable(languageIds),
+                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+
+        StringTranslationResponseList stringTranslationResponseList = this.httpClient.get(this.url + "/translations", new HttpRequestConfig(queryParams), StringTranslationResponseList.class);
+        return StringTranslationResponseList.to(stringTranslationResponseList);
+    }
+
+    /**
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier

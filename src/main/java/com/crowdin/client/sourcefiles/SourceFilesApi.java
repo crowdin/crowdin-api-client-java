@@ -120,6 +120,31 @@ public class SourceFilesApi extends CrowdinApi {
     }
 
     /**
+     * @param filter search branches by name or title
+     * @param projectIds project identifiers (max 50)
+     * @param userId owner identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset a starting offset in the collection
+     * @return branches by name or title
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.branches.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.branches.getMany" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Branch> searchBranches(String filter, String projectIds, Integer userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "filter", Optional.of(filter),
+                "projectIds", Optional.ofNullable(projectIds),
+                "userId", Optional.ofNullable(userId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+
+        BranchResponseList branchResponseList = this.httpClient.get(this.url + "/branches", new HttpRequestConfig(queryParams), BranchResponseList.class);
+        return BranchResponseList.to(branchResponseList);
+    }
+
+    /**
      * @param projectId project identifier
      * @param branchId filter by branch id
      * @param directoryId filter by directory id
@@ -228,6 +253,31 @@ public class SourceFilesApi extends CrowdinApi {
     public ResponseObject<Directory> editDirectory(Long projectId, Long directoryId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         DirectoryResponseObject directoryResponseObject = this.httpClient.patch(this.url + "/projects/" + projectId + "/directories/" + directoryId, request, new HttpRequestConfig(), DirectoryResponseObject.class);
         return ResponseObject.of(directoryResponseObject.getData());
+    }
+
+    /**
+     * @param filter search directories by name or title
+     * @param projectIds project identifiers (max 50)
+     * @param userId owner identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset a starting offset in the collection
+     * @return directories by name or title
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.directories.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.directories.getMany" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Directory> searchDirectories(String filter, String projectIds, Integer userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "filter", Optional.of(filter),
+                "projectIds", Optional.ofNullable(projectIds),
+                "userId", Optional.ofNullable(userId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+
+        DirectoryResponseList directoryResponseList = this.httpClient.get(this.url + "/directories", new HttpRequestConfig(queryParams), DirectoryResponseList.class);
+        return DirectoryResponseList.to(directoryResponseList);
     }
 
     /**
@@ -482,6 +532,30 @@ public class SourceFilesApi extends CrowdinApi {
         return ResponseObject.of(downloadLinkResponseObject.getData());
     }
 
+    /**
+     * @param filter search files by name or title
+     * @param projectIds project identifiers (max 50)
+     * @param userId owner identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset a starting offset in the collection
+     * @return files by name or title
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.files.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.files.getMany" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<? extends FileInfo> searchFiles(String filter, String projectIds, Integer userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "filter", Optional.of(filter),
+                "projectIds", Optional.ofNullable(projectIds),
+                "userId", Optional.ofNullable(userId),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+
+        FileInfoResponseList fileInfoResponseList = this.httpClient.get(this.url + "/files", new HttpRequestConfig(queryParams), FileInfoResponseList.class);
+        return FileInfoResponseList.to(fileInfoResponseList);
+    }
     /**
      * @param projectId project identifier
      * @param fileId file identifier

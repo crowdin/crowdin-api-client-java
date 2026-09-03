@@ -35,6 +35,8 @@ public class SourceStringsApiTest extends TestClient {
     private final Long storageId = 61L;
     private final Long labelId = 1L;
     private final String uploadId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
+    private final String scope = "all";
+    private final String projectIds = "1,2,3";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -55,6 +57,10 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
+                RequestMock.build(this.url + "/strings", HttpGet.METHOD_NAME, "api/strings/searchStrings.json", new HashMap<String, String>() {{
+                    put("filter", scope);
+                    put("projectIds", projectIds);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPatch.METHOD_NAME, "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json"),
                 new RequestMock(this.url + "/projects/" + project2Id + "/strings/" + id, "api/strings/editString.json", "api/strings/string.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS), emptyMap()),
                 new RequestMock(this.url + "/projects/" + project2Id + "/strings", "api/strings/stringBatchOperationsRequest.json", "api/strings/listStrings.json", HttpPatch.METHOD_NAME, singletonMap("updateOption", UpdateOption.CLEAR_TRANSLATIONS_AND_APPROVALS), emptyMap())
@@ -340,6 +346,18 @@ public class SourceStringsApiTest extends TestClient {
                 .editSourceString(project2Id, id, singletonList(request), UpdateOption.KEEP_TRANSLATIONS_AND_APPROVALS);
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), text);
+    }
+
+    @Test
+    public void searchStringsTest() {
+        ResponseList<SourceString> sourceStringResponseList = this.getSourceStringsApi().searchSourceStrings(scope, projectIds, null, null, null, null, null);
+
+        assertEquals(id, sourceStringResponseList.getData().get(0).getData().getId());
+        assertEquals(text, sourceStringResponseList.getData().get(0).getData().getText());
+        assertFalse(sourceStringResponseList.getData().get(0).getData().isIcu());
+        assertTrue(sourceStringResponseList.getData().get(0).getData().isDuplicate());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,20,12,43,57), sourceStringResponseList.getData().get(0).getData().getCreatedAt());
+        assertEquals(new Date(119,Calendar.SEPTEMBER,20,13,24,01), sourceStringResponseList.getData().get(0).getData().getUpdatedAt());
     }
 
     @Test

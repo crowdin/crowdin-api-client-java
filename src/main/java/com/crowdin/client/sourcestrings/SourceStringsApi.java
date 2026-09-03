@@ -189,6 +189,35 @@ public class SourceStringsApi extends CrowdinApi {
     }
 
     /**
+     * @param filter search strings by the fields selected in scope
+     * @param projectIds project identifiers (max 50)
+     * @param userId owner identifier
+     * @param scope specify field to be the target of filtering (default all)
+     * @param denormalizePlaceholders enable denormalize placeholders (default 0)
+     * @param limit maximum numbers of items to retrieve (max 25)
+     * @param offset a starting offset in the collection
+     * @return source strings by text/context/key
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.strings.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.strings.getMany" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SourceString> searchSourceStrings(String filter, String projectIds, Integer userId, String scope, Integer denormalizePlaceholders, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "filter", Optional.of(filter),
+                "projectIds", Optional.ofNullable(projectIds),
+                "userId", Optional.ofNullable(userId),
+                "scope", Optional.ofNullable(scope),
+                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders),
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+
+        SourceStringResponseList sourceStringResponseList = this.httpClient.get(this.url + "/strings", new HttpRequestConfig(queryParams), SourceStringResponseList.class);
+        return SourceStringResponseList.to(sourceStringResponseList);
+    }
+
+    /**
      * @param projectId project identifier
      * @param request request object
      * @return list of updated source strings
