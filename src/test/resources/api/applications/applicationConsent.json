@@ -1,0 +1,20 @@
+{
+  "data": {
+    "id": 12,
+    "installedBy": {
+      "id": 12,
+      "username": "john_smith",
+      "fullName": "John Smith",
+      "avatarUrl": ""
+    },
+    "identifier": "example-application",
+    "name": "My App",
+    "status": "granted",
+    "scopes": [
+      "project",
+      "tm"
+    ],
+    "createdAt": "2026-07-24T10:00:00+00:00",
+    "updatedAt": "2026-07-24T10:00:00+00:00"
+  }
+}

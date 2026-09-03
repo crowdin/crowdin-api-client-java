@@ -1,5 +1,6 @@
 package com.crowdin.client.applications;
 
+import com.crowdin.client.applications.consents.model.*;
 import com.crowdin.client.applications.installations.model.*;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
@@ -25,6 +26,8 @@ class ApplicationsApiTest extends TestClient {
     private final String path = "path";
     private final String builtUrl = this.url + "/applications/" + applicationIdentifier + "/api/" + path;
     private final String builtUrlInstallation = this.url + "/applications/installations";
+    private final String builtUrlConsents = this.url + "/applications/consents";
+    private final Long consentId = 12L;
 
     @Override
     public List<RequestMock> getMocks() {
@@ -38,7 +41,11 @@ class ApplicationsApiTest extends TestClient {
                 RequestMock.build(builtUrlInstallation + "/" + applicationIdentifier, HttpDelete.METHOD_NAME),
                 RequestMock.build(builtUrlInstallation + "/" + applicationIdentifier, HttpPatch.METHOD_NAME, "api/applications/editApplicationInstallation.json", "api/applications/applicationInstallation.json"),
                 RequestMock.build(builtUrlInstallation, HttpGet.METHOD_NAME, "api/applications/installApplicationList.json"),
-                RequestMock.build(builtUrlInstallation, HttpPost.METHOD_NAME, "api/applications/installApplication.json", "api/applications/applicationInstallation.json")
+                RequestMock.build(builtUrlInstallation, HttpPost.METHOD_NAME, "api/applications/installApplication.json", "api/applications/applicationInstallation.json"),
+                RequestMock.build(builtUrlConsents, HttpGet.METHOD_NAME, "api/applications/listApplicationConsentsResponse.json"),
+                RequestMock.build(builtUrlConsents, HttpPost.METHOD_NAME, "api/applications/addApplicationConsentRequest.json", "api/applications/applicationConsent.json"),
+                RequestMock.build(builtUrlConsents + "/" + consentId, HttpPatch.METHOD_NAME, "api/applications/editApplicationConsentRequest.json", "api/applications/applicationConsent.json"),
+                RequestMock.build(builtUrlConsents + "/" + consentId, HttpDelete.METHOD_NAME)
         );
     }
 
@@ -136,5 +143,43 @@ class ApplicationsApiTest extends TestClient {
         assertNotNull(response);
         assertEquals(response.getData().getIdentifier(), "example-application");
         assertEquals(response.getData().getName(), "Application name");
+    }
+
+    @Test
+    void listApplicationConsents() {
+        ResponseList<ApplicationConsent> responseList = this.getApplicationsApi().listApplicationConsents(null);
+        assertNotNull(responseList);
+        assertEquals(1, responseList.getData().size());
+        assertEquals(responseList.getData().get(0).getData().getIdentifier(), "example-application");
+        assertEquals(responseList.getData().get(0).getData().getStatus(), ConsentStatus.GRANTED);
+    }
+
+    @Test
+    void addApplicationConsent() {
+        AddApplicationConsentRequest request = new AddApplicationConsentRequest();
+        request.setIdentifier("example-application");
+        request.setInstalledBy(consentId);
+        request.setStatus(ConsentStatus.GRANTED);
+        request.setScopes(Arrays.asList("project", "tm"));
+        ResponseObject<ApplicationConsent> response = this.getApplicationsApi().addApplicationConsent(request);
+        assertNotNull(response);
+        assertEquals(response.getData().getId(), consentId);
+        assertEquals(response.getData().getStatus(), ConsentStatus.GRANTED);
+    }
+
+    @Test
+    void editApplicationConsent() {
+        PatchRequest request = new PatchRequest();
+        request.setOp(PatchOperation.REPLACE);
+        request.setPath("/status");
+        request.setValue("denied");
+        ResponseObject<ApplicationConsent> response = this.getApplicationsApi().editApplicationConsent(consentId, singletonList(request));
+        assertNotNull(response);
+        assertEquals(response.getData().getId(), consentId);
+    }
+
+    @Test
+    void deleteApplicationConsent() {
+        this.getApplicationsApi().deleteApplicationConsent(consentId);
     }
 }
