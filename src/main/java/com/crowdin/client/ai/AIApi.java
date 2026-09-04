@@ -18,6 +18,7 @@ import com.crowdin.client.core.model.ResponseObject;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class AIApi extends CrowdinApi {
 
@@ -421,6 +422,51 @@ public class AIApi extends CrowdinApi {
         String url = getAIPath(userId, String.format("ai/reports/%s/download", reportId));
         DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param params query parameters
+     * @return list of AI request logs
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<AiRequestLog> listAiRequestLogs(Long userId, ListAiRequestLogsParams params)
+            throws HttpException, HttpBadRequestException {
+        ListAiRequestLogsParams query = Optional.ofNullable(params).orElse(new ListAiRequestLogsParams());
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "requestId", Optional.ofNullable(query.getRequestId()),
+                "projectId", Optional.ofNullable(query.getProjectId()),
+                "userId", Optional.ofNullable(query.getUserId()),
+                "aiProviderId", Optional.ofNullable(query.getAiProviderId()),
+                "model", Optional.ofNullable(query.getModel()),
+                "sourceAction", Optional.ofNullable(query.getSourceAction()),
+                "promptAction", Optional.ofNullable(query.getPromptAction()),
+                "statuses", Optional.ofNullable(
+                        query.getStatuses() == null ? null : query.getStatuses().stream()
+                                .map(status -> status.to(status))
+                                .collect(Collectors.joining(","))
+                ),
+                "systemCredentials", Optional.ofNullable(query.getSystemCredentials()),
+                "isAutoTriggered", Optional.ofNullable(query.getIsAutoTriggered()),
+                "tokenName", Optional.ofNullable(query.getTokenName()),
+                "oauthClientId", Optional.ofNullable(query.getOauthClientId()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
+        );
+        queryParams.put("createdAfter", Optional.ofNullable(query.getCreatedAfter()));
+        queryParams.put("createdBefore", Optional.ofNullable(query.getCreatedBefore()));
+
+        String url = getAIPath(userId, "ai/request-logs");
+        AiRequestLogResponseList responseList = this.httpClient.get(
+                url,
+                new HttpRequestConfig(queryParams),
+                AiRequestLogResponseList.class
+        );
+        return AiRequestLogResponseList.to(responseList);
     }
 
     /**
