@@ -1,0 +1,9 @@
+{
+  "identifier": "example-application",
+  "installedBy": 12,
+  "status": "granted",
+  "scopes": [
+    "project",
+    "tm"
+  ]
+}
