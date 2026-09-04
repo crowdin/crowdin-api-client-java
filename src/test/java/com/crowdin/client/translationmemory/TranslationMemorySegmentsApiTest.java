@@ -24,9 +24,12 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
     private final Long tm2Id = 2L;
     private final Long tm3Id = 3L;
     private final Long segmentId = 1L;
+    private final Long recordId = 1L;
 
     private final Long tmsId = 4L;
     private final Long tms2Id = 5L;
+
+    private final String recordText = "Перекладений текст 2";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -89,6 +92,14 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
                         HttpPatch.METHOD_NAME,
                         "api/translationmemory/segments/editTmSegmentRequest.json",
                         "api/translationmemory/segments/commonResponses_single.json"
+                ),
+
+                // BATCH OPERATIONS
+                RequestMock.build(
+                        formUrl_tmSegments(tmsId),
+                        HttpPatch.METHOD_NAME,
+                        "api/translationmemory/segments/batchTmSegmentRequest.json",
+                        "api/translationmemory/segments/batchTmSegmentResponse.json"
                 )
         );
     }
@@ -202,6 +213,46 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
 
         ResponseObject<TmSegment> response = this.getTranslationMemoryApi().editTmSegment(tmId, segmentId, request);
         assertTmSegment(response.getData());
+    }
+
+    @Test
+    public void batchOperationsTmSegment() {
+        List<PatchRequest> request = new ArrayList<PatchRequest>() {{
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/-");
+                setValue(new CreateTmSegmentRequest() {{
+                    setRecords(singletonList(new TmSegmentRecordForm() {{
+                        setLanguageId("uk");
+                        setText("Перекладений текст");
+                    }}));
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.ADD);
+                setPath("/" + segmentId + "/records/-");
+                setValue(new TmSegmentRecordForm() {{
+                    setLanguageId("uk");
+                    setText("Перекладений текст");
+                }});
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/" + segmentId);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REMOVE);
+                setPath("/" + segmentId + "/records/" + recordId);
+            }});
+            add(new PatchRequest() {{
+                setOp(PatchOperation.REPLACE);
+                setPath("/" + segmentId + "/records/" + recordId + "/text");
+                setValue(recordText);
+            }});
+        }};
+
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().batchOperationsTmSegment(tmsId, request);
+        assertTmSegment(response.getData().get(0).getData());
     }
 
     @SneakyThrows
