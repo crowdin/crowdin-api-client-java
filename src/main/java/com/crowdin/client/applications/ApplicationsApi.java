@@ -191,6 +191,7 @@ public class ApplicationsApi extends CrowdinApi {
      * @return list of application consents
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.consents.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.consents.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<ApplicationConsent> listApplicationConsents(ListApplicationConsentsParams params) throws HttpException, HttpBadRequestException {
@@ -211,6 +212,7 @@ public class ApplicationsApi extends CrowdinApi {
      * @return newly created application consent
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.consents.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.consents.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<ApplicationConsent> addApplicationConsent(AddApplicationConsentRequest request) throws HttpException, HttpBadRequestException {
@@ -225,6 +227,7 @@ public class ApplicationsApi extends CrowdinApi {
      * @return updated application consent
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.consents.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.consents.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<ApplicationConsent> editApplicationConsent(Long consentId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
@@ -237,6 +240,7 @@ public class ApplicationsApi extends CrowdinApi {
      * @param consentId consent decision identifier
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.applications.consents.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.applications.consents.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteApplicationConsent(Long consentId) throws HttpException, HttpBadRequestException {
