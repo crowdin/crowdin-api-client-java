@@ -55,6 +55,8 @@ public class AIApiTest extends TestClient {
     private static final String GENERATE_AI_REPORT_PATH = "%s/users/%d/ai/reports";
     private static final String CHECK_AI_REPORT_GENERATION_PATH = "%s/users/%d/ai/reports/%s";
     private static final String DOWNLOAD_AI_REPORT_PATH = "%s/users/%d/ai/reports/%s/download";
+    private static final String USER_AI_REQUEST_LOGS = "%s/users/%d/ai/request-logs";
+    private static final String ENTERPRISE_AI_REQUEST_LOGS = "%s/ai/request-logs";
     private static final String GET_SETTINGS = "%s/users/%d/ai/settings";
     private static final String LIST_AI_PROVIDERS = "%s/users/%d/ai/providers";
     private static final String GET_AI_PROVIDER = "%s/users/%d/ai/providers/%d";
@@ -93,6 +95,8 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(GENERATE_AI_REPORT_PATH, this.url, userId), HttpPost.METHOD_NAME, "api/ai/generateAiReportRequest.json", "api/ai/generateAiReportResponse.json"),
             RequestMock.build(String.format(CHECK_AI_REPORT_GENERATION_PATH, this.url, userId, aiReportId), HttpGet.METHOD_NAME, "api/ai/checkAiReportGenerationStatusResponse.json"),
             RequestMock.build(String.format(DOWNLOAD_AI_REPORT_PATH, this.url, userId, aiReportId), HttpGet.METHOD_NAME, "api/ai/downloadAiReportResponse.json"),
+            RequestMock.build(String.format(USER_AI_REQUEST_LOGS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listAiRequestLogsResponse.json", aiRequestLogQueryParams()),
+            RequestMock.build(String.format(ENTERPRISE_AI_REQUEST_LOGS, this.url), HttpGet.METHOD_NAME, "api/ai/listAiRequestLogsResponse.json"),
             RequestMock.build(String.format(FINE_TUNING_DATASET_DOWNLOAD_PATH, this.url, userId, aiPromptId, jobIdentifier), HttpGet.METHOD_NAME, "api/ai/downloadFineTuningDataset.json"),
             RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/getAiSettingResponse.json"),
             RequestMock.build(String.format(GET_SETTINGS, this.url, userId), HttpPatch.METHOD_NAME, "api/ai/editAiSettingRequest.json", "api/ai/getAiSettingResponse.json"),
@@ -324,6 +328,48 @@ public class AIApiTest extends TestClient {
         ResponseObject<DownloadLink> responseObject = this.getAiApi().downloadAiReport(userId, aiReportId);
         assertNotNull(responseObject.getData());
         assertNotNull(responseObject.getData().getUrl());
+    }
+
+    @Test
+    public void listUserAiRequestLogsTest() {
+        ListAiRequestLogsParams params = new ListAiRequestLogsParams();
+        params.setRequestId("9d3b1c4e-2f3a-4b5c-8d6e-7f8a9b0c1d2e");
+        params.setProjectId(8L);
+        params.setUserId(42L);
+        params.setAiProviderId(3L);
+        params.setModel("gpt-5.6-sol");
+        params.setSourceAction(AiRequestSourceAction.AI_GATEWAY);
+        params.setPromptAction("pre_translate");
+        params.setStatuses(EnumSet.of(AiRequestLogStatus.SUCCESS, AiRequestLogStatus.ERROR));
+        params.setSystemCredentials(true);
+        params.setIsAutoTriggered(false);
+        params.setTokenName("Token name");
+        params.setOauthClientId("gpbccUFxAKZDrLm5Nq8t");
+        params.setCreatedAfter("2026-01-01T00:00:00Z");
+        params.setCreatedBefore("2026-01-02T00:00:00Z");
+        params.setLimit(limit);
+        params.setOffset(offset);
+
+        ResponseList<AiRequestLog> response = this.getAiApi().listAiRequestLogs(userId, params);
+
+        assertEquals(1, response.getData().size());
+        assertEquals(limit, response.getPagination().getLimit());
+        assertEquals(offset, response.getPagination().getOffset());
+        AiRequestLog requestLog = response.getData().get(0).getData();
+        assertEquals(12345L, requestLog.getId());
+        assertEquals(AiRequestLogStatus.SUCCESS, requestLog.getStatus());
+        assertEquals(AiRequestSourceAction.PRE_TRANSLATE_MANUAL, requestLog.getSourceAction());
+        assertEquals(0.012345, requestLog.getTotalCost());
+        assertEquals("AI Pipeline", requestLog.getOauthClientName());
+        assertNull(requestLog.getError());
+    }
+
+    @Test
+    public void listEnterpriseAiRequestLogsTest() {
+        ResponseList<AiRequestLog> response = this.getAiApi().listAiRequestLogs(null, null);
+
+        assertEquals(1, response.getData().size());
+        assertEquals(12345L, response.getData().get(0).getData().getId());
     }
 
     @Test
@@ -661,5 +707,26 @@ public class AIApiTest extends TestClient {
         req.put("model", "string");
         ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayPatch(userId, 1L, gatewayPath, req);
         assertNotNull(response.getData());
+    }
+
+    private Map<String, Object> aiRequestLogQueryParams() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("requestId", "9d3b1c4e-2f3a-4b5c-8d6e-7f8a9b0c1d2e");
+        queryParams.put("projectId", 8L);
+        queryParams.put("userId", 42L);
+        queryParams.put("aiProviderId", 3L);
+        queryParams.put("model", "gpt-5.6-sol");
+        queryParams.put("sourceAction", AiRequestSourceAction.AI_GATEWAY);
+        queryParams.put("promptAction", "pre_translate");
+        queryParams.put("statuses", "success,error");
+        queryParams.put("systemCredentials", true);
+        queryParams.put("isAutoTriggered", false);
+        queryParams.put("tokenName", "Token name");
+        queryParams.put("oauthClientId", "gpbccUFxAKZDrLm5Nq8t");
+        queryParams.put("createdAfter", "2026-01-01T00:00:00Z");
+        queryParams.put("createdBefore", "2026-01-02T00:00:00Z");
+        queryParams.put("limit", limit);
+        queryParams.put("offset", offset);
+        return queryParams;
     }
 }

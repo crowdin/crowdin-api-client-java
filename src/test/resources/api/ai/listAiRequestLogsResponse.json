@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 12345,
+        "requestId": "9d3b1c4e-2f3a-4b5c-8d6e-7f8a9b0c1d2e",
+        "createdAt": "2026-01-01T10:00:00+00:00",
+        "status": "success",
+        "httpStatus": 200,
+        "model": "gpt-5.6-sol",
+        "sourceAction": "pre_translate:manual",
+        "promptAction": "pre_translate",
+        "systemCredentials": true,
+        "isAutoTriggered": false,
+        "durationMs": 842,
+        "inputTokens": 512,
+        "outputTokens": 128,
+        "totalCost": 0.012345,
+        "userId": 42,
+        "projectId": 8,
+        "promptId": 5,
+        "aiProviderId": 3,
+        "tokenName": "Token name",
+        "oauthClientId": "gpbccUFxAKZDrLm5Nq8t",
+        "oauthClientName": "AI Pipeline",
+        "ip": "203.0.113.42",
+        "userAgent": "Crowdin Java Client",
+        "error": null
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
