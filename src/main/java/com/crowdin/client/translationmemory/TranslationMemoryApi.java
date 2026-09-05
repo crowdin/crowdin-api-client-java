@@ -334,6 +334,21 @@ public class TranslationMemoryApi extends CrowdinApi {
         return ResponseObject.of(responseObject.getData());
     }
 
+    /**
+     * @param tmId translation memory identifier
+     * @param request request object
+     * @return  updated translation memory segment
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.patchBatch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.patchBatch" target="_blank"><b>API Enterprise Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TmSegment> batchOperationsTmSegment(Long tmId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        String url = formUrl_tmSegments(tmId);
+        TmSegmentResponseList responseList = this.httpClient.patch(url, request, new HttpRequestConfig(), TmSegmentResponseList.class);
+        return TmSegmentResponseList.to(responseList);
+    }
+
     //<editor-fold desc="Helper methods">
 
     private String formUrl_tmSegments(Long tmId) {
