@@ -11,6 +11,7 @@ import com.crowdin.client.translationmemory.model.SearchConcordance;
 import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordanceResponse;
 import com.crowdin.client.translationmemory.model.SearchConcordanceResponseList;
+import com.crowdin.client.translationmemory.model.SearchOrganizationConcordanceRequest;
 import com.crowdin.client.translationmemory.model.TmSegment;
 import com.crowdin.client.translationmemory.model.TmSegmentResponseList;
 import com.crowdin.client.translationmemory.model.TmSegmentResponseObject;
@@ -49,6 +50,20 @@ public class TranslationMemoryApi extends CrowdinApi {
     public ResponseList<SearchConcordance> searchConcordance(Long projectId, SearchConcordanceRequest request) {
         String url = this.url + "/projects/" + projectId + "/tms/concordance";
         final SearchConcordanceResponseList searchConcordanceResponse = this.httpClient.post(url, request, new HttpRequestConfig(), SearchConcordanceResponseList.class);
+        return SearchConcordanceResponse.of(searchConcordanceResponse);
+    }
+
+    /**
+     * @param request request object
+     * @return list of search results
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.concordance.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.concordance.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SearchConcordance> searchOrganizationConcordance(SearchOrganizationConcordanceRequest request) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/tms/concordance";
+        SearchConcordanceResponseList searchConcordanceResponse = this.httpClient.post(url, request, new HttpRequestConfig(), SearchConcordanceResponseList.class);
         return SearchConcordanceResponse.of(searchConcordanceResponse);
     }
 

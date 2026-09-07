@@ -37,6 +37,20 @@ public class GlossariesApi extends CrowdinApi {
     }
 
     /**
+     * @param request request object
+     * @return list of search results
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concordance.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concordance.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SearchConcordance> searchOrganizationConcordance(SearchOrganizationConcordanceRequest request) throws HttpException, HttpBadRequestException {
+        SearchConcordanceResponseList searchConcordanceResponseList =
+                this.httpClient.post(this.url + "/glossaries/concordance", request, new HttpRequestConfig(), SearchConcordanceResponseList.class);
+        return SearchConcordanceResponseList.of(searchConcordanceResponseList);
+    }
+
+    /**
      * @param glossaryId glossary identifier
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
