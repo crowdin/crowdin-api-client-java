@@ -2,6 +2,7 @@ com.crowdin.client
 com.crowdin.client.ai
 com.crowdin.client.ai.model
 com.crowdin.client.applications
+com.crowdin.client.applications.consents.model
 com.crowdin.client.applications.installations.model
 com.crowdin.client.applications.model
 com.crowdin.client.branches
