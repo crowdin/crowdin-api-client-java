@@ -72,7 +72,8 @@ public class GlossariesApiTest extends TestClient {
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpGet.METHOD_NAME, "api/glossaries/term.json"),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/glossaries/" + glossaryId + "/terms/" + termId, HttpPatch.METHOD_NAME, "api/glossaries/editTerm.json", "api/glossaries/term.json"),
-                RequestMock.build(this.url + "/projects/" + projectId + "/glossaries/concordance", HttpPost.METHOD_NAME, "api/glossaries/concordanceSearchRequest.json", "api/glossaries/concordanceSearchResponse.json")
+                RequestMock.build(this.url + "/projects/" + projectId + "/glossaries/concordance", HttpPost.METHOD_NAME, "api/glossaries/concordanceSearchRequest.json", "api/glossaries/concordanceSearchResponse.json"),
+                RequestMock.build(this.url + "/glossaries/concordance", HttpPost.METHOD_NAME, "api/glossaries/organizationConcordanceSearchRequest.json", "api/glossaries/concordanceSearchResponse.json")
         );
     }
 
@@ -88,6 +89,18 @@ public class GlossariesApiTest extends TestClient {
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getConcept().getId(), 3);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSourceTerms().get(0).getId(), termId);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getTargetTerms().get(0).getId(), termId);
+    }
+
+    @Test
+    public void searchOrganizationConcordanceTest() {
+        SearchOrganizationConcordanceRequest request = new SearchOrganizationConcordanceRequest();
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("de");
+        request.setExpressions(singletonList("Welcome!"));
+        request.setUserId(12L);
+        ResponseList<SearchConcordance> responseList = this.getGlossariesApi().searchOrganizationConcordance(request);
+        assertEquals(1, responseList.getData().size());
+        assertEquals(glossaryId, responseList.getData().get(0).getData().getGlossary().getId());
     }
 
     @Test

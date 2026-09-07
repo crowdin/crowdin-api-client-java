@@ -10,6 +10,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordance;
 import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
+import com.crowdin.client.translationmemory.model.SearchOrganizationConcordanceRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemory;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportRequest;
 import com.crowdin.client.translationmemory.model.TranslationMemoryExportStatus;
@@ -54,7 +55,8 @@ public class TranslationMemoryApiTest extends TestClient {
                 RequestMock.build(this.url + "/tms/" + tmId + "/imports", HttpPost.METHOD_NAME, "api/translationmemory/importTm.json", "api/translationmemory/tmImportStatus.json"),
                 RequestMock.build(this.url + "/tms/" + tmId + "/imports/" + importId, HttpGet.METHOD_NAME, "api/translationmemory/tmImportStatus.json"),
                 RequestMock.build(String.format("%s/tms/%d/segments", this.url, tmId), HttpDelete.METHOD_NAME),
-                RequestMock.build(String.format("%s/projects/%d/tms/concordance", this.url, projectId), HttpPost.METHOD_NAME, "api/translationmemory/concordanceSearchRequest.json", "api/translationmemory/concordanceSearchResponse.json")
+                RequestMock.build(String.format("%s/projects/%d/tms/concordance", this.url, projectId), HttpPost.METHOD_NAME, "api/translationmemory/concordanceSearchRequest.json", "api/translationmemory/concordanceSearchResponse.json"),
+                RequestMock.build(this.url + "/tms/concordance", HttpPost.METHOD_NAME, "api/translationmemory/organizationConcordanceSearchRequest.json", "api/translationmemory/concordanceSearchResponse.json")
         );
     }
 
@@ -73,6 +75,20 @@ public class TranslationMemoryApiTest extends TestClient {
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSource(), "Welcome!");
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getRelevant(), 100);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSubstituted(), "62→100");
+    }
+
+    @Test
+    public void searchOrganizationConcordanceTest() {
+        SearchOrganizationConcordanceRequest request = new SearchOrganizationConcordanceRequest();
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("de");
+        request.setAutoSubstitution(true);
+        request.setMinRelevant(60);
+        request.setExpressions(singletonList("Welcome!"));
+        request.setUserId(12L);
+        ResponseList<SearchConcordance> responseList = this.getTranslationMemoryApi().searchOrganizationConcordance(request);
+        assertEquals(1, responseList.getData().size());
+        assertEquals(tmId, responseList.getData().get(0).getData().getTm().getId());
     }
 
     @Test
