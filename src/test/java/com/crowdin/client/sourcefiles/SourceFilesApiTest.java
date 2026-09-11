@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,9 @@ public class SourceFilesApiTest extends TestClient {
     private final Long referenceId = 123L;
     private final Long fileRevisionId = 2L;
     private final Long buildId = 42L;
+    private final String branchDeleteJobIdentifier = "branch-delete-job";
+    private final String directoryDeleteJobIdentifier = "directory-delete-job";
+    private final String fileDeleteJobIdentifier = "file-delete-job";
     private final String branchName = "develop-master";
     private final String branchTitle = "Master branch";
     private final String sequentBranchName1 = "develop-master-#1";
@@ -72,6 +76,8 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches", HttpPost.METHOD_NAME, "api/sourcefiles/addBranchRequest.json", "api/sourcefiles/branch.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpGet.METHOD_NAME, "api/sourcefiles/branch.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpDelete.METHOD_NAME, "api/sourcefiles/branchDeleteJobStatus.json", Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId + "/jobs/" + branchDeleteJobIdentifier, HttpGet.METHOD_NAME, "api/sourcefiles/branchDeleteJobStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + branchId, HttpPatch.METHOD_NAME, "api/sourcefiles/editBranch.json", "api/sourcefiles/branch.json"),
                 RequestMock.build(this.url + "/branches", HttpGet.METHOD_NAME, "api/sourcefiles/searchBranches.json", new HashMap<String, String>() {{
                     put("filter", branchName);
@@ -87,6 +93,8 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories", HttpPost.METHOD_NAME, "api/sourcefiles/addDirectoryRequest.json", "api/sourcefiles/directory.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpGet.METHOD_NAME, "api/sourcefiles/directory.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpDelete.METHOD_NAME, "api/sourcefiles/directoryDeleteJobStatus.json", Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId + "/jobs/" + directoryDeleteJobIdentifier, HttpGet.METHOD_NAME, "api/sourcefiles/directoryDeleteJobStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/directories/" + directoryId, HttpPatch.METHOD_NAME, "api/sourcefiles/editDirectory.json", "api/sourcefiles/directory.json"),
                 RequestMock.build(this.url + "/directories", HttpGet.METHOD_NAME, "api/sourcefiles/searchDirectories.json", new HashMap<String, Object>() {{
                     put("filter", directoryName);
@@ -104,6 +112,8 @@ public class SourceFilesApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpGet.METHOD_NAME, "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPut.METHOD_NAME, "api/sourcefiles/updateOrRestoreFileRequest.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpDelete.METHOD_NAME),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpDelete.METHOD_NAME, "api/sourcefiles/fileDeleteJobStatus.json", Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/jobs/" + fileDeleteJobIdentifier, HttpGet.METHOD_NAME, "api/sourcefiles/fileDeleteJobStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPatch.METHOD_NAME, "api/sourcefiles/editFile.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/download", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId + "/preview", HttpGet.METHOD_NAME, "api/sourcefiles/downloadLink.json"),
@@ -209,6 +219,21 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void deleteBranchTest() {
         this.getSourceFilesApi().deleteBranch(projectId, branchId);
+    }
+
+    @Test
+    public void deleteBranchAsyncTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().deleteBranch(projectId, branchId, true);
+        assertEquals(branchDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals("finished", response.getData().getStatus());
+        assertEquals(branchId, response.getData().getAttributes().getBranchId());
+    }
+
+    @Test
+    public void checkBranchDeletionStatusTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().checkBranchDeletionStatus(projectId, branchId, branchDeleteJobIdentifier);
+        assertEquals(branchDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals(branchId, response.getData().getAttributes().getBranchId());
     }
 
     @Test
@@ -357,6 +382,21 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void deleteDirectoryTest() {
         this.getSourceFilesApi().deleteDirectory(projectId, directoryId);
+    }
+
+    @Test
+    public void deleteDirectoryAsyncTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().deleteDirectory(projectId, directoryId, true);
+        assertEquals(directoryDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals("in_progress", response.getData().getStatus());
+        assertEquals(directoryId, response.getData().getAttributes().getDirectoryId());
+    }
+
+    @Test
+    public void checkDirectoryDeletionStatusTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().checkDirectoryDeletionStatus(projectId, directoryId, directoryDeleteJobIdentifier);
+        assertEquals(directoryDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals(directoryId, response.getData().getAttributes().getDirectoryId());
     }
 
     @Test
@@ -515,6 +555,23 @@ public class SourceFilesApiTest extends TestClient {
     @Test
     public void deleteFileTest() {
         this.getSourceFilesApi().deleteFile(projectId, fileId);
+    }
+
+    @Test
+    public void deleteFileAsyncTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().deleteFile(projectId, fileId, true);
+        assertEquals(fileDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals("failed", response.getData().getStatus());
+        assertEquals(fileId, response.getData().getAttributes().getFileId());
+        assertEquals("File deletion failed", response.getData().getError().getMessage());
+    }
+
+    @Test
+    public void checkFileDeletionStatusTest() {
+        ResponseObject<DeleteJobStatus> response = this.getSourceFilesApi().checkFileDeletionStatus(projectId, fileId, fileDeleteJobIdentifier);
+        assertEquals(fileDeleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals(fileId, response.getData().getAttributes().getFileId());
+        assertEquals("File deletion failed", response.getData().getError().getMessage());
     }
 
     @Test

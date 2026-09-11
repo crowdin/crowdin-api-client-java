@@ -1,0 +1,14 @@
+{
+  "data": {
+    "identifier": "directory-delete-job",
+    "status": "in_progress",
+    "progress": 50,
+    "attributes": {
+      "directoryId": 4
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "startedAt": "2019-09-23T11:26:54+00:00",
+    "finishedAt": "2019-09-23T11:26:54+00:00"
+  }
+}

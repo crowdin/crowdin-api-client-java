@@ -1,14 +1,17 @@
 package com.crowdin.client.branches;
 
 import com.crowdin.client.branches.model.*;
+import com.crowdin.client.core.model.DeleteJobStatus;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,12 +24,16 @@ class BranchesApiTest extends TestClient {
     private final Long sourceBranchId = 8L;
     private final String cloneId = "aaee1685-c92a-4da6-8a08-c28b4db5cd4a";
     private final String mergeId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
+    private final String deleteJobIdentifier = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
     private final String name = "cloned";
     private final String title = "Cloned Branch";
 
     @Override
     public List<RequestMock> getMocks() {
         return Arrays.asList(
+            RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id, HttpDelete.METHOD_NAME),
+            RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id, HttpDelete.METHOD_NAME, "api/branches/deleteJobStatus.json", Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+            RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/jobs/" + deleteJobIdentifier, HttpGet.METHOD_NAME, "api/branches/deleteJobStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/clones", HttpPost.METHOD_NAME, "api/branches/cloneBranchRequest.json", "api/branches/branchCloneStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/clones/" + cloneId, HttpGet.METHOD_NAME, "api/branches/branchCloneStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/merges", HttpPost.METHOD_NAME, "api/branches/mergeBranchRequest.json", "api/branches/branchMergeStatus.json"),
@@ -49,6 +56,26 @@ class BranchesApiTest extends TestClient {
     public void checkCloneBranchStatusTest() {
         ResponseObject<BranchCloneStatus> response = this.getBranchesApi().checkCloneBranchStatus(projectId, id, cloneId);
         assertEquals(response.getData().getIdentifier(), cloneId);
+    }
+
+    @Test
+    public void deleteBranchTest() {
+        this.getBranchesApi().deleteBranch(projectId, id);
+    }
+
+    @Test
+    public void deleteBranchAsyncTest() {
+        ResponseObject<DeleteJobStatus> response = this.getBranchesApi().deleteBranch(projectId, id, true);
+        assertEquals(deleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals("created", response.getData().getStatus());
+        assertEquals(id, response.getData().getAttributes().getBranchId());
+    }
+
+    @Test
+    public void checkBranchDeletionStatusTest() {
+        ResponseObject<DeleteJobStatus> response = this.getBranchesApi().checkBranchDeletionStatus(projectId, id, deleteJobIdentifier);
+        assertEquals(deleteJobIdentifier, response.getData().getIdentifier());
+        assertEquals(id, response.getData().getAttributes().getBranchId());
     }
 
     @Test
