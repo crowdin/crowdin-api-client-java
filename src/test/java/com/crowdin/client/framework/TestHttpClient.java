@@ -80,13 +80,13 @@ public class TestHttpClient implements HttpClient {
             for (int i = 0; i < requestMocks.size(); ++i) {
                 RequestMock requestMock = requestMocks.get(i);
                 if (!config.getHeaders().equals(requestMock.getHeaders())) {
-                    throw new AssertionError("No match for request headers : " + requestKey);
+                    continue;
                 }
                 Map<String, Object> urlParams = config.getUrlParams().entrySet().stream()
                     .filter(entry -> entry.getValue().isPresent())
                     .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().get()));
                 if (!urlParams.equals(requestMock.getUrlParams())) {
-                    throw new AssertionError("No match for url query parameters : " + requestKey);
+                    continue;
                 }
 
                 //request
@@ -132,10 +132,10 @@ public class TestHttpClient implements HttpClient {
                 }
                 return this.jsonTransformer.parse(responsePayloadMock, clazz);
             }
+            throw new AssertionError("No match for request : " + requestKey);
         } catch (Exception e) {
             throw new AssertionError("Failed to execute test", e);
         }
-        return null;
     }
 
     private String getRequestKey(String url, String httpMethod) {

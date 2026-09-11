@@ -7,6 +7,7 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.sourcefiles.model.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -101,7 +102,51 @@ public class SourceFilesApi extends CrowdinApi {
      * </ul>
      */
     public void deleteBranch(Long projectId, Long branchId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/branches/" + branchId, new HttpRequestConfig(), Void.class);
+        this.deleteBranch(projectId, branchId, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param isAsync whether to delete the branch asynchronously
+     * @return delete job status when deleting asynchronously, or {@code null} for a synchronous deletion
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.branches.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.branches.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> deleteBranch(Long projectId, Long branchId, Boolean isAsync) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/branches/" + branchId;
+        if (!Boolean.TRUE.equals(isAsync)) {
+            this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+            return null;
+        }
+
+        DeleteJobStatusResponseObject response = this.httpClient.delete(
+                url,
+                new HttpRequestConfig(Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param jobIdentifier delete job identifier
+     * @return delete job status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.branches.jobs.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.branches.jobs.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> checkBranchDeletionStatus(Long projectId, Long branchId, String jobIdentifier) throws HttpException, HttpBadRequestException {
+        DeleteJobStatusResponseObject response = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/branches/" + branchId + "/jobs/" + jobIdentifier,
+                new HttpRequestConfig(),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 
     /**
@@ -237,7 +282,51 @@ public class SourceFilesApi extends CrowdinApi {
      * </ul>
      */
     public void deleteDirectory(Long projectId, Long directoryId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/directories/" + directoryId, new HttpRequestConfig(), Void.class);
+        this.deleteDirectory(projectId, directoryId, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param isAsync whether to delete the directory asynchronously
+     * @return delete job status when deleting asynchronously, or {@code null} for a synchronous deletion
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.directories.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.directories.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> deleteDirectory(Long projectId, Long directoryId, Boolean isAsync) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/directories/" + directoryId;
+        if (!Boolean.TRUE.equals(isAsync)) {
+            this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+            return null;
+        }
+
+        DeleteJobStatusResponseObject response = this.httpClient.delete(
+                url,
+                new HttpRequestConfig(Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param jobIdentifier delete job identifier
+     * @return delete job status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.directories.jobs.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.directories.jobs.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> checkDirectoryDeletionStatus(Long projectId, Long directoryId, String jobIdentifier) throws HttpException, HttpBadRequestException {
+        DeleteJobStatusResponseObject response = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/directories/" + directoryId + "/jobs/" + jobIdentifier,
+                new HttpRequestConfig(),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 
     /**
@@ -388,7 +477,51 @@ public class SourceFilesApi extends CrowdinApi {
      * </ul>
      */
     public void deleteFile(Long projectId, Long fileId) throws HttpException, HttpBadRequestException {
-        this.httpClient.delete(this.url + "/projects/" + projectId + "/files/" + fileId, new HttpRequestConfig(), Void.class);
+        this.deleteFile(projectId, fileId, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param isAsync whether to delete the file asynchronously
+     * @return delete job status when deleting asynchronously, or {@code null} for a synchronous deletion
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> deleteFile(Long projectId, Long fileId, Boolean isAsync) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/files/" + fileId;
+        if (!Boolean.TRUE.equals(isAsync)) {
+            this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+            return null;
+        }
+
+        DeleteJobStatusResponseObject response = this.httpClient.delete(
+                url,
+                new HttpRequestConfig(Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param fileId file identifier
+     * @param jobIdentifier delete job identifier
+     * @return delete job status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.files.jobs.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.files.jobs.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> checkFileDeletionStatus(Long projectId, Long fileId, String jobIdentifier) throws HttpException, HttpBadRequestException {
+        DeleteJobStatusResponseObject response = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/files/" + fileId + "/jobs/" + jobIdentifier,
+                new HttpRequestConfig(),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 
     /**
