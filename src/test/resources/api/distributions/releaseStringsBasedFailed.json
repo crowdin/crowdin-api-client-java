@@ -1,0 +1,12 @@
+{
+  "data": {
+    "status": "failed",
+    "progress": 42,
+    "currentLanguageId": "string",
+    "currentBranchId": 0,
+    "date": "2019-09-23T09:04:29+00:00",
+    "error": {
+      "message": "Something went wrong"
+    }
+  }
+}

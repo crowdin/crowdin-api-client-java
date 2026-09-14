@@ -11,4 +11,10 @@ public class DistributionStringsBasedRelease {
     private String currentLanguageId;
     private Long currentBranchId;
     private Date date;
+    private Error error;
+
+    @Data
+    public static class Error {
+        private String message;
+    }
 }

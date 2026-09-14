@@ -11,4 +11,10 @@ public class DistributionRelease {
     private String currentLanguageId;
     private Long currentFileId;
     private Date date;
+    private Error error;
+
+    @Data
+    public static class Error {
+        private String message;
+    }
 }
