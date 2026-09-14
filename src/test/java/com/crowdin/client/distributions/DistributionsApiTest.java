@@ -29,6 +29,7 @@ public class DistributionsApiTest extends TestClient {
     private final Long projectId = 3L;
     private final Long stringsBasedProjectId = 4L;
     private final String hash = "asccvfd";
+    private final String failedHash = "asccvfe";
     private final String name = "distribution 1";
     private final String name2 = "distribution 2";
 
@@ -44,7 +45,9 @@ public class DistributionsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpGet.METHOD_NAME, "api/distributions/release.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/release.json"),
                 RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + hash + "/release", HttpGet.METHOD_NAME, "api/distributions/releaseStringsBased.json"),
-                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/releaseStringsBased.json")
+                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + hash + "/release", HttpPost.METHOD_NAME, "api/distributions/releaseRequest.json", "api/distributions/releaseStringsBased.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/distributions/" + failedHash + "/release", HttpGet.METHOD_NAME, "api/distributions/releaseFailed.json"),
+                RequestMock.build(this.url + "/projects/" + stringsBasedProjectId + "/distributions/" + failedHash + "/release", HttpGet.METHOD_NAME, "api/distributions/releaseStringsBasedFailed.json")
         );
     }
 
@@ -125,5 +128,19 @@ public class DistributionsApiTest extends TestClient {
     public void createDistributionReleaseStringsBasedTest() {
         ResponseObject<DistributionStringsBasedRelease> distributionRelease = this.getDistributionsApi().createDistributionStringsBasedRelease(stringsBasedProjectId, hash);
         assertEquals(distributionRelease.getData().getProgress(), new Integer(100));
+    }
+
+    @Test
+    public void getDistributionReleaseFailedTest() {
+        ResponseObject<DistributionRelease> distributionRelease = this.getDistributionsApi().getDistributionRelease(projectId, failedHash);
+        assertEquals(distributionRelease.getData().getStatus(), "failed");
+        assertEquals(distributionRelease.getData().getError().getMessage(), "Something went wrong");
+    }
+
+    @Test
+    public void getDistributionReleaseStringsBasedFailedTest() {
+        ResponseObject<DistributionStringsBasedRelease> distributionRelease = this.getDistributionsApi().getDistributionStringsBasedRelease(stringsBasedProjectId, failedHash);
+        assertEquals(distributionRelease.getData().getStatus(), "failed");
+        assertEquals(distributionRelease.getData().getError().getMessage(), "Something went wrong");
     }
 }
