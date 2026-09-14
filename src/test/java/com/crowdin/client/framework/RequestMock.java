@@ -41,6 +41,17 @@ public class RequestMock {
         );
     }
 
+    public static RequestMock build(String url, String httpMethod, String responseFile, Map<String, ?> urlParams, Map<String, ?> headers) {
+        return new RequestMock(
+                url,
+                null,
+                responseFile,
+                httpMethod,
+                urlParams,
+                headers
+        );
+    }
+
     public static RequestMock build(String url, String httpMethod, String responseFile) {
         return new RequestMock(
                 url,

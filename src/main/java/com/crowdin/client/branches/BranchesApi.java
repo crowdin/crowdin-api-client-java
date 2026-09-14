@@ -7,7 +7,11 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
+import com.crowdin.client.core.model.DeleteJobStatus;
+import com.crowdin.client.core.model.DeleteJobStatusResponseObject;
 import com.crowdin.client.core.model.ResponseObject;
+
+import java.util.Collections;
 
 public class BranchesApi extends CrowdinApi {
 
@@ -17,6 +21,62 @@ public class BranchesApi extends CrowdinApi {
 
     public BranchesApi(Credentials credentials, ClientConfig clientConfig) {
         super(credentials, clientConfig);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteBranch(Long projectId, Long branchId) throws HttpException, HttpBadRequestException {
+        this.deleteBranch(projectId, branchId, null);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param isAsync whether to delete the branch asynchronously
+     * @return delete job status when deleting asynchronously, or {@code null} for a synchronous deletion
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> deleteBranch(Long projectId, Long branchId, Boolean isAsync) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/branches/" + branchId;
+        if (!Boolean.TRUE.equals(isAsync)) {
+            this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+            return null;
+        }
+
+        DeleteJobStatusResponseObject response = this.httpClient.delete(
+                url,
+                new HttpRequestConfig(Collections.emptyMap(), Collections.singletonMap("Prefer", "respond-async")),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param branchId branch identifier
+     * @param jobIdentifier delete job identifier
+     * @return delete job status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.jobs.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.jobs.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DeleteJobStatus> checkBranchDeletionStatus(Long projectId, Long branchId, String jobIdentifier) throws HttpException, HttpBadRequestException {
+        DeleteJobStatusResponseObject response = this.httpClient.get(
+                this.url + "/projects/" + projectId + "/branches/" + branchId + "/jobs/" + jobIdentifier,
+                new HttpRequestConfig(),
+                DeleteJobStatusResponseObject.class
+        );
+        return ResponseObject.of(response.getData());
     }
 
     /**

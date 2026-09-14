@@ -1,0 +1,17 @@
+{
+  "data": {
+    "identifier": "file-delete-job",
+    "status": "failed",
+    "progress": 100,
+    "attributes": {
+      "fileId": 44
+    },
+    "error": {
+      "message": "File deletion failed"
+    },
+    "createdAt": "2019-09-23T11:26:54+00:00",
+    "updatedAt": "2019-09-23T11:26:54+00:00",
+    "startedAt": "2019-09-23T11:26:54+00:00",
+    "finishedAt": "2019-09-23T11:26:54+00:00"
+  }
+}
