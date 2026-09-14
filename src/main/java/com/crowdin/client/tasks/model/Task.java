@@ -31,6 +31,7 @@ public class Task {
     private String translationUrl;
     private String webUrl;
     private Integer wordsCount;
+    private Integer originalWordsCount;
     private Integer filesCount;
     private Integer commentsCount;
     private Date deadline;
@@ -45,4 +46,16 @@ public class Task {
     private List<Language> targetLanguages;
     private Object fields;
     private Long precedingTaskId;
+    /**
+     * Enterprise only. Null when the task is fully synced, not shared, or the counterpart
+     * task is unavailable.
+     */
+    private SyncScope syncScope;
+
+    @Data
+    public static class SyncScope {
+        private Integer syncedWords;
+        private Integer pendingWords;
+        private Integer skippedWords;
+    }
 }

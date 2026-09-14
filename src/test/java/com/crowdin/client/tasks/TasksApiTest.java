@@ -352,6 +352,10 @@ public class TasksApiTest extends TestClient {
         assertEquals(taskId, taskResponseObject.getData().getId());
         assertEquals(status, taskResponseObject.getData().getStatus());
         assertEquals(fields, taskResponseObject.getData().getFields());
+        assertEquals(30, taskResponseObject.getData().getOriginalWordsCount());
+        assertEquals(10, taskResponseObject.getData().getSyncScope().getSyncedWords());
+        assertEquals(5, taskResponseObject.getData().getSyncScope().getPendingWords());
+        assertEquals(2, taskResponseObject.getData().getSyncScope().getSkippedWords());
     }
 
     @Test
