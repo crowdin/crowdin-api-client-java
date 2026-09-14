@@ -10,6 +10,8 @@ public class ApplyPreTranslationRequest {
 
     private List<String> languageIds;
     private List<Long> fileIds;
+    private List<Long> directoryIds;
+    private List<Long> branchIds;
     private Method method;
     private Long engineId;
     private Long aiPromptId;

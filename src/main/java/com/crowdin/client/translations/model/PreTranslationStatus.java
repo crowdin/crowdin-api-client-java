@@ -21,6 +21,7 @@ public class PreTranslationStatus {
     public static class Attributes {
         private List<String> languageIds;
         private List<Long> fileIds;
+        private List<Long> directoryIds;
         private List<Long> branchIds;
         private Method method;
         private AutoApproveOption autoApproveOption;
