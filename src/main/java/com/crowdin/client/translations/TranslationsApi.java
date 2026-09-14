@@ -43,15 +43,15 @@ public class TranslationsApi extends CrowdinApi {
 
     /**
      * @param projectId project identifier
-     * @param preTranslationId pre-translation identifier
+     * @param jobIdentifier pre-translation job identifier
      * @return pre-translation status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<PreTranslationStatus> preTranslationStatus(Long projectId, String preTranslationId) throws HttpException, HttpBadRequestException {
-        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
+    public ResponseObject<PreTranslationStatus> preTranslationStatus(Long projectId, String jobIdentifier) throws HttpException, HttpBadRequestException {
+        PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations/" + jobIdentifier, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
     }
 
@@ -280,36 +280,36 @@ public class TranslationsApi extends CrowdinApi {
      * Edit Pre-Translation
      *
      * @param projectId project identifier
-     * @param preTranslationId pre-translation identifier
+     * @param jobIdentifier pre-translation job identifier
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.patch" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<PreTranslation> editPreTranslation(Long projectId, String preTranslationId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<PreTranslation> editPreTranslation(Long projectId, String jobIdentifier, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
         PreTranslationResponseObject preTranslationResponseObject = this.httpClient.patch(
-                this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId,
+                this.url + "/projects/" + projectId + "/pre-translations/" + jobIdentifier,
                 request,
                 new HttpRequestConfig(),
                 PreTranslationResponseObject.class
         );
         return ResponseObject.of(preTranslationResponseObject.getData());
     }
-    
+
     /**
      * Pre-Translation Report
-     * 
+     *
      * @param projectId project identifier
-     * @param preTranslationId pre-translation identifier
+     * @param jobIdentifier pre-translation job identifier
      * @return pre-translation report data
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#tag/Translations/operation/api.projects.pre-translations.report.getReport" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#tag/Translations/operation/api.projects.pre-translations.report.getReport" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<PreTranslationReportResponse> getPreTranslationReport(Long projectId, String preTranslationId) throws HttpException, HttpBadRequestException {
+    public ResponseObject<PreTranslationReportResponse> getPreTranslationReport(Long projectId, String jobIdentifier) throws HttpException, HttpBadRequestException {
         PreTranslationReportResponseObject response = this.httpClient.get(
-            this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId + "/report",
+            this.url + "/projects/" + projectId + "/pre-translations/" + jobIdentifier + "/report",
             new HttpRequestConfig(),
             PreTranslationReportResponseObject.class
         );

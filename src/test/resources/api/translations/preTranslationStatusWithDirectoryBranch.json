@@ -1,0 +1,24 @@
+{
+  "data": {
+    "identifier": "9e7de270-4f83-41cb-b606-2f90631f26e2",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "languageIds": [
+        "uk"
+      ],
+      "directoryIds": [
+        3
+      ],
+      "branchIds": [
+        211
+      ],
+      "method": "mt",
+      "autoApproveOption": "none"
+    },
+    "createdAt": "2019-09-20T14:05:50+00:00",
+    "updatedAt": "2019-09-20T14:05:50+00:00",
+    "startedAt": "2020-04-14T10:32:39Z",
+    "finishedAt": "2020-04-14T10:32:39Z"
+  }
+}
