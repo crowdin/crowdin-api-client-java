@@ -1,0 +1,44 @@
+version: 2
+
+updates:
+  # Gradle dependencies declared in build.gradle
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "chore"
+    groups:
+      # One PR a month for all routine bumps. Major versions are left out:
+      # the library targets Java 8, so major bumps of the test dependencies
+      # cannot merge and would come back every month as noise.
+      gradle:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      # Security fixes are alert-driven, not monthly, and are not limited to
+      # minor/patch so a fix released only in a major version still arrives.
+      gradle-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  # Actions used by the workflows in .github/workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "ci"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
+      github-actions-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
