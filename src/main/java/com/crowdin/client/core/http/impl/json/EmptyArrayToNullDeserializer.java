@@ -29,16 +29,13 @@ public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implem
 
         Class<?> clazz = this.type != null ? this.type.getRawClass() : Object.class;
 
-        if (p.getCurrentToken() == JsonToken.START_ARRAY) {
-            if (!isCollectionType(clazz)) {
-                p.nextToken();
-                return null;
-            } else {
-                return ctxt.readValue(p, clazz);
-            }
+        if (p.getCurrentToken() == JsonToken.START_ARRAY && !isCollectionType(clazz)) {
+            p.skipChildren();
+            return null;
         }
 
-        return ctxt.readValue(p, clazz);
+        // read with the full JavaType so generic parameters (e.g. Map<String, Foo>) are preserved
+        return this.type != null ? ctxt.readValue(p, this.type) : ctxt.readValue(p, clazz);
     }
 
     private static boolean isCollectionType(Class<?> type) {

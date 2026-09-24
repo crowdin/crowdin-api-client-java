@@ -3,7 +3,7 @@ package com.crowdin.client.users.model;
 import com.crowdin.client.core.model.EnumConverter;
 
 public enum TranslatorRoleName implements EnumConverter<TranslatorRoleName> {
-    TRANSLATOR, PROOFREADER, OWNER;
+    TRANSLATOR, PROOFREADER, LANGUAGE_COORDINATOR, DEVELOPER, MANAGER, OWNER;
 
     public static TranslatorRoleName from(String value){
         return TranslatorRoleName.valueOf(value.toUpperCase());

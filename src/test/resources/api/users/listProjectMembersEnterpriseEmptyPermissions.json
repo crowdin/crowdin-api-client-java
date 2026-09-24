@@ -1,0 +1,57 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "username": "john_smith",
+        "firstName": "John",
+        "lastName": "Smith",
+        "isManager": false,
+        "isDeveloper": true,
+        "roles": [
+          {
+            "name": "developer",
+            "permissions": {
+              "allLanguages": false,
+              "languagesAccess": []
+            }
+          }
+        ],
+        "givenAccessAt": "2019-10-23T11:44:02+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 2,
+        "username": "jane_doe",
+        "firstName": "Jane",
+        "lastName": "Doe",
+        "isManager": false,
+        "isDeveloper": false,
+        "roles": [
+          {
+            "name": "language_coordinator",
+            "permissions": []
+          }
+        ],
+        "givenAccessAt": "2019-10-23T11:44:02+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 3,
+        "username": "admin",
+        "firstName": "Ad",
+        "lastName": "Min",
+        "isManager": true,
+        "isDeveloper": false,
+        "roles": [],
+        "givenAccessAt": "2019-10-23T11:44:02+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
