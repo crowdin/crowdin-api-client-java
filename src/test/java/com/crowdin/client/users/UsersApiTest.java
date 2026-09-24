@@ -25,6 +25,7 @@ public class UsersApiTest extends TestClient {
     private final Long projectId4 = 15L;
     private final Long projectId5 = 16L;
     private final Long projectId6 = 17L;
+    private final Long projectId7 = 18L;
 
     private final Long userId = 1L;
     private final Long user2Id = 2L;
@@ -56,6 +57,7 @@ public class UsersApiTest extends TestClient {
                 RequestMock.build(this.url + "/groups/" + groupId + "/managers", HttpPatch.METHOD_NAME, "api/users/editGroupManagers.json", "api/users/listGroupManagers.json"),
                 RequestMock.build(this.url + "/groups/" + groupId + "/managers/" + userId, HttpGet.METHOD_NAME, "api/users/groupManager.json"),
                 RequestMock.build(String.format("%s/projects/%d/members", this.url, projectId2), HttpGet.METHOD_NAME, "api/users/listProjectMembersEnterprise.json"),
+                RequestMock.build(String.format("%s/projects/%d/members", this.url, projectId7), HttpGet.METHOD_NAME, "api/users/listProjectMembersEnterpriseEmptyPermissions.json"),
                 RequestMock.build(String.format("%s/projects/%d/members", this.url, projectId3), HttpGet.METHOD_NAME, "api/users/listProjectMembersEnterpriseOrderByIdAsc.json", new HashMap<String, String>() {{
                     put("orderBy", "id%20asc");
                 }}),
@@ -203,6 +205,24 @@ public class UsersApiTest extends TestClient {
         TranslatorRole role = responseList.getData().get(0).getData().getRoles().get(0);
         assertEquals(TranslatorRoleName.TRANSLATOR, role.getName());
         assertTrue(role.getPermissions().isAllLanguages());
+    }
+
+    @Test
+    public void listProjectTeamMembersEnterpriseTest_emptyPermissions() {
+        ResponseList<ProjectMember> responseList = this.getUsersApi().listProjectMembersEnterprise(this.projectId7, null, null, null, null, null);
+        assertNotNull(responseList);
+        assertEquals(3, responseList.getData().size());
+
+        TranslatorRole emptyLanguagesAccess = responseList.getData().get(0).getData().getRoles().get(0);
+        assertEquals(TranslatorRoleName.DEVELOPER, emptyLanguagesAccess.getName());
+        assertFalse(emptyLanguagesAccess.getPermissions().isAllLanguages());
+        assertNull(emptyLanguagesAccess.getPermissions().getLanguagesAccess());
+
+        TranslatorRole emptyPermissions = responseList.getData().get(1).getData().getRoles().get(0);
+        assertEquals(TranslatorRoleName.LANGUAGE_COORDINATOR, emptyPermissions.getName());
+        assertNull(emptyPermissions.getPermissions());
+
+        assertTrue(responseList.getData().get(2).getData().getRoles().isEmpty());
     }
 
     @Test

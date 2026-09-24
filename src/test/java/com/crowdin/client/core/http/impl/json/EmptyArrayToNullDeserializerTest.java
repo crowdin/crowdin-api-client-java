@@ -6,7 +6,9 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.crowdin.client.core.model.LanguageAccessRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -149,6 +152,27 @@ public class EmptyArrayToNullDeserializerTest {
 
         // Asserting the result
         assertNull(result);
+    }
+
+    public static class MapHolder {
+        @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
+        public Map<String, LanguageAccessRule> rules;
+    }
+
+    @Test
+    public void testDeserializeEmptyArrayAsMapReturnsNull() throws IOException {
+        MapHolder holder = new ObjectMapper().readValue("{\"rules\": []}", MapHolder.class);
+
+        assertNull(holder.rules);
+    }
+
+    @Test
+    public void testDeserializeObjectAsMapPreservesGenericValueType() throws IOException {
+        MapHolder holder = new ObjectMapper().readValue("{\"rules\": {\"uk\": {\"allContent\": true}}}", MapHolder.class);
+
+        assertNotNull(holder.rules);
+        LanguageAccessRule rule = holder.rules.get("uk");
+        assertTrue(rule.isAllContent());
     }
 
 }
