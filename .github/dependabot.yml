@@ -8,10 +8,14 @@ updates:
       interval: "monthly"
     commit-message:
       prefix: "chore"
+    # Java 8 compatibility: JUnit 6 requires Java 17 and Mockito 5 requires Java 11.
+    ignore:
+      - dependency-name: "org.junit.jupiter:*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "org.mockito:*"
+        update-types: ["version-update:semver-major"]
     groups:
-      # One PR a month for all routine bumps. Major versions are left out:
-      # the library targets Java 8, so major bumps of the test dependencies
-      # cannot merge and would come back every month as noise.
+      # One PR a month for all routine minor/patch bumps.
       gradle:
         applies-to: version-updates
         patterns:
