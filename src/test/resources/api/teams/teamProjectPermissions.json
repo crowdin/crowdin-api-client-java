@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 12,
+        "roles": [
+          {
+            "name": "proofreader",
+            "permissions": {
+              "allLanguages": true,
+              "languagesAccess": []
+            }
+          }
+        ],
+        "project": {
+          "id": 12,
+          "groupId": 4,
+          "type": 0,
+          "userId": 6,
+          "sourceLanguageId": "en",
+          "targetLanguageIds": [
+            "uk"
+          ],
+          "name": "Knowledge Base",
+          "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+          "workflowId": 3,
+          "webUrl": "https://example.crowdin.com/u/projects/12"
+        }
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

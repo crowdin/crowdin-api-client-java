@@ -9,13 +9,16 @@ import java.util.Map;
 public class ReplaceProjectMemberPermissionsRequest {
 
     /**
-     * @deprecated
+     * @deprecated deprecated in the API, use {@link #roles} instead
      */
+    @Deprecated
     private Boolean accessToAllWorkflowSteps;
     private Boolean managerAccess;
+    private Boolean developerAccess;
     /**
-     * @deprecated
+     * @deprecated deprecated in the API, use {@link #roles} instead
      */
+    @Deprecated
     private Map<String, LanguagePermission> permissions;
     private List<TranslatorRole> roles;
 }

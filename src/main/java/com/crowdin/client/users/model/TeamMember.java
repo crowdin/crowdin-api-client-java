@@ -12,6 +12,10 @@ public class TeamMember {
     private Long id;
     private String username;
     private String fullName;
+    /**
+     * @deprecated deprecated in the API, use {@link #roles} instead
+     */
+    @Deprecated
     private String role;
     /**
      * @deprecated

@@ -1,0 +1,14 @@
+[
+  {
+    "op": "replace",
+    "path": "/8/roles",
+    "value": [
+      {
+        "name": "translator",
+        "permissions": {
+          "allLanguages": true
+        }
+      }
+    ]
+  }
+]

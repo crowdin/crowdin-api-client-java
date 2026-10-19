@@ -1,0 +1,11 @@
+{
+  "skipped": {},
+  "updated": {
+    "id": 1,
+    "name": "French",
+    "hasManagerAccess": true,
+    "hasDeveloperAccess": false,
+    "roles": []
+  },
+  "added": {}
+}

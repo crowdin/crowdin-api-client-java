@@ -54,7 +54,9 @@ public class UsersApi extends CrowdinApi {
 
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "teamIds", Optional.ofNullable(query.getTeamIds()),
-                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy()))
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         GroupManagerResponseList response = this.httpClient.get(this.url + "/groups/" + groupId + "/managers", new HttpRequestConfig(queryParams), GroupManagerResponseList.class);
         return GroupManagerResponseList.to(response);
@@ -147,6 +149,7 @@ public class UsersApi extends CrowdinApi {
      * @param request request object
      * @return project team members response info
      * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.members.post" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.members.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -159,6 +162,7 @@ public class UsersApi extends CrowdinApi {
      * @param memberId member identifier
      * @return project member info
      * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.members.get" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.members.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -175,6 +179,7 @@ public class UsersApi extends CrowdinApi {
      * @param request request object
      * @return updated project member info
      * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.members.put" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.members.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -188,6 +193,7 @@ public class UsersApi extends CrowdinApi {
      * @param projectId project identifier
      * @param memberId member identifier
      * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.members.delete" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.members.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -352,6 +358,71 @@ public class UsersApi extends CrowdinApi {
     }
 
     /**
+     * Edit authenticated user. For Crowdin only
+     * @param request request object (supported paths: /username, /fullName, /timezone, /avatarStorageId)
+     * @return updated authenticated user
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.user.patch" target="_blank"><b>API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<User> editAuthenticatedUser(List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        UserResponseObject userResponseObject = this.httpClient.patch(this.url + "/user", request, new HttpRequestConfig(), UserResponseObject.class);
+        return ResponseObject.of(userResponseObject.getData());
+    }
+
+    /**
+     * List user project permissions. For Crowdin Enterprise only
+     * @param userId user identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of user project permissions
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.permissions.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ProjectPermissions> listUserProjectPermissions(Long userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        ProjectPermissionsResponseList response = this.httpClient.get(this.url + "/users/" + userId + "/projects/permissions", new HttpRequestConfig(queryParams), ProjectPermissionsResponseList.class);
+        return ProjectPermissionsResponseList.to(response);
+    }
+
+    /**
+     * Edit user project permissions. For Crowdin Enterprise only
+     * @param userId user identifier
+     * @param request request object (path format: /{projectId}/roles)
+     * @return list of updated user project permissions
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.permissions.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ProjectPermissions> editUserProjectPermissions(Long userId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        ProjectPermissionsResponseList response = this.httpClient.patch(this.url + "/users/" + userId + "/projects/permissions", request, new HttpRequestConfig(), ProjectPermissionsResponseList.class);
+        return ProjectPermissionsResponseList.to(response);
+    }
+
+    /**
+     * List user project contributions. For Crowdin Enterprise only
+     * @param userId user identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of user project contributions
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.projects.contributions.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<UserProjectContribution> listUserProjectContributions(Long userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        UserProjectContributionResponseList response = this.httpClient.get(this.url + "/users/" + userId + "/projects/contributions", new HttpRequestConfig(queryParams), UserProjectContributionResponseList.class);
+        return UserProjectContributionResponseList.to(response);
+    }
+
+    /**
      * @param projectId project identifier
      * @param search search users by firstName, lastName, username, or email (2 or more characters)
      * @param limit maximum number of items to retrieve (default 25)
@@ -388,6 +459,29 @@ public class UsersApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TeamMemberResponseList teamMemberResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/members", new HttpRequestConfig(queryParams), TeamMemberResponseList.class);
+        return TeamMemberResponseList.to(teamMemberResponseList);
+    }
+
+    /**
+     * List project members. For Crowdin only
+     * @param projectId project identifier
+     * @param params query parameters (search, role, languageId, orderBy, limit, offset)
+     * @return list of team members
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.members.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TeamMember> listProjectMembers(Long projectId, ListProjectMembersParams params) throws HttpException, HttpBadRequestException {
+        ListProjectMembersParams query = Optional.ofNullable(params).orElse(new ListProjectMembersParams());
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "search", Optional.ofNullable(query.getSearch()),
+                "role", Optional.ofNullable(query.getRole()),
+                "languageId", Optional.ofNullable(query.getLanguageId()),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         TeamMemberResponseList teamMemberResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/members", new HttpRequestConfig(queryParams), TeamMemberResponseList.class);
         return TeamMemberResponseList.to(teamMemberResponseList);

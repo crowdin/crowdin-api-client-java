@@ -1,0 +1,14 @@
+{
+  "data": {
+    "id": 1,
+    "username": "john_smith",
+    "email": "john@example.com",
+    "emailVerified": true,
+    "fullName": "John Smith",
+    "avatarUrl": "",
+    "createdAt": "2023-09-20T11:34:40+00:00",
+    "lastSeen": "2023-09-20T11:34:40+00:00",
+    "twoFactor": "enabled",
+    "timezone": "Europe/Kyiv"
+  }
+}

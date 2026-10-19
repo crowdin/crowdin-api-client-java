@@ -10,14 +10,16 @@ public class AddTeamToProjectRequest {
 
     private Long teamId;
     /**
-     * @deprecated
+     * @deprecated deprecated in the API, use {@link #roles} instead
      */
+    @Deprecated
     private Boolean accessToAllWorkflowSteps;
     private Boolean managerAccess;
     private Boolean developerAccess;
     /**
-     * @deprecated
+     * @deprecated deprecated in the API, use {@link #roles} instead
      */
+    @Deprecated
     private Object permissions;
     private List<TranslatorRole> roles;
 }

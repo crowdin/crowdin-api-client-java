@@ -13,4 +13,6 @@ public class ListGroupTeamsParams {
     @NonNull
     private final Long groupId;
     private List<OrderByField> orderByList;
+    private Integer limit;
+    private Integer offset;
 }

@@ -1,0 +1,7 @@
+{
+  "email": "john@example.com",
+  "firstName": "John",
+  "lastName": "Smith",
+  "timezone": "Europe/Kyiv",
+  "adminAccess": true
+}

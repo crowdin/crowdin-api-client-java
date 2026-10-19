@@ -3,6 +3,7 @@
     "id": 1,
     "name": "French",
     "totalMembers": 8,
+    "webUrl": "https://example.crowdin.com/u/teams/1",
     "createdAt": "2019-09-23T09:04:29+00:00",
     "updatedAt": "2019-09-23T09:04:29+00:00"
   }

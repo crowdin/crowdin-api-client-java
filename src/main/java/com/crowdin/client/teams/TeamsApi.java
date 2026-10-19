@@ -6,6 +6,8 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.teams.model.*;
+import com.crowdin.client.users.model.ProjectPermissions;
+import com.crowdin.client.users.model.ProjectPermissionsResponseList;
 
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,9 @@ public class TeamsApi extends CrowdinApi {
         }
 
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(params.getOrderByList()))
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(params.getOrderByList())),
+                "limit", Optional.ofNullable(params.getLimit()),
+                "offset", Optional.ofNullable(params.getOffset())
         );
 
         GroupTeamResponseList response = this.httpClient.get(this.url + "/groups/" + params.getGroupId() + "/teams", new HttpRequestConfig(queryParams), GroupTeamResponseList.class);
@@ -97,6 +101,59 @@ public class TeamsApi extends CrowdinApi {
      */
     public ProjectTeamResources addTeamToProject(Long projectId, AddTeamToProjectRequest request) throws HttpException, HttpBadRequestException {
         return this.httpClient.post(this.url + "/projects/" + projectId + "/teams", request, new HttpRequestConfig(), ProjectTeamResources.class);
+    }
+
+    /**
+     * List project teams. For Crowdin Enterprise only
+     * @param projectId project identifier
+     * @param params query parameters (orderBy, limit, offset), may be null
+     * @return list of project teams
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.teams.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ProjectTeamResource> listProjectTeams(Long projectId, ListProjectTeamsParams params) throws HttpException, HttpBadRequestException {
+        ListProjectTeamsParams query = Optional.ofNullable(params).orElse(new ListProjectTeamsParams());
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
+        );
+        ProjectTeamResourceResponseList response = this.httpClient.get(this.url + "/projects/" + projectId + "/teams", new HttpRequestConfig(queryParams), ProjectTeamResourceResponseList.class);
+        return ProjectTeamResourceResponseList.to(response);
+    }
+
+    /**
+     * List team project permissions. For Crowdin Enterprise only
+     * @param teamId team identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of team project permissions
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ProjectPermissions> listTeamProjectPermissions(Long teamId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        ProjectPermissionsResponseList response = this.httpClient.get(this.url + "/teams/" + teamId + "/projects/permissions", new HttpRequestConfig(queryParams), ProjectPermissionsResponseList.class);
+        return ProjectPermissionsResponseList.to(response);
+    }
+
+    /**
+     * Edit team project permissions. For Crowdin Enterprise only
+     * @param teamId team identifier
+     * @param request request object (path format: /{projectId}/roles)
+     * @return list of updated team project permissions
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.teams.projects.permissions.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<ProjectPermissions> editTeamProjectPermissions(Long teamId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        ProjectPermissionsResponseList response = this.httpClient.patch(this.url + "/teams/" + teamId + "/projects/permissions", request, new HttpRequestConfig(), ProjectPermissionsResponseList.class);
+        return ProjectPermissionsResponseList.to(response);
     }
 
     /**

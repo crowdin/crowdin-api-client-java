@@ -9,4 +9,6 @@ import java.util.List;
 public class ListGroupManagersParams {
     private List<Long> teamIds;
     private List<OrderByField> orderBy;
+    private Integer limit;
+    private Integer offset;
 }

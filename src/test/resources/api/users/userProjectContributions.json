@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 8,
+        "translated": {
+          "strings": 1,
+          "words": 2
+        },
+        "approved": {
+          "strings": 3,
+          "words": 4
+        },
+        "voted": {
+          "strings": 5
+        },
+        "commented": {
+          "strings": 6
+        },
+        "project": {
+          "id": 8,
+          "groupId": 4,
+          "type": 0,
+          "userId": 6,
+          "sourceLanguageId": "en",
+          "targetLanguageIds": [
+            "it"
+          ],
+          "name": "Knowledge Base",
+          "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+          "workflowId": 3,
+          "webUrl": "https://example.crowdin.com/u/projects/8"
+        }
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 10
+  }
+}

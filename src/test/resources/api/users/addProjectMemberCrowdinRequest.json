@@ -1,0 +1,9 @@
+{
+  "usernames": [
+    "john_smith",
+    "jane_doe"
+  ],
+  "managerAccess": false,
+  "developerAccess": true,
+  "message": "Welcome to the project"
+}

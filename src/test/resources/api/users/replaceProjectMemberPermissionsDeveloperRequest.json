@@ -1,0 +1,12 @@
+{
+  "managerAccess": false,
+  "developerAccess": true,
+  "roles": [
+    {
+      "name": "translator",
+      "permissions": {
+        "allLanguages": true
+      }
+    }
+  ]
+}
