@@ -6,7 +6,8 @@
     "attributes": {
       "sourceBranchId": 8,
       "deleteAfterMerge": false,
-      "acceptSourceChanges": true
+      "acceptSourceChanges": true,
+      "dryRun": false
     },
     "createdAt": "2019-09-23T11:26:54+00:00",
     "updatedAt": "2019-09-23T11:26:54+00:00",

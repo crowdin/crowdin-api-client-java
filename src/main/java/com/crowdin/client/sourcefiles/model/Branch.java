@@ -14,6 +14,7 @@ public class Branch {
     private String title;
     private String exportPattern;
     private Priority priority;
+    private Boolean isProtected;
     private Date createdAt;
     private Date updatedAt;
 }

@@ -11,6 +11,10 @@ public class FileRevision {
     private Long projectId;
     private Long fileId;
     private Long restoreToRevision;
+    /**
+     * @deprecated not part of the File Revision resource in the current API documentation; always {@code null}
+     */
+    @Deprecated
     private FileRevisionInfo info;
     private Date date;
 }

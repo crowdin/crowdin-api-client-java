@@ -12,6 +12,7 @@ import com.crowdin.client.core.model.EnumConverter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class EnumDeserializer extends JsonDeserializer<Enum> implements ContextualDeserializer {
 
@@ -40,12 +41,25 @@ public class EnumDeserializer extends JsonDeserializer<Enum> implements Contextu
     }
 
 
+    /**
+     * Values unknown to the SDK (e.g. added to the API after this SDK version was released)
+     * are deserialized as {@code null} instead of failing the whole response.
+     */
     @SneakyThrows
     private Enum deserialize(Class<? extends Enum> type, String value) {
-        if (EnumConverter.class.isAssignableFrom(type)) {
-            return (Enum) type.getMethod("from", String.class).invoke(null, value);
-        } else {
-            return Enum.valueOf(type, value);
+        try {
+            if (EnumConverter.class.isAssignableFrom(type)) {
+                return (Enum) type.getMethod("from", String.class).invoke(null, value);
+            } else {
+                return Enum.valueOf(type, value);
+            }
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof IllegalArgumentException) {
+                return null;
+            }
+            throw e;
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 }

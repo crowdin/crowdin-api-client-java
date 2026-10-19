@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -36,6 +37,8 @@ public class SourceFilesApiTest extends TestClient {
     private final Long project3Id = 5L;
     private final Long project4Id = 6L;
     private final Long project5Id = 2L;
+    private final Long project6Id = 7L;
+    private final Long project7Id = 8L;
     private final Long fileId = 44L;
     private final Long storageId = 61L;
     private final Long referenceId = 123L;
@@ -109,6 +112,8 @@ public class SourceFilesApiTest extends TestClient {
                 }}),
                 RequestMock.build(String.format("%s/projects/%s/files", this.url, project2Id), HttpGet.METHOD_NAME, "api/sourcefiles/listFileInfos.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files", HttpPost.METHOD_NAME, "api/sourcefiles/addFileRequest.json", "api/sourcefiles/file.json"),
+                RequestMock.build(this.url + "/projects/" + project6Id + "/files", HttpGet.METHOD_NAME, "api/sourcefiles/listFilesWithFormatOptions.json"),
+                RequestMock.build(this.url + "/projects/" + project7Id + "/files", HttpPost.METHOD_NAME, "api/sourcefiles/addFileWithOptionsRequest.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpGet.METHOD_NAME, "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpPut.METHOD_NAME, "api/sourcefiles/updateOrRestoreFileRequest.json", "api/sourcefiles/file.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/files/" + fileId, HttpDelete.METHOD_NAME),
@@ -204,9 +209,11 @@ public class SourceFilesApiTest extends TestClient {
     public void addBranchTest() {
         AddBranchRequest request = new AddBranchRequest();
         request.setName(branchName);
+        request.setIsProtected(true);
         ResponseObject<Branch> branchResponseObject = this.getSourceFilesApi().addBranch(projectId, request);
         assertEquals(branchResponseObject.getData().getId(), branchId);
         assertEquals(branchResponseObject.getData().getName(), branchName);
+        assertFalse(branchResponseObject.getData().getIsProtected());
     }
 
     @Test
@@ -519,11 +526,162 @@ public class SourceFilesApiTest extends TestClient {
     }
 
     @Test
+    public void addFileWithFormatOptionsTest() {
+        AddFileRequest request = new AddFileRequest();
+        request.setName("README.md");
+        request.setStorageId(storageId);
+        request.setType("md");
+        MdFileImportOptions importOptions = new MdFileImportOptions();
+        importOptions.setExcludedFrontMatterElements(singletonList("author"));
+        importOptions.setExcludeCodeBlocks(true);
+        importOptions.setInlineTags(singletonList("kbd"));
+        importOptions.setContentSegmentation(true);
+        importOptions.setSrxStorageId(62L);
+        request.setImportOptions(importOptions);
+        MdFileExportOptions exportOptions = new MdFileExportOptions();
+        exportOptions.setExportPattern("/md/%locale%/%original_file_name%");
+        exportOptions.setStrongMarker(MdMarker.ASTERISK);
+        exportOptions.setEmphasisMarker(MdMarker.UNDERSCORE);
+        exportOptions.setUnorderedListBullet(MdUnorderedListBullet.DASH);
+        exportOptions.setTableColumnWidth(MdTableColumnWidth.EVENLY_DISTRIBUTE_CELLS);
+        exportOptions.setFrontMatterQuotes(MdFrontMatterQuotes.AUTO);
+        request.setExportOptions(exportOptions);
+        Map<String, Object> fields = new LinkedHashMap<>();
+        fields.put("some-field-1", "some value 1");
+        fields.put("some-field-2", 12);
+        fields.put("some-field-3", true);
+        fields.put("some-field-4", Arrays.asList("en", "ja"));
+        request.setFields(fields);
+        ResponseObject<? extends FileInfo> fileResponseObject = this.getSourceFilesApi().addFile(project7Id, request);
+        assertEquals(fileId, fileResponseObject.getData().getId());
+    }
+
+    @Test
     public void getFileTest() {
         ResponseObject<File> fileResponseObject = (ResponseObject<File>) this.getSourceFilesApi().getFile(projectId, fileId);
         assertEquals(fileResponseObject.getData().getId(), fileId);
         assertEquals(fileResponseObject.getData().getName(), fileName);
         assertEquals(fileResponseObject.getData().getContext(), context);
+        assertEquals("some value 1", fileResponseObject.getData().getFields().get("some-field-1"));
+        assertEquals(12, fileResponseObject.getData().getFields().get("some-field-2"));
+        assertInstanceOf(SpreadsheetFileImportOptions.class, fileResponseObject.getData().getImportOptions());
+        assertInstanceOf(GeneralFileExportOptions.class, fileResponseObject.getData().getExportOptions());
+    }
+
+    @Test
+    public void listFilesWithFormatOptionsTest() {
+        ResponseList<File> response = (ResponseList<File>) this.getSourceFilesApi().listFiles(project6Id, null, null, null, null, null, null);
+        assertEquals(9, response.getData().size());
+
+        File html = response.getData().get(0).getData();
+        assertInstanceOf(HtmlFileImportOptions.class, html.getImportOptions());
+        assertInstanceOf(OtherFileImportOptions.class, html.getImportOptions());
+        HtmlFileImportOptions htmlImport = (HtmlFileImportOptions) html.getImportOptions();
+        assertEquals(singletonList("section p"), htmlImport.getExcludedElements());
+        assertEquals(singletonList("span"), htmlImport.getInlineTags());
+        assertTrue(htmlImport.getHideAttributeValues());
+        assertTrue(htmlImport.getContentSegmentation());
+        assertFalse(htmlImport.getCustomSegmentation());
+        assertEquals(GeneralFileExportOptions.class, html.getExportOptions().getClass());
+
+        File fmHtml = response.getData().get(1).getData();
+        assertInstanceOf(HtmlWithFrontMatterFileImportOptions.class, fmHtml.getImportOptions());
+        HtmlWithFrontMatterFileImportOptions fmHtmlImport = (HtmlWithFrontMatterFileImportOptions) fmHtml.getImportOptions();
+        assertEquals(singletonList("pre"), fmHtmlImport.getExcludedElements());
+        assertEquals(singletonList("title"), fmHtmlImport.getExcludedFrontMatterElements());
+        assertEquals(singletonList("b"), fmHtmlImport.getInlineTags());
+        assertFalse(fmHtmlImport.getHideAttributeValues());
+
+        File md = response.getData().get(2).getData();
+        assertInstanceOf(MdFileImportOptions.class, md.getImportOptions());
+        MdFileImportOptions mdImport = (MdFileImportOptions) md.getImportOptions();
+        assertTrue(mdImport.getExcludeCodeBlocks());
+        assertEquals(singletonList("author"), mdImport.getExcludedFrontMatterElements());
+        assertEquals(singletonList("kbd"), mdImport.getInlineTags());
+        assertInstanceOf(MdFileExportOptions.class, md.getExportOptions());
+        assertInstanceOf(GeneralFileExportOptions.class, md.getExportOptions());
+        MdFileExportOptions mdExport = (MdFileExportOptions) md.getExportOptions();
+        assertEquals("/md/%locale%/%original_file_name%", mdExport.getExportPattern());
+        assertEquals(MdMarker.ASTERISK, mdExport.getStrongMarker());
+        assertEquals(MdMarker.UNDERSCORE, mdExport.getEmphasisMarker());
+        assertEquals(MdUnorderedListBullet.DASH, mdExport.getUnorderedListBullet());
+        assertEquals(MdTableColumnWidth.CONSOLIDATE, mdExport.getTableColumnWidth());
+        assertEquals(MdFrontMatterQuotes.DOUBLE, mdExport.getFrontMatterQuotes());
+
+        File mdxV1 = response.getData().get(3).getData();
+        assertInstanceOf(MdxV1FileImportOptions.class, mdxV1.getImportOptions());
+        assertFalse(((MdxV1FileImportOptions) mdxV1.getImportOptions()).getExcludeCodeBlocks());
+        assertEquals(singletonList("slug"), ((MdxV1FileImportOptions) mdxV1.getImportOptions()).getExcludedFrontMatterElements());
+        assertInstanceOf(MdxV1FileExportOptions.class, mdxV1.getExportOptions());
+        MdxV1FileExportOptions mdxV1Export = (MdxV1FileExportOptions) mdxV1.getExportOptions();
+        assertEquals(MdMarker.UNDERSCORE, mdxV1Export.getStrongMarker());
+        assertEquals(MdMarker.ASTERISK, mdxV1Export.getEmphasisMarker());
+        assertEquals(MdUnorderedListBullet.PLUS, mdxV1Export.getUnorderedListBullet());
+        assertEquals(MdTableColumnWidth.EVENLY_DISTRIBUTE_CELLS, mdxV1Export.getTableColumnWidth());
+
+        File mdxV2 = response.getData().get(4).getData();
+        assertInstanceOf(MdxV2FileImportOptions.class, mdxV2.getImportOptions());
+        assertTrue(((MdxV2FileImportOptions) mdxV2.getImportOptions()).getExcludeCodeBlocks());
+        assertInstanceOf(MdxV2FileExportOptions.class, mdxV2.getExportOptions());
+        assertEquals(MdUnorderedListBullet.ASTERISKS, ((MdxV2FileExportOptions) mdxV2.getExportOptions()).getUnorderedListBullet());
+
+        File webXml = response.getData().get(5).getData();
+        assertInstanceOf(WebXmlFileImportOptions.class, webXml.getImportOptions());
+        assertEquals(singletonList("i"), ((WebXmlFileImportOptions) webXml.getImportOptions()).getInlineTags());
+        assertTrue(((WebXmlFileImportOptions) webXml.getImportOptions()).getHideAttributeValues());
+
+        File docx = response.getData().get(6).getData();
+        assertInstanceOf(DocxFileImportOptions.class, docx.getImportOptions());
+        DocxFileImportOptions docxImport = (DocxFileImportOptions) docx.getImportOptions();
+        assertTrue(docxImport.getCleanTagsAggressively());
+        assertTrue(docxImport.getTranslateDocProperties());
+        assertFalse(docxImport.getTranslateComments());
+        assertTrue(docxImport.getIgnoreWhitespaceStyles());
+        assertTrue(docxImport.getAddTabAsCharacter());
+        assertTrue(docxImport.getAddLineSeparatorAsCharacter());
+        assertEquals("|", docxImport.getLineSeparatorReplacement());
+        assertTrue(docxImport.getReplaceNoBreakHyphenTag());
+        assertFalse(docxImport.getIgnoreSoftHyphenTag());
+        assertEquals(Arrays.asList("HYPERLINK", "FORMTEXT"), docxImport.getComplexFieldDefinitionsToExtract());
+        assertTrue(docxImport.getTranslateWordHeadersFooters());
+        assertFalse(docxImport.getTranslateWordGraphicName());
+        assertTrue(docxImport.getTranslateWordGraphicDescription());
+        assertTrue(docxImport.getIgnoreWordFontColors());
+        assertEquals("#000000", docxImport.getWordFontColorsMinIgnoranceThreshold());
+        assertEquals("#FFFFFF", docxImport.getWordFontColorsMaxIgnoranceThreshold());
+        assertEquals(singletonList("Heading1"), docxImport.getExcludeWordStyles());
+        assertTrue(docxImport.getTranslateWordInExcludeStyleMode());
+        assertEquals(singletonList("yellow"), docxImport.getWordHighlightColors());
+        assertFalse(docxImport.getTranslateWordInExcludeHighlightMode());
+        assertTrue(docxImport.getTranslateWordExcludeColors());
+        assertEquals(singletonList("#FF0000"), docxImport.getWordExcludedColors());
+        assertFalse(docxImport.getTranslateExcelCellsCopied());
+        assertTrue(docxImport.getTranslateExcelSheetNames());
+        assertEquals(singletonList("#00FF00"), docxImport.getExcelExcludedColors());
+        assertTrue(docxImport.getTranslateExcelDiagramData());
+        assertFalse(docxImport.getTranslateExcelDrawings());
+        assertFalse(docxImport.getCustomSegmentation());
+        assertInstanceOf(DocxFileExportOptions.class, docx.getExportOptions());
+        DocxFileExportOptions docxExport = (DocxFileExportOptions) docx.getExportOptions();
+        assertEquals("/docx/%locale%/%original_file_name%", docxExport.getExportPattern());
+        assertTrue(docxExport.getAllowWordStyleOptimization());
+        assertFalse(docxExport.getTranslateExcelExcludeColors());
+        assertEquals(4, docx.getFields().size());
+        assertEquals("some value 1", docx.getFields().get("some-field-1"));
+        assertEquals(12, docx.getFields().get("some-field-2"));
+        assertEquals(true, docx.getFields().get("some-field-3"));
+        assertEquals(Arrays.asList("en", "ja"), docx.getFields().get("some-field-4"));
+
+        File vdf = response.getData().get(7).getData();
+        assertInstanceOf(VdfFileImportOptions.class, vdf.getImportOptions());
+        assertTrue(((VdfFileImportOptions) vdf.getImportOptions()).getConvertIcu());
+        assertFalse(((VdfFileImportOptions) vdf.getImportOptions()).getAddGenderArgument());
+
+        File json = response.getData().get(8).getData();
+        assertEquals(OtherFileImportOptions.class, json.getImportOptions().getClass());
+        assertFalse(((OtherFileImportOptions) json.getImportOptions()).getContentSegmentation());
+        assertEquals(GeneralFileExportOptions.class, json.getExportOptions().getClass());
+        assertNull(json.getFields());
     }
 
     @Test

@@ -1,0 +1,33 @@
+{
+  "storageId": 61,
+  "name": "README.md",
+  "type": "md",
+  "importOptions": {
+    "excludedFrontMatterElements": [
+      "author"
+    ],
+    "excludeCodeBlocks": true,
+    "inlineTags": [
+      "kbd"
+    ],
+    "contentSegmentation": true,
+    "srxStorageId": 62
+  },
+  "exportOptions": {
+    "exportPattern": "/md/%locale%/%original_file_name%",
+    "strongMarker": "asterisk",
+    "emphasisMarker": "underscore",
+    "unorderedListBullet": "dash",
+    "tableColumnWidth": "evenly_distribute_cells",
+    "frontMatterQuotes": "auto"
+  },
+  "fields": {
+    "some-field-1": "some value 1",
+    "some-field-2": 12,
+    "some-field-3": true,
+    "some-field-4": [
+      "en",
+      "ja"
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": 15,
+    "projectId": 1,
+    "name": "cloned",
+    "title": "Cloned Branch",
+    "isProtected": true,
+    "createdAt": "2024-04-16T16:26:44+00:00",
+    "updatedAt": "2024-04-16T16:26:44+00:00"
+  }
+}

@@ -2,6 +2,8 @@ package com.crowdin.client.sourcefiles.model;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class FileInfo {
 
@@ -15,4 +17,8 @@ public class FileInfo {
     private String type;
     private String path;
     private String status;
+    /**
+     * Custom fields (Enterprise only)
+     */
+    private Map<String, Object> fields;
 }

@@ -7,10 +7,12 @@ import com.crowdin.client.core.model.JsonFileType;
 import com.crowdin.client.sourcefiles.model.ExportQuotes;
 import com.crowdin.client.webhooks.model.OrganizationEvent;
 
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class EnumSerializationTest {
 
@@ -80,6 +82,20 @@ public class EnumSerializationTest {
     }
 
     //</editor-fold>
+
+    @Test
+    @SneakyThrows
+    public void unknownEnumValueIsDeserializedAsNull() {
+        EnumHolder holder = jsonTransformer.parse("{\"type\":\"unknown_value\",\"quotes\":\"single\"}", EnumHolder.class);
+        assertNull(holder.getType());
+        assertEquals(ExportQuotes.SINGLE, holder.getQuotes());
+    }
+
+    @Data
+    public static class EnumHolder {
+        private JsonFileType type;
+        private ExportQuotes quotes;
+    }
 
     @SneakyThrows
     private <T extends Enum<T>> void serializeAndCompare(T enumValue, Object expectedEnumValue) {

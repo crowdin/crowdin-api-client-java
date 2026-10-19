@@ -4,6 +4,7 @@
     "sourceBranchId": 8,
     "targetBranchId": 14,
     "dryRun": false,
+    "acceptSourceChanges": true,
     "details": {
       "added": 1,
       "deleted": 2,

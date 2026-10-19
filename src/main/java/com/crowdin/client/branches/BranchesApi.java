@@ -86,6 +86,7 @@ public class BranchesApi extends CrowdinApi {
      * @return clone status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.clones.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<BranchCloneStatus> cloneBranch(Long projectId, Long branchId, CloneBranchRequest request) throws HttpException, HttpBadRequestException {
@@ -100,6 +101,7 @@ public class BranchesApi extends CrowdinApi {
      * @return clone status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.clones.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<BranchCloneStatus> checkCloneBranchStatus(Long projectId, Long branchId, String cloneId) throws HttpException, HttpBadRequestException {
@@ -114,6 +116,7 @@ public class BranchesApi extends CrowdinApi {
      * @return cloned branch
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.branch.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.clones.branch.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<ClonedBranch> getClonedBranch(Long projectId, Long branchId, String cloneId) throws HttpException, HttpBadRequestException {
@@ -128,6 +131,7 @@ public class BranchesApi extends CrowdinApi {
      * @return merge status
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.merges.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.merges.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<BranchMergeStatus> mergeBranch(Long projectId, Long branchId, MergeBranchRequest request) throws HttpException, HttpBadRequestException {
@@ -141,7 +145,8 @@ public class BranchesApi extends CrowdinApi {
      * @param mergeId merge identifier
      * @return merge status
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.clones.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.merges.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.merges.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<BranchMergeStatus> checkMergeBranchStatus(Long projectId, Long branchId, String mergeId) throws HttpException, HttpBadRequestException {
@@ -156,6 +161,7 @@ public class BranchesApi extends CrowdinApi {
      * @return merge summary
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/string-based/#operation/api.projects.branches.merges.summary.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/string-based/#operation/api.projects.branches.merges.summary.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<BranchMergeSummary> getMergeBranchSummary(Long projectId, Long branchId, String mergeId) throws HttpException, HttpBadRequestException {

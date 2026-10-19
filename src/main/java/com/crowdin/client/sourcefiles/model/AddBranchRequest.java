@@ -10,4 +10,8 @@ public class AddBranchRequest {
     private String title;
     private String exportPattern;
     private Priority priority;
+    /**
+     * String-based projects only
+     */
+    private Boolean isProtected;
 }
