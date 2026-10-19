@@ -33,6 +33,9 @@ public class JacksonJsonTransformer implements JsonTransformer {
         SimpleModule enumModule = new SimpleModule()
             .addDeserializer(Enum.class, new EnumDeserializer());
 
+        ObjectMapper fileOptionsObjectMapper = cleanObjectMapper.copy()
+            .registerModule(enumModule);
+
         SimpleModule module = new SimpleModule()
             .addDeserializer(Date.class, new DateDeserializer())
             .addSerializer(Enum.class, new EnumSerializer())
@@ -43,8 +46,8 @@ public class JacksonJsonTransformer implements JsonTransformer {
             .addDeserializer(FileInfo.class, new FileInfoDeserializer(cleanObjectMapper.copy()
                 .registerModule(enumModule)
                 .registerModule(new SimpleModule()
-                    .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(cleanObjectMapper))
-                    .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(cleanObjectMapper)))))
+                    .addDeserializer(ImportOptions.class, new FileImportOptionsDeserializer(fileOptionsObjectMapper))
+                    .addDeserializer(ExportOptions.class, new FileExportOptionsDeserializer(fileOptionsObjectMapper)))))
             .addDeserializer(LanguageTranslations.class, new LanguageTranslationsDeserializer(cleanObjectMapper))
             .addDeserializer(FileFormatSettingsResource.class, new FileFormatSettingsDeserializer(cleanObjectMapper))
             .addDeserializer(StringsExporterSettingsResource.class, new StringsExporterSettingsDeserializer(cleanObjectMapper));

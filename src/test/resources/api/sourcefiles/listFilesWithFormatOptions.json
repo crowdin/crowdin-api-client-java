@@ -1,0 +1,300 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 101,
+        "projectId": 7,
+        "name": "index.html",
+        "type": "html",
+        "path": "/index.html",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": true,
+          "customSegmentation": false,
+          "excludedElements": [
+            "section p"
+          ],
+          "inlineTags": [
+            "span"
+          ],
+          "hideAttributeValues": true
+        },
+        "exportOptions": {
+          "exportPattern": "/html/%locale%/%original_file_name%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 102,
+        "projectId": 7,
+        "name": "page.html",
+        "type": "fm_html",
+        "path": "/page.html",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": false,
+          "customSegmentation": false,
+          "excludedElements": [
+            "pre"
+          ],
+          "excludedFrontMatterElements": [
+            "title"
+          ],
+          "inlineTags": [
+            "b"
+          ],
+          "hideAttributeValues": false
+        },
+        "exportOptions": {
+          "exportPattern": "/fm/%locale%/%original_file_name%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 103,
+        "projectId": 7,
+        "name": "README.md",
+        "type": "md",
+        "path": "/README.md",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": true,
+          "customSegmentation": false,
+          "excludeCodeBlocks": true,
+          "excludedFrontMatterElements": [
+            "author"
+          ],
+          "inlineTags": [
+            "kbd"
+          ]
+        },
+        "exportOptions": {
+          "exportPattern": "/md/%locale%/%original_file_name%",
+          "strongMarker": "asterisk",
+          "emphasisMarker": "underscore",
+          "unorderedListBullet": "dash",
+          "tableColumnWidth": "consolidate",
+          "frontMatterQuotes": "double"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 104,
+        "projectId": 7,
+        "name": "intro.mdx",
+        "type": "mdx_v1",
+        "path": "/intro.mdx",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": false,
+          "customSegmentation": false,
+          "excludeCodeBlocks": false,
+          "excludedFrontMatterElements": [
+            "slug"
+          ]
+        },
+        "exportOptions": {
+          "exportPattern": "/mdx1/%locale%/%original_file_name%",
+          "strongMarker": "underscore",
+          "emphasisMarker": "asterisk",
+          "unorderedListBullet": "plus",
+          "tableColumnWidth": "evenly_distribute_cells"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 105,
+        "projectId": 7,
+        "name": "guide.mdx",
+        "type": "mdx_v2",
+        "path": "/guide.mdx",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": true,
+          "customSegmentation": false,
+          "excludeCodeBlocks": true,
+          "excludedFrontMatterElements": [
+            "id"
+          ]
+        },
+        "exportOptions": {
+          "exportPattern": "/mdx2/%locale%/%original_file_name%",
+          "strongMarker": "asterisk",
+          "emphasisMarker": "underscore",
+          "unorderedListBullet": "asterisks",
+          "tableColumnWidth": "consolidate"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 106,
+        "projectId": 7,
+        "name": "web.xml",
+        "type": "webxml",
+        "path": "/web.xml",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": false,
+          "customSegmentation": false,
+          "inlineTags": [
+            "i"
+          ],
+          "hideAttributeValues": true
+        },
+        "exportOptions": {
+          "exportPattern": "/webxml/%locale%/%original_file_name%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 107,
+        "projectId": 7,
+        "name": "manual.docx",
+        "type": "docx",
+        "path": "/manual.docx",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "high",
+        "importOptions": {
+          "cleanTagsAggressively": true,
+          "translateHiddenText": false,
+          "translateHyperlinkUrls": false,
+          "translateHiddenRowsAndColumns": false,
+          "importNotes": true,
+          "importHiddenSlides": false,
+          "contentSegmentation": true,
+          "customSegmentation": false,
+          "translateDocProperties": true,
+          "translateComments": false,
+          "ignoreWhitespaceStyles": true,
+          "addTabAsCharacter": true,
+          "addLineSeparatorAsCharacter": true,
+          "lineSeparatorReplacement": "|",
+          "replaceNoBreakHyphenTag": true,
+          "ignoreSoftHyphenTag": false,
+          "complexFieldDefinitionsToExtract": [
+            "HYPERLINK",
+            "FORMTEXT"
+          ],
+          "translateWordHeadersFooters": true,
+          "translateWordGraphicName": false,
+          "translateWordGraphicDescription": true,
+          "ignoreWordFontColors": true,
+          "wordFontColorsMinIgnoranceThreshold": "#000000",
+          "wordFontColorsMaxIgnoranceThreshold": "#FFFFFF",
+          "excludeWordStyles": [
+            "Heading1"
+          ],
+          "translateWordInExcludeStyleMode": true,
+          "wordHighlightColors": [
+            "yellow"
+          ],
+          "translateWordInExcludeHighlightMode": false,
+          "translateWordExcludeColors": true,
+          "wordExcludedColors": [
+            "#FF0000"
+          ],
+          "translateExcelCellsCopied": false,
+          "translateExcelSheetNames": true,
+          "excelExcludedColors": [
+            "#00FF00"
+          ],
+          "translateExcelDiagramData": true,
+          "translateExcelDrawings": false
+        },
+        "exportOptions": {
+          "exportPattern": "/docx/%locale%/%original_file_name%",
+          "allowWordStyleOptimization": true,
+          "translateExcelExcludeColors": false
+        },
+        "fields": {
+          "some-field-1": "some value 1",
+          "some-field-2": 12,
+          "some-field-3": true,
+          "some-field-4": [
+            "en",
+            "ja"
+          ]
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 108,
+        "projectId": 7,
+        "name": "strings.vdf",
+        "type": "vdf",
+        "path": "/strings.vdf",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "convertIcu": true,
+          "addGenderArgument": false
+        },
+        "exportOptions": {
+          "exportPattern": "/vdf/%locale%/%original_file_name%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 109,
+        "projectId": 7,
+        "name": "strings.json",
+        "type": "json",
+        "path": "/strings.json",
+        "status": "active",
+        "revisionId": 1,
+        "priority": "normal",
+        "importOptions": {
+          "contentSegmentation": false,
+          "customSegmentation": false
+        },
+        "exportOptions": {
+          "exportPattern": "/json/%locale%/%original_file_name%"
+        },
+        "createdAt": "2019-09-19T15:10:43+00:00",
+        "updatedAt": "2019-09-19T15:10:46+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

@@ -11,6 +11,7 @@ public class ClonedBranch {
     private Long projectId;
     private String name;
     private String title;
+    private Boolean isProtected;
     private Date createdAt;
     private Date updatedAt;
 }

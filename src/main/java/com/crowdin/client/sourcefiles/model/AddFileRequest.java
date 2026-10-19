@@ -3,6 +3,7 @@ package com.crowdin.client.sourcefiles.model;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class AddFileRequest {
@@ -19,4 +20,8 @@ public class AddFileRequest {
     private ExportOptions exportOptions;
     private List<String> excludedTargetLanguages;
     private List<Long> attachLabelIds;
+    /**
+     * Custom fields (Enterprise only)
+     */
+    private Map<String, Object> fields;
 }

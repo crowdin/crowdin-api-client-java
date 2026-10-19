@@ -1,4 +1,5 @@
 {
   "name": "cloned",
-  "title": "Cloned Branch"
+  "title": "Cloned Branch",
+  "isProtected": true
 }

@@ -11,5 +11,6 @@ public class BranchMergeSummary {
     private Long sourceBranchId;
     private Long targetBranchId;
     private Boolean dryRun;
+    private Boolean acceptSourceChanges;
     private Map<String, Long> details;
 }

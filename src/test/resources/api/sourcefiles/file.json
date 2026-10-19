@@ -25,6 +25,10 @@
     "exportOptions": {
       "exportPattern": "/localization/%locale%/%file_name%.%file_extension%"
     },
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-2": 12
+    },
     "excludedTargetLanguages": [
       "en",
       "es",

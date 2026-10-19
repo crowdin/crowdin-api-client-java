@@ -1,0 +1,19 @@
+package com.crowdin.client.sourcefiles.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+/**
+ * Export options for MDX v1 files. {@code exportPattern} is inherited from {@link GeneralFileExportOptions}.
+ */
+@Data
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class MdxV1FileExportOptions extends GeneralFileExportOptions {
+
+    private MdMarker strongMarker;
+    private MdMarker emphasisMarker;
+    private MdUnorderedListBullet unorderedListBullet;
+    private MdTableColumnWidth tableColumnWidth;
+}

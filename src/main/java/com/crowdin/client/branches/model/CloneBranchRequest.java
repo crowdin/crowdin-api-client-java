@@ -7,4 +7,5 @@ public class CloneBranchRequest {
 
     private String name;
     private String title;
+    private Boolean isProtected;
 }

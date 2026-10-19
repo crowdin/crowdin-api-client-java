@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class BranchesApiTest extends TestClient {
@@ -36,6 +37,7 @@ class BranchesApiTest extends TestClient {
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/jobs/" + deleteJobIdentifier, HttpGet.METHOD_NAME, "api/branches/deleteJobStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/clones", HttpPost.METHOD_NAME, "api/branches/cloneBranchRequest.json", "api/branches/branchCloneStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/clones/" + cloneId, HttpGet.METHOD_NAME, "api/branches/branchCloneStatus.json"),
+            RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/clones/" + cloneId + "/branch", HttpGet.METHOD_NAME, "api/branches/clonedBranch.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/merges", HttpPost.METHOD_NAME, "api/branches/mergeBranchRequest.json", "api/branches/branchMergeStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/merges/" + mergeId, HttpGet.METHOD_NAME, "api/branches/branchMergeStatus.json"),
             RequestMock.build(this.url + "/projects/" + projectId + "/branches/" + id + "/merges/" + mergeId + "/summary", HttpGet.METHOD_NAME, "api/branches/branchMergeSummary.json")
@@ -47,6 +49,7 @@ class BranchesApiTest extends TestClient {
         CloneBranchRequest request = new CloneBranchRequest();
         request.setName(name);
         request.setTitle(title);
+        request.setIsProtected(true);
 
         ResponseObject<BranchCloneStatus> response = this.getBranchesApi().cloneBranch(projectId, id, request);
         assertEquals(response.getData().getIdentifier(), cloneId);
@@ -56,6 +59,15 @@ class BranchesApiTest extends TestClient {
     public void checkCloneBranchStatusTest() {
         ResponseObject<BranchCloneStatus> response = this.getBranchesApi().checkCloneBranchStatus(projectId, id, cloneId);
         assertEquals(response.getData().getIdentifier(), cloneId);
+    }
+
+    @Test
+    public void getClonedBranchTest() {
+        ResponseObject<ClonedBranch> response = this.getBranchesApi().getClonedBranch(projectId, id, cloneId);
+        assertEquals(Long.valueOf(15L), response.getData().getId());
+        assertEquals(name, response.getData().getName());
+        assertEquals(title, response.getData().getTitle());
+        assertTrue(response.getData().getIsProtected());
     }
 
     @Test
@@ -95,6 +107,7 @@ class BranchesApiTest extends TestClient {
     public void checkMergeBranchStatusTest() {
         ResponseObject<BranchMergeStatus> response = this.getBranchesApi().checkMergeBranchStatus(projectId, id, mergeId);
         assertEquals(response.getData().getIdentifier(), mergeId);
+        assertFalse(response.getData().getAttributes().getDryRun());
     }
 
     @Test
@@ -102,5 +115,6 @@ class BranchesApiTest extends TestClient {
         ResponseObject<BranchMergeSummary> response = this.getBranchesApi().getMergeBranchSummary(projectId, id, mergeId);
         assertEquals(response.getData().getTargetBranchId(), id);
         assertEquals(response.getData().getSourceBranchId(), sourceBranchId);
+        assertTrue(response.getData().getAcceptSourceChanges());
     }
 }
