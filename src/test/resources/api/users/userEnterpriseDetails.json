@@ -1,0 +1,40 @@
+{
+  "data": {
+    "id": 1,
+    "username": "john_smith",
+    "firstName": "John",
+    "lastName": "Smith",
+    "avatarUrl": "",
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-2": 12
+    },
+    "isAdmin": true,
+    "status": "active",
+    "createdAt": "2023-09-20T11:34:40+00:00",
+    "lastSeen": "2023-09-20T11:34:40+00:00",
+    "email": "john@example.com",
+    "emailVerified": true,
+    "twoFactor": "enabled",
+    "timezone": "Europe/Kyiv",
+    "joinDetails": {
+      "type": "invite",
+      "invitedBy": {
+        "id": 2,
+        "username": "jane_doe",
+        "fullName": "Jane Doe",
+        "avatarUrl": "https://example.com/avatar.png"
+      }
+    },
+    "deviceVerification": "enabled",
+    "trustedDevicesCount": 2,
+    "apiTokensCount": 3,
+    "loginMethods": [
+      "password",
+      "google"
+    ],
+    "mfaMethods": [
+      "totp"
+    ]
+  }
+}

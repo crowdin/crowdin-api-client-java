@@ -17,6 +17,10 @@ public class ProjectMember {
     private String avatarUrl;
     private boolean isManager;
     private boolean isDeveloper;
+    /**
+     * Enterprise only
+     */
+    private Boolean isAdmin;
     private ManagerOfGroup managerOfGroup;
     /**
      * @deprecated
@@ -27,6 +31,10 @@ public class ProjectMember {
      */
     private Map<String, LanguagePermission> permissions;
     private List<TranslatorRole> roles;
+    /**
+     * @deprecated deprecated in the API, use {@link #roles} instead
+     */
+    @Deprecated
     private String role;
     private String timezone;
     private Date joinedAt;

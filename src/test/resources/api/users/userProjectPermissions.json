@@ -1,0 +1,67 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 8,
+        "roles": [
+          {
+            "name": "translator",
+            "permissions": {
+              "allLanguages": false,
+              "languagesAccess": {
+                "it": {
+                  "allContent": false,
+                  "workflowStepIds": [
+                    882
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "project": {
+          "id": 8,
+          "groupId": 4,
+          "type": 0,
+          "userId": 6,
+          "sourceLanguageId": "en",
+          "targetLanguageIds": [
+            "it"
+          ],
+          "name": "Knowledge Base",
+          "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+          "description": "Vault of all terms and their explanation",
+          "logo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8",
+          "isExternal": false,
+          "externalType": null,
+          "workflowId": 3,
+          "hasCrowdsourcing": false,
+          "publicDownloads": true,
+          "createdAt": "2023-09-20T11:34:40+00:00",
+          "updatedAt": "2023-09-20T11:34:40+00:00",
+          "lastActivity": "2023-09-20T11:34:40+00:00",
+          "webUrl": "https://example.crowdin.com/u/projects/8",
+          "publicUrl": null,
+          "savingsReportSettingsTemplateId": 1,
+          "fields": {
+            "some-field-1": "some value 1"
+          }
+        },
+        "teams": [
+          {
+            "id": 2,
+            "name": "Translators Team",
+            "totalMembers": 8,
+            "webUrl": "https://example.crowdin.com/u/teams/2",
+            "createdAt": "2023-09-23T09:04:29+00:00",
+            "updatedAt": "2023-09-23T09:04:29+00:00"
+          }
+        ]
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

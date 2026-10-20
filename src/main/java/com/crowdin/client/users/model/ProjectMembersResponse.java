@@ -9,6 +9,7 @@ import java.util.List;
 public class ProjectMembersResponse {
 
     private List<ProjectMemberResponseObject> skipped;
+    private List<ProjectMemberResponseObject> updated;
     private List<ProjectMemberResponseObject> added;
     private Pagination pagination;
 }

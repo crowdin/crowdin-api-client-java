@@ -1,0 +1,59 @@
+{
+  "skipped": [
+    {
+      "data": {
+        "id": 2,
+        "username": "jane_doe",
+        "fullName": "Jane Doe",
+        "role": "translator",
+        "permissions": {
+          "uk": "translator",
+          "it": "proofreader",
+          "en": "denied"
+        },
+        "roles": [
+          {
+            "name": "translator",
+            "permissions": {
+              "allLanguages": true,
+              "languagesAccess": []
+            }
+          }
+        ],
+        "avatarUrl": "",
+        "joinedAt": "2023-09-20T11:34:40+00:00",
+        "timezone": "Europe/Kyiv"
+      }
+    }
+  ],
+  "updated": [
+    {
+      "data": {
+        "id": 3,
+        "username": "bob",
+        "fullName": "Bob",
+        "permissions": {
+          "uk": "proofreader"
+        },
+        "roles": []
+      }
+    }
+  ],
+  "added": [
+    {
+      "data": {
+        "id": 1,
+        "username": "john_smith",
+        "fullName": "John Smith",
+        "roles": [],
+        "avatarUrl": "",
+        "joinedAt": "2023-09-20T11:34:40+00:00",
+        "timezone": "Europe/Kyiv"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

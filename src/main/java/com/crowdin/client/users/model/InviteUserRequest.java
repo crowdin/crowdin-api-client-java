@@ -9,4 +9,5 @@ public class InviteUserRequest {
     private String firstName;
     private String lastName;
     private String timezone;
+    private Boolean adminAccess;
 }

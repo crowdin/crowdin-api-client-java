@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 1,
+        "name": "French",
+        "hasManagerAccess": false,
+        "hasDeveloperAccess": true,
+        "hasAccessToAllWorkflowSteps": false,
+        "permissions": {
+          "it": {
+            "workflowStepIds": [
+              313
+            ]
+          }
+        },
+        "roles": [
+          {
+            "name": "translator",
+            "permissions": {
+              "allLanguages": false,
+              "languagesAccess": {
+                "it": {
+                  "allContent": true
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

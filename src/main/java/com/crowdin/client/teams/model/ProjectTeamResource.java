@@ -9,6 +9,7 @@ import java.util.List;
 public class ProjectTeamResource {
 
     private Long id;
+    private String name;
     private boolean hasManagerAccess;
     private boolean hasDeveloperAccess;
     /**

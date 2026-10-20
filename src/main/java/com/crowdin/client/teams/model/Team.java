@@ -10,6 +10,7 @@ public class Team {
     private Long id;
     private String name;
     private Integer totalMembers;
+    private String webUrl;
     private Date createdAt;
     private Date updatedAt;
 }
