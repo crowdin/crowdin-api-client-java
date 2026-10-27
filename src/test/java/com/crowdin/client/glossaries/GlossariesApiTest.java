@@ -341,6 +341,19 @@ public class GlossariesApiTest extends TestClient {
     }
 
     @Test
+    public void exportGlossaryRequestDeprecatedSetterMapsOtherPartOfSpeechToXTest() {
+        ExportGlossaryRequest request = new ExportGlossaryRequest();
+        request.setPartsOfSpeech(singletonList(PartOfSpeech.OTHER));
+
+        assertEquals(singletonList(ExportPartOfSpeech.X), request.getTermPartsOfSpeech());
+        assertEquals("{\"partsOfSpeech\":[\"X\"]}", new JacksonJsonTransformer().convert(request));
+        assertEquals(singletonList(PartOfSpeech.OTHER), request.getPartsOfSpeech());
+
+        request.setPartsOfSpeech(Arrays.asList(PartOfSpeech.NOUN, PartOfSpeech.OTHER));
+        assertEquals("{\"partsOfSpeech\":[\"NOUN\",\"X\"]}", new JacksonJsonTransformer().convert(request));
+    }
+
+    @Test
     public void exportGlossaryRequestDeprecatedSettersConversionTest() {
         ExportGlossaryRequest request = new ExportGlossaryRequest();
         request.setStatuses(Arrays.asList(Status.values()));

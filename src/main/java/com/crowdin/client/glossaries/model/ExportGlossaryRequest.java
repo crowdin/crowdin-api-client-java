@@ -125,6 +125,10 @@ public class ExportGlossaryRequest {
      * auxiliary &rarr; AUX, coordinating conjunction &rarr; CCONJ, determiner &rarr; DET, interjection &rarr; INTJ,
      * noun &rarr; NOUN, numeral &rarr; NUM, particle &rarr; PRT, pronoun &rarr; PRON, proper noun &rarr; PROPN,
      * subordinating conjunction &rarr; SCONJ, verb &rarr; VERB, other &rarr; X.
+     * <p>
+     * The mapping follows the published API values (glossary terms use {@code other}, glossary export uses {@code X})
+     * and the Universal Dependencies semantics, where {@code X} means "other". It has not been confirmed by a live
+     * Crowdin API test.
      *
      * @param partsOfSpeech term parts of speech
      * @deprecated use {@link #termPartsOfSpeech}
@@ -274,6 +278,7 @@ public class ExportGlossaryRequest {
             case VERB:
                 return ExportPartOfSpeech.VERB;
             case OTHER:
+                // Universal Dependencies "X" = other; not confirmed by a live Crowdin API test
                 return ExportPartOfSpeech.X;
             default:
                 return null;
