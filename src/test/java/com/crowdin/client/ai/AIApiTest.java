@@ -76,6 +76,24 @@ public class AIApiTest extends TestClient {
     private static final String AI_FILE_TRANSLATION_STRINGS = "%s/users/%d/ai/file-translations/%s/translations";
     private static final String AI_GATEWAY = "%s/users/%d/ai/providers/%d/gateway/chat/completions";
     private static final String gatewayPath = "chat/completions";
+    private static final String AI_GATEWAY_RAW = "%s/users/%d/ai/providers/%d/gateway/messages";
+    private static final String rawGatewayPath = "messages";
+    private static final String AI_SNIPPETS = "%s/users/%d/ai/settings/snippets";
+    private static final String AI_SNIPPET = "%s/users/%d/ai/settings/snippets/%d";
+    private static final String ENTERPRISE_AI_SNIPPETS = "%s/ai/settings/snippets";
+    private static final String AI_REQUEST_LOG_EXPORTS = "%s/users/%d/ai/request-logs/exports";
+    private static final String AI_REQUEST_LOG_EXPORT = "%s/users/%d/ai/request-logs/exports/%s";
+    private static final String AI_REQUEST_LOG_EXPORT_DOWNLOAD = "%s/users/%d/ai/request-logs/exports/%s/download";
+    private static final String AI_USAGE_MEMBERS = "%s/users/%d/ai/usage/members";
+    private static final String AI_USAGE_MEMBER = "%s/users/%d/ai/usage/members/%d";
+    private static final String ENTERPRISE_AI_USAGE_MEMBER = "%s/ai/usage/members/%d";
+    private static final String LIST_ALL_AI_MODELS = "%s/users/%d/ai/providers/models";
+    private static final String ENTERPRISE_LIST_ALL_AI_MODELS = "%s/ai/providers/models";
+    private static final String PROJECT_AI_SETTINGS = "%s/projects/%d/ai/settings";
+    private static final long aiSnippetId = 2L;
+    private static final long memberId = 12L;
+    private static final long projectId = 1L;
+    private static final String exportId = "50fb3506-4127-4ba8-8296-f97dc7e3e0c3";
 
     @Override
     public List<RequestMock> getMocks() {
@@ -129,7 +147,30 @@ public class AIApiTest extends TestClient {
             RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPost.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json"),
             RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPut.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json"),
             RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpDelete.METHOD_NAME),
-            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPatch.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json")
+            RequestMock.build(String.format(AI_GATEWAY, this.url, userId, 1), HttpPatch.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY_RAW, this.url, userId, 1), HttpGet.METHOD_NAME, "api/ai/aiGatewayRawResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY_RAW, this.url, userId, 1), HttpPost.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayRawResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY_RAW, this.url, userId, 1), HttpPut.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayRawResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY_RAW, this.url, userId, 1), HttpPatch.METHOD_NAME, "api/ai/aiGatewayRequest.json", "api/ai/aiGatewayRawResponse.json"),
+            RequestMock.build(String.format(AI_GATEWAY_RAW, this.url, userId, 1), HttpDelete.METHOD_NAME, "api/ai/aiGatewayRawResponse.json"),
+            RequestMock.build(String.format(AI_SNIPPETS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listCustomPlaceholdersResponse.json", snippetQueryParams()),
+            RequestMock.build(String.format(ENTERPRISE_AI_SNIPPETS, this.url), HttpGet.METHOD_NAME, "api/ai/listCustomPlaceholdersResponse.json"),
+            RequestMock.build(String.format(AI_SNIPPETS, this.url, userId), HttpPost.METHOD_NAME, "api/ai/addCustomPlaceholderRequest.json", "api/ai/customPlaceholdersResponse.json"),
+            RequestMock.build(String.format(AI_SNIPPET, this.url, userId, aiSnippetId), HttpGet.METHOD_NAME, "api/ai/customPlaceholdersResponse.json"),
+            RequestMock.build(String.format(AI_SNIPPET, this.url, userId, aiSnippetId), HttpDelete.METHOD_NAME),
+            RequestMock.build(String.format(AI_SNIPPET, this.url, userId, aiSnippetId), HttpPatch.METHOD_NAME, "api/ai/editCustomPlaceholderRequest.json", "api/ai/customPlaceholdersResponse.json"),
+            RequestMock.build(String.format(AI_REQUEST_LOG_EXPORTS, this.url, userId), HttpPost.METHOD_NAME, "api/ai/exportAiRequestLogsRequest.json", "api/ai/aiRequestLogExportResponse.json"),
+            RequestMock.build(String.format(AI_REQUEST_LOG_EXPORT, this.url, userId, exportId), HttpGet.METHOD_NAME, "api/ai/aiRequestLogExportResponse.json"),
+            RequestMock.build(String.format(AI_REQUEST_LOG_EXPORT_DOWNLOAD, this.url, userId, exportId), HttpGet.METHOD_NAME, "api/ai/downloadAiReportResponse.json"),
+            RequestMock.build(String.format(AI_USAGE_MEMBERS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listAiUsageMembersResponse.json", usageMembersQueryParams()),
+            RequestMock.build(String.format(AI_USAGE_MEMBER, this.url, userId, memberId), HttpGet.METHOD_NAME, "api/ai/aiUsageMemberResponse.json"),
+            RequestMock.build(String.format(ENTERPRISE_AI_USAGE_MEMBER, this.url, memberId), HttpGet.METHOD_NAME, "api/ai/aiUsageMemberResponse.json"),
+            RequestMock.build(String.format(LIST_ALL_AI_MODELS, this.url, userId), HttpGet.METHOD_NAME, "api/ai/listAllAiProviderModelsResponse.json"),
+            RequestMock.build(String.format(ENTERPRISE_LIST_ALL_AI_MODELS, this.url), HttpGet.METHOD_NAME, "api/ai/listAllAiProviderModelsResponse.json"),
+            RequestMock.build(String.format(PROJECT_AI_SETTINGS, this.url, projectId), HttpGet.METHOD_NAME, "api/ai/projectAiSettingsResponse.json"),
+            RequestMock.build(String.format(AI_PROMPT_COMPLETIONS, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/promptCompletionToolsRequest.json", "api/ai/promptCompletionResponse.json"),
+            RequestMock.build(String.format(CREATE_FINE_TUNING_JOB_PATH, this.url, userId, aiPromptId), HttpPost.METHOD_NAME, "api/ai/fineTuningJobFractionalRequest.json", "api/ai/fineTuningJobResponse.json"),
+            RequestMock.build(String.format(LIST_AI_PROVIDERS, this.url, userId), HttpPost.METHOD_NAME, "api/ai/addAiProviderCredentialsRequest.json", "api/ai/aiProviderCredentialsResponse.json")
         );
     }
 
@@ -197,6 +238,7 @@ public class AIApiTest extends TestClient {
         assertEquals(data.getCreatedAt(), dateCreated);
         assertEquals(data.getStartedAt(), dateCreated);
         assertEquals(data.getUpdatedAt(), dateCreated);
+        assertEquals(data.getFinishedAt(), dateCreated);
     }
 
     @Test
@@ -260,6 +302,8 @@ public class AIApiTest extends TestClient {
         assertEquals(responseObject.getData().getIdentifier(), jobIdentifier);
         assertEquals(responseObject.getData().getStatus(), status);
         assertEquals(responseObject.getData().getProgress(), progress);
+        assertEquals(1.8, responseObject.getData().getAttributes().getHyperparameters().getLearningRateMultiplierValue());
+        assertEquals(1L, responseObject.getData().getAttributes().getHyperparameters().getLearningRateMultiplier());
         assertEquals(responseObject.getData().getFinishedAt(), dateCreated);
         assertEquals(responseObject.getData().getCreatedAt(), dateCreated);
         assertEquals(responseObject.getData().getStartedAt(), dateCreated);
@@ -304,6 +348,7 @@ public class AIApiTest extends TestClient {
         schema.setProjectIds(Collections.singletonList(0L));
         schema.setPromptIds(Collections.singletonList(0L));
         schema.setUserIds(Collections.singletonList(userId));
+        schema.setLanguageIds(Collections.singletonList("uk"));
 
         GenerateAiReportRequest request = new GenerateAiReportRequest();
         request.setType("tokens-usage-raw-data");
@@ -378,6 +423,23 @@ public class AIApiTest extends TestClient {
         assertNotNull(aiSetting);
         assertEquals(aiSetting.getEditorSuggestionAiPromptId(), 5);
         assertEquals(aiSetting.getShortcuts().size(), 1);
+        assertEquals(2L, aiSetting.getPreTranslationAiPromptId());
+        assertEquals(8L, aiSetting.getQaCheckActionAiPromptId());
+        assertEquals(11L, aiSetting.getContextReviewAiPromptId());
+        assertEquals(3L, aiSetting.getAlignmentActionAiPromptId());
+        assertEquals(100.0, aiSetting.getDailyCostLimit());
+        assertEquals(2000.5, aiSetting.getMonthlyCostLimit());
+        assertEquals(10.0, aiSetting.getUserDailyCostLimit());
+        assertNull(aiSetting.getUserMonthlyCostLimit());
+        assertTrue(aiSetting.getIsLimitingActive());
+        assertEquals(1, aiSetting.getPerUserOverrides().size());
+        AiSetting.PerUserOverride override = aiSetting.getPerUserOverrides().get(0);
+        assertEquals(123L, override.getUserId());
+        assertEquals(AiCostLimitMode.CUSTOM, override.getCostLimitMode());
+        assertEquals(5.0, override.getDailyCostLimit());
+        assertEquals(100.0, override.getMonthlyCostLimit());
+        assertNotNull(override.getCreatedAt());
+        assertNotNull(override.getUpdatedAt());
     }
 
     @Test
@@ -529,8 +591,311 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void getAiPromptCompletionStatusTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> response = this.getAiApi().getPromptCompletionStatus(userId, aiPromptId, completionId);
         assertEquals(response.getData().getIdentifier(), completionId);
+        assertEquals(new Date(year, month, date, hour, minutes, seconds), response.getData().getFinishedAt());
+        assertEquals("1 second", response.getData().getEta());
+    }
+
+    @Test
+    public void generateAiPromptCompletionWithToolsTest() {
+        AiPromptCompletionRequest.AiPromptResource resource = new AiPromptCompletionRequest.AiPromptResource();
+        resource.setProjectId(123L);
+        resource.setTargetLanguageId("uk");
+        resource.setStringIds(Collections.singletonList(1L));
+
+        AiPromptCompletionRequest.ToolFunction function = new AiPromptCompletionRequest.ToolFunction();
+        function.setName("get_glossary");
+        function.setDescription("Returns glossary terms");
+        function.setParameters(Collections.singletonMap("type", "object"));
+        AiPromptCompletionRequest.Tool tool = new AiPromptCompletionRequest.Tool();
+        tool.setType("function");
+        tool.setFunction(function);
+        AiPromptCompletionRequest.AiTool aiTool = new AiPromptCompletionRequest.AiTool();
+        aiTool.setTool(tool);
+
+        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
+        request.setResources(resource);
+        request.setAiTools(Collections.singletonList(aiTool));
+        request.setToolChoice("auto");
+
+        ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> response = this.getAiApi().generatePromptCompletion(userId, aiPromptId, request);
+        assertEquals(completionId, response.getData().getIdentifier());
+    }
+
+    @Test
+    public void promptCompletionRequestWireFormatTest() throws Exception {
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.crowdin.client.core.http.impl.json.JacksonJsonTransformer().getObjectMapper();
+
+        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
+        Map<String, Object> choice = new HashMap<>();
+        choice.put("type", "function");
+        request.setTool_choice(choice);
+        request.setTools(Collections.singletonMap("ignored", "value"));
+
+        com.fasterxml.jackson.databind.JsonNode json = mapper.readTree(mapper.writeValueAsString(request));
+        assertEquals("function", json.get("tool_choice").get("type").asText());
+        assertFalse(json.has("tools"));
+        assertEquals(choice, request.getToolChoice());
+        assertEquals(choice, request.getTool_choice());
+
+        request.setToolChoice("none");
+        json = mapper.readTree(mapper.writeValueAsString(request));
+        assertEquals("none", json.get("tool_choice").asText());
+        assertNull(request.getTool_choice());
+
+        AiPromptCompletionRequest parsed = mapper.readValue(
+                "{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"f\"}}}],\"tool_choice\":\"auto\"}",
+                AiPromptCompletionRequest.class);
+        assertEquals("f", parsed.getAiTools().get(0).getTool().getFunction().getName());
+        assertEquals("auto", parsed.getToolChoice());
+        assertNull(parsed.getTools());
+    }
+
+    @Test
+    public void createFineTuningJobWithFractionalLearningRateTest() {
+        final Hyperparameters hyperparameters = new Hyperparameters();
+        hyperparameters.setBatchSize(4L);
+        hyperparameters.setNEpochs(3L);
+        hyperparameters.setLearningRateMultiplierValue(0.5);
+        assertEquals(0L, hyperparameters.getLearningRateMultiplier());
+
+        final FineTuningJobRequest request = new FineTuningJobRequest();
+        request.setDryRun(true);
+        request.setHyperparameters(hyperparameters);
+
+        final ResponseObject<FineTuningJob> responseObject = this.getAiApi().createFineTuningJob(userId, aiPromptId, request);
+        assertEquals(jobIdentifier, responseObject.getData().getIdentifier());
+    }
+
+    @Test
+    public void listAiSnippetsTest() {
+        ResponseList<CustomPlaceholder> response = this.getAiApi().listAiSnippets(userId, limit, offset);
+        assertEquals(1, response.getData().size());
+        assertEquals(aiSnippetId, response.getData().get(0).getData().getId());
+        assertEquals("%custom:productDescription%", response.getData().get(0).getData().getPlaceholder());
+        assertEquals(limit, response.getPagination().getLimit());
+    }
+
+    @Test
+    public void listEnterpriseAiSnippetsTest() {
+        ResponseList<CustomPlaceholder> response = this.getAiApi().listAiSnippets(null, null, null);
+        assertEquals(1, response.getData().size());
+    }
+
+    @Test
+    public void addAiSnippetTest() {
+        CustomPlaceholderRequest request = new CustomPlaceholderRequest();
+        request.setDescription("Product description");
+        request.setPlaceholder("%custom:productDescription%");
+        request.setValue("The product is the professional consulting service that transform challenges into opportunities.");
+        ResponseObject<CustomPlaceholder> response = this.getAiApi().addAiSnippet(userId, request);
+        assertEquals(aiSnippetId, response.getData().getId());
+        assertEquals("Product description", response.getData().getDescription());
+    }
+
+    @Test
+    public void getAiSnippetTest() {
+        ResponseObject<CustomPlaceholder> response = this.getAiApi().getAiSnippet(userId, aiSnippetId);
+        assertEquals(aiSnippetId, response.getData().getId());
+        assertNotNull(response.getData().getCreatedAt());
+    }
+
+    @Test
+    public void deleteAiSnippetTest() {
+        this.getAiApi().deleteAiSnippet(userId, aiSnippetId);
+    }
+
+    @Test
+    public void editAiSnippetTest() {
+        PatchRequest patchRequest = new PatchRequest();
+        patchRequest.setOp(PatchOperation.REPLACE);
+        patchRequest.setPath("/description");
+        ResponseObject<CustomPlaceholder> response = this.getAiApi().editAiSnippet(userId, aiSnippetId, Collections.singletonList(patchRequest));
+        assertEquals(aiSnippetId, response.getData().getId());
+    }
+
+    @Test
+    public void exportAiRequestLogsTest() {
+        TimeZone.setDefault(tz);
+        AiRequestLogExportRequest request = new AiRequestLogExportRequest();
+        request.setFormat(AiRequestLogExportFormat.CSV);
+        request.setRequestId("9d3b1c4e-2f3a-4b5c-8d6e-7f8a9b0c1d2e");
+        request.setProjectId(8L);
+        request.setUserId(42L);
+        request.setAiProviderId(3L);
+        request.setModel("gpt-5.6-sol");
+        request.setSourceAction(AiRequestSourceAction.PRE_TRANSLATE_MANUAL);
+        request.setPromptAction("qa_check");
+        request.setStatuses(Arrays.asList(AiRequestLogStatus.SUCCESS, AiRequestLogStatus.ERROR));
+        request.setTokenName("Token name");
+        request.setOauthClientId("gpbccUFxAKZDrLm5Nq8t");
+        request.setSystemCredentials(true);
+        request.setIsAutoTriggered(false);
+        request.setCreatedAfter("2026-07-01T10:41:33+00:00");
+        request.setCreatedBefore("2026-07-31T23:59:59+00:00");
+
+        ResponseObject<AiRequestLogExport> response = this.getAiApi().exportAiRequestLogs(userId, request);
+        AiRequestLogExport export = response.getData();
+        assertEquals(exportId, export.getIdentifier());
+        assertEquals(status, export.getStatus());
+        assertEquals(100, export.getProgress());
+        assertEquals(AiRequestLogExportFormat.CSV, export.getAttributes().getFormat());
+        assertEquals(8, export.getAttributes().getFilters().get("projectId"));
+        assertEquals(new Date(year, month, date, hour, minutes, seconds), export.getFinishedAt());
+        assertEquals("14 seconds", export.getEta());
+    }
+
+    @Test
+    public void checkAiRequestLogsExportStatusTest() {
+        ResponseObject<AiRequestLogExport> response = this.getAiApi().checkAiRequestLogsExportStatus(userId, exportId);
+        assertEquals(exportId, response.getData().getIdentifier());
+        assertNotNull(response.getData().getStartedAt());
+        assertNotNull(response.getData().getCreatedAt());
+        assertNotNull(response.getData().getUpdatedAt());
+    }
+
+    @Test
+    public void downloadAiRequestLogsExportTest() {
+        ResponseObject<DownloadLink> response = this.getAiApi().downloadAiRequestLogsExport(userId, exportId);
+        assertNotNull(response.getData().getUrl());
+    }
+
+    @Test
+    public void listAiUsageMembersTest() {
+        TimeZone.setDefault(tz);
+        ResponseList<AiUsageMember> response = this.getAiApi().listAiUsageMembers(userId, limit, offset, Arrays.asList(12L, 13L), "id desc");
+        assertEquals(1, response.getData().size());
+        assertEquals(limit, response.getPagination().getLimit());
+        AiUsageMember member = response.getData().get(0).getData();
+        assertEquals(memberId, member.getUser().getId());
+        assertEquals("john_smith", member.getUser().getUsername());
+        assertEquals("John Smith", member.getUser().getFullName());
+        assertEquals("", member.getUser().getAvatarUrl());
+        assertEquals(2.0, member.getDailyCostLimit());
+        assertEquals(0.26, member.getDailyCostSpent());
+        assertEquals(new Date(year, month, date, hour, minutes, seconds), member.getDailyResetAt());
+        assertNull(member.getMonthlyCostLimit());
+        assertEquals(6.93, member.getMonthlyCostSpent());
+        assertNotNull(member.getMonthlyResetAt());
+    }
+
+    @Test
+    public void getAiUsageMemberTest() {
+        ResponseObject<AiUsageMember> response = this.getAiApi().getAiUsageMember(userId, memberId);
+        assertEquals(memberId, response.getData().getUser().getId());
+        assertEquals(0.26, response.getData().getDailyCostSpent());
+    }
+
+    @Test
+    public void getEnterpriseAiUsageMemberTest() {
+        ResponseObject<AiUsageMember> response = this.getAiApi().getAiUsageMember(null, memberId);
+        assertEquals(memberId, response.getData().getUser().getId());
+    }
+
+    @Test
+    public void listAllAiProviderModelsTest() {
+        ResponseList<AiProviderModel> response = this.getAiApi().listAllAiProviderModels(userId);
+        assertEquals(1, response.getData().size());
+        assertNull(response.getPagination());
+        AiProviderModel model = response.getData().get(0).getData();
+        assertEquals("gpt-5.4", model.getId());
+        assertEquals("open_ai", model.getProvider());
+        assertEquals("OpenAI", model.getProviderName());
+        assertEquals(1L, model.getProviderId());
+        assertEquals(128000L, model.getContextWindow());
+        assertEquals(16384L, model.getMaxOutputTokens());
+        assertTrue(model.getSupportsStreaming());
+        assertTrue(model.getSupportsFunctionCalling());
+        assertTrue(model.getSupportsJsonMode());
+        assertFalse(model.getSupportsJsonSchema());
+        assertTrue(model.getSupportsVision());
+        assertTrue(model.getIsCompatibleWithAiLimit());
+    }
+
+    @Test
+    public void listEnterpriseAllAiProviderModelsTest() {
+        ResponseList<AiProviderModel> response = this.getAiApi().listAllAiProviderModels(null);
+        assertEquals(1, response.getData().size());
+    }
+
+    @Test
+    public void getProjectAiSettingsTest() {
+        ResponseObject<ProjectAiSettings> response = this.getAiApi().getProjectAiSettings(projectId);
+        ProjectAiSettings settings = response.getData();
+        assertEquals(2L, settings.getPreTranslationAiPromptId());
+        assertEquals(5L, settings.getEditorSuggestionAiPromptId());
+        assertEquals(3L, settings.getAlignmentActionAiPromptId());
+        assertEquals(8L, settings.getQaCheckActionAiPromptId());
+        assertEquals(11L, settings.getContextReviewAiPromptId());
+    }
+
+    @Test
+    public void addAiProviderWithCredentialsTest() {
+        Credentials.Deployment deployment = new Credentials.Deployment();
+        deployment.setDeploymentName("gpt-5.4");
+        deployment.setTargetUri("https://example.services.ai.azure.com/openai/v1/chat/completions");
+        deployment.setApiKey("key");
+        Credentials credentials = new Credentials();
+        credentials.setDeployments(Collections.singletonList(deployment));
+        credentials.setHeaders(Collections.singletonMap("X-Custom", "value"));
+        credentials.setSendCustomHeadersOnly(false);
+
+        AiProviderRequest request = new AiProviderRequest();
+        request.setName("Foundry");
+        request.setType("microsoft_foundry");
+        request.setCredentials(credentials);
+        request.setUseSystemCredentials(false);
+
+        AiProvider provider = this.getAiApi().addAiProviders(userId, request).getData();
+        Credentials responseCredentials = provider.getCredentials();
+        assertEquals("my-project", responseCredentials.getProject());
+        assertEquals("us-central1", responseCredentials.getRegion());
+        assertEquals("service_account", responseCredentials.getServiceAccountKey().get("type"));
+        assertEquals("audience", responseCredentials.getWorkloadIdentityFederationAudience());
+        assertEquals("sa@my-project.iam.gserviceaccount.com", responseCredentials.getServiceAccountEmail());
+        assertEquals("https://proxy.example.com", responseCredentials.getBaseUrl());
+        assertEquals("value", responseCredentials.getHeaders().get("X-Custom"));
+        assertTrue(responseCredentials.getSendCustomHeadersOnly());
+    }
+
+    @Test
+    public void aiGatewayGetRawTest() {
+        Map<String, Object> response = this.getAiApi().aiGatewayGetRaw(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", response.get("id"));
+        assertEquals("chat.completion", response.get("object"));
+    }
+
+    @Test
+    public void aiGatewayPostRawTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        Map<String, Object> response = this.getAiApi().aiGatewayPostRaw(userId, 1L, rawGatewayPath, req);
+        assertEquals("chatcmpl-123", response.get("id"));
+        assertEquals(1, ((List<?>) response.get("choices")).size());
+    }
+
+    @Test
+    public void aiGatewayPutRawTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        Map<String, Object> response = this.getAiApi().aiGatewayPutRaw(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", response.get("model"));
+    }
+
+    @Test
+    public void aiGatewayPatchRawTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        Map<String, Object> response = this.getAiApi().aiGatewayPatchRaw(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", response.get("model"));
+    }
+
+    @Test
+    public void aiGatewayDeleteRawTest() {
+        Map<String, Object> response = this.getAiApi().aiGatewayDeleteRaw(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", response.get("id"));
     }
 
     @Test
@@ -548,10 +913,16 @@ public class AIApiTest extends TestClient {
 
     @Test
     public void getAiPromptTest() {
+        TimeZone.setDefault(tz);
         ResponseObject<AiPrompt> aiPromptResponseObject = this.getAiApi().getAiPrompt(userId, aiPromptId);
         assertEquals(aiPromptResponseObject.getData().getId(), aiPromptId);
         assertEquals(aiPromptResponseObject.getData().getName(), "Pre-translate prompt");
         assertEquals(aiPromptResponseObject.getData().getAction(), "pre_translate");
+        assertEquals(123L, aiPromptResponseObject.getData().getCreatedBy());
+        assertEquals(456L, aiPromptResponseObject.getData().getUpdatedBy());
+        assertEquals(789L, aiPromptResponseObject.getData().getLastUsedBy());
+        assertEquals(new Date(year, Calendar.SEPTEMBER, 25, 14, 30, 0), aiPromptResponseObject.getData().getLastUsedAt());
+        assertEquals(42L, aiPromptResponseObject.getData().getUsageCount());
     }
 
     @Test
@@ -707,6 +1078,22 @@ public class AIApiTest extends TestClient {
         req.put("model", "string");
         ResponseObject<Map<String, Object>> response = this.getAiApi().aiGatewayPatch(userId, 1L, gatewayPath, req);
         assertNotNull(response.getData());
+    }
+
+    private Map<String, Object> snippetQueryParams() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("limit", limit);
+        queryParams.put("offset", offset);
+        return queryParams;
+    }
+
+    private Map<String, Object> usageMembersQueryParams() {
+        Map<String, Object> queryParams = new HashMap<>();
+        queryParams.put("limit", limit);
+        queryParams.put("offset", offset);
+        queryParams.put("userIds", "12,13");
+        queryParams.put("orderBy", "id desc");
+        return queryParams;
     }
 
     private Map<String, Object> aiRequestLogQueryParams() {

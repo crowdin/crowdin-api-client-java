@@ -18,6 +18,11 @@ public class AiPrompt {
     private Map<String, Object> config;
     private String promptPreview;
     private Boolean isFineTuningAvailable;
+    private Long createdBy;
+    private Long updatedBy;
+    private Long lastUsedBy;
+    private Date lastUsedAt;
+    private Long usageCount;
     private Date createdAt;
     private Date updatedAt;
 }

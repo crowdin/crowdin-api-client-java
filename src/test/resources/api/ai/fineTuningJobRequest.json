@@ -2,7 +2,7 @@
   "dryRun": false,
   "hyperparameters": {
     "batchSize": 0,
-    "learningRateMultiplier": 0,
+    "learningRateMultiplier": 0.0,
     "nEpochs": 0
   }
 }

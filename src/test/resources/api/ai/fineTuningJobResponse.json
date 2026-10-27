@@ -8,7 +8,7 @@
       "aiPromptId": 0,
       "hyperparameters": {
         "batchSize": 0,
-        "learningRateMultiplier": 0,
+        "learningRateMultiplier": 1.8,
         "nEpochs": 0
       },
       "trainingOptions": {

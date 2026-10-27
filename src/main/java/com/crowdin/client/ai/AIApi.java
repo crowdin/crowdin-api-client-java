@@ -38,7 +38,9 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.prompt.custom.placeholders.getMany" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.custom.placeholders.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated deprecated in the API, use {@link #listAiSnippets(Long, Integer, Integer)} instead
      */
+    @Deprecated
     public ResponseList<CustomPlaceholder> listCustomPlaceholders(Long userId, Integer limit, final Integer offset) {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
@@ -56,7 +58,9 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.post" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated deprecated in the API, use {@link #addAiSnippet(Long, CustomPlaceholderRequest)} instead
      */
+    @Deprecated
     public ResponseObject<CustomPlaceholder> addCustomPlaceholder(Long userId, CustomPlaceholderRequest request) {
         String url = getAIPath(userId, "ai/settings/custom-placeholders");
         CustomPlaceholderResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
@@ -70,7 +74,9 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.get" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated deprecated in the API, use {@link #getAiSnippet(Long, long)} instead
      */
+    @Deprecated
     public ResponseObject<CustomPlaceholder> getCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
         String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
         CustomPlaceholderResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
@@ -84,7 +90,9 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.delete" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated deprecated in the API, use {@link #deleteAiSnippet(Long, long)} instead
      */
+    @Deprecated
     public void deleteCustomPlaceholder(Long userId, long aiCustomPlaceholderId) {
         String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
         this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
@@ -98,9 +106,90 @@ public class AIApi extends CrowdinApi {
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.users.ai.settings.custom-placeholders.patch" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.settings.custom-placeholders.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated deprecated in the API, use {@link #editAiSnippet(Long, long, List)} instead
      */
+    @Deprecated
     public ResponseObject<CustomPlaceholder> editCustomPlaceholder(Long userId, long aiCustomPlaceholderId, List<PatchRequest> request) {
         String url = getAIPath(userId,"ai/settings/custom-placeholders/" + aiCustomPlaceholderId);
+        CustomPlaceholderResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @return list of AI snippets
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.prompts.snippets.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.snippets.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<CustomPlaceholder> listAiSnippets(Long userId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset)
+        );
+        String url = getAIPath(userId, "ai/settings/snippets");
+        CustomPlaceholderResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), CustomPlaceholderResponseList.class);
+        return CustomPlaceholderResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param request request object
+     * @return newly created AI snippet
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.prompts.snippets.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.snippets.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> addAiSnippet(Long userId, CustomPlaceholderRequest request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/settings/snippets");
+        CustomPlaceholderResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiSnippetId AI snippet identifier
+     * @return AI snippet
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.prompts.snippets.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.snippets.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> getAiSnippet(Long userId, long aiSnippetId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/settings/snippets/" + aiSnippetId);
+        CustomPlaceholderResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiSnippetId AI snippet identifier
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.prompts.snippets.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.snippets.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteAiSnippet(Long userId, long aiSnippetId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/settings/snippets/" + aiSnippetId);
+        this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiSnippetId AI snippet identifier
+     * @param request list of patch operations
+     * @return updated AI snippet
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.prompts.snippets.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.snippets.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<CustomPlaceholder> editAiSnippet(Long userId, long aiSnippetId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/settings/snippets/" + aiSnippetId);
         CustomPlaceholderResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), CustomPlaceholderResponseObject.class);
         return ResponseObject.of(response.getData());
     }
@@ -229,7 +318,7 @@ public class AIApi extends CrowdinApi {
      * @param userId user identifier
      * @param aiPromptId AI prompt identifier
      * @param request request
-     * @return AI Prompt Fine-Tuning Dataset Download URL
+     * @return cloned AI prompt
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.clones.post" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.clones.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
@@ -267,8 +356,9 @@ public class AIApi extends CrowdinApi {
     /**
      * @param userId user identifier
      * @param request request
+     * @return newly created AI prompt
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.post" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -340,8 +430,9 @@ public class AIApi extends CrowdinApi {
     /**
      * @param userId user identifier
      * @param aiPromptId aiPrompt identifier
+     * @return AI prompt
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.get" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -355,7 +446,7 @@ public class AIApi extends CrowdinApi {
      * @param userId user identifier
      * @param aiPromptId aiPrompt identifier
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.delete" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -368,8 +459,9 @@ public class AIApi extends CrowdinApi {
      * @param userId user identifier
      * @param aiPromptId aiPrompt identifier
      * @param request request
+     * @return updated AI prompt
      * @see <ul>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.prompts.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.ai.prompts.patch" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.prompts.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
@@ -582,11 +674,27 @@ public class AIApi extends CrowdinApi {
      * @return list of AiProviderModel
      * @see <ul>
      *     <li><a href="https://support.crowdin.com/developer/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>API Documentation</b></a></li>
-     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documntation</b></a></li>
+     *     <li><a href="https://support.crowdin.com/developer/enterprise/api/v2/#tag/AI/operation/api.ai.providers.models.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<AiProviderModel> listAiProviderModels(final Long userId, final Long aiProviderId) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/models");
+        AiProviderModelResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), AiProviderModelResponseList.class);
+        return AiProviderModelResponseList.to(responseList);
+    }
+
+    /**
+     * List models of all AI providers available to the user (not paginated).
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @return list of AiProviderModel
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.models.crowdin.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.models.enterprise.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<AiProviderModel> listAllAiProviderModels(final Long userId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/models");
         AiProviderModelResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(), AiProviderModelResponseList.class);
         return AiProviderModelResponseList.to(responseList);
     }
@@ -652,8 +760,15 @@ public class AIApi extends CrowdinApi {
      * @param userId user identifier
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path (e.g. chat/completions)
-     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.get" target="_blank"><b>API Documentation</b></a>
+     * @return only the {@code data} property of the provider response (usually {@code null}), since the gateway response has no {@code data} wrapper
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     * @deprecated the gateway response is not wrapped in {@code data}, so this method cannot return it;
+     * use {@link #aiGatewayGetRaw(Long, Long, String)} instead
      */
+    @Deprecated
     public ResponseObject<Map<String, Object>> aiGatewayGet(final Long userId, final Long aiProviderId, final String path) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         ChatCompletionResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), ChatCompletionResponseObject.class);
@@ -680,8 +795,15 @@ public class AIApi extends CrowdinApi {
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path
      * @param request request body
-     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.post" target="_blank"><b>API Documentation</b></a>
+     * @return only the {@code data} property of the provider response (usually {@code null}), since the gateway response has no {@code data} wrapper
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     * @deprecated the gateway response is not wrapped in {@code data}, so this method cannot return it;
+     * use {@link #aiGatewayPostRaw(Long, Long, String, Map)} instead
      */
+    @Deprecated
     public ResponseObject<Map<String, Object>> aiGatewayPost(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         ChatCompletionResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
@@ -708,8 +830,15 @@ public class AIApi extends CrowdinApi {
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path
      * @param request request body
-     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.put" target="_blank"><b>API Documentation</b></a>
+     * @return only the {@code data} property of the provider response (usually {@code null}), since the gateway response has no {@code data} wrapper
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.put" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     * @deprecated the gateway response is not wrapped in {@code data}, so this method cannot return it;
+     * use {@link #aiGatewayPutRaw(Long, Long, String, Map)} instead
      */
+    @Deprecated
     public ResponseObject<Map<String, Object>> aiGatewayPut(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         ChatCompletionResponseObject response = this.httpClient.put(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
@@ -733,8 +862,14 @@ public class AIApi extends CrowdinApi {
      * @param userId user identifier
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path
-     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.delete" target="_blank"><b>API Documentation</b></a>
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     * @deprecated the gateway returns the raw provider response, which this method discards;
+     * use {@link #aiGatewayDeleteRaw(Long, Long, String)} instead
      */
+    @Deprecated
     public void aiGatewayDelete(final Long userId, final Long aiProviderId, final String path) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         this.httpClient.delete(url, new HttpRequestConfig(), Void.class);
@@ -775,11 +910,212 @@ public class AIApi extends CrowdinApi {
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path
      * @param request request body
-     * @see <a href="https://support.crowdin.com/developer/api/v2/#tag/AI-Gateway/operation/api.ai.providers.gateway.crowdin.patch" target="_blank"><b>API Documentation</b></a>
+     * @return only the {@code data} property of the provider response (usually {@code null}), since the gateway response has no {@code data} wrapper
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     * @deprecated the gateway response is not wrapped in {@code data}, so this method cannot return it;
+     * use {@link #aiGatewayPatchRaw(Long, Long, String, Map)} instead
      */
+    @Deprecated
     public ResponseObject<Map<String, Object>> aiGatewayPatch(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
         ChatCompletionResponseObject response = this.httpClient.patch(url, request, new HttpRequestConfig(), ChatCompletionResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * Sends a GET request through the AI gateway and returns the raw provider response body.
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path (e.g. models)
+     * @return raw provider response body
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> aiGatewayGetRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        return this.httpClient.get(url, new HttpRequestConfig(), Map.class);
+    }
+
+    /**
+     * Sends a POST request through the AI gateway and returns the raw provider response body.
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path (e.g. chat/completions)
+     * @param request raw provider request body
+     * @return raw provider response body
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> aiGatewayPostRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        return this.httpClient.post(url, request, new HttpRequestConfig(), Map.class);
+    }
+
+    /**
+     * Sends a PUT request through the AI gateway and returns the raw provider response body.
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @param request raw provider request body
+     * @return raw provider response body
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.put" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> aiGatewayPutRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        return this.httpClient.put(url, request, new HttpRequestConfig(), Map.class);
+    }
+
+    /**
+     * Sends a PATCH request through the AI gateway and returns the raw provider response body.
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @param request raw provider request body
+     * @return raw provider response body
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.patch" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> aiGatewayPatchRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        return this.httpClient.patch(url, request, new HttpRequestConfig(), Map.class);
+    }
+
+    /**
+     * Sends a DELETE request through the AI gateway and returns the raw provider response body.
+     *
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param aiProviderId id of AiProvider
+     * @param path downstream endpoint path
+     * @return raw provider response body
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.delete" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> aiGatewayDeleteRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
+        return this.httpClient.delete(url, new HttpRequestConfig(), Map.class);
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param request export filters
+     * @return AI request logs export status
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.exports.post" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.exports.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiRequestLogExport> exportAiRequestLogs(Long userId, AiRequestLogExportRequest request) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/request-logs/exports");
+        AiRequestLogExportResponseObject response = this.httpClient.post(url, request, new HttpRequestConfig(), AiRequestLogExportResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param exportId AI request logs export identifier, consists of 36 characters
+     * @return AI request logs export status
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.exports.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.exports.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiRequestLogExport> checkAiRequestLogsExportStatus(Long userId, String exportId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/request-logs/exports/" + exportId);
+        AiRequestLogExportResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiRequestLogExportResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param exportId AI request logs export identifier, consists of 36 characters
+     * @return export file download link
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.requestLogs.exports.download" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.requestLogs.exports.download" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<DownloadLink> downloadAiRequestLogsExport(Long userId, String exportId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/request-logs/exports/" + exportId + "/download");
+        DownloadLinkResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), DownloadLinkResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param userIds filter by user identifiers
+     * @param orderBy sorting rules, e.g. {@code id desc}
+     * @return list of AI usage members
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.usage.members.getMany" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.usage.members.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<AiUsageMember> listAiUsageMembers(Long userId, Integer limit, Integer offset, List<Long> userIds, String orderBy) throws HttpException, HttpBadRequestException {
+        String userIdsParam = userIds == null || userIds.isEmpty() ? null : userIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(","));
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(limit),
+                "offset", Optional.ofNullable(offset),
+                "userIds", Optional.ofNullable(userIdsParam),
+                "orderBy", Optional.ofNullable(orderBy)
+        );
+        String url = getAIPath(userId, "ai/usage/members");
+        AiUsageMemberResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), AiUsageMemberResponseList.class);
+        return AiUsageMemberResponseList.to(responseList);
+    }
+
+    /**
+     * @param userId user identifier; should be {@code null} for Crowdin Enterprise
+     * @param memberId member (user) identifier
+     * @return AI usage of the member
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.usage.members.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.usage.members.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<AiUsageMember> getAiUsageMember(Long userId, Long memberId) throws HttpException, HttpBadRequestException {
+        String url = getAIPath(userId, "ai/usage/members/" + memberId);
+        AiUsageMemberResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), AiUsageMemberResponseObject.class);
+        return ResponseObject.of(response.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @return project AI settings
+     * @see <ul>
+     *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.ai.settings.get" target="_blank"><b>API Documentation</b></a></li>
+     *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.ai.settings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ProjectAiSettings> getProjectAiSettings(Long projectId) throws HttpException, HttpBadRequestException {
+        String url = this.url + "/projects/" + projectId + "/ai/settings";
+        ProjectAiSettingsResponseObject response = this.httpClient.get(url, new HttpRequestConfig(), ProjectAiSettingsResponseObject.class);
         return ResponseObject.of(response.getData());
     }
 

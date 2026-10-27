@@ -33,6 +33,11 @@
     },
     "promptPreview": "string",
     "isFineTuningAvailable": true,
+    "createdBy": 123,
+    "updatedBy": 456,
+    "lastUsedBy": 789,
+    "lastUsedAt": "2019-09-25T14:30:00+00:00",
+    "usageCount": 42,
     "createdAt": "2019-09-20T11:11:05+00:00",
     "updatedAt": "2019-09-20T12:22:20+00:00"
   }

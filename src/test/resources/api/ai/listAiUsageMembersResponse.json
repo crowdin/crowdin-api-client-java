@@ -1,0 +1,24 @@
+{
+  "data": [
+    {
+      "data": {
+        "user": {
+          "id": 12,
+          "username": "john_smith",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "dailyCostLimit": 2,
+        "dailyCostSpent": 0.26,
+        "dailyResetAt": "2019-09-23T11:26:54+00:00",
+        "monthlyCostLimit": null,
+        "monthlyCostSpent": 6.93,
+        "monthlyResetAt": "2019-09-23T11:26:54+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
