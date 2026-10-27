@@ -40,12 +40,17 @@ public class Config {
     private String units;
 
     /**
-     * @return minimal value truncated to an integer
-     * @deprecated use {@link #minValue} instead
+     * Legacy integer view of {@link #minValue}. A fractional value within the {@link Integer} range is truncated
+     * towards zero (e.g. {@code 1.5} &rarr; {@code 1}, {@code -1.5} &rarr; {@code -1}). A value outside the
+     * {@link Integer} range (or not a number) is returned as {@code null} instead of being clamped.
+     *
+     * @return minimal value truncated to an integer, or {@code null} if it is not set or does not fit into an integer
+     * @deprecated the API defines {@code min} as a number; use {@code getMinValue()} ({@link #minValue}) instead,
+     * which returns the exact value
      */
     @Deprecated
     public Integer getMin() {
-        return this.minValue == null ? null : this.minValue.intValue();
+        return toInteger(this.minValue);
     }
 
     /**
@@ -58,12 +63,17 @@ public class Config {
     }
 
     /**
-     * @return maximal value truncated to an integer
-     * @deprecated use {@link #maxValue} instead
+     * Legacy integer view of {@link #maxValue}. A fractional value within the {@link Integer} range is truncated
+     * towards zero (e.g. {@code 9.9} &rarr; {@code 9}, {@code -9.9} &rarr; {@code -9}). A value outside the
+     * {@link Integer} range (or not a number) is returned as {@code null} instead of being clamped.
+     *
+     * @return maximal value truncated to an integer, or {@code null} if it is not set or does not fit into an integer
+     * @deprecated the API defines {@code max} as a number; use {@code getMaxValue()} ({@link #maxValue}) instead,
+     * which returns the exact value
      */
     @Deprecated
     public Integer getMax() {
-        return this.maxValue == null ? null : this.maxValue.intValue();
+        return toInteger(this.maxValue);
     }
 
     /**
@@ -73,6 +83,13 @@ public class Config {
     @Deprecated
     public void setMax(Integer max) {
         this.maxValue = max == null ? null : max.doubleValue();
+    }
+
+    private static Integer toInteger(Double value) {
+        if (value == null || value.isNaN() || value < Integer.MIN_VALUE || value > Integer.MAX_VALUE) {
+            return null;
+        }
+        return value.intValue();
     }
 
     @Data

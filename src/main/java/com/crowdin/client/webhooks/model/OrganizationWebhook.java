@@ -14,6 +14,10 @@ public class OrganizationWebhook {
     private String name;
     private String url;
     private List<OrganizationEvent> events;
+    /**
+     * Webhook headers. The API returns an empty array ({@code []}) when the webhook has no headers;
+     * it is represented as {@code null}, the same as a missing value.
+     */
     @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private Map<String, String> headers;
     private Object payload;
