@@ -3,7 +3,7 @@ package com.crowdin.client.reports.model;
 import com.crowdin.client.core.model.EnumConverter;
 
 public enum GroupingParameter implements EnumConverter<GroupingParameter> {
-    USER, LANGUAGE;
+    USER, LANGUAGE, PROJECT;
 
     public static GroupingParameter from(String value) {
         return GroupingParameter.valueOf(value.toUpperCase());

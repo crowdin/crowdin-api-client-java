@@ -1,0 +1,34 @@
+{
+  "name": "group-time-spent",
+  "schema": {
+    "format": "xlsx",
+    "groupBy": "project",
+    "baseRates": {
+      "hourly": 10.5
+    },
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          1
+        ],
+        "hourly": 12.5
+      }
+    ],
+    "languageId": "uk",
+    "userIds": [
+      1
+    ],
+    "typeTasks": 2,
+    "projectIds": [
+      1,
+      2
+    ],
+    "taskIds": [
+      7
+    ],
+    "skipArchiving": true
+  }
+}

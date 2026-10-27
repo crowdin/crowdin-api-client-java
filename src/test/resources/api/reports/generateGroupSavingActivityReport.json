@@ -1,0 +1,12 @@
+{
+  "name": "group-saving-activity",
+  "schema": {
+    "unit": "chars",
+    "projectIds": [
+      1
+    ],
+    "format": "xlsx",
+    "languageId": "uk",
+    "mode": "currency"
+  }
+}

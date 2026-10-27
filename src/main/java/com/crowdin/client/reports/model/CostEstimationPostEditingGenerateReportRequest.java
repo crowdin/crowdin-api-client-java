@@ -22,6 +22,7 @@ public class CostEstimationPostEditingGenerateReportRequest extends GenerateRepo
         private NetRateSchemes netRateSchemes;
         private Boolean calculateInternalMatches;
         private Boolean includePreTranslatedStrings;
+        private Boolean skipArchiving;
     }
 
     @Data
@@ -41,6 +42,11 @@ public class CostEstimationPostEditingGenerateReportRequest extends GenerateRepo
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class ByTaskSchema extends Schema {
+        /**
+         * @deprecated deprecated in the API, use {@link #taskIds} instead
+         */
+        @Deprecated
         private Long taskId;
+        private List<Long> taskIds;
     }
 }

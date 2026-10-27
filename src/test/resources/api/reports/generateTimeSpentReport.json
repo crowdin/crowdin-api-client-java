@@ -1,0 +1,31 @@
+{
+  "name": "time-spent",
+  "schema": {
+    "format": "xlsx",
+    "groupBy": "task",
+    "baseRates": {
+      "hourly": 10.5
+    },
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          1
+        ],
+        "hourly": 12.5
+      }
+    ],
+    "languageId": "ach",
+    "userIds": [
+      1
+    ],
+    "typeTasks": 0,
+    "taskIds": [
+      7
+    ],
+    "workflowStepId": 3,
+    "skipArchiving": true
+  }
+}

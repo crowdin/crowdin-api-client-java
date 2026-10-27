@@ -1,0 +1,27 @@
+{
+  "name": "translation-costs-pe",
+  "schema": {
+    "unit": "words",
+    "currency": "PLN",
+    "format": "xlsx",
+    "baseRates": {
+      "fullTranslation": 0.1,
+      "proofread": 0.12
+    },
+    "netRateSchemes": {
+      "tmMatch": [
+        {
+          "matchType": "perfect",
+          "price": 0.1
+        }
+      ]
+    },
+    "useCategoryBasedProofreadRates": true,
+    "useTmEditDistance": true,
+    "skipArchiving": false,
+    "taskIds": [
+      7,
+      8
+    ]
+  }
+}

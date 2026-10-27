@@ -20,8 +20,19 @@ public class TranslationCostsPostEndingGenerateReportRequest extends GenerateRep
         private BaseRatesForm baseRates;
         private List<IndividualRate> individualRates;
         private NetRateSchemes netRateSchemes;
+        private Boolean useCategoryBasedProofreadRates;
+        private Boolean useTmEditDistance;
+        /**
+         * @deprecated deprecated in the API
+         */
+        @Deprecated
         private Boolean excludeApprovalsForEditedTranslations;
+        /**
+         * @deprecated deprecated in the API
+         */
+        @Deprecated
         private Boolean preTranslatedStringsCategorizationAdjustment;
+        private Boolean skipArchiving;
     }
 
     @Data
@@ -43,6 +54,11 @@ public class TranslationCostsPostEndingGenerateReportRequest extends GenerateRep
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class ByTaskSchema extends Schema {
+        /**
+         * @deprecated deprecated in the API, use {@link #taskIds} instead
+         */
+        @Deprecated
         private Long taskId;
+        private List<Long> taskIds;
     }
 }

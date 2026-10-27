@@ -19,5 +19,6 @@ public class TranslationActivityGenerateReportRequest extends GenerateReportRequ
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
+        private List<Long> userIds;
     }
 }

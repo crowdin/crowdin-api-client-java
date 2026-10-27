@@ -1,0 +1,20 @@
+{
+  "name": "saving-activity",
+  "schema": {
+    "unit": "words",
+    "format": "csv",
+    "mode": "currency",
+    "fileIds": [
+      138
+    ],
+    "directoryIds": [
+      11
+    ],
+    "branchIds": [
+      18
+    ],
+    "userIds": [
+      1
+    ]
+  }
+}

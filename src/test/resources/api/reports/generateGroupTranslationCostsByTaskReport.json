@@ -1,0 +1,26 @@
+{
+  "name": "group-translation-costs-pe",
+  "schema": {
+    "unit": "words",
+    "currency": "EUR",
+    "format": "xlsx",
+    "baseRates": {
+      "fullTranslation": 0.1
+    },
+    "netRateSchemes": {
+      "tmMatch": [
+        {
+          "matchType": "perfect",
+          "price": 0.1
+        }
+      ]
+    },
+    "taskIds": [
+      7,
+      8
+    ],
+    "useCategoryBasedProofreadRates": false,
+    "useTmEditDistance": true,
+    "skipArchiving": true
+  }
+}

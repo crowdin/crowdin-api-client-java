@@ -4,6 +4,7 @@
     "projectIds": [1,2,3],
     "unit": "chars_with_spaces",
     "languageId": "uk",
-    "format": "json"
+    "format": "json",
+    "userIds": [5]
   }
 }

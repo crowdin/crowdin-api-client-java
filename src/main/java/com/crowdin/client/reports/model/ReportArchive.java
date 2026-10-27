@@ -13,5 +13,7 @@ public class ReportArchive {
     private String name;
     private String webUrl;
     private Object scheme;
+    private String status;
+    private Integer progress;
     private Date createdAt;
 }

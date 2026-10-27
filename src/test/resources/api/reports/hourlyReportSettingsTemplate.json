@@ -1,0 +1,28 @@
+{
+  "data": {
+    "id": 3,
+    "name": "hourly template",
+    "currency": "PLN",
+    "unit": "hours",
+    "config": {
+      "baseRates": {
+        "hourly": 20.0
+      },
+      "individualRates": [
+        {
+          "languageIds": [
+            "uk"
+          ],
+          "userIds": [
+            20
+          ],
+          "hourly": 25.0
+        }
+      ]
+    },
+    "createdAt": "2023-09-23T11:26:54+00:00",
+    "updatedAt": "2023-09-23T11:26:54+00:00",
+    "isPublic": true,
+    "isGlobal": false
+  }
+}

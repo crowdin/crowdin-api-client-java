@@ -1,0 +1,11 @@
+{
+  "name": "top-members",
+  "schema": {
+    "unit": "words",
+    "format": "xlsx",
+    "userIds": [
+      1,
+      2
+    ]
+  }
+}

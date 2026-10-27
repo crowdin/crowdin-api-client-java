@@ -1,0 +1,10 @@
+{
+  "name": "costs-estimation-pe",
+  "schema": {
+    "currency": "DDK",
+    "skipArchiving": true,
+    "taskIds": [
+      7
+    ]
+  }
+}
