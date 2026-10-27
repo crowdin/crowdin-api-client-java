@@ -1,0 +1,16 @@
+{
+  "name": "group-pre-translate-accuracy",
+  "schema": {
+    "unit": "words",
+    "languageId": "uk",
+    "format": "xlsx",
+    "matchScoreCategories": [
+      "100-90"
+    ],
+    "projectIds": [
+      1,
+      2
+    ],
+    "skipArchiving": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "task-usage",
+  "schema": {
+    "format": "json",
+    "type": "cost",
+    "groupBy": "language",
+    "typeTasks": 1,
+    "languageId": "ach",
+    "creatorId": 2,
+    "assigneeId": 3,
+    "statuses": [
+      "todo",
+      "done"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "group-pre-translate-accuracy",
+  "schema": {
+    "unit": "strings",
+    "format": "json",
+    "matchScoreCategories": [
+      "100-90"
+    ],
+    "taskIds": [
+      7
+    ]
+  }
+}

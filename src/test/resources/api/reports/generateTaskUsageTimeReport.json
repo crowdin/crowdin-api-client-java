@@ -1,0 +1,9 @@
+{
+  "name": "task-usage",
+  "schema": {
+    "format": "xlsx",
+    "type": "time",
+    "wordsCountFrom": 10,
+    "wordsCountTo": 100
+  }
+}

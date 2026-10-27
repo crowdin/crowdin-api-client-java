@@ -1,0 +1,22 @@
+{
+  "name": "hourly template",
+  "currency": "PLN",
+  "unit": "hours",
+  "config": {
+    "baseRates": {
+      "hourly": 20.0
+    },
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          20
+        ],
+        "hourly": 25.0
+      }
+    ]
+  },
+  "isPublic": true
+}

@@ -9,6 +9,8 @@
         "name": "my archive report",
         "webUrl": "https://crowdin.com/project/project-identifier/reports/archive/1",
         "scheme": {},
+        "status": "finished",
+        "progress": 100,
         "createdAt": "2019-09-23T11:26:54+00:00"
       }
     }

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -19,6 +20,7 @@ public class TopMembersGenerateReportRequest extends GenerateReportRequest {
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
+        private List<Long> userIds;
     }
 
 }

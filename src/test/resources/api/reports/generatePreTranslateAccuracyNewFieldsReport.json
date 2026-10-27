@@ -1,0 +1,25 @@
+{
+  "name": "pre-translate-accuracy",
+  "schema": {
+    "unit": "words",
+    "format": "xlsx",
+    "matchScoreCategories": [
+      "100-90"
+    ],
+    "skipArchiving": true,
+    "languageId": "ach",
+    "fileIds": [
+      138
+    ],
+    "directoryIds": [
+      11
+    ],
+    "branchIds": [
+      18
+    ],
+    "labelIds": [
+      13
+    ],
+    "labelIncludeType": "strings_with_label"
+  }
+}

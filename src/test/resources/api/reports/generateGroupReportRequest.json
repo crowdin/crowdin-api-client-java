@@ -43,9 +43,12 @@
         }
       ]
     },
-    "groupBy": "language",
+    "useCategoryBasedProofreadRates": true,
+    "useTmEditDistance": false,
+    "groupBy": "project",
     "userIds": [
       13
-    ]
+    ],
+    "skipArchiving": true
   }
 }

@@ -19,5 +19,19 @@ public class SavingActivityGenerateReportRequest extends GenerateReportRequest {
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
+        /**
+         * Report mode: {@code currency} or {@code relative} (default)
+         */
+        private String mode;
+        /**
+         * File-based projects only
+         */
+        private List<Long> fileIds;
+        /**
+         * File-based projects only
+         */
+        private List<Long> directoryIds;
+        private List<Long> branchIds;
+        private List<Long> userIds;
     }
 }

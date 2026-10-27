@@ -1,0 +1,13 @@
+{
+  "name": "group-translation-activity",
+  "schema": {
+    "unit": "words",
+    "projectIds": [
+      1
+    ],
+    "format": "json",
+    "userIds": [
+      4
+    ]
+  }
+}

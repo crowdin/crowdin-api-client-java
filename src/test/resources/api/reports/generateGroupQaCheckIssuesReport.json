@@ -1,0 +1,9 @@
+{
+  "name": "group-qa-check-issues",
+  "schema": {
+    "projectIds": [
+      1
+    ],
+    "format": "xlsx"
+  }
+}

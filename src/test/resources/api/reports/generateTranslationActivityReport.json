@@ -1,0 +1,9 @@
+{
+  "name": "translation-activity",
+  "schema": {
+    "unit": "strings",
+    "userIds": [
+      3
+    ]
+  }
+}

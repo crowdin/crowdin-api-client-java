@@ -1,0 +1,53 @@
+{
+  "name": "post-editing template",
+  "currency": "DDK",
+  "unit": "words",
+  "config": {
+    "baseRates": {
+      "fullTranslation": 0.1,
+      "proofread": 0.12
+    },
+    "individualRates": [
+      {
+        "languageIds": [
+          "uk"
+        ],
+        "userIds": [
+          20
+        ],
+        "fullTranslation": 0.1,
+        "proofread": 0.12
+      }
+    ],
+    "netRateSchemes": {
+      "tmMatch": [
+        {
+          "matchType": "perfect",
+          "price": 0.1
+        }
+      ],
+      "mtMatch": [
+        {
+          "matchType": "100",
+          "price": 0.1
+        }
+      ],
+      "aiMatch": [
+        {
+          "matchType": "100",
+          "price": 0.1
+        }
+      ],
+      "suggestionMatch": [
+        {
+          "matchType": "100",
+          "price": 0.1
+        }
+      ]
+    },
+    "calculateInternalMatches": true,
+    "includePreTranslatedStrings": false,
+    "useCategoryBasedProofreadRates": true,
+    "useTmEditDistance": false
+  }
+}

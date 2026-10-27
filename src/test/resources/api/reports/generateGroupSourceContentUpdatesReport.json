@@ -1,0 +1,11 @@
+{
+  "name": "group-source-content-updates",
+  "schema": {
+    "unit": "words",
+    "format": "csv",
+    "projectIds": [
+      1,
+      2
+    ]
+  }
+}

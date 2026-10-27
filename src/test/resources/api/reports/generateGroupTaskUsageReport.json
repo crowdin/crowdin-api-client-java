@@ -1,0 +1,15 @@
+{
+  "name": "group-task-usage",
+  "schema": {
+    "format": "csv",
+    "type": "workload",
+    "projectIds": [
+      1
+    ],
+    "groupBy": "project",
+    "typeTasks": 0,
+    "languageId": "uk",
+    "creatorId": 2,
+    "assigneeId": 3
+  }
+}

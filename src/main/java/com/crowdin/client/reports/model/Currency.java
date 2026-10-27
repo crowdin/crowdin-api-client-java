@@ -4,7 +4,7 @@ import com.crowdin.client.core.model.EnumConverter;
 
 public enum Currency implements EnumConverter<Currency> {
 
-    USD, EUR, JPY, GBP, AUD, CAD, CHF, CNY, SEK, NZD, MXN, SGD, HKD, NOK, KRW, TRY, RUB, INR, BRL, ZAR, GEL, UAH;
+    USD, EUR, JPY, GBP, AUD, CAD, CHF, CNY, SEK, NZD, MXN, SGD, HKD, NOK, KRW, TRY, RUB, INR, BRL, ZAR, GEL, UAH, DDK, PLN;
 
     public static Currency from(String value) {
         return Currency.valueOf(value);
