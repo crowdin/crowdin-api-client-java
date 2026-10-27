@@ -9,6 +9,11 @@
     "partOfSpeech": "verb",
     "lemma": "voir",
     "createdAt": "2019-09-23T07:19:47+00:00",
-    "updatedAt": "2019-09-23T07:19:47+00:00"
+    "updatedAt": "2019-09-23T07:19:47+00:00",
+    "status": "draft",
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-2": 12
+    }
   }
 }

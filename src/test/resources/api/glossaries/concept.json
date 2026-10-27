@@ -19,6 +19,11 @@
       }
     ],
     "createdAt": "2019-09-23T07:19:47+00:00",
-    "updatedAt": "2019-09-23T07:19:47+00:00"
+    "updatedAt": "2019-09-23T07:19:47+00:00",
+    "translatable": true,
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-3": true
+    }
   }
 }

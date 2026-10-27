@@ -65,6 +65,19 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
                         }}
                 ),
 
+                // LIST with params
+                RequestMock.build(
+                        formUrl_tmSegments(tmId),
+                        HttpGet.METHOD_NAME,
+                        "api/translationmemory/segments/listTmSegmentsResponse.json",
+                        new HashMap<String, Object>() {{
+                            put("limit", 20);
+                            put("offset", 10);
+                            put("orderBy", "id%20asc");
+                            put("croql", "count of records > 1");
+                        }}
+                ),
+
                 // CREATE
                 RequestMock.build(
                         formUrl_tmSegments(tmId),
@@ -120,6 +133,22 @@ public class TranslationMemorySegmentsApiTest extends TestClient {
     public void listTmSegments() {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
         ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tmId, 20, 10);
+        assertTmSegment(response.getData().get(0).getData());
+    }
+
+    @Test
+    public void listTmSegments_withParams() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.ASC);
+
+        ListTmSegmentsParams params = new ListTmSegmentsParams();
+        params.setLimit(20);
+        params.setOffset(10);
+        params.setOrderByList(singletonList(orderById));
+        params.setCroql("count of records > 1");
+        ResponseList<TmSegment> response = this.getTranslationMemoryApi().listTmSegments(tmId, params);
         assertTmSegment(response.getData().get(0).getData());
     }
 

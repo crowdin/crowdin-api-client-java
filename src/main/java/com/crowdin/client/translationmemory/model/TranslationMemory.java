@@ -12,9 +12,12 @@ public class TranslationMemory {
     private Long groupId;
     private Long userId;
     private String name;
+    private String languageId;
     private List<String> languageIds;
     private Integer segmentsCount;
     private List<Long> defaultProjectIds;
     private List<Long> projectIds;
+    private Boolean isShared;
+    private String webUrl;
     private Date createdAt;
 }

@@ -7,6 +7,8 @@ import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
 import com.crowdin.client.translationmemory.model.CreateTmSegmentRequest;
+import com.crowdin.client.translationmemory.model.ListTmSegmentsParams;
+import com.crowdin.client.translationmemory.model.ListTmsParams;
 import com.crowdin.client.translationmemory.model.SearchConcordance;
 import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
 import com.crowdin.client.translationmemory.model.SearchConcordanceResponse;
@@ -108,6 +110,33 @@ public class TranslationMemoryApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpRequestConfig(queryParams), TranslationMemoryResponseList.class);
+        return TranslationMemoryResponseList.to(translationMemoryResponseList);
+    }
+
+    /**
+     * @param params query params ({@code groupId} is Enterprise only, {@code userId} is Crowdin only)
+     * @return list of translation memories
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TranslationMemory> listTms(ListTmsParams params) throws HttpException, HttpBadRequestException {
+        ListTmsParams query = Optional.ofNullable(params).orElse(new ListTmsParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "groupId", Optional.ofNullable(query.getGroupId()),
+                "userId", Optional.ofNullable(query.getUserId()),
+                "filter", Optional.ofNullable(query.getFilter()),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(orderBy)
         );
         TranslationMemoryResponseList translationMemoryResponseList = this.httpClient.get(this.url + "/tms", new HttpRequestConfig(queryParams), TranslationMemoryResponseList.class);
         return TranslationMemoryResponseList.to(translationMemoryResponseList);
@@ -285,6 +314,33 @@ public class TranslationMemoryApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))
+        );
+        TmSegmentResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TmSegmentResponseList.class);
+        return TmSegmentResponseList.to(responseList);
+    }
+
+    /**
+     * @param tmId translation memory identifier
+     * @param params query params
+     * @return list of translation memory segments
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tms.segments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<TmSegment> listTmSegments(Long tmId, ListTmSegmentsParams params) throws HttpException, HttpBadRequestException {
+        ListTmSegmentsParams query = Optional.ofNullable(params).orElse(new ListTmSegmentsParams());
+
+        String orderBy = query.getOrderByList() != null
+                ? OrderByField.generateSortParam(query.getOrderByList())
+                : query.getOrderBy();
+
+        String url = formUrl_tmSegments(tmId);
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "orderBy", Optional.ofNullable(orderBy),
+                "croql", Optional.ofNullable(query.getCroql())
         );
         TmSegmentResponseList responseList = this.httpClient.get(url, new HttpRequestConfig(queryParams), TmSegmentResponseList.class);
         return TmSegmentResponseList.to(responseList);

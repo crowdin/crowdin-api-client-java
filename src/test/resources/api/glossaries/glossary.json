@@ -11,6 +11,9 @@
     "projectIds": [
       6
     ],
-    "createdAt": "2019-09-16T13:42:04+00:00"
+    "createdAt": "2019-09-16T13:42:04+00:00",
+    "languageId": "ro",
+    "isShared": false,
+    "webUrl": "https://example.crowdin.com/u/glossaries/2"
   }
 }

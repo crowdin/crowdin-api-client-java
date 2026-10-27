@@ -4,7 +4,23 @@
     "status": "created",
     "progress": 0,
     "attributes": {
-      "format": "csv"
+      "format": "csv",
+      "exportFields": [
+        "term",
+        "description",
+        "partOfSpeech"
+      ],
+      "text": "value",
+      "caseSensitive": true,
+      "searchFullMatch": false,
+      "searchStrict": true,
+      "status": "DRAFT",
+      "partOfSpeech": "VERB",
+      "type": "ACRONYM",
+      "gender": "COMMON",
+      "authorId": 12,
+      "dateFrom": "2024-09-23T11:26:54+00:00",
+      "dateTo": "2024-12-23T11:26:54+00:00"
     },
     "createdAt": "2019-09-23T07:06:43+00:00",
     "updatedAt": "2019-09-23T07:06:43+00:00",

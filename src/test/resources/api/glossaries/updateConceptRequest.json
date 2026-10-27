@@ -1,0 +1,19 @@
+{
+  "subject": "general",
+  "definition": "This is a sample definition.",
+  "translatable": true,
+  "note": "Any concept-level note information",
+  "url": "www.example.com",
+  "figure": "www.example.com/image.png",
+  "languagesDetails": [
+    {
+      "languageId": "en",
+      "definition": "This is a sample definition.",
+      "note": "Some note"
+    }
+  ],
+  "fields": {
+    "some-field-1": "some value 1",
+    "some-field-3": true
+  }
+}

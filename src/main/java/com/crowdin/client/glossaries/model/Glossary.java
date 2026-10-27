@@ -17,6 +17,7 @@ public class Glossary {
     private List<String> languageIds;
     private List<Long> defaultProjectIds;
     private List<Long> projectIds;
+    private Boolean isShared;
     private String webUrl;
     private Date createdAt;
 }

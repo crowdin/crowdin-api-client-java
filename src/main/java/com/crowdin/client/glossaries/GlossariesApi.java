@@ -37,6 +37,8 @@ public class GlossariesApi extends CrowdinApi {
     }
 
     /**
+     * Note: {@code userId} in the request is supported by Crowdin only (not by Crowdin Enterprise).
+     *
      * @param request request object
      * @return list of search results
      * @see <ul>
@@ -125,8 +127,28 @@ public class GlossariesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated sends the response model {@link Concept} (including read-only properties such as id, userId and
+     * dates) as the request body; use {@link #updateConceptWithRequest(Long, Long, UpdateConceptRequest)} instead
      */
+    @Deprecated
     public ResponseObject<Concept> updateConcept(Long glossaryId, Long conceptId, Concept request) throws HttpException, HttpBadRequestException {
+        ConceptResponseObject conceptResponseObject = this.httpClient.put(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, request, new HttpRequestConfig(), ConceptResponseObject.class);
+        return ResponseObject.of(conceptResponseObject.getData());
+    }
+
+    /**
+     * Updates a concept using a request model that contains only the properties accepted by the API.
+     *
+     * @param glossaryId glossary identifier
+     * @param conceptId concept identifier
+     * @param request request object
+     * @return updated concept
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Concept> updateConceptWithRequest(Long glossaryId, Long conceptId, UpdateConceptRequest request) throws HttpException, HttpBadRequestException {
         ConceptResponseObject conceptResponseObject = this.httpClient.put(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, request, new HttpRequestConfig(), ConceptResponseObject.class);
         return ResponseObject.of(conceptResponseObject.getData());
     }
@@ -181,6 +203,14 @@ public class GlossariesApi extends CrowdinApi {
         return listGlossaries(params);
     }
 
+    /**
+     * @param params query params (groupId is Enterprise only, userId is Crowdin only)
+     * @return list of glossaries
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<Glossary> listGlossaries(ListGlossariesParams params) throws HttpException, HttpBadRequestException {
         ListGlossariesParams query = Optional.ofNullable(params).orElse(new ListGlossariesParams());
 
@@ -191,6 +221,7 @@ public class GlossariesApi extends CrowdinApi {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "groupId", Optional.ofNullable(query.getGroupId()),
                 "userId", Optional.ofNullable(query.getUserId()),
+                "filter", Optional.ofNullable(query.getFilter()),
                 "limit", Optional.ofNullable(query.getLimit()),
                 "offset", Optional.ofNullable(query.getOffset()),
                 "orderBy", Optional.ofNullable(orderBy)
