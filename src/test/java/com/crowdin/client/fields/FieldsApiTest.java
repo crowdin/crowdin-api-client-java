@@ -8,6 +8,9 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.fields.model.Config;
 import com.crowdin.client.fields.model.Field;
 import com.crowdin.client.fields.model.FieldRequest;
+import com.crowdin.client.fields.model.ListFieldsParams;
+import com.crowdin.client.fields.model.enums.EntityType;
+import com.crowdin.client.fields.model.enums.FieldType;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -23,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class FieldsApiTest extends TestClient {
     private final Long fieldId = 1L;
+    private final Long fieldId2 = 2L;
     private final String fieldName = "Custom field";
     private final String entity = "task";
     private final int limit = 5;
@@ -42,7 +46,15 @@ class FieldsApiTest extends TestClient {
                         }}),
                 RequestMock.build(fullUrl, HttpPost.METHOD_NAME, resourcesDir + "fieldsRequest.json",
                         resourcesDir + "fieldsResponse.json"),
+                RequestMock.build(fullUrl, HttpPost.METHOD_NAME, resourcesDir + "fieldsNumberRequest.json",
+                        resourcesDir + "fieldsNumberResponse.json"),
                 RequestMock.build(fullUrl + "/" + fieldId, HttpGet.METHOD_NAME, resourcesDir + "fieldList.json"),
+                RequestMock.build(fullUrl + "/" + fieldId2, HttpGet.METHOD_NAME, resourcesDir + "field.json"),
+                RequestMock.build(fullUrl, HttpGet.METHOD_NAME, resourcesDir + "fieldList.json",
+                        new HashMap<String, Object>() {{
+                            put("entity", "term");
+                            put("type", FieldType.NUMBER);
+                        }}),
                 RequestMock.build(fullUrl + "/" + fieldId, HttpDelete.METHOD_NAME),
                 RequestMock.build(fullUrl + "/" + fieldId, HttpPatch.METHOD_NAME, "api/fields/editFieldRequest.json", "api/fields/field.json"));
 
@@ -90,6 +102,53 @@ class FieldsApiTest extends TestClient {
         ResponseObject<Field> fieldResponseObject = this.getFieldsApi().addField(request);
         assertEquals(fieldResponseObject.getData().getId(), 2);
         assertEquals(fieldResponseObject.getData().getName(), fieldName);
+    }
+
+    @Test
+    public void addNumberField() {
+        FieldRequest request = new FieldRequest();
+        request.setName("Weight");
+        request.setSlug("weight");
+        request.setType("number");
+        request.setEntities(Arrays.asList("term", "concept"));
+
+        Config config = new Config();
+        config.setMinValue(0.5);
+        // deprecated Integer setter must populate the new "max" number field
+        config.setMax(10);
+        config.setUnits("kg");
+        Config.Location location = new Config.Location();
+        location.setPlace("termDetails");
+        config.setLocations(singletonList(location));
+        request.setConfig(config);
+
+        ResponseObject<Field> fieldResponseObject = this.getFieldsApi().addField(request);
+        Field field = fieldResponseObject.getData();
+        assertEquals(3L, field.getId());
+        assertEquals(Arrays.asList(EntityType.TERM, EntityType.CONCEPT), field.getEntities());
+        assertEquals(0.5, field.getConfig().getMinValue());
+        assertEquals(10.0, field.getConfig().getMaxValue());
+        assertEquals(0, field.getConfig().getMin());
+        assertEquals(10, field.getConfig().getMax());
+        assertEquals("kg", field.getConfig().getUnits());
+    }
+
+    @Test
+    void listFieldsByType() {
+        ListFieldsParams params = new ListFieldsParams();
+        params.setEntity("term");
+        params.setType(FieldType.NUMBER);
+        ResponseList<Field> fields = this.getFieldsApi().listFields(params);
+        assertEquals(1, fields.getData().size());
+        assertEquals(fieldId, fields.getData().get(0).getData().getId());
+    }
+
+    @Test
+    void getFieldById() {
+        ResponseObject<Field> field = this.getFieldsApi().getFieldById(fieldId2);
+        assertEquals(fieldId, field.getData().getId());
+        assertEquals(fieldName, field.getData().getName());
+        assertEquals(FieldType.SELECT, field.getData().getType());
     }
 
     @Test

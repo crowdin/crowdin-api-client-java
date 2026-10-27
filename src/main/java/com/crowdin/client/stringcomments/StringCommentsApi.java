@@ -70,12 +70,33 @@ public class StringCommentsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<StringComment> listStringComments(Long projectId, Long stringId, Integer limit, Integer offset, Type type, String issueType, IssueStatus issueStatus, List<OrderByField> orderBy) {
+        return listStringComments(projectId, stringId, null, limit, offset, type, issueType, issueStatus, orderBy);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stringId string Identifier
+     * @param fileId file Identifier (file-based projects only)
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param type defines string comment type
+     * @param issueType defines issue type
+     * @param issueStatus defines issue resolution status
+     * @param orderBy list of OrderByField
+     * @return list of string comments
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.comments.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.comments.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<StringComment> listStringComments(Long projectId, Long stringId, Long fileId, Integer limit, Integer offset, Type type, String issueType, IssueStatus issueStatus, List<OrderByField> orderBy) {
         String builtUrl = String.format("%s/projects/%d/comments", this.url, projectId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "type", Optional.ofNullable(type),
                 "stringId", Optional.ofNullable(stringId),
+                "fileId", Optional.ofNullable(fileId),
                 "issueType", Optional.ofNullable(issueType),
                 "issueStatus", Optional.ofNullable(issueStatus),
                 "orderBy", Optional.ofNullable(OrderByField.generateSortParam(orderBy))

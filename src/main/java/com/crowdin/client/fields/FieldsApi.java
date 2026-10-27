@@ -30,9 +30,9 @@ public class FieldsApi extends CrowdinApi {
      * @param search Search fields by slug or name
      * @param limit  maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
-     * @return list of distributions
+     * @return list of fields
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseList<Field> listFields(String entity, String search, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
@@ -44,6 +44,13 @@ public class FieldsApi extends CrowdinApi {
         return listFields(params);
     }
 
+    /**
+     * @param params query parameters (entity, search, type, limit, offset)
+     * @return list of fields
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<Field> listFields(ListFieldsParams params) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "entity", Optional.ofNullable(params.getEntity()),
@@ -60,7 +67,7 @@ public class FieldsApi extends CrowdinApi {
      * @param request object {@link com.crowdin.client.fields.model.FieldRequest}
      * @return Field object
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<Field> addField(FieldRequest request) throws HttpException, HttpBadRequestException {
@@ -72,9 +79,11 @@ public class FieldsApi extends CrowdinApi {
      * @param fieldId field identifier
      * @return field object according to id
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
+     * @deprecated the API returns a single field object, not a collection; use {@link #getFieldById(Long)} instead
      */
+    @Deprecated
     public ResponseList<Field> getField(Long fieldId) throws HttpException, HttpBadRequestException {
         FieldResponseObjectList responseObject = this.httpClient.get(this.url + "/fields/" + fieldId, new HttpRequestConfig(), FieldResponseObjectList.class);
         return FieldResponseObjectList.to(responseObject);
@@ -82,8 +91,20 @@ public class FieldsApi extends CrowdinApi {
 
     /**
      * @param fieldId field identifier
+     * @return field object according to id
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.delete" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<Field> getFieldById(Long fieldId) throws HttpException, HttpBadRequestException {
+        FieldResponseObject responseObject = this.httpClient.get(this.url + "/fields/" + fieldId, new HttpRequestConfig(), FieldResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param fieldId field identifier
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteField(Long fieldId) throws HttpException, HttpBadRequestException {
@@ -95,7 +116,7 @@ public class FieldsApi extends CrowdinApi {
      * @param request object
      * @return field object
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.fields.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<Field> editField(Long fieldId, List<PatchRequest> request) throws HttpException, HttpBadRequestException {

@@ -19,10 +19,28 @@
       "context": "Document Title\\r\\nXPath: /html/head/title",
       "fileId": 22
     },
+    "projectId": 8,
     "languageId": "bg",
     "type": "issue",
     "issueType": "source_mistake",
     "issueStatus": "unresolved",
+    "resolverId": 13,
+    "resolver": {
+      "id": 13,
+      "username": "jane_doe",
+      "fullName": "Jane Doe",
+      "avatarUrl": ""
+    },
+    "resolvedAt": "2019-09-21T11:05:24+00:00",
+    "isShared": true,
+    "senderOrganization": {
+      "id": 1,
+      "domain": "acme"
+    },
+    "resolverOrganization": {
+      "id": 2,
+      "domain": "vendor"
+    },
     "createdAt": "2019-09-20T11:05:24+00:00",
     "attachments": [
       {

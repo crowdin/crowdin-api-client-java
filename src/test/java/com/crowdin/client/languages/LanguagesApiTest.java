@@ -84,6 +84,7 @@ public class LanguagesApiTest extends TestClient {
 
         // then
         assertLanguage(language.getData());
+        assertEquals("es-ES", language.getData().getBcp47Code());
     }
 
     @Test
@@ -115,6 +116,7 @@ public class LanguagesApiTest extends TestClient {
         expectedLanguage.setThreeLettersCode("spa");
         expectedLanguage.setLocale("es-ES");
         expectedLanguage.setAndroidCode("es-rES");
+        expectedLanguage.setBcp47Code("es-ES");
         expectedLanguage.setOsxCode("es.lproj");
         expectedLanguage.setOsxLocale("es");
         expectedLanguage.setPluralCategoryNames(Arrays.asList("one"));

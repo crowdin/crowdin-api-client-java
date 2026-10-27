@@ -32,5 +32,6 @@ public class ClientsApiTest extends TestClient {
         assertEquals(clientResponseList.getData().get(0).getData().getId(), clientId);
         assertEquals(clientResponseList.getData().get(0).getData().getName(), name);
         assertEquals(clientResponseList.getData().get(0).getData().getStatus(), Status.PENDING);
+        assertEquals("https://acme.crowdin.com/u/clients/678", clientResponseList.getData().get(0).getData().getWebUrl());
     }
 }

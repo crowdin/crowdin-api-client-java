@@ -38,10 +38,30 @@ public class SecurityLogsApi extends CrowdinApi {
      * </ul>
      */
     public ResponseList<SecurityLogResource> listUserSecurityLogs(Long userId, Long limit, Integer offset, String event, String ipAddress) throws HttpException, HttpBadRequestException {
+        return listUserSecurityLogs(userId, limit, offset, event, null, null, ipAddress);
+    }
+
+    /**
+     * @param userId user Identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param event value of event
+     * @param createdAfter String Date in UTC format (ISO 8601)
+     * @param createdBefore String Date in UTC format (ISO 8601)
+     * @param ipAddress value of ipAddress
+     * @return list of Security logs
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.security-logs.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.users.security-logs.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<SecurityLogResource> listUserSecurityLogs(Long userId, Long limit, Integer offset, String event, String createdAfter, String createdBefore, String ipAddress) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset),
                 "event", Optional.ofNullable(event),
+                "createdAfter", Optional.ofNullable(createdAfter),
+                "createdBefore", Optional.ofNullable(createdBefore),
                 "ipAddress", Optional.ofNullable(ipAddress)
         );
         SecurityLogsResourceResponseList securityLogsResponseList = this.httpClient.get(this.url + "/users/" + userId+ "/security-logs", new HttpRequestConfig(queryParams), SecurityLogsResourceResponseList.class);

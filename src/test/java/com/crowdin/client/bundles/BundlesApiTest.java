@@ -85,6 +85,10 @@ public class BundlesApiTest extends TestClient {
         request.setIncludeProjectSourceLanguage(true);
         request.setIncludeInContextPseudoLanguage(false);
         request.setLabelIds(Collections.singletonList(0L));
+        request.setLabelMatchRule(LabelMatchRule.ANY);
+        request.setExcludeLabelMatchRule(LabelMatchRule.ALL);
+        request.setLanguageIds(Arrays.asList("uk", "de"));
+        request.setSourceLanguageExportPattern("strings-source.resx");
 
         ResponseObject<Bundle> response = this.getBundlesApi().addBundle(projectId, request);
         assertEquals(response.getData().getFormat(), format);
@@ -100,6 +104,10 @@ public class BundlesApiTest extends TestClient {
         assertEquals(response.getData().getName(), name);
         assertTrue(response.getData().isMultilingual());
         assertTrue(response.getData().getIncludeProjectSourceLanguage());
+        assertEquals("strings-source.resx", response.getData().getSourceLanguageExportPattern());
+        assertEquals(LabelMatchRule.ANY, response.getData().getLabelMatchRule());
+        assertEquals(LabelMatchRule.ALL, response.getData().getExcludeLabelMatchRule());
+        assertEquals(Arrays.asList("uk", "de"), response.getData().getLanguageIds());
     }
 
     @Test

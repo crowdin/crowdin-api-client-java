@@ -7,6 +7,7 @@
     "threeLettersCode": "spa",
     "locale": "es-ES",
     "androidCode": "es-rES",
+    "bcp47Code": "es-ES",
     "osxCode": "es.lproj",
     "osxLocale": "es",
     "pluralCategoryNames": [

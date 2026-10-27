@@ -62,6 +62,7 @@ public class StyleGuidesApiTest extends TestClient {
         request.setProjectIds(projectIds);
         request.setIsShared(isShared);
         request.setStorageId(storageId);
+        request.setGroupId(5L);
         ResponseObject<StyleGuide> styleGuideResponseObject = this.getStyleGuidesApi().addStyleGuide(request);
         assertEquals(styleGuideResponseObject.getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getName(), name);
@@ -74,6 +75,7 @@ public class StyleGuidesApiTest extends TestClient {
     @Test
     public void getStyleGuideTest() {
         ResponseObject<StyleGuide> styleGuideResponseObject = this.getStyleGuidesApi().getStyleGuide(styleGuideId);
+        assertEquals(5L, styleGuideResponseObject.getData().getGroupId());
         assertEquals(styleGuideResponseObject.getData().getId(), styleGuideId);
         assertEquals(styleGuideResponseObject.getData().getName(), name);
         assertEquals(styleGuideResponseObject.getData().getAiInstructions(), aiInstructions);

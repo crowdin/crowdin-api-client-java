@@ -17,13 +17,18 @@ import org.junit.jupiter.api.Test;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StringCommentsApiTest extends TestClient {
 
     private final Long projectId = 8L;
     private final Long project2Id = 9L;
     private final Long project3Id = 10L;
+    private final Long project4Id = 11L;
+    private final Long fileId = 22L;
     private final Long stringId = 1L;
     private final Long stringCommentId = 512L;
     private final Long attachmentId = 123L;
@@ -51,6 +56,13 @@ public class StringCommentsApiTest extends TestClient {
                     }}),
             RequestMock.build(String.format("%s/projects/%d/comments", this.url, projectId), HttpPost.METHOD_NAME,
                 "api/stringcomments/addStringCommentRequest.json", "api/stringcomments/stringCommentResponse.json"),
+            RequestMock.build(String.format("%s/projects/%d/comments", this.url, projectId), HttpPost.METHOD_NAME,
+                "api/stringcomments/addFileCommentRequest.json", "api/stringcomments/fileCommentResponse.json"),
+            RequestMock.build(String.format("%s/projects/%d/comments", this.url, project4Id), HttpGet.METHOD_NAME,
+                "api/stringcomments/listFileCommentsResponse.json", new HashMap<String, Object>() {{
+                        put("fileId", fileId);
+                        put("type", Type.COMMENT);
+                    }}),
             RequestMock.build(String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId), HttpGet.METHOD_NAME,
                 "api/stringcomments/stringCommentResponse.json"),
             RequestMock.build(String.format("%s/projects/%d/comments/%d", this.url, projectId, stringCommentId), HttpDelete.METHOD_NAME),
@@ -189,12 +201,55 @@ public class StringCommentsApiTest extends TestClient {
     }
 
     @Test
+    public void addFileCommentTest() {
+        AddStringCommentRequest request = new AddStringCommentRequest();
+        request.setFileId(fileId);
+        request.setText("Please check this file");
+        request.setTargetLanguageId(targetLanguageId);
+        request.setType(Type.COMMENT);
+        request.setIsShared(false);
+
+        ResponseObject<StringComment> response = this.getStringCommentsApi().addStringComment(projectId, request);
+        StringComment comment = response.getData();
+        assertEquals(3L, comment.getId());
+        assertNull(comment.getStringId());
+        assertEquals(fileId, comment.getFileId());
+        assertEquals(fileId, comment.getFile().getId());
+        assertEquals("index.html", comment.getFile().getName());
+        assertEquals("html", comment.getFile().getType());
+        assertEquals("Main page", comment.getFile().getContext());
+        assertFalse(comment.getIsShared());
+        assertNull(comment.getResolver());
+    }
+
+    @Test
+    public void listStringCommentsByFileIdTest() {
+        ResponseList<StringComment> responseList = this.getStringCommentsApi().listStringComments(
+                project4Id, null, fileId, null, null, Type.COMMENT, null, null, null);
+        assertEquals(1, responseList.getData().size());
+        StringComment comment = responseList.getData().get(0).getData();
+        assertEquals(project4Id, comment.getProjectId());
+        assertEquals(fileId, comment.getFileId());
+        assertEquals("index.html", comment.getFile().getName());
+    }
+
+    @Test
     public void getStringCommentTest() {
         ResponseObject<StringComment> response = this.getStringCommentsApi().getStringComment(projectId, stringCommentId);
         assertNotNull(response);
         assertNotNull(response.getData());
 
-        assertEquals(attachmentId2, response.getData().getAttachments().get(0).getId());
+        StringComment comment = response.getData();
+        assertEquals(attachmentId2, comment.getAttachments().get(0).getId());
+        assertEquals(projectId, comment.getProjectId());
+        assertEquals(13L, comment.getResolverId());
+        assertEquals("jane_doe", comment.getResolver().getUsername());
+        assertNotNull(comment.getResolvedAt());
+        assertTrue(comment.getIsShared());
+        assertEquals(1L, comment.getSenderOrganization().getId());
+        assertEquals("acme", comment.getSenderOrganization().getDomain());
+        assertEquals(2L, comment.getResolverOrganization().getId());
+        assertEquals("vendor", comment.getResolverOrganization().getDomain());
     }
 
     @Test

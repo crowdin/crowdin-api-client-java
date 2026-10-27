@@ -13,5 +13,12 @@
   "includeInContextPseudoLanguage": false,
   "labelIds": [
     0
-  ]
+  ],
+  "labelMatchRule": "any",
+  "excludeLabelMatchRule": "all",
+  "languageIds": [
+    "uk",
+    "de"
+  ],
+  "sourceLanguageExportPattern": "strings-source.resx"
 }

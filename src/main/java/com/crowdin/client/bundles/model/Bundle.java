@@ -17,8 +17,12 @@ public class Bundle {
     private boolean isMultilingual;
     private Boolean includeProjectSourceLanguage;
     private Boolean includeInContextPseudoLanguage;
+    private String sourceLanguageExportPattern;
+    private LabelMatchRule labelMatchRule;
+    private LabelMatchRule excludeLabelMatchRule;
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
+    private List<String> languageIds;
     private String webUrl;
     private Date createdAt;
     private Date updatedAt;

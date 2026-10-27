@@ -1,0 +1,12 @@
+{
+  "name": "Proofread",
+  "url": "test.com",
+  "events": [
+    "file.qa.finished",
+    "project.qa.finished",
+    "project.built",
+    "preTranslation.completed",
+    "task.updated"
+  ],
+  "requestType": "POST"
+}

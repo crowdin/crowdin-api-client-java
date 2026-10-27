@@ -1,5 +1,6 @@
 package com.crowdin.client.stringcorrections.bundles;
 
+import com.crowdin.client.core.model.BooleanInt;
 import com.crowdin.client.core.model.ResponseList;
 import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
@@ -36,6 +37,9 @@ public class StringCorrectionsApiTest extends TestClient {
                 }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/corrections", HttpPost.METHOD_NAME, "api/stringcorrections/addCorrectionRequest.json", "api/stringcorrections/correction.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/corrections/" + correctionId, HttpGet.METHOD_NAME, "api/stringcorrections/correction.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/corrections/" + correctionId, HttpGet.METHOD_NAME, "api/stringcorrections/correction.json", new HashMap<String, BooleanInt>() {{
+                    put("denormalizePlaceholders", BooleanInt.TRUE);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/corrections/" + correctionId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/corrections", HttpDelete.METHOD_NAME, new HashMap<String, Long>() {{
                     put("stringId", stringId);
@@ -67,6 +71,13 @@ public class StringCorrectionsApiTest extends TestClient {
         assertEquals(response.getData().getText(), text);
         assertEquals(response.getData().getId(), correctionId);
         assertEquals(response.getData().getPluralCategoryName(), pluralCategoryName);
+    }
+
+    @Test
+    public void getCorrectionWithDenormalizePlaceholdersTest() {
+        ResponseObject<Correction> response = this.getStringCorrectionsApi().getCorrection(projectId, correctionId, BooleanInt.TRUE);
+        assertEquals(correctionId, response.getData().getId());
+        assertEquals(text, response.getData().getText());
     }
 
     @Test

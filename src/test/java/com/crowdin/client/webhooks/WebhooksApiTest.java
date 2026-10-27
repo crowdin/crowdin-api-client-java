@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class WebhooksApiTest extends TestClient {
 
@@ -38,6 +39,7 @@ public class WebhooksApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpGet.METHOD_NAME, "api/webhooks/listWebhooks.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpPost.METHOD_NAME, "api/webhooks/addWebhookRequest.json", "api/webhooks/webhook.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpPost.METHOD_NAME, "api/webhooks/addWebhookRequestRawEvent.json", "api/webhooks/webhookRawEvent.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/webhooks", HttpPost.METHOD_NAME, "api/webhooks/addWebhookRequestNewEvents.json", "api/webhooks/webhookNewEvents.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpGet.METHOD_NAME, "api/webhooks/webhook.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/webhooks/" + webhookId, HttpPatch.METHOD_NAME, "api/webhooks/editWebhook.json", "api/webhooks/webhook.json")
@@ -83,6 +85,35 @@ public class WebhooksApiTest extends TestClient {
         assertEquals(webhookResponseObject.getData().getId(), webhookId);
         assertEquals(webhookResponseObject.getData().getName(), name);
         assertEquals(events, webhookResponseObject.getData().getEvents());
+    }
+
+    @Test
+    public void addWebhookNewEventsTest() {
+        List<Event> events = Arrays.asList(
+                Event.FILE_QA_FINISHED,
+                Event.PROJECT_QA_FINISHED,
+                Event.PROJECT_BUILT,
+                Event.PRETRANSLATION_COMPLETED,
+                Event.TASK_UPDATED
+        );
+        AddWebhookRequest request = new AddWebhookRequest();
+        request.setName(name);
+        request.setUrl("test.com");
+        request.setEvents(events);
+        request.setRequestType(RequestType.POST);
+        ResponseObject<Webhook> webhookResponseObject = this.getWebhooksApi().addWebhook(projectId, request);
+        assertEquals(webhookId, webhookResponseObject.getData().getId());
+        assertEquals(events, webhookResponseObject.getData().getEvents());
+        assertNull(webhookResponseObject.getData().getHeaders());
+    }
+
+    @Test
+    public void eventFromRawNameTest() {
+        assertEquals(Event.PRETRANSLATION_COMPLETED, Event.from("preTranslation.completed"));
+        assertEquals("preTranslation.completed", Event.PRETRANSLATION_COMPLETED.to(Event.PRETRANSLATION_COMPLETED));
+        assertEquals(Event.FILE_QA_FINISHED, Event.from("file.qa.finished"));
+        assertEquals("file.qa.finished", Event.FILE_QA_FINISHED.to(Event.FILE_QA_FINISHED));
+        assertEquals(Event.TASK_UPDATED, Event.from("task.updated"));
     }
 
     @Test

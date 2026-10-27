@@ -49,5 +49,13 @@ public class IssuesApiTest extends TestClient {
         ResponseObject<Issue> issueResponseObject = this.getIssuesApi().editIssue(projectId, issueId, singletonList(request));
         assertEquals(issueResponseObject.getData().getId(), issueId);
         assertEquals(issueResponseObject.getData().getStatus(), status);
+        assertEquals(6L, issueResponseObject.getData().getUser().getId());
+        assertEquals("john_smith", issueResponseObject.getData().getUser().getUsername());
+        assertEquals("John Smith", issueResponseObject.getData().getUser().getFullName());
+        assertEquals(742L, issueResponseObject.getData().getString().getId());
+        assertEquals("HTML page example", issueResponseObject.getData().getString().getText());
+        assertEquals("text", issueResponseObject.getData().getString().getType());
+        assertEquals("Document Title", issueResponseObject.getData().getString().getContext());
+        assertEquals(22L, issueResponseObject.getData().getString().getFileId());
     }
 }

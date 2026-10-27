@@ -14,6 +14,10 @@ public class StyleGuide {
     private List<String> languageIds;
     private List<Long> projectIds;
     private Boolean isShared;
+    /**
+     * Crowdin Enterprise only
+     */
+    private Long groupId;
     private String webUrl;
     private String downloadLink;
     private Date createdAt;

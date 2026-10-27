@@ -9,7 +9,9 @@ public enum EntityType implements EnumConverter<EntityType> {
     TASK,
     FILE,
     TRANSLATION,
-    STRING;
+    STRING,
+    TERM,
+    CONCEPT;
 
     public static EntityType from(String value) {
         return EntityType.valueOf(value.toUpperCase());

@@ -27,8 +27,6 @@ public class OrganizationWebhooksApi extends CrowdinApi {
         super(credentials, clientConfig);
     }
 
-    private final String baseUrl = "/webhooks";
-
     /**
      * @param limit maximum number of items to retrieve (default 25)
      * @param offset starting offset in the collection (default 0)
@@ -43,7 +41,7 @@ public class OrganizationWebhooksApi extends CrowdinApi {
                 "limit", Optional.ofNullable(limit),
                 "offset", Optional.ofNullable(offset)
         );
-        OrganizationWebhookResponseList responseList = this.httpClient.get(baseUrl, new HttpRequestConfig(queryParams), OrganizationWebhookResponseList.class);
+        OrganizationWebhookResponseList responseList = this.httpClient.get(this.url + "/webhooks", new HttpRequestConfig(queryParams), OrganizationWebhookResponseList.class);
         return OrganizationWebhookResponseList.to(responseList);
     }
 
@@ -56,7 +54,7 @@ public class OrganizationWebhooksApi extends CrowdinApi {
      * </ul>
      */
     public ResponseObject<OrganizationWebhook> addWebhook(AddOrganizationWebhookRequest request) throws HttpException, HttpBadRequestException {
-        OrganizationWebhookResponseObject responseObject = this.httpClient.post(baseUrl, request, new HttpRequestConfig(), OrganizationWebhookResponseObject.class);
+        OrganizationWebhookResponseObject responseObject = this.httpClient.post(this.url + "/webhooks", request, new HttpRequestConfig(), OrganizationWebhookResponseObject.class);
         return ResponseObject.of(responseObject.getData());
     }
 

@@ -13,7 +13,11 @@ public class AddBundleRequest {
     private String exportPattern;
     private Boolean isMultilingual;
     private Boolean includeProjectSourceLanguage;
+    private String sourceLanguageExportPattern;
     private Boolean includeInContextPseudoLanguage;
     private List<Long> labelIds;
     private List<Long> excludeLabelIds;
+    private LabelMatchRule labelMatchRule;
+    private LabelMatchRule excludeLabelMatchRule;
+    private List<String> languageIds;
 }

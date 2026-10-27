@@ -7,6 +7,7 @@
     "languageIds": ["uk", "fr", "de"],
     "projectIds": [1, 2, 3],
     "isShared": false,
+    "groupId": 5,
     "createdAt": "2019-09-16T13:42:04+00:00"
   }
 }
