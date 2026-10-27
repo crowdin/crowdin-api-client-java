@@ -18,6 +18,12 @@ public class AiPromptCompletionResponse {
         private Date createdAt;
         private Date updatedAt;
         private Date startedAt;
+        private Date finishedAt;
+        /**
+         * @deprecated deprecated in the API
+         */
+        @Deprecated
+        private String eta;
     }
 
     @Data

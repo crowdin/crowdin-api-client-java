@@ -1,0 +1,9 @@
+{
+  "data": {
+    "preTranslationAiPromptId": 2,
+    "editorSuggestionAiPromptId": 5,
+    "alignmentActionAiPromptId": 3,
+    "qaCheckActionAiPromptId": 8,
+    "contextReviewAiPromptId": 11
+  }
+}

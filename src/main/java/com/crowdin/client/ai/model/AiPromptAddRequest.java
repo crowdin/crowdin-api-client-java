@@ -11,6 +11,10 @@ public class AiPromptAddRequest {
     private String action;
     private Long aiProviderId;
     private String aiModelId;
+    /**
+     * @deprecated deprecated in the API
+     */
+    @Deprecated
     private Boolean isEnabled;
     private List<Long> enabledProjectIds;
     private Map<String, Object> config;

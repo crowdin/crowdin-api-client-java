@@ -1,6 +1,25 @@
 {
   "data": {
+    "preTranslationAiPromptId": 2,
     "editorSuggestionAiPromptId": 5,
+    "qaCheckActionAiPromptId": 8,
+    "contextReviewAiPromptId": 11,
+    "alignmentActionAiPromptId": 3,
+    "dailyCostLimit": 100,
+    "monthlyCostLimit": 2000.5,
+    "userDailyCostLimit": 10,
+    "userMonthlyCostLimit": null,
+    "isLimitingActive": true,
+    "perUserOverrides": [
+      {
+        "userId": 123,
+        "costLimitMode": "custom",
+        "dailyCostLimit": 5,
+        "monthlyCostLimit": 100,
+        "createdAt": "2019-09-23T11:26:54+00:00",
+        "updatedAt": "2019-09-23T11:26:54+00:00"
+      }
+    ],
     "shortcuts": [
       {
         "name": "My first shortcut",

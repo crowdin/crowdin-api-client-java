@@ -28,7 +28,7 @@ public class AiFileTranslation {
     }
 
     @Data
-    private static class FileTranslationError {
+    public static class FileTranslationError {
         private String stage;
         private String message;
     }

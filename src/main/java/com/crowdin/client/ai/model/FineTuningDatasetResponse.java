@@ -17,6 +17,7 @@ public class FineTuningDatasetResponse {
         private Date createdAt;
         private Date updatedAt;
         private Date startedAt;
+        private Date finishedAt;
     }
 
     @Data

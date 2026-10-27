@@ -1,0 +1,8 @@
+{
+  "dryRun": true,
+  "hyperparameters": {
+    "batchSize": 4,
+    "learningRateMultiplier": 0.5,
+    "nEpochs": 3
+  }
+}

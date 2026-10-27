@@ -13,4 +13,5 @@ public class GenerateAiReportRequestSchema {
     private List<Long> projectIds;
     private List<Long> promptIds;
     private List<Long> userIds;
+    private List<String> languageIds;
 }

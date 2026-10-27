@@ -1,0 +1,24 @@
+{
+  "resources": {
+    "projectId": 123,
+    "targetLanguageId": "uk",
+    "stringIds": [
+      1
+    ]
+  },
+  "tools": [
+    {
+      "tool": {
+        "type": "function",
+        "function": {
+          "name": "get_glossary",
+          "description": "Returns glossary terms",
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ],
+  "tool_choice": "auto"
+}
