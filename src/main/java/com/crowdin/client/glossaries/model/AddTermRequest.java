@@ -2,6 +2,8 @@ package com.crowdin.client.glossaries.model;
 
 import lombok.Data;
 
+import java.util.Map;
+
 @Data
 public class AddTermRequest {
 
@@ -17,4 +19,8 @@ public class AddTermRequest {
     private Long conceptId;
     @Deprecated
     private Long translationOfTermId;
+    /**
+     * Enterprise only. Keys get via List Fields
+     */
+    private Map<String, Object> fields;
 }

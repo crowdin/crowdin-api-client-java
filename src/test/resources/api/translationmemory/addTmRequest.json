@@ -1,4 +1,6 @@
 {
   "name": "Knowledge Base's TM",
-  "languageId": "ro"
+  "languageId": "ro",
+  "groupId": 2,
+  "isShared": true
 }

@@ -7,18 +7,18 @@
   ],
   "exportType": "terms",
   "statuses": [
-    "preferred",
-    "admitted"
+    "PREFERRED",
+    "ADMITTED"
   ],
   "partsOfSpeech": [
-    "noun",
-    "verb"
+    "NOUN",
+    "VERB"
   ],
   "types": [
-    "full form"
+    "FULL_FORM"
   ],
   "genders": [
-    "masculine"
+    "MASCULINE"
   ],
   "authorIds": [
     1,

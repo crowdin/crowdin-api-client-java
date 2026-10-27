@@ -8,4 +8,5 @@ public class AddGlossaryRequest {
     private String name;
     private String languageId;
     private Long groupId;
+    private Boolean isShared;
 }

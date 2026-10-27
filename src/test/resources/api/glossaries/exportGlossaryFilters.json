@@ -1,0 +1,37 @@
+{
+  "format": "xlsx",
+  "exportFields": [
+    "term",
+    "field_term-field",
+    "conceptField_concept-field"
+  ],
+  "exportType": "concepts",
+  "text": "value",
+  "caseSensitive": true,
+  "searchStrict": false,
+  "searchFullMatch": true,
+  "statuses": [
+    "DRAFT",
+    "NOT_RECOMMENDED"
+  ],
+  "partsOfSpeech": [
+    "ADJ",
+    "PROPN",
+    "SYM"
+  ],
+  "types": [
+    "SHORT_FORM"
+  ],
+  "genders": [
+    "COMMON",
+    "NEUTER"
+  ],
+  "authorIds": [
+    12
+  ],
+  "languageIds": [
+    "uk"
+  ],
+  "dateFrom": "2024-01-23T07:00:14.000+00:00",
+  "dateTo": "2024-09-27T07:00:14.000+00:00"
+}

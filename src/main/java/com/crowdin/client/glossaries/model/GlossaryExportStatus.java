@@ -22,5 +22,28 @@ public class GlossaryExportStatus {
 
         private GlossariesFormat format;
         private List<String> exportFields;
+        private String text;
+        private Boolean caseSensitive;
+        private Boolean searchFullMatch;
+        private Boolean searchStrict;
+        /**
+         * Export filter value, e.g. {@code DRAFT}
+         */
+        private String status;
+        /**
+         * Export filter value, e.g. {@code VERB}
+         */
+        private String partOfSpeech;
+        /**
+         * Export filter value, e.g. {@code ACRONYM}
+         */
+        private String type;
+        /**
+         * Export filter value, e.g. {@code OTHER}
+         */
+        private String gender;
+        private Long authorId;
+        private Date dateFrom;
+        private Date dateTo;
     }
 }

@@ -14,6 +14,9 @@
     "projectIds": [
       2
     ],
-    "createdAt": "2019-09-16T13:42:04+00:00"
+    "createdAt": "2019-09-16T13:42:04+00:00",
+    "languageId": "el",
+    "isShared": false,
+    "webUrl": "https://example.crowdin.com/u/tms/4"
   }
 }

@@ -9,5 +9,9 @@
   "note": "string",
   "url": "string",
   "conceptId": 0,
-  "translationOfTermId": 0
+  "translationOfTermId": 0,
+  "fields": {
+    "some-field-1": "some value 1",
+    "some-field-2": 12
+  }
 }

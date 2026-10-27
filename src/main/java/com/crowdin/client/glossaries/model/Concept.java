@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Concept {
@@ -18,6 +19,10 @@ public class Concept {
     private String url;
     private String figure;
     private List<ConceptLanguagesDetails> languagesDetails;
+    /**
+     * Enterprise only
+     */
+    private Map<String, Object> fields;
     private Date createdAt;
     private Date updatedAt;
 

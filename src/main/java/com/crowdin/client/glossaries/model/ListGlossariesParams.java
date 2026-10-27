@@ -12,5 +12,9 @@ public class ListGlossariesParams extends Pagination {
     private String orderBy;
     private Long userId;
     private Long groupId;
+    /**
+     * Filter glossaries by {@code name}
+     */
+    private String filter;
     private List<OrderByField> orderByList;
 }

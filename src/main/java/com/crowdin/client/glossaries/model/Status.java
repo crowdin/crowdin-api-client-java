@@ -3,7 +3,7 @@ package com.crowdin.client.glossaries.model;
 import com.crowdin.client.core.model.EnumConverter;
 
 public enum Status implements EnumConverter<Status> {
-    PREFERRED, ADMITTED, NOT_RECOMMENDED, OBSOLETE;
+    PREFERRED, ADMITTED, NOT_RECOMMENDED, OBSOLETE, DRAFT;
 
     public static Status from(String value) {
         return Status.valueOf(value.toUpperCase().replaceAll(" ", "_"));

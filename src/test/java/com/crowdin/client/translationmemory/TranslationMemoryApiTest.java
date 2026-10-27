@@ -1,6 +1,8 @@
 package com.crowdin.client.translationmemory;
 
 import com.crowdin.client.core.model.DownloadLink;
+import com.crowdin.client.core.model.OrderByField;
+import com.crowdin.client.core.model.SortOrder;
 import com.crowdin.client.core.model.PatchOperation;
 import com.crowdin.client.core.model.PatchRequest;
 import com.crowdin.client.core.model.ResponseList;
@@ -8,6 +10,7 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.translationmemory.model.AddTranslationMemoryRequest;
+import com.crowdin.client.translationmemory.model.ListTmsParams;
 import com.crowdin.client.translationmemory.model.SearchConcordance;
 import com.crowdin.client.translationmemory.model.SearchConcordanceRequest;
 import com.crowdin.client.translationmemory.model.SearchOrganizationConcordanceRequest;
@@ -24,6 +27,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static java.util.Collections.singletonList;
@@ -45,6 +49,14 @@ public class TranslationMemoryApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/tms", HttpGet.METHOD_NAME, "api/translationmemory/listTms.json"),
+                RequestMock.build(this.url + "/tms", HttpGet.METHOD_NAME, "api/translationmemory/listTms.json", new HashMap<String, Object>() {{
+                    put("groupId", 2L);
+                    put("userId", 12L);
+                    put("filter", "Knowledge");
+                    put("limit", 10);
+                    put("offset", 5);
+                    put("orderBy", "id%20desc");
+                }}),
                 RequestMock.build(this.url + "/tms", HttpPost.METHOD_NAME, "api/translationmemory/addTmRequest.json", "api/translationmemory/tm.json"),
                 RequestMock.build(this.url + "/tms/" + tmId, HttpGet.METHOD_NAME, "api/translationmemory/tm.json"),
                 RequestMock.build(this.url + "/tms/" + tmId, HttpDelete.METHOD_NAME),
@@ -56,6 +68,7 @@ public class TranslationMemoryApiTest extends TestClient {
                 RequestMock.build(this.url + "/tms/" + tmId + "/imports/" + importId, HttpGet.METHOD_NAME, "api/translationmemory/tmImportStatus.json"),
                 RequestMock.build(String.format("%s/tms/%d/segments", this.url, tmId), HttpDelete.METHOD_NAME),
                 RequestMock.build(String.format("%s/projects/%d/tms/concordance", this.url, projectId), HttpPost.METHOD_NAME, "api/translationmemory/concordanceSearchRequest.json", "api/translationmemory/concordanceSearchResponse.json"),
+                RequestMock.build(String.format("%s/projects/%d/tms/concordance", this.url, projectId), HttpPost.METHOD_NAME, "api/translationmemory/concordanceSearchExpressionsRequest.json", "api/translationmemory/concordanceSearchResponse.json"),
                 RequestMock.build(this.url + "/tms/concordance", HttpPost.METHOD_NAME, "api/translationmemory/organizationConcordanceSearchRequest.json", "api/translationmemory/concordanceSearchResponse.json")
         );
     }
@@ -75,6 +88,19 @@ public class TranslationMemoryApiTest extends TestClient {
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSource(), "Welcome!");
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getRelevant(), 100);
         assertEquals(searchConcordanceResponseList.getData().get(0).getData().getSubstituted(), "62→100");
+    }
+
+    @Test
+    public void searchConcordanceExpressionsTest() {
+        SearchConcordanceRequest request = new SearchConcordanceRequest();
+        request.setSourceLanguageId("en");
+        request.setTargetLanguageId("de");
+        request.setAutoSubstitution(true);
+        request.setMinRelevant(60);
+        request.setExpressions(Arrays.asList("Welcome!", "View"));
+        ResponseList<SearchConcordance> responseList = this.getTranslationMemoryApi().searchConcordance(projectId, request);
+        assertEquals(1, responseList.getData().size());
+        assertEquals(tmId, responseList.getData().get(0).getData().getTm().getId());
     }
 
     @Test
@@ -108,13 +134,42 @@ public class TranslationMemoryApiTest extends TestClient {
     }
 
     @Test
+    public void listTmsWithParamsTest() {
+        OrderByField orderById = new OrderByField();
+        orderById.setFieldName("id");
+        orderById.setOrderBy(SortOrder.DESC);
+
+        ListTmsParams params = new ListTmsParams();
+        params.setGroupId(2L);
+        params.setUserId(12L);
+        params.setFilter("Knowledge");
+        params.setLimit(10);
+        params.setOffset(5);
+        params.setOrderByList(singletonList(orderById));
+        ResponseList<TranslationMemory> translationMemoryResponseList = this.getTranslationMemoryApi().listTms(params);
+        assertEquals(1, translationMemoryResponseList.getData().size());
+        assertEquals(tmId, translationMemoryResponseList.getData().get(0).getData().getId());
+    }
+
+    @Test
+    public void listTmsWithNullParamsTest() {
+        ResponseList<TranslationMemory> translationMemoryResponseList = this.getTranslationMemoryApi().listTms((ListTmsParams) null);
+        assertEquals(1, translationMemoryResponseList.getData().size());
+    }
+
+    @Test
     public void addTmTest() {
         AddTranslationMemoryRequest request = new AddTranslationMemoryRequest();
         request.setName(name);
         request.setLanguageId(languageId);
+        request.setGroupId(2L);
+        request.setIsShared(true);
         ResponseObject<TranslationMemory> translationMemoryResponseObject = this.getTranslationMemoryApi().addTm(request);
         assertEquals(translationMemoryResponseObject.getData().getId(), tmId);
         assertEquals(translationMemoryResponseObject.getData().getName(), name);
+        assertEquals("el", translationMemoryResponseObject.getData().getLanguageId());
+        assertEquals(false, translationMemoryResponseObject.getData().getIsShared());
+        assertEquals("https://example.crowdin.com/u/tms/4", translationMemoryResponseObject.getData().getWebUrl());
     }
 
     @Test

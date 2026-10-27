@@ -14,8 +14,9 @@ public class ListTermsParams extends Pagination {
     private String languageId;
     private Long conceptId;
     /**
-     * @deprecated
+     * @deprecated use {@link #conceptId} instead
      */
+    @Deprecated
     private Long translationOfTermId;
     private String croql;
     private List<OrderByField> orderByList;
