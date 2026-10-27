@@ -225,10 +225,22 @@ public class GlossariesApiTest extends TestClient {
         fields.put("some-field-3", true);
         request.setFields(fields);
 
-        ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().updateConcept(glossaryId, conceptId, request);
+        ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().updateConceptWithRequest(glossaryId, conceptId, request);
         assertEquals(glossaryId, conceptResponseObject.getData().getId());
         assertEquals(subject, conceptResponseObject.getData().getSubject());
         assertEquals("some value 1", conceptResponseObject.getData().getFields().get("some-field-1"));
+    }
+
+    /**
+     * Source compatibility: {@code updateConcept(id, id, null)} must keep compiling (no ambiguous overload) and
+     * still call the original {@code PUT /glossaries/{glossaryId}/concepts/{conceptId}} endpoint.
+     */
+    @Test
+    @SuppressWarnings("deprecation")
+    public void updateConceptWithNullRequestCompatibilityTest() {
+        ResponseObject<Concept> conceptResponseObject = this.getGlossariesApi().updateConcept(glossaryId, conceptId, null);
+        assertEquals(glossaryId, conceptResponseObject.getData().getId());
+        assertEquals(subject, conceptResponseObject.getData().getSubject());
     }
 
     @Test

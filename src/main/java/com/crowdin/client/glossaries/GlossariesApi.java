@@ -128,7 +128,7 @@ public class GlossariesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      * @deprecated sends the response model {@link Concept} (including read-only properties such as id, userId and
-     * dates) as the request body; use {@link #updateConcept(Long, Long, UpdateConceptRequest)} instead
+     * dates) as the request body; use {@link #updateConceptWithRequest(Long, Long, UpdateConceptRequest)} instead
      */
     @Deprecated
     public ResponseObject<Concept> updateConcept(Long glossaryId, Long conceptId, Concept request) throws HttpException, HttpBadRequestException {
@@ -137,6 +137,8 @@ public class GlossariesApi extends CrowdinApi {
     }
 
     /**
+     * Updates a concept using a request model that contains only the properties accepted by the API.
+     *
      * @param glossaryId glossary identifier
      * @param conceptId concept identifier
      * @param request request object
@@ -146,7 +148,7 @@ public class GlossariesApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.glossaries.concepts.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<Concept> updateConcept(Long glossaryId, Long conceptId, UpdateConceptRequest request) throws HttpException, HttpBadRequestException {
+    public ResponseObject<Concept> updateConceptWithRequest(Long glossaryId, Long conceptId, UpdateConceptRequest request) throws HttpException, HttpBadRequestException {
         ConceptResponseObject conceptResponseObject = this.httpClient.put(this.url + "/glossaries/" + glossaryId + "/concepts/" + conceptId, request, new HttpRequestConfig(), ConceptResponseObject.class);
         return ResponseObject.of(conceptResponseObject.getData());
     }
