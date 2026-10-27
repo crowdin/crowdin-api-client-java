@@ -4,5 +4,6 @@
   "languageIds": ["uk", "fr", "de"],
   "projectIds": [1, 2, 3],
   "isShared": false,
+  "groupId": 5,
   "storageId": 1
 }

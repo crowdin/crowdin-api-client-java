@@ -8,7 +8,9 @@ public enum Event implements EnumConverter<Event> {
     FILE_ADDED, FILE_UPDATED, FILE_REVERTED, FILE_DELETED, STRING_ADDED, STRING_UPDATED, STRING_DELETED,
     STRINGCOMMENT_CREATED("stringComment.created"), STRINGCOMMENT_UPDATED("stringComment.updated"),
     STRINGCOMMENT_DELETED("stringComment.deleted"), STRINGCOMMENT_RESTORED("stringComment.restored"),
-    TASK_ADDED, TASK_STATUSCHANGED("task.statusChanged"), TASK_DELETED;
+    TASK_ADDED, TASK_STATUSCHANGED("task.statusChanged"), TASK_DELETED,
+    FILE_QA_FINISHED, PROJECT_QA_FINISHED, PROJECT_BUILT,
+    PRETRANSLATION_COMPLETED("preTranslation.completed"), TASK_UPDATED;
 
     final String rawName;
 

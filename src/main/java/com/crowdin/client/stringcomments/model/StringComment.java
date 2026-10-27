@@ -14,12 +14,36 @@ public class StringComment {
     private Long stringId;
     private User user;
     private StringObject string;
+    private Long projectId;
     private String languageId;
     private Type type;
     private String issueType;
     private IssueStatus issueStatus;
+    private Long resolverId;
+    private User resolver;
+    private Date resolvedAt;
     private Date createdAt;
     private List<Attachment> attachments;
+    /**
+     * File-based projects only, present for file comments
+     */
+    private Long fileId;
+    /**
+     * File-based projects only, present for file comments
+     */
+    private FileObject file;
+    /**
+     * Crowdin Enterprise only
+     */
+    private Boolean isShared;
+    /**
+     * Crowdin Enterprise only
+     */
+    private Organization senderOrganization;
+    /**
+     * Crowdin Enterprise only
+     */
+    private Organization resolverOrganization;
 
     @Data
     public static class User {
@@ -41,5 +65,19 @@ public class StringComment {
         private Boolean isIcu;
         private String context;
         private Long fileId;
+    }
+
+    @Data
+    public static class FileObject {
+        private Long id;
+        private String name;
+        private String type;
+        private String context;
+    }
+
+    @Data
+    public static class Organization {
+        private Long id;
+        private String domain;
     }
 }

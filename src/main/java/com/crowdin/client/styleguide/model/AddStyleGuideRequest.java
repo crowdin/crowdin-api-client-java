@@ -11,5 +11,9 @@ public class AddStyleGuideRequest {
     private List<String> languageIds;
     private List<Long> projectIds;
     private Boolean isShared;
+    /**
+     * Crowdin Enterprise only
+     */
+    private Long groupId;
     private Long storageId;
 }

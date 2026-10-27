@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class OrganizationWebhooksApiTest extends TestClient {
 
-    private final String baseUrl = "/webhooks";
     private final Long organizationWebhookId = 1L;
 
     @Override
@@ -36,7 +35,7 @@ public class OrganizationWebhooksApiTest extends TestClient {
         return Arrays.asList(
                 // LIST
                 RequestMock.build(
-                        baseUrl,
+                        this.url + "/webhooks",
                         HttpGet.METHOD_NAME,
                         "api/webhooks/organization/commonResponses_multi.json",
                         new HashMap<String, Integer>() {{
@@ -46,7 +45,7 @@ public class OrganizationWebhooksApiTest extends TestClient {
                 ),
                 // ADD
                 RequestMock.build(
-                        baseUrl,
+                        this.url + "/webhooks",
                         HttpPost.METHOD_NAME,
                         "api/webhooks/organization/addWebhookRequest.json",
                         "api/webhooks/organization/commonResponses_single.json"

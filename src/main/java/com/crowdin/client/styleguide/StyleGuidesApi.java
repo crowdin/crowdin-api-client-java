@@ -109,6 +109,14 @@ public class StyleGuidesApi extends CrowdinApi {
         return listStyleGuides(params);
     }
 
+    /**
+     * @param params query parameters (userId, limit, offset, orderBy); may be {@code null}
+     * @return list of style guides
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.style-guides.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.style-guides.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<StyleGuide> listStyleGuides(ListStyleGuidesParams params) throws HttpException, HttpBadRequestException {
         ListStyleGuidesParams query = Optional.ofNullable(params).orElse(new ListStyleGuidesParams());
 

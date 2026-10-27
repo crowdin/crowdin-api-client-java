@@ -7,6 +7,7 @@ import com.crowdin.client.core.model.ResponseObject;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.machinetranslationengines.model.AddMachineTranslationRequest;
+import com.crowdin.client.machinetranslationengines.model.CustomMtTranslateCredentials;
 import com.crowdin.client.machinetranslationengines.model.GoogleTranslateCredentials;
 import com.crowdin.client.machinetranslationengines.model.MachineTranslation;
 import com.crowdin.client.machinetranslationengines.model.MtTranslateRequest;
@@ -36,6 +37,7 @@ public class MachineTranslationEnginesApiTest extends TestClient {
         return Arrays.asList(
                 RequestMock.build(this.url + "/mts", HttpGet.METHOD_NAME, "api/machinetranslationengines/listMts.json"),
                 RequestMock.build(this.url + "/mts", HttpPost.METHOD_NAME, "api/machinetranslationengines/addMt.json", "api/machinetranslationengines/mt.json"),
+                RequestMock.build(this.url + "/mts", HttpPost.METHOD_NAME, "api/machinetranslationengines/addMtCustom.json", "api/machinetranslationengines/mt.json"),
                 RequestMock.build(this.url + "/mts/" + mtId, HttpGet.METHOD_NAME, "api/machinetranslationengines/mt.json"),
                 RequestMock.build(this.url + "/mts/" + mtId, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/mts/" + mtId, HttpPatch.METHOD_NAME, "api/machinetranslationengines/editMt.json", "api/machinetranslationengines/mt.json"),
@@ -63,6 +65,18 @@ public class MachineTranslationEnginesApiTest extends TestClient {
         ResponseObject<MachineTranslation> machineTranslationResponseObject = this.getMachineTranslationEnginesApi().addMt(request);
         assertEquals(machineTranslationResponseObject.getData().getId(), mtId);
         assertEquals(machineTranslationResponseObject.getData().getName(), name);
+    }
+
+    @Test
+    public void addCustomMtTest() {
+        AddMachineTranslationRequest request = new AddMachineTranslationRequest();
+        request.setName("Custom MT");
+        request.setType(Type.CUSTOM_MT);
+        CustomMtTranslateCredentials credentials = new CustomMtTranslateCredentials();
+        credentials.setUrl("https://mt.example.com/translate");
+        request.setCredentials(credentials);
+        ResponseObject<MachineTranslation> machineTranslationResponseObject = this.getMachineTranslationEnginesApi().addMt(request);
+        assertEquals(mtId, machineTranslationResponseObject.getData().getId());
     }
 
     @Test

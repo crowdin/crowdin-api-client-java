@@ -1,0 +1,7 @@
+{
+  "name": "Custom MT",
+  "type": "custom_mt",
+  "credentials": {
+    "url": "https://mt.example.com/translate"
+  }
+}

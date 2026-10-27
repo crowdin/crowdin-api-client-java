@@ -44,6 +44,15 @@ public class BundlesApi extends CrowdinApi {
         return listBundles(projectId, new Pagination());
     }
 
+    /**
+     * @param projectId project identifier
+     * @param options   pagination options (limit, offset)
+     * @return list of bundles
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<Bundle> listBundles(Long projectId, Pagination options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "limit", Optional.ofNullable(options.getLimit()),
@@ -133,6 +142,11 @@ public class BundlesApi extends CrowdinApi {
      * @param bundleId  bundle identifier
      * @param limit     maximum number of items to retrieve (default 25)
      * @param offset    starting offset in the collection (default 0)
+     * @return list of bundle branches
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.bundles.branches.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.bundles.branches.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseList<Branch> listBundleBranches(Long projectId, Long bundleId, Integer limit, Integer offset) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(

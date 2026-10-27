@@ -14,6 +14,7 @@ public class Language {
     private String threeLettersCode;
     private String locale;
     private String androidCode;
+    private String bcp47Code;
     private String osxCode;
     private String osxLocale;
     private List<String> pluralCategoryNames;

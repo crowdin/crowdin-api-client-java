@@ -23,7 +23,8 @@ public class NotificationsApi extends  CrowdinApi {
     /**
      * @param request request object
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/api/v2/#tag/Notifications/api.projects.notification.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.notify.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.notify.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void sendNotificationToAuthenticatedUser(SendNotificationToAuthenticatedUserRequest request) throws HttpException, HttpBadRequestException {

@@ -5,7 +5,8 @@
         "id": 678,
         "name": "John Smith Translation Agency",
         "description": "John Smith Translation Agency provides services for software and game localization as well as translation into 70+ languages.",
-        "status": "pending"
+        "status": "pending",
+        "webUrl": "https://acme.crowdin.com/u/clients/678"
       }
     }
   ],

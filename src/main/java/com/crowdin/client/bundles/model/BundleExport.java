@@ -15,6 +15,10 @@ public class BundleExport {
     private Date updatedAt;
     private Date startedAt;
     private Date finishedAt;
+    /**
+     * @deprecated deprecated in the API, may be removed in the future
+     */
+    @Deprecated
     private String eta;
 
 }

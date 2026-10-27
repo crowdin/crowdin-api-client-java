@@ -9,4 +9,5 @@ public class Client {
     private String name;
     private String description;
     private Status status;
+    private String webUrl;
 }

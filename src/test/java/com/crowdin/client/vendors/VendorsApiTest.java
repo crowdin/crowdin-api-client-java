@@ -32,5 +32,6 @@ public class VendorsApiTest extends TestClient {
         assertEquals(vendorResponseList.getData().get(0).getData().getId(), vendorId);
         assertEquals(vendorResponseList.getData().get(0).getData().getName(), name);
         assertEquals(vendorResponseList.getData().get(0).getData().getStatus(), Status.PENDING);
+        assertEquals("https://acme.crowdin.com/u/vendors/52760", vendorResponseList.getData().get(0).getData().getWebUrl());
     }
 }
