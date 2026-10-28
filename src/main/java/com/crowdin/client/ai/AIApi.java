@@ -5,8 +5,10 @@ import com.crowdin.client.ai.model.FineTuningDatasetResponse.FineTuningDatasetDa
 import com.crowdin.client.applications.installations.model.ApplicationInstallationResponseObject;
 import com.crowdin.client.core.CrowdinApi;
 import com.crowdin.client.core.http.HttpRequestConfig;
+import com.crowdin.client.core.http.JsonTransformer;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
+import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.Credentials;
 import com.crowdin.client.core.model.DownloadLink;
@@ -21,6 +23,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AIApi extends CrowdinApi {
+
+    private static final JsonTransformer AI_GATEWAY_JSON_TRANSFORMER = new JacksonJsonTransformer();
 
     public AIApi(Credentials credentials) {
         super(credentials);
@@ -927,95 +931,134 @@ public class AIApi extends CrowdinApi {
 
     /**
      * Sends a GET request through the AI gateway and returns the raw provider response body.
+     * <p>
+     * The AI gateway is a transparent proxy, so the response format depends on the provider and endpoint. The whole
+     * body is read into memory: streamed responses (e.g. server-sent events) and non-JSON bodies are not supported, and
+     * an HTTP 204 (No Content) response cannot be read by the default HTTP client.
      *
      * @param userId user identifier; should be {@code null} for Crowdin Enterprise
      * @param aiProviderId id of AiProvider
      * @param path downstream endpoint path (e.g. models)
-     * @return raw provider response body
+     * @return the provider response body parsed as JSON: {@link Map} for an object, {@link List} for an array,
+     * {@link String}, {@link Number} or {@link Boolean} for a scalar, {@code null} for JSON {@code null} or an empty body
+     * @throws HttpException if the request fails or the response body is not valid JSON
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.get" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> aiGatewayGetRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
+    public Object aiGatewayGetRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
-        return this.httpClient.get(url, new HttpRequestConfig(), Map.class);
+        return this.parseAiGatewayResponse(this.httpClient.get(url, new HttpRequestConfig(), String.class));
     }
 
     /**
      * Sends a POST request through the AI gateway and returns the raw provider response body.
+     * <p>
+     * The AI gateway is a transparent proxy, so the response format depends on the provider and endpoint. The whole
+     * body is read into memory: streamed responses (e.g. server-sent events) and non-JSON bodies are not supported, and
+     * an HTTP 204 (No Content) response cannot be read by the default HTTP client.
      *
      * @param userId user identifier; should be {@code null} for Crowdin Enterprise
      * @param aiProviderId id of AiProvider
-     * @param path downstream endpoint path (e.g. chat/completions)
-     * @param request raw provider request body
-     * @return raw provider response body
+     * @param path downstream endpoint path (e.g. models)
+     * @param request request body sent to the provider
+     * @return the provider response body parsed as JSON: {@link Map} for an object, {@link List} for an array,
+     * {@link String}, {@link Number} or {@link Boolean} for a scalar, {@code null} for JSON {@code null} or an empty body
+     * @throws HttpException if the request fails or the response body is not valid JSON
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.post" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> aiGatewayPostRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+    public Object aiGatewayPostRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
-        return this.httpClient.post(url, request, new HttpRequestConfig(), Map.class);
+        return this.parseAiGatewayResponse(this.httpClient.post(url, request, new HttpRequestConfig(), String.class));
     }
 
     /**
      * Sends a PUT request through the AI gateway and returns the raw provider response body.
+     * <p>
+     * The AI gateway is a transparent proxy, so the response format depends on the provider and endpoint. The whole
+     * body is read into memory: streamed responses (e.g. server-sent events) and non-JSON bodies are not supported, and
+     * an HTTP 204 (No Content) response cannot be read by the default HTTP client.
      *
      * @param userId user identifier; should be {@code null} for Crowdin Enterprise
      * @param aiProviderId id of AiProvider
-     * @param path downstream endpoint path
-     * @param request raw provider request body
-     * @return raw provider response body
+     * @param path downstream endpoint path (e.g. models)
+     * @param request request body sent to the provider
+     * @return the provider response body parsed as JSON: {@link Map} for an object, {@link List} for an array,
+     * {@link String}, {@link Number} or {@link Boolean} for a scalar, {@code null} for JSON {@code null} or an empty body
+     * @throws HttpException if the request fails or the response body is not valid JSON
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.put" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.put" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> aiGatewayPutRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+    public Object aiGatewayPutRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
-        return this.httpClient.put(url, request, new HttpRequestConfig(), Map.class);
+        return this.parseAiGatewayResponse(this.httpClient.put(url, request, new HttpRequestConfig(), String.class));
     }
 
     /**
      * Sends a PATCH request through the AI gateway and returns the raw provider response body.
+     * <p>
+     * The AI gateway is a transparent proxy, so the response format depends on the provider and endpoint. The whole
+     * body is read into memory: streamed responses (e.g. server-sent events) and non-JSON bodies are not supported, and
+     * an HTTP 204 (No Content) response cannot be read by the default HTTP client.
      *
      * @param userId user identifier; should be {@code null} for Crowdin Enterprise
      * @param aiProviderId id of AiProvider
-     * @param path downstream endpoint path
-     * @param request raw provider request body
-     * @return raw provider response body
+     * @param path downstream endpoint path (e.g. models)
+     * @param request request body sent to the provider
+     * @return the provider response body parsed as JSON: {@link Map} for an object, {@link List} for an array,
+     * {@link String}, {@link Number} or {@link Boolean} for a scalar, {@code null} for JSON {@code null} or an empty body
+     * @throws HttpException if the request fails or the response body is not valid JSON
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.patch" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> aiGatewayPatchRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
+    public Object aiGatewayPatchRaw(final Long userId, final Long aiProviderId, final String path, final Map<String, Object> request) throws HttpException, HttpBadRequestException {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
-        return this.httpClient.patch(url, request, new HttpRequestConfig(), Map.class);
+        return this.parseAiGatewayResponse(this.httpClient.patch(url, request, new HttpRequestConfig(), String.class));
     }
 
     /**
      * Sends a DELETE request through the AI gateway and returns the raw provider response body.
+     * <p>
+     * The AI gateway is a transparent proxy, so the response format depends on the provider and endpoint. The whole
+     * body is read into memory: streamed responses (e.g. server-sent events) and non-JSON bodies are not supported, and
+     * an HTTP 204 (No Content) response cannot be read by the default HTTP client.
      *
      * @param userId user identifier; should be {@code null} for Crowdin Enterprise
      * @param aiProviderId id of AiProvider
-     * @param path downstream endpoint path
-     * @return raw provider response body
+     * @param path downstream endpoint path (e.g. models)
+     * @return the provider response body parsed as JSON: {@link Map} for an object, {@link List} for an array,
+     * {@link String}, {@link Number} or {@link Boolean} for a scalar, {@code null} for JSON {@code null} or an empty body
+     * @throws HttpException if the request fails or the response body is not valid JSON
      * @see <ul>
      *     <li><a href="https://developer.crowdin.com/api/v2/#operation/api.ai.providers.gateway.crowdin.delete" target="_blank"><b>API Documentation</b></a></li>
      *     <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.ai.providers.gateway.enterprise.delete" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> aiGatewayDeleteRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
+    public Object aiGatewayDeleteRaw(final Long userId, final Long aiProviderId, final String path) throws HttpException, HttpBadRequestException {
         String url = getAIPath(userId, "ai/providers/" + aiProviderId + "/gateway/" + path);
-        return this.httpClient.delete(url, new HttpRequestConfig(), Map.class);
+        return this.parseAiGatewayResponse(this.httpClient.delete(url, new HttpRequestConfig(), String.class));
+    }
+
+    private Object parseAiGatewayResponse(String body) {
+        if (body == null || body.trim().isEmpty()) {
+            return null;
+        }
+        JsonTransformer jsonTransformer = this.clientConfig != null && this.clientConfig.getJsonTransformer() != null
+                ? this.clientConfig.getJsonTransformer()
+                : AI_GATEWAY_JSON_TRANSFORMER;
+        try {
+            return jsonTransformer.parse(body, Object.class);
+        } catch (Exception e) {
+            throw HttpException.fromMessage("AI gateway response is not valid JSON: " + e.getMessage(), body);
+        }
     }
 
     /**
