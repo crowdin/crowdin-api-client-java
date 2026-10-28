@@ -59,16 +59,6 @@ public class ReportSettingsTemplate {
         private Boolean includePreTranslatedStrings;
         private Boolean useCategoryBasedProofreadRates;
         private Boolean useTmEditDistance;
-        /**
-         * @deprecated deprecated in the API
-         */
-        @Deprecated
-        private Boolean excludeApprovalsForEditedTranslations;
-        /**
-         * @deprecated deprecated in the API
-         */
-        @Deprecated
-        private Boolean preTranslatedStringsCategorizationAdjustment;
     }
 
     /**
