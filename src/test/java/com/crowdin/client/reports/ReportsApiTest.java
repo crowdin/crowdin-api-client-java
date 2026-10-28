@@ -25,6 +25,7 @@ import java.util.Calendar;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -76,6 +77,7 @@ public class ReportsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports", HttpPost.METHOD_NAME, "api/reports/generateTranslationActivityReport.json", "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addHourlyReportSettingsTemplate.json", "api/reports/hourlyReportSettingsTemplate.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addPostEditingReportSettingsTemplate.json", "api/reports/postEditingReportSettingsTemplate.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/reports/settings-templates", HttpPost.METHOD_NAME, "api/reports/addPostEditingReportSettingsTemplateCustomRanges.json", "api/reports/postEditingReportSettingsTemplateCustomRanges.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id, HttpGet.METHOD_NAME, "api/reports/reportGenerationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/reports/" + id + "/download", HttpGet.METHOD_NAME, "api/reports/downloadLink.json"),
                 RequestMock.build(this.url + "/reports/settings-templates", HttpGet.METHOD_NAME, "api/reports/listOrganizationReportSettingsTemplate.json"),
@@ -716,6 +718,58 @@ public class ReportsApiTest extends TestClient {
         assertFalse(responseConfig.getIncludePreTranslatedStrings());
         assertTrue(responseConfig.getUseCategoryBasedProofreadRates());
         assertFalse(responseConfig.getUseTmEditDistance());
+    }
+
+    @Test
+    public void addPostEditingReportSettingsTemplateWithCustomMatchTypeRangesTest() {
+        BaseRatesForm baseRates = new BaseRatesForm();
+        baseRates.setFullTranslation(fullTranslationRate);
+        baseRates.setProofread(proofreadRate);
+        IndividualRate individualRate = new IndividualRate();
+        individualRate.setLanguageIds(singletonList(engLanguageId));
+        individualRate.setUserIds(singletonList(20L));
+        individualRate.setFullTranslation(fullTranslationRate);
+        individualRate.setProofread(proofreadRate);
+        Match perfect = new Match();
+        perfect.setMatchType(MatchType.PERFECT);
+        perfect.setPrice(0.1f);
+        NetRateSchemes netRateSchemes = new NetRateSchemes();
+        netRateSchemes.setTmMatch(Arrays.asList(perfect, match("100-82", 0.08f)));
+        netRateSchemes.setMtMatch(singletonList(match("100-74", 0.05f)));
+        netRateSchemes.setAiMatch(singletonList(match("100-74", 0.05f)));
+        netRateSchemes.setSuggestionMatch(singletonList(match("99-60", 0.07f)));
+        ReportSettingsTemplate.Config config = new ReportSettingsTemplate.Config();
+        config.setBaseRates(baseRates);
+        config.setIndividualRates(singletonList(individualRate));
+        config.setNetRateSchemes(netRateSchemes);
+        config.setCalculateInternalMatches(true);
+        config.setIncludePreTranslatedStrings(false);
+        config.setUseCategoryBasedProofreadRates(true);
+        config.setUseTmEditDistance(false);
+
+        ReportSettingsTemplate request = new ReportSettingsTemplate();
+        request.setName("post-editing template with ranges");
+        request.setCurrency(Currency.DDK);
+        request.setUnit(Unit.WORDS);
+        request.setConfig(config);
+
+        ReportSettingsTemplate response = this.getReportsApi().addReportSettingsTemplate(projectId, request).getData();
+        NetRateSchemes responseSchemes = response.getConfig().getNetRateSchemes();
+        assertEquals(netRateSchemes, responseSchemes);
+        assertEquals(MatchType.PERFECT, responseSchemes.getTmMatch().get(0).getMatchType());
+        assertEquals("perfect", responseSchemes.getTmMatch().get(0).getMatchTypeValue());
+        assertEquals("100-82", responseSchemes.getTmMatch().get(1).getMatchTypeValue());
+        assertNull(responseSchemes.getTmMatch().get(1).getMatchType());
+        assertEquals("100-74", responseSchemes.getMtMatch().get(0).getMatchTypeValue());
+        assertEquals("100-74", responseSchemes.getAiMatch().get(0).getMatchTypeValue());
+        assertEquals("99-60", responseSchemes.getSuggestionMatch().get(0).getMatchTypeValue());
+    }
+
+    private static Match match(String matchType, float price) {
+        Match match = new Match();
+        match.setMatchTypeValue(matchType);
+        match.setPrice(price);
+        return match;
     }
 
     @Test
