@@ -12,4 +12,25 @@ public class MdxV1FileFormatSettings extends FileFormatSettings {
     private Long srxStorageId;
     private List<String> excludedFrontMatterElements;
     private Boolean excludeCodeBlocks;
+    /**
+     * One of: mdx_v1, mdx_v2
+     */
+    private String type;
+    /**
+     * One of: asterisk, underscore
+     */
+    private String strongMarker;
+    /**
+     * One of: asterisk, underscore
+     */
+    private String emphasisMarker;
+    /**
+     * One of: asterisks, plus, dash
+     */
+    private String unorderedListBullet;
+    /**
+     * One of: consolidate, evenly_distribute_cells
+     */
+    private String tableColumnWidth;
+    private Boolean customSegmentation;
 }

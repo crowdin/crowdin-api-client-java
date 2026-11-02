@@ -1,0 +1,24 @@
+{
+  "data": {
+    "id": 4,
+    "name": "Markdown",
+    "format": "md",
+    "extensions": [
+      "md"
+    ],
+    "settings": {
+      "contentSegmentation": true,
+      "customSegmentation": false,
+      "inlineTags": [
+        "kbd"
+      ],
+      "strongMarker": "asterisk",
+      "emphasisMarker": "underscore",
+      "unorderedListBullet": "dash",
+      "tableColumnWidth": "evenly_distribute_cells",
+      "frontMatterQuotes": "double"
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

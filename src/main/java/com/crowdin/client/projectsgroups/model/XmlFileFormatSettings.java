@@ -13,4 +13,6 @@ public class XmlFileFormatSettings extends FileFormatSettings {
     private List<String> translatableElements;
     private Boolean contentSegmentation;
     private Long srxStorageId;
+    private List<String> inlineTags;
+    private Boolean customSegmentation;
 }

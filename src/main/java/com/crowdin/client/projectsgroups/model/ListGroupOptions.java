@@ -11,4 +11,8 @@ public class ListGroupOptions extends Pagination {
     private Long parentId;
     private Long userId;
     private String orderBy;
+    /**
+     * Filter groups by name
+     */
+    private String filter;
 }

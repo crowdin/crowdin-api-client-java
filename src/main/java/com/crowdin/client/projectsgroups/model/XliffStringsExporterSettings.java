@@ -9,4 +9,6 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 public class XliffStringsExporterSettings extends StringsExporterSettings {
     private Map<String, String> languagePairMapping;
+    private Boolean copySourceToEmptyTarget;
+    private Boolean exportTranslatorsComment;
 }

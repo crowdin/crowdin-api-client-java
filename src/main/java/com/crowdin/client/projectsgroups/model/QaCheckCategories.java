@@ -19,4 +19,9 @@ public class QaCheckCategories {
     private Boolean duplicate;
     private Boolean ftl;
     private Boolean android;
+    private Boolean numbers;
+    private Boolean ai;
+    private Boolean outdated;
+    private Boolean mdx;
+    private Boolean unifiedPlaceholders;
 }

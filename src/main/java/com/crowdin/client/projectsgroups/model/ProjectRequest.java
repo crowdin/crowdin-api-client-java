@@ -1,5 +1,6 @@
 package com.crowdin.client.projectsgroups.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,7 +19,13 @@ public class ProjectRequest extends AddProjectRequest {
     private String languageAccessPolicy;
     private String cname;
     private String description;
+    /**
+     * @deprecated the API key is {@code tagsDetection}, use {@link #tagsDetection} instead
+     */
+    @Deprecated
+    @JsonIgnore
     private Integer tagDetection;
+    private Integer tagsDetection;
     private Boolean isMtAllowed;
     private Boolean taskBasedAccessControl;
     private Boolean autoSubstitution;
@@ -35,8 +42,9 @@ public class ProjectRequest extends AddProjectRequest {
     private QaCheckCategories qaChecksIgnorableCategories;
     private Map<String, Map<String, String>> languageMapping;
     /**
-     * @deprecated
+     * @deprecated deprecated in the API, use {@link #glossaryAccessOption} instead
      */
+    @Deprecated
     private Boolean glossaryAccess;
     private String glossaryAccessOption;
     private Boolean normalizePlaceholder;
@@ -44,8 +52,15 @@ public class ProjectRequest extends AddProjectRequest {
     private TmPreTranslate tmPreTranslate;
     private MtPreTranslate mtPreTranslate;
     private AiPreTranslate aiPreTranslate;
+    /**
+     * @deprecated no longer part of the documented API
+     */
+    @Deprecated
     private Long assistActionAiPromptId;
     private Long editorSuggestionAiPromptId;
+    private Long qaCheckActionAiPromptId;
+    private Long contextReviewAiPromptId;
+    private List<Long> assignedStyleGuides;
     private Long savingsReportSettingsTemplateId;
     private Integer defaultTmId;
     private Integer defaultGlossaryId;
@@ -56,4 +71,22 @@ public class ProjectRequest extends AddProjectRequest {
     private Integer type;
     private Boolean skipUntranslatedFiles;
     private TmContextType tmContextType;
+
+    /**
+     * @return tags detection
+     * @deprecated use {@link #tagsDetection} instead
+     */
+    @Deprecated
+    public Integer getTagDetection() {
+        return this.tagsDetection;
+    }
+
+    /**
+     * @param tagDetection tags detection
+     * @deprecated use {@link #tagsDetection} instead
+     */
+    @Deprecated
+    public void setTagDetection(Integer tagDetection) {
+        this.tagsDetection = tagDetection;
+    }
 }

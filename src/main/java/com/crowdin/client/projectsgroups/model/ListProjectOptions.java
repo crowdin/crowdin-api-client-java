@@ -16,4 +16,12 @@ public class ListProjectOptions extends Pagination {
     private String orderBy;
     private Integer type;
     private List<OrderByField> orderByList;
+    /**
+     * Filter projects by name
+     */
+    private String filter;
+    /**
+     * Crowdin only. User Identifier
+     */
+    private Long userId;
 }

@@ -17,6 +17,10 @@ public class ProjectSettings extends Project {
 
     private Integer translateDuplicates;
     private Integer tagsDetection;
+    /**
+     * @deprecated deprecated in the API, use {@link #glossaryAccessOption} instead
+     */
+    @Deprecated
     private Boolean glossaryAccess;
     private String glossaryAccessOption;
     private Boolean isMtAllowed;
@@ -41,6 +45,7 @@ public class ProjectSettings extends Project {
     @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private Map<String, AssignedTm> assignedTms;
     private List<Long> assignedGlossaries;
+    private List<Long> assignedStyleGuides;
     @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private TmPenalties tmPenalties;
     private Boolean normalizePlaceholder;
@@ -50,8 +55,14 @@ public class ProjectSettings extends Project {
     private MtPreTranslate mtPreTranslate;
     @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private AiPreTranslate aiPreTranslate;
+    /**
+     * @deprecated no longer part of the documented API
+     */
+    @Deprecated
     private Long assistActionAiPromptId;
     private Long editorSuggestionAiPromptId;
+    private Long qaCheckActionAiPromptId;
+    private Long contextReviewAiPromptId;
     private Boolean inContext;
     private Boolean inContextProcessHiddenStrings;
     private String inContextPseudoLanguageId;
@@ -67,6 +78,10 @@ public class ProjectSettings extends Project {
     private Integer qaApprovalsCount;
     private List<Long> customQaCheckIds;
     private List<Long> externalQaCheckIds;
+    /**
+     * Enterprise only. External QA check IDs mapped to whether a failure of the check can be ignored
+     */
+    private Map<String, Boolean> externalQaChecksIgnorable;
     private Boolean delayedWorkflowStart;
     private Long alignmentActionAiPromptId;
 

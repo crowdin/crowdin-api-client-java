@@ -1,0 +1,11 @@
+{
+  "data": {
+    "id": 6,
+    "format": "some_new_format",
+    "settings": {
+      "someOption": true
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

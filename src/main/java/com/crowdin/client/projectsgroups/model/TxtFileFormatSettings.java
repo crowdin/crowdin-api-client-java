@@ -7,4 +7,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class TxtFileFormatSettings extends FileFormatSettings {
     private Long srxStorageId;
+    private Boolean customSegmentation;
 }

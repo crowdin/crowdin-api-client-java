@@ -8,4 +8,5 @@ public class AddGroupRequest {
     private String name;
     private Long parentId;
     private String description;
+    private Long savingsReportSettingsTemplateId;
 }

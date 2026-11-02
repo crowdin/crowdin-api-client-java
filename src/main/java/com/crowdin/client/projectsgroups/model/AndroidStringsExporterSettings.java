@@ -7,4 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AndroidStringsExporterSettings extends StringsExporterSettings {
     private Boolean convertPlaceholders;
+    private Boolean convertLineBreaks;
+    private Boolean useCdataForStringsWithTags;
 }
