@@ -12,7 +12,13 @@ public enum TypeVendor implements EnumConverter<TypeVendor> {
     }
 
     public static TypeVendor from(String value) {
-        return value.equals("2") ? TypeVendor.TRANSLATE_BY_VENDOR : TypeVendor.PROOFREAD_BY_VENDOR;
+        if ("2".equals(value)) {
+            return TypeVendor.TRANSLATE_BY_VENDOR;
+        }
+        if ("3".equals(value)) {
+            return TypeVendor.PROOFREAD_BY_VENDOR;
+        }
+        return null;
     }
 
     @Override

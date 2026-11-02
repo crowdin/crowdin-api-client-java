@@ -3,7 +3,9 @@
     {
       "data": {
         "id": 34,
-        "title": "main"
+        "title": "main",
+        "isSystem": false,
+        "isShared": false
       }
     }
   ],

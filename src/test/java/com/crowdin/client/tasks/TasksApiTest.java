@@ -29,6 +29,8 @@ public class TasksApiTest extends TestClient {
     private final Long tasksProjectIdSortByIdDesc = 17L;
     private final Long tasksProjectIdSortByIdDescTitleAsc = 18L;
     private final Long batchProjectId = 19L;
+    private final Long userId = 7L;
+    private final Date updatedDate = new Date(1569222014000L);
     private final Long taskId = 2L;
     private final Long prevTaskId = 1L;
     private final Status status = Status.TODO;
@@ -71,7 +73,36 @@ public class TasksApiTest extends TestClient {
                 }}),
                 RequestMock.build(this.url + "/projects/" + batchProjectId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listTasks.json", new HashMap<String, Object>() {{
                     put("batchId", 7L);
-                }})
+                }}),
+                RequestMock.build(this.url + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listAllTasks.json", new HashMap<String, Object>() {{
+                    put("orderBy", "id%20desc");
+                    put("limit", 10);
+                    put("offset", 0);
+                    put("status", "todo,in_progress");
+                    put("type", "2,3");
+                    put("projectIds", "1,2");
+                    put("assigneeIds", "5");
+                    put("creatorIds", "6");
+                    put("targetLanguageIds", "fr,de");
+                    put("sourceLanguageIds", "en");
+                    put("createdAtFrom", "2024-01-01T00:00:00Z");
+                    put("createdAtTo", "2024-02-01T00:00:00Z");
+                    put("deadlineFrom", "2024-03-01T00:00:00Z");
+                    put("deadlineTo", "2024-04-01T00:00:00Z");
+                }}),
+                RequestMock.build(this.url + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listAllTasks.json", new HashMap<String, Object>() {{
+                    put("groupIds", "3");
+                }}),
+                RequestMock.build(this.url + "/users/" + userId + "/tasks", HttpGet.METHOD_NAME, "api/tasks/listAllTasks.json", new HashMap<String, Object>() {{
+                    put("projectIds", "1");
+                    put("type", "0");
+                }}),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addTaskNewFieldsRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addTaskFileBasedNewFieldsRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addVendorStringsBasedTaskNewFieldsRequest.json", "api/tasks/task.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addEnterpriseTaskNewFieldsRequest.json", "api/tasks/enterpriseTask.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addEnterpriseVendorStringsBasedTaskNewFieldsRequest.json", "api/tasks/enterpriseTask.json"),
+                RequestMock.build(this.url + "/projects/" + enterpriseProjectId + "/tasks", HttpPost.METHOD_NAME, "api/tasks/addEnterprisePendingVendorTaskRequest.json", "api/tasks/enterpriseTask.json")
         );
     }
 
@@ -464,6 +495,188 @@ public class TasksApiTest extends TestClient {
         ResponseObject<Task> taskResponseObject = this.getTasksApi().editTaskArchivedStatus(taskId, null, singletonList(request));
         assertEquals(taskResponseObject.getData().getId(), taskId);
         assertEquals(taskResponseObject.getData().getStatus(), status);
+    }
+
+    @Test
+    public void listOrganizationTasksTest() {
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+        OrderByField orderBy = new OrderByField();
+        orderBy.setFieldName("id");
+        orderBy.setOrderBy(SortOrder.DESC);
+
+        ListAllTasksParams params = new ListAllTasksParams();
+        params.setOrderBy(singletonList(orderBy));
+        params.setLimit(10);
+        params.setOffset(0);
+        params.setStatuses(EnumSet.of(Status.TODO, Status.IN_PROGRESS));
+        params.setTypes(EnumSet.of(Type.TRANSLATE_BY_VENDOR, Type.PROOFREAD_BY_VENDOR));
+        params.setProjectIds(Arrays.asList(1L, 2L));
+        params.setAssigneeIds(singletonList(5L));
+        params.setCreatorIds(singletonList(6L));
+        params.setTargetLanguageIds(Arrays.asList("fr", "de"));
+        params.setSourceLanguageIds(singletonList("en"));
+        params.setCreatedAtFrom("2024-01-01T00:00:00Z");
+        params.setCreatedAtTo("2024-02-01T00:00:00Z");
+        params.setDeadlineFrom("2024-03-01T00:00:00Z");
+        params.setDeadlineTo("2024-04-01T00:00:00Z");
+
+        ResponseList<Task> taskResponseList = this.getTasksApi().listOrganizationTasks(params);
+        assertEquals(4, taskResponseList.getData().size());
+
+        Task vendorTask = taskResponseList.getData().get(0).getData();
+        assertEquals(30L, vendorTask.getId());
+        assertEquals(Type.TRANSLATE_BY_VENDOR, vendorTask.getType());
+        assertEquals("alconost", vendorTask.getVendor());
+        assertEquals(4L, vendorTask.getBatchId());
+        assertEquals(LabelMatchRule.ANY, vendorTask.getLabelMatchRule());
+        assertEquals(LabelMatchRule.ALL, vendorTask.getExcludeLabelMatchRule());
+        assertEquals("2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00", vendorTask.getTranslationsUpdatedTimeRange());
+        assertEquals(24.12, vendorTask.getEstimatedCost().getCost());
+        assertEquals("USD", vendorTask.getEstimatedCost().getCurrency());
+        assertEquals(new Date(119, Calendar.SEPTEMBER, 23, 9, 4, 29), vendorTask.getEstimatedCost().getDate());
+        assertEquals(vendorTask.getEstimatedCost(), vendorTask.getActualCost());
+        assertEquals(Boolean.TRUE, vendorTask.getGenerateCostEstimate());
+        assertEquals(Boolean.FALSE, vendorTask.getGenerateTranslationCost());
+        assertEquals(3L, vendorTask.getReportSettingsTemplateId());
+        assertEquals(singletonList(5L), vendorTask.getBranchIds());
+        assertEquals(Boolean.FALSE, vendorTask.getIsArchived());
+        assertEquals(3600L, vendorTask.getAssignees().get(0).getTimeSpent());
+        assertEquals(1800L, vendorTask.getAssignedTeams().get(0).getTimeSpent());
+
+        Task proofreadByVendorTask = taskResponseList.getData().get(1).getData();
+        assertEquals(Type.PROOFREAD_BY_VENDOR, proofreadByVendorTask.getType());
+        assertNull(proofreadByVendorTask.getEstimatedCost());
+        assertNull(proofreadByVendorTask.getLabelMatchRule());
+        assertNull(proofreadByVendorTask.getReportSettingsTemplateId());
+
+        assertEquals(Type.TRANSLATE, taskResponseList.getData().get(2).getData().getType());
+        assertEquals(Type.PROOFREAD, taskResponseList.getData().get(3).getData().getType());
+    }
+
+    @Test
+    public void listOrganizationTasksByGroupIdsTest() {
+        ListAllTasksParams params = new ListAllTasksParams();
+        params.setGroupIds(singletonList(3L));
+        ResponseList<Task> taskResponseList = this.getTasksApi().listOrganizationTasks(params);
+        assertEquals(4, taskResponseList.getData().size());
+    }
+
+    @Test
+    public void listUserProjectTasksTest() {
+        ListAllTasksParams params = new ListAllTasksParams();
+        params.setProjectIds(singletonList(1L));
+        params.setTypes(EnumSet.of(Type.TRANSLATE));
+        // Enterprise only, must not be sent to the Crowdin endpoint
+        params.setGroupIds(singletonList(3L));
+        ResponseList<Task> taskResponseList = this.getTasksApi().listUserProjectTasks(userId, params);
+        assertEquals(4, taskResponseList.getData().size());
+        assertEquals(Type.TRANSLATE_BY_VENDOR, taskResponseList.getData().get(0).getData().getType());
+    }
+
+    @Test
+    public void typeFromTest() {
+        assertEquals(Type.TRANSLATE, Type.from("0"));
+        assertEquals(Type.PROOFREAD, Type.from("1"));
+        assertEquals(Type.TRANSLATE_BY_VENDOR, Type.from("2"));
+        assertEquals(Type.PROOFREAD_BY_VENDOR, Type.from("3"));
+        assertNull(Type.from("4"));
+        assertEquals(TypeVendor.TRANSLATE_BY_VENDOR, TypeVendor.from("2"));
+        assertEquals(TypeVendor.PROOFREAD_BY_VENDOR, TypeVendor.from("3"));
+        assertNull(TypeVendor.from("0"));
+    }
+
+    @Test
+    public void addTaskWithNewFieldsTest() {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setType(Type.PROOFREAD);
+        request.setBranchIds(singletonList(3L));
+        request.setLabelIds(singletonList(1L));
+        request.setLabelMatchRule(LabelMatchRule.ANY);
+        request.setExcludeLabelIds(singletonList(2L));
+        request.setExcludeLabelMatchRule(LabelMatchRule.ALL);
+        request.setTranslationsUpdatedDateFrom(updatedDate);
+        request.setTranslationsUpdatedDateTo(updatedDate);
+        request.setGenerateCostEstimate(true);
+        request.setGenerateTranslationCost(true);
+        request.setReportSettingsTemplateId(5L);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
+    }
+
+    @Test
+    public void addTaskWithDirectoryIdsTest() {
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setType(Type.TRANSLATE);
+        request.setDirectoryIds(singletonList(4L));
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
+    }
+
+    @Test
+    public void addVendorStringsBasedTaskWithLabelsTest() {
+        CreateTaskVendorStringsBasedRequest request = new CreateTaskVendorStringsBasedRequest();
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setStringIds(singletonList(1L));
+        request.setType(TypeVendor.PROOFREAD_BY_VENDOR);
+        request.setVendor("alconost");
+        request.setLabelIds(singletonList(1L));
+        request.setLabelMatchRule(LabelMatchRule.ANY);
+        request.setExcludeLabelIds(singletonList(2L));
+        request.setExcludeLabelMatchRule(LabelMatchRule.ANY);
+        request.setGenerateCostEstimate(true);
+        request.setReportSettingsTemplateId(5L);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(projectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
+    }
+
+    @Test
+    public void addEnterpriseTaskWithNewFieldsTest() {
+        CreateTaskEnterpriseRequest request = new CreateTaskEnterpriseRequest();
+        request.setWorkflowStepId(10L);
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setDirectoryIds(singletonList(4L));
+        request.setSkipAssignedStrings(true);
+        request.setSkipAssignedStringsScope(SkipAssignedStringsScope.SAME_WORKFLOW_STEP);
+        request.setLabelIds(singletonList(1L));
+        request.setLabelMatchRule(LabelMatchRule.ALL);
+        request.setGenerateTranslationCost(true);
+        request.setReportSettingsTemplateId(5L);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
+    }
+
+    @Test
+    public void addEnterpriseVendorStringsBasedTaskWithLabelsTest() {
+        CreateTaskEnterpriseVendorStringsBasedRequest request = new CreateTaskEnterpriseVendorStringsBasedRequest();
+        request.setWorkflowStepId(11L);
+        request.setTitle("French");
+        request.setLanguageId("fr");
+        request.setStringIds(singletonList(1L));
+        request.setLabelIds(singletonList(1L));
+        request.setLabelMatchRule(LabelMatchRule.ANY);
+        request.setSkipAssignedStrings(true);
+        request.setSkipAssignedStringsScope(SkipAssignedStringsScope.ALL);
+        request.setTranslationsUpdatedDateFrom(updatedDate);
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
+    }
+
+    @Test
+    public void addEnterprisePendingVendorTaskTest() {
+        CreateEnterprisePendingTaskRequest request = new CreateEnterprisePendingTaskRequest();
+        request.setPrecedingTaskId(prevTaskId);
+        request.setType(Type.PROOFREAD_BY_VENDOR);
+        request.setWorkflowStepId(12L);
+        request.setTitle("French");
+        request.setVendor("alconost");
+        ResponseObject<Task> taskResponseObject = this.getTasksApi().addTask(enterpriseProjectId, request);
+        assertEquals(taskId, taskResponseObject.getData().getId());
     }
 
     //<editor-fold desc="Common method for listTasks assertion">

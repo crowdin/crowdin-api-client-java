@@ -209,6 +209,9 @@ public class ScreenshotsApi extends CrowdinApi {
     }
 
     /**
+     * Replace tags using the "Auto Tag" form ({@link AutoTagReplaceTagsRequest}).
+     * To replace tags with an explicit list of tags use {@link #replaceTagsWithList(Long, Long, List)}.
+     *
      * @param projectId project identifier
      * @param screenshotId screenshot identifier
      * @param request request object
@@ -218,6 +221,21 @@ public class ScreenshotsApi extends CrowdinApi {
      * </ul>
      */
     public void replaceTags(Long projectId, Long screenshotId, ReplaceTagsRequest request) throws HttpException, HttpBadRequestException {
+        this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), Void.class);
+    }
+
+    /**
+     * Replace tags with the given list of tags ("Replace Tags" form, sent as a JSON array)
+     *
+     * @param projectId project identifier
+     * @param screenshotId screenshot identifier
+     * @param request list of tags
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.screenshots.tags.putMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.screenshots.tags.putMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void replaceTagsWithList(Long projectId, Long screenshotId, List<AddTagRequest> request) throws HttpException, HttpBadRequestException {
         this.httpClient.put(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", request, new HttpRequestConfig(), Void.class);
     }
 

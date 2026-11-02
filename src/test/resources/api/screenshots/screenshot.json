@@ -3,6 +3,7 @@
     "id": 2,
     "userId": 6,
     "url": "https://production-enterprise-screenshots.downloads.crowdin.com/992000002/6/2/middle.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIGJKLQV66ZXPMMEA%2F20190923%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20190923T093016Z&X-Amz-SignedHeaders=host&X-Amz-Expires=120&X-Amz-Signature=8df06f57594f7d1804b7c037629f6916224415e9b935c4f6619fbe002fb25e73",
+    "webUrl": "https://production-enterprise-screenshots.downloads.crowdin.com/992000002/6/2/middle.jpg",
     "name": "translate_with_siri.jpg",
     "size": {
       "width": 267,

@@ -14,6 +14,9 @@
       "importOptions": {
         "firstLineContainsHeader": false,
         "importTranslations": true,
+        "importKeyAsSource": true,
+        "contentSegmentation": false,
+        "srxStorageId": 5,
         "scheme": {
           "identifier": 0,
           "sourcePhrase": 1,

@@ -78,6 +78,8 @@ public class LabelsApiTest extends TestClient {
         assertEquals(1, labelResponseList.getData().size());
         assertEquals(labelTitle, labelResponseList.getData().get(0).getData().getTitle());
         assertEquals(labelId, labelResponseList.getData().get(0).getData().getId());
+        assertEquals(BooleanInt.FALSE, labelResponseList.getData().get(0).getData().getIsSystem());
+        assertEquals(Boolean.FALSE, labelResponseList.getData().get(0).getData().getIsShared());
     }
 
     @Test
@@ -148,6 +150,16 @@ public class LabelsApiTest extends TestClient {
         ResponseObject<Label> labelResponseObject = this.getLabelsApi().getLabel(projectId, labelId);
         assertNotNull(labelResponseObject.getData());
         assertEquals(labelId, labelResponseObject.getData().getId());
+        assertEquals(BooleanInt.TRUE, labelResponseObject.getData().getIsSystem());
+        assertEquals(Boolean.TRUE, labelResponseObject.getData().getIsShared());
+    }
+
+    @Test
+    public void booleanIntFromTest() {
+        assertEquals(BooleanInt.TRUE, BooleanInt.from("1"));
+        assertEquals(BooleanInt.TRUE, BooleanInt.from("true"));
+        assertEquals(BooleanInt.FALSE, BooleanInt.from("0"));
+        assertEquals(BooleanInt.FALSE, BooleanInt.from("false"));
     }
 
     @Test

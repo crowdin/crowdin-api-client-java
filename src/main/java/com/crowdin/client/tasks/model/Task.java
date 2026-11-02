@@ -46,6 +46,26 @@ public class Task {
     private List<Language> targetLanguages;
     private Object fields;
     private Long precedingTaskId;
+    private Long batchId;
+    private LabelMatchRule labelMatchRule;
+    private LabelMatchRule excludeLabelMatchRule;
+    /**
+     * Interval when translations were updated (proofread tasks), e.g. {@code "2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00"}
+     */
+    private String translationsUpdatedTimeRange;
+    private TaskCost estimatedCost;
+    private TaskCost actualCost;
+    private Boolean generateCostEstimate;
+    private Boolean generateTranslationCost;
+    private Long reportSettingsTemplateId;
+    /**
+     * String-based projects only
+     */
+    private List<Long> branchIds;
+    /**
+     * Returned only by the List User Tasks endpoint ({@code GET /user/tasks})
+     */
+    private Boolean isArchived;
     /**
      * Enterprise only. Null when the task is fully synced, not shared, or the counterpart
      * task is unavailable.

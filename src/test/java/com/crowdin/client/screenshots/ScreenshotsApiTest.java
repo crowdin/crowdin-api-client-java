@@ -6,6 +6,7 @@ import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.screenshots.model.AddScreenshotRequest;
 import com.crowdin.client.screenshots.model.AddTagRequest;
 import com.crowdin.client.screenshots.model.AutoTagReplaceTagsRequest;
+import com.crowdin.client.screenshots.model.ListScreenshotsParams;
 import com.crowdin.client.screenshots.model.Position;
 import com.crowdin.client.screenshots.model.Screenshot;
 import com.crowdin.client.screenshots.model.Tag;
@@ -54,6 +55,11 @@ public class ScreenshotsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId, HttpPatch.METHOD_NAME, "api/screenshots/editScreenshot.json", "api/screenshots/screenshot.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpGet.METHOD_NAME, "api/screenshots/listTags.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPut.METHOD_NAME, "api/screenshots/replaceTag.json", (String) null),
+                RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPut.METHOD_NAME, "api/screenshots/replaceTagsList.json", (String) null),
+                RequestMock.build(this.url + "/projects/" + projectId + "/screenshots", HttpGet.METHOD_NAME, "api/screenshots/listScreenshots.json", new HashMap<String, Object>() {{
+                    put("stringIds", "12,13");
+                    put("limit", 10);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpPost.METHOD_NAME, "api/screenshots/addTagRequest.json", "api/screenshots/tags.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags", HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/screenshots/" + screenshotId + "/tags/" + tagId, HttpGet.METHOD_NAME, "api/screenshots/tag.json"),
@@ -173,6 +179,7 @@ public class ScreenshotsApiTest extends TestClient {
         ResponseObject<Screenshot> screenshot = this.getScreenshotsApi().getScreenshot(projectId, screenshotId);
         assertEquals(screenshot.getData().getId(), screenshotId);
         assertEquals(screenshot.getData().getLabelIds().length, 1);
+        assertEquals("https://production-enterprise-screenshots.downloads.crowdin.com/992000002/6/2/middle.jpg", screenshot.getData().getWebUrl());
     }
 
     @Test
@@ -221,6 +228,38 @@ public class ScreenshotsApiTest extends TestClient {
         AutoTagReplaceTagsRequest request = new AutoTagReplaceTagsRequest();
         request.setAutoTag(true);
         this.getScreenshotsApi().replaceTags(projectId, screenshotId, request);
+    }
+
+    @Test
+    public void replaceTagsWithListTest() {
+        AddTagRequest request = new AddTagRequest();
+        request.setStringId(stringId);
+        Position position = new Position();
+        position.setX(1);
+        position.setY(2);
+        position.setWidth(3);
+        position.setHeight(4);
+        request.setPosition(position);
+        this.getScreenshotsApi().replaceTagsWithList(projectId, screenshotId, singletonList(request));
+    }
+
+    /**
+     * Source compatibility: {@code replaceTags(id, id, null)} must keep compiling (no ambiguous overload)
+     * and still call the original PUT endpoint.
+     */
+    @Test
+    public void replaceTagsWithNullRequestCompatibilityTest() {
+        this.getScreenshotsApi().replaceTags(projectId, screenshotId, null);
+    }
+
+    @Test
+    public void listScreenshotsByStringIdsTest() {
+        ListScreenshotsParams params = new ListScreenshotsParams();
+        params.setStringIds("12,13");
+        params.setLimit(10);
+        ResponseList<Screenshot> screenshotResponseList = this.getScreenshotsApi().listScreenshots(projectId, params);
+        assertEquals(1, screenshotResponseList.getData().size());
+        assertEquals(screenshotId, screenshotResponseList.getData().get(0).getData().getId());
     }
 
     @Test

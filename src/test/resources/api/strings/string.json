@@ -13,6 +13,10 @@
     "revision": 1,
     "hasPlurals": false,
     "isIcu": false,
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-2": 12
+    },
     "labelIds": [
       3
     ],

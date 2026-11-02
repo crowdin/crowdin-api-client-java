@@ -1,0 +1,235 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": 30,
+        "projectId": 20,
+        "creatorId": 6,
+        "type": 2,
+        "status": "todo",
+        "title": "French",
+        "batchId": 4,
+        "assignees": [
+          {
+            "id": 12,
+            "username": "john_smith",
+            "fullName": "John Smith",
+            "avatarUrl": "",
+            "wordsCount": 5,
+            "wordsLeft": 3,
+            "timeSpent": 3600
+          }
+        ],
+        "assignedTeams": [
+          {
+            "id": 1,
+            "wordsCount": 5,
+            "timeSpent": 1800
+          }
+        ],
+        "progress": {
+          "total": 24,
+          "done": 15,
+          "percent": 62
+        },
+        "sourceLanguageId": "en",
+        "targetLanguageId": "fr",
+        "description": "Translate all French strings",
+        "webUrl": "https://crowdin.com/project/test/tasks/30",
+        "wordsCount": 24,
+        "timeRange": "2019-09-23T09:04:29+00:00|2019-09-24T09:04:29+00:00",
+        "translationsUpdatedTimeRange": "2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00",
+        "labelIds": [
+          1
+        ],
+        "labelMatchRule": "any",
+        "excludeLabelIds": [
+          2
+        ],
+        "excludeLabelMatchRule": "all",
+        "createdAt": "2019-09-23T09:04:29+00:00",
+        "updatedAt": "2019-09-23T09:04:29+00:00",
+        "vendor": "alconost",
+        "estimatedCost": {
+          "cost": 24.12,
+          "date": "2019-09-23T09:04:29+00:00",
+          "currency": "USD"
+        },
+        "actualCost": {
+          "cost": 24.12,
+          "date": "2019-09-23T09:04:29+00:00",
+          "currency": "USD"
+        },
+        "generateCostEstimate": true,
+        "generateTranslationCost": false,
+        "reportSettingsTemplateId": 3,
+        "branchIds": [
+          5
+        ],
+        "isArchived": false
+      }
+    },
+    {
+      "data": {
+        "id": 31,
+        "projectId": 20,
+        "creatorId": 6,
+        "type": 3,
+        "status": "todo",
+        "title": "French",
+        "batchId": 4,
+        "assignees": [
+          {
+            "id": 12,
+            "username": "john_smith",
+            "fullName": "John Smith",
+            "avatarUrl": "",
+            "wordsCount": 5,
+            "wordsLeft": 3,
+            "timeSpent": 3600
+          }
+        ],
+        "assignedTeams": [
+          {
+            "id": 1,
+            "wordsCount": 5,
+            "timeSpent": 1800
+          }
+        ],
+        "progress": {
+          "total": 24,
+          "done": 15,
+          "percent": 62
+        },
+        "sourceLanguageId": "en",
+        "targetLanguageId": "fr",
+        "description": "Translate all French strings",
+        "webUrl": "https://crowdin.com/project/test/tasks/31",
+        "wordsCount": 24,
+        "timeRange": "2019-09-23T09:04:29+00:00|2019-09-24T09:04:29+00:00",
+        "translationsUpdatedTimeRange": "2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00",
+        "labelIds": [
+          1
+        ],
+        "labelMatchRule": null,
+        "excludeLabelIds": [
+          2
+        ],
+        "excludeLabelMatchRule": null,
+        "createdAt": "2019-09-23T09:04:29+00:00",
+        "updatedAt": "2019-09-23T09:04:29+00:00",
+        "estimatedCost": null,
+        "actualCost": null,
+        "generateCostEstimate": null,
+        "generateTranslationCost": null,
+        "reportSettingsTemplateId": null
+      }
+    },
+    {
+      "data": {
+        "id": 32,
+        "projectId": 20,
+        "creatorId": 6,
+        "type": 0,
+        "status": "todo",
+        "title": "French",
+        "batchId": 4,
+        "assignees": [
+          {
+            "id": 12,
+            "username": "john_smith",
+            "fullName": "John Smith",
+            "avatarUrl": "",
+            "wordsCount": 5,
+            "wordsLeft": 3,
+            "timeSpent": 3600
+          }
+        ],
+        "assignedTeams": [
+          {
+            "id": 1,
+            "wordsCount": 5,
+            "timeSpent": 1800
+          }
+        ],
+        "progress": {
+          "total": 24,
+          "done": 15,
+          "percent": 62
+        },
+        "sourceLanguageId": "en",
+        "targetLanguageId": "fr",
+        "description": "Translate all French strings",
+        "webUrl": "https://crowdin.com/project/test/tasks/32",
+        "wordsCount": 24,
+        "timeRange": "2019-09-23T09:04:29+00:00|2019-09-24T09:04:29+00:00",
+        "translationsUpdatedTimeRange": "2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00",
+        "labelIds": [
+          1
+        ],
+        "labelMatchRule": "any",
+        "excludeLabelIds": [
+          2
+        ],
+        "excludeLabelMatchRule": "all",
+        "createdAt": "2019-09-23T09:04:29+00:00",
+        "updatedAt": "2019-09-23T09:04:29+00:00"
+      }
+    },
+    {
+      "data": {
+        "id": 33,
+        "projectId": 20,
+        "creatorId": 6,
+        "type": 1,
+        "status": "todo",
+        "title": "French",
+        "batchId": 4,
+        "assignees": [
+          {
+            "id": 12,
+            "username": "john_smith",
+            "fullName": "John Smith",
+            "avatarUrl": "",
+            "wordsCount": 5,
+            "wordsLeft": 3,
+            "timeSpent": 3600
+          }
+        ],
+        "assignedTeams": [
+          {
+            "id": 1,
+            "wordsCount": 5,
+            "timeSpent": 1800
+          }
+        ],
+        "progress": {
+          "total": 24,
+          "done": 15,
+          "percent": 62
+        },
+        "sourceLanguageId": "en",
+        "targetLanguageId": "fr",
+        "description": "Translate all French strings",
+        "webUrl": "https://crowdin.com/project/test/tasks/33",
+        "wordsCount": 24,
+        "timeRange": "2019-09-23T09:04:29+00:00|2019-09-24T09:04:29+00:00",
+        "translationsUpdatedTimeRange": "2025-06-23T09:04:29+00:00|2025-08-23T09:04:29+00:00",
+        "labelIds": [
+          1
+        ],
+        "labelMatchRule": "any",
+        "excludeLabelIds": [
+          2
+        ],
+        "excludeLabelMatchRule": "all",
+        "createdAt": "2019-09-23T09:04:29+00:00",
+        "updatedAt": "2019-09-23T09:04:29+00:00"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

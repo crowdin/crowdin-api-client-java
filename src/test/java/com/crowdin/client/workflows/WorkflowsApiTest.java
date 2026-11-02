@@ -11,6 +11,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,6 +29,10 @@ public class WorkflowsApiTest extends TestClient {
     public List<RequestMock> getMocks() {
         return Arrays.asList(
                 RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps", HttpGet.METHOD_NAME, "api/workflows/listWorkflows.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps", HttpGet.METHOD_NAME, "api/workflows/listWorkflows.json", new HashMap<String, Object>() {{
+                    put("limit", 10);
+                    put("offset", 5);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps/" + workflowId, HttpGet.METHOD_NAME, "api/workflows/workflow.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/workflow-steps/" + workflowId + "/strings", HttpGet.METHOD_NAME, "api/workflows/workflowStrings.json"),
                 RequestMock.build(this.url + "/workflow-templates", HttpGet.METHOD_NAME, "api/workflows/listWorkflowTemplates.json"),
@@ -38,6 +44,12 @@ public class WorkflowsApiTest extends TestClient {
     public void listWorkflowStepsTest() {
         ResponseList<WorkflowStep> workflowStepResponseList = this.getWorkflowsApi().listWorkflowSteps(projectId);
         assertEquals(workflowStepResponseList.getData().size(), 2);
+    }
+
+    @Test
+    public void listWorkflowStepsWithPaginationTest() {
+        ResponseList<WorkflowStep> workflowStepResponseList = this.getWorkflowsApi().listWorkflowSteps(projectId, 10, 5);
+        assertEquals(2, workflowStepResponseList.getData().size());
     }
 
     @Test
@@ -65,5 +77,15 @@ public class WorkflowsApiTest extends TestClient {
         ResponseObject<WorkflowTemplate> workflowTemplate = this.getWorkflowsApi().getWorkflowTemplate(workflowTemplateId);
         assertEquals(workflowTemplate.getData().getId(), workflowTemplateId);
         assertEquals(workflowTemplate.getData().getTitle(), workflowTemplateTitle);
+        assertEquals("https://example.crowdin.com/u/workflows/1/read", workflowTemplate.getData().getWebUrl());
+        assertEquals(1, workflowTemplate.getData().getSteps().size());
+        WorkflowTemplate.Step step = workflowTemplate.getData().getSteps().get(0);
+        assertEquals(3L, step.getId());
+        assertEquals(Arrays.asList("uk", "de"), step.getLanguages());
+        assertEquals(Collections.singletonList(5L), step.getAssignees());
+        assertEquals(52760L, step.getVendorId());
+        assertEquals(12L, step.getMtId());
+        assertEquals(60, step.getConfig().getMinRelevant());
+        assertEquals(Boolean.TRUE, step.getConfig().getAutoSubstitution());
     }
 }

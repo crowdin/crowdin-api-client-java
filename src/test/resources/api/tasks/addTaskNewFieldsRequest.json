@@ -1,0 +1,21 @@
+{
+  "title": "French",
+  "languageId": "fr",
+  "type": 1,
+  "branchIds": [
+    3
+  ],
+  "labelIds": [
+    1
+  ],
+  "labelMatchRule": "any",
+  "excludeLabelIds": [
+    2
+  ],
+  "excludeLabelMatchRule": "all",
+  "translationsUpdatedDateFrom": "2019-09-23T07:00:14.000+00:00",
+  "translationsUpdatedDateTo": "2019-09-23T07:00:14.000+00:00",
+  "generateCostEstimate": true,
+  "generateTranslationCost": true,
+  "reportSettingsTemplateId": 5
+}

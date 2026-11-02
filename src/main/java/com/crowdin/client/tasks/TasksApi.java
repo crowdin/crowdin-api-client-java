@@ -95,6 +95,7 @@ public class TasksApi extends CrowdinApi {
                 ),
                 "assigneeId", Optional.ofNullable(query.getAssigneeId()),
                 "batchId", Optional.ofNullable(query.getBatchId()),
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
                 "limit", Optional.ofNullable(query.getLimit()),
                 "offset", Optional.ofNullable(query.getOffset())
         );
@@ -239,6 +240,40 @@ public class TasksApi extends CrowdinApi {
         );
         TaskResponseObject taskResponseObject = this.httpClient.patch(this.url + "/user/tasks/" + taskId, request, new HttpRequestConfig(queryParams), TaskResponseObject.class);
         return ResponseObject.of(taskResponseObject.getData());
+    }
+
+    /**
+     * List all organization tasks (Enterprise only)
+     *
+     * @param params query params
+     * @return list of tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.tasks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listOrganizationTasks(ListAllTasksParams params) throws HttpException, HttpBadRequestException {
+        ListAllTasksParams query = Optional.ofNullable(params).orElse(new ListAllTasksParams());
+        Map<String, Optional<Object>> queryParams = buildAllTasksQueryParams(query);
+        queryParams.put("groupIds", Optional.ofNullable(joinIds(query.getGroupIds())));
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
+    }
+
+    /**
+     * List all of the user's project tasks (Crowdin only)
+     *
+     * @param userId user identifier
+     * @param params query params ({@code groupIds} is ignored, it is Enterprise only)
+     * @return list of tasks
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.users.tasks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<Task> listUserProjectTasks(Long userId, ListAllTasksParams params) throws HttpException, HttpBadRequestException {
+        ListAllTasksParams query = Optional.ofNullable(params).orElse(new ListAllTasksParams());
+        Map<String, Optional<Object>> queryParams = buildAllTasksQueryParams(query);
+        TaskResponseList taskResponseList = this.httpClient.get(this.url + "/users/" + userId + "/tasks", new HttpRequestConfig(queryParams), TaskResponseList.class);
+        return TaskResponseList.to(taskResponseList);
     }
 
     //<editor-fold desc="Task Settings Templates">
@@ -402,6 +437,40 @@ public class TasksApi extends CrowdinApi {
     }
 
     //<editor-fold desc="Helper methods">
+
+    private Map<String, Optional<Object>> buildAllTasksQueryParams(ListAllTasksParams query) {
+        EnumSet<Status> statuses = query.getStatuses();
+        EnumSet<Type> types = query.getTypes();
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "orderBy", Optional.ofNullable(OrderByField.generateSortParam(query.getOrderBy())),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "status", Optional.ofNullable(
+                        statuses == null ? null : statuses.stream()
+                                .map(status -> status.to(status))
+                                .collect(Collectors.joining(","))
+                ),
+                "type", Optional.ofNullable(
+                        types == null ? null : types.stream()
+                                .map(type -> String.valueOf(type.to(type)))
+                                .collect(Collectors.joining(","))
+                ),
+                "projectIds", Optional.ofNullable(joinIds(query.getProjectIds())),
+                "assigneeIds", Optional.ofNullable(joinIds(query.getAssigneeIds())),
+                "creatorIds", Optional.ofNullable(joinIds(query.getCreatorIds())),
+                "targetLanguageIds", Optional.ofNullable(joinIds(query.getTargetLanguageIds())),
+                "sourceLanguageIds", Optional.ofNullable(joinIds(query.getSourceLanguageIds())),
+                "createdAtFrom", Optional.ofNullable(query.getCreatedAtFrom()),
+                "createdAtTo", Optional.ofNullable(query.getCreatedAtTo()),
+                "deadlineFrom", Optional.ofNullable(query.getDeadlineFrom()),
+                "deadlineTo", Optional.ofNullable(query.getDeadlineTo())
+        );
+        return queryParams;
+    }
+
+    private static String joinIds(List<?> ids) {
+        return ids == null ? null : ids.stream().map(String::valueOf).collect(Collectors.joining(","));
+    }
 
     private String formUrl_taskSettingsTemplates(Long projectId) {
         return this.url + "/projects/" + projectId + "/tasks/settings-templates";

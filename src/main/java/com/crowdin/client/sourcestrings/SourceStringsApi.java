@@ -22,14 +22,32 @@ public class SourceStringsApi extends CrowdinApi {
     }
 
     /**
+     * String-based projects only
+     *
      * @param projectId project identifier
      * @param uploadId upload identifier
+     * @return upload strings status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.uploads.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.uploads.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
     public ResponseObject<UploadStringsProgress> uploadStringsStatus(Long projectId, String uploadId) throws HttpException, HttpBadRequestException {
         UploadStringsProgressResponseObject stringsProgressResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/uploads/" + uploadId, new HttpRequestConfig(), UploadStringsProgressResponseObject.class);
         return ResponseObject.of(stringsProgressResponseObject.getData());
     }
 
+    /**
+     * String-based projects only
+     *
+     * @param projectId project identifier
+     * @param request request object
+     * @return upload strings status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.uploads.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.uploads.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseObject<UploadStringsProgress> uploadStrings(Long projectId, UploadStringsRequest request) throws HttpException, HttpBadRequestException {
         UploadStringsProgressResponseObject stringsProgressResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings/uploads", request, new HttpRequestConfig(), UploadStringsProgressResponseObject.class);
         return ResponseObject.of(stringsProgressResponseObject.getData());
@@ -114,16 +132,43 @@ public class SourceStringsApi extends CrowdinApi {
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return newly created source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseObject<SourceString> addSourcePluralString(Long projectId, AddSourcePluralStringRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return newly created source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseObject<SourceString> addSourceStringStringsBased(Long projectId, AddSourceStringStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 
+    /**
+     * @param projectId project identifier
+     * @param request request object
+     * @return newly created source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseObject<SourceString> addSourcePluralStringStringsBased(Long projectId, AddSourcePluralStringStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/strings", request, new HttpRequestConfig(), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
@@ -140,6 +185,24 @@ public class SourceStringsApi extends CrowdinApi {
      */
     public ResponseObject<SourceString> getSourceString(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
         SourceStringResponseObject sourceStringResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(), SourceStringResponseObject.class);
+        return ResponseObject.of(sourceStringResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param stringId string identifier
+     * @param denormalizePlaceholders [0, 1]. Enable denormalize placeholders
+     * @return source string
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<SourceString> getSourceString(Long projectId, Long stringId, Integer denormalizePlaceholders) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders)
+        );
+        SourceStringResponseObject sourceStringResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/strings/" + stringId, new HttpRequestConfig(queryParams), SourceStringResponseObject.class);
         return ResponseObject.of(sourceStringResponseObject.getData());
     }
 

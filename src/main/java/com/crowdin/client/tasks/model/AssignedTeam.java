@@ -7,4 +7,5 @@ public class AssignedTeam {
 
     private Long id;
     private Integer wordsCount;
+    private Long timeSpent;
 }
