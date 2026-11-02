@@ -1,0 +1,10 @@
+{
+  "projectId": 12,
+  "provider": "crowdin",
+  "files": {
+    "102": [
+      "uk",
+      "de"
+    ]
+  }
+}

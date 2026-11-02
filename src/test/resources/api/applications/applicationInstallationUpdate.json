@@ -1,0 +1,39 @@
+{
+  "data": {
+    "manifestHash": "5536b952d54e0846b6fd69217f6eb7cfdcfba41774732926e1f0c1a158a6e405",
+    "latestManifest": {
+      "name": "My App"
+    },
+    "addedScopes": [
+      "tm"
+    ],
+    "removedScopes": [
+      "project"
+    ],
+    "addedModules": [
+      {
+        "key": "new-module",
+        "type": "modal"
+      }
+    ],
+    "removedModules": [],
+    "changedModules": [
+      {
+        "key": "changed-module",
+        "type": "modal"
+      }
+    ],
+    "changedEvents": {
+      "installed": {
+        "from": "/installed",
+        "to": "/installed-v2"
+      }
+    },
+    "baseUrlChanged": {
+      "from": "https://old.dev",
+      "to": "https://new.dev"
+    },
+    "authenticationTypeChanged": null,
+    "hasChanges": true
+  }
+}

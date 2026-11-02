@@ -1,0 +1,15 @@
+[
+  {
+    "op": "replace",
+    "path": "/value",
+    "value": [
+      "a",
+      "b"
+    ]
+  },
+  {
+    "op": "replace",
+    "path": "/ttl",
+    "value": null
+  }
+]

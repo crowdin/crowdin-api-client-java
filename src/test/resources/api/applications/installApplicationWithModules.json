@@ -1,0 +1,23 @@
+{
+  "url": "https://localhost.dev/crowdin.json",
+  "permissions": {
+    "project": {
+      "value": "own"
+    }
+  },
+  "modules": [
+    {
+      "key": "some-module-key",
+      "permissions": {
+        "user": {
+          "value": "restricted",
+          "ids": [
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "assignAgent": true,
+  "manifestHash": "5536b952d54e0846b6fd69217f6eb7cfdcfba41774732926e1f0c1a158a6e405"
+}

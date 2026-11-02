@@ -1,0 +1,9 @@
+{
+  "key": "user:1:settings.theme",
+  "value": {
+    "theme": "dark",
+    "size": 12
+  },
+  "secret": false,
+  "ttl": 3600
+}

@@ -1,0 +1,12 @@
+{
+  "data": [
+    {
+      "key": "email",
+      "name": "User email"
+    },
+    {
+      "key": "password",
+      "name": "User password"
+    }
+  ]
+}

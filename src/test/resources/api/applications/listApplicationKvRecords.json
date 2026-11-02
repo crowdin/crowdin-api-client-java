@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "data": {
+        "key": "user:1:settings.theme",
+        "value": {
+          "theme": "dark",
+          "size": 12
+        },
+        "secret": false,
+        "createdAt": "2026-08-17T10:00:00+00:00",
+        "updatedAt": "2026-08-17T10:00:00+00:00",
+        "expiresAt": "2026-09-17T10:00:00+00:00"
+      }
+    },
+    {
+      "data": {
+        "key": "counter",
+        "value": 5,
+        "secret": true,
+        "createdAt": "2026-08-17T10:00:00+00:00",
+        "updatedAt": "2026-08-17T10:00:00+00:00",
+        "expiresAt": null
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}
