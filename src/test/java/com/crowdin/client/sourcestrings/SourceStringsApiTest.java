@@ -55,6 +55,10 @@ public class SourceStringsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringStringsBasedRequest.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringPluralStringsBasedRequest.json", "api/strings/pluralString.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpGet.METHOD_NAME, "api/strings/string.json", new HashMap<String, Object>() {{
+                    put("denormalizePlaceholders", 1);
+                }}),
+                RequestMock.build(this.url + "/projects/" + projectId + "/strings", HttpPost.METHOD_NAME, "api/strings/addStringEnterpriseRequest.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpDelete.METHOD_NAME),
                 RequestMock.build(this.url + "/projects/" + projectId + "/strings/" + id, HttpPatch.METHOD_NAME, "api/strings/editString.json", "api/strings/string.json"),
                 RequestMock.build(this.url + "/strings", HttpGet.METHOD_NAME, "api/strings/searchStrings.json", new HashMap<String, String>() {{
@@ -74,6 +78,11 @@ public class SourceStringsApiTest extends TestClient {
         assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getBranchId(), branchId);
         assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getStorageId(), storageId);
         assertEquals(uploadStringsProgressResponseObject.getData().getAttributes().getLabelIds().get(0), labelId);
+        assertEquals(Boolean.FALSE, uploadStringsProgressResponseObject.getData().getAttributes().getCleanupMode());
+        ImportOptions importOptions = uploadStringsProgressResponseObject.getData().getAttributes().getImportOptions();
+        assertEquals(Boolean.TRUE, importOptions.getImportKeyAsSource());
+        assertEquals(Boolean.FALSE, importOptions.getContentSegmentation());
+        assertEquals(5L, importOptions.getSrxStorageId());
     }
 
     @Test
@@ -269,6 +278,26 @@ public class SourceStringsApiTest extends TestClient {
         }};
         assertEquals(sourceStringResponseObject.getData().getId(), id);
         assertEquals(sourceStringResponseObject.getData().getText(), expected);
+    }
+
+    @Test
+    public void addStringWithFieldsTest() {
+        AddSourceStringRequest request = new AddSourceStringRequest();
+        request.setText("Not all videos are shown to users.");
+        request.setIdentifier("6a1821e6499ebae94de4b880fd93b985");
+        request.setFileId(2L);
+        request.setFields(Collections.<String, Object>singletonMap("some-field-1", "some value 1"));
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().addSourceString(projectId, request);
+        assertEquals(id, sourceStringResponseObject.getData().getId());
+        assertEquals("some value 1", sourceStringResponseObject.getData().getFields().get("some-field-1"));
+        assertEquals(12, sourceStringResponseObject.getData().getFields().get("some-field-2"));
+    }
+
+    @Test
+    public void getStringWithDenormalizePlaceholdersTest() {
+        ResponseObject<SourceString> sourceStringResponseObject = this.getSourceStringsApi().getSourceString(projectId, id, 1);
+        assertEquals(id, sourceStringResponseObject.getData().getId());
+        assertEquals(text, sourceStringResponseObject.getData().getText());
     }
 
     @Test

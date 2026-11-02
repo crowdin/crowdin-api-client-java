@@ -14,4 +14,25 @@ public abstract class AddEnterpriseTaskStringsBasedRequest extends AddTaskReques
     private List<Long> stringIds;
     private Date dateTo;
     private Map<String, Object> fields;
+    /**
+     * Can only be used when {@code skipAssignedStrings} is {@code true}
+     */
+    private SkipAssignedStringsScope skipAssignedStringsScope;
+    /**
+     * Start of the interval when translations were updated (proofread tasks only)
+     */
+    private Date translationsUpdatedDateFrom;
+    /**
+     * End of the interval when translations were updated (proofread tasks only)
+     */
+    private Date translationsUpdatedDateTo;
+    /**
+     * Generate cost estimate report for the task. Requires {@code reportSettingsTemplateId}
+     */
+    private Boolean generateCostEstimate;
+    /**
+     * Generate translation cost report for the task. Requires {@code reportSettingsTemplateId}
+     */
+    private Boolean generateTranslationCost;
+    private Long reportSettingsTemplateId;
 }

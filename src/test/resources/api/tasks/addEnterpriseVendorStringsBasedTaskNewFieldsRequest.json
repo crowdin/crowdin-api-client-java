@@ -1,0 +1,15 @@
+{
+  "workflowStepId": 11,
+  "title": "French",
+  "languageId": "fr",
+  "stringIds": [
+    1
+  ],
+  "labelIds": [
+    1
+  ],
+  "labelMatchRule": "any",
+  "skipAssignedStrings": true,
+  "skipAssignedStringsScope": "all",
+  "translationsUpdatedDateFrom": "2019-09-23T07:00:14.000+00:00"
+}

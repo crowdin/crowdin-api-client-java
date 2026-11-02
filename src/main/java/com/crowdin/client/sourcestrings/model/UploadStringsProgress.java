@@ -31,6 +31,7 @@ public class UploadStringsProgress {
         @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
         private ImportOptions importOptions;
         private Boolean updateStrings;
+        private Boolean cleanupMode;
         private UpdateOption updateOption;
     }
 }

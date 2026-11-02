@@ -1,0 +1,16 @@
+{
+  "workflowStepId": 10,
+  "title": "French",
+  "languageId": "fr",
+  "directoryIds": [
+    4
+  ],
+  "skipAssignedStrings": true,
+  "skipAssignedStringsScope": "sameWorkflowStep",
+  "labelIds": [
+    1
+  ],
+  "labelMatchRule": "all",
+  "generateTranslationCost": true,
+  "reportSettingsTemplateId": 5
+}

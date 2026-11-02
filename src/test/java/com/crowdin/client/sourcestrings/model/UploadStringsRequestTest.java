@@ -34,6 +34,15 @@ class UploadStringsRequestTest {
     }
 
     @Test
+    public void updateStringsNullTest() {
+        UploadStringsRequest request = new UploadStringsRequest();
+        request.setUpdateStrings(null);
+
+        assertNull(request.getUpdateStrings());
+        assertNull(request.getUpdateOption());
+    }
+
+    @Test
     public void updateStringsFlagDisabledTest() {
         UploadStringsRequest request = new UploadStringsRequest();
         request.setUpdateStrings(false);

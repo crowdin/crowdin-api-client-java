@@ -14,4 +14,21 @@ public abstract class AddTaskStringsBasedRequest extends AddTaskRequest {
     private Status status;
     private Date dateFrom;
     private Date dateTo;
+    /**
+     * Start of the interval when translations were updated (proofread tasks only)
+     */
+    private Date translationsUpdatedDateFrom;
+    /**
+     * End of the interval when translations were updated (proofread tasks only)
+     */
+    private Date translationsUpdatedDateTo;
+    /**
+     * Generate cost estimate report for the task. Requires {@code reportSettingsTemplateId}
+     */
+    private Boolean generateCostEstimate;
+    /**
+     * Generate translation cost report for the task. Requires {@code reportSettingsTemplateId}
+     */
+    private Boolean generateTranslationCost;
+    private Long reportSettingsTemplateId;
 }

@@ -10,7 +10,12 @@ public class Screenshot {
 
     private Long id;
     private Long userId;
+    /**
+     * @deprecated deprecated in the API, use {@code webUrl} instead
+     */
+    @Deprecated
     private String url;
+    private String webUrl;
     private String name;
     private Size size;
     private Integer tagsCount;

@@ -13,6 +13,9 @@ public class ListScreenshotsParams extends Pagination {
 
     private String search;
     private String orderBy;
+    /**
+     * Comma-separated string identifiers
+     */
     private String stringIds;
     private String labelIds;
     private String excludeLabelIds;

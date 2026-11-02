@@ -11,6 +11,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class CreateEnterprisePendingTaskRequest extends AddPendingTaskRequest {
     private Type type;
+    private Long workflowStepId;
+    private String vendor;
     private List<AssigneeRequest> assignees;
     private List<AssigneeRequest> assignedTeams;
 }

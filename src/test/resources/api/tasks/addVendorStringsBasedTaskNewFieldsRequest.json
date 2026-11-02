@@ -1,0 +1,19 @@
+{
+  "title": "French",
+  "languageId": "fr",
+  "stringIds": [
+    1
+  ],
+  "type": 3,
+  "vendor": "alconost",
+  "labelIds": [
+    1
+  ],
+  "labelMatchRule": "any",
+  "excludeLabelIds": [
+    2
+  ],
+  "excludeLabelMatchRule": "any",
+  "generateCostEstimate": true,
+  "reportSettingsTemplateId": 5
+}

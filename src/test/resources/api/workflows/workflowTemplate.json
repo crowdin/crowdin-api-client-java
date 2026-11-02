@@ -2,8 +2,27 @@
   "data": {
     "id": 2,
     "title": "In-house + Machine Translation",
-    "description": "Combine the efforts of human translators and Machine Translation technology.\\n• Pre-translation - Translation Memory\\n• Pre-translation - Machine Translation\\n• Translation - in-house translators\\n• Proofreading - in-house translators",
+    "description": "Combine the efforts of human translators and Machine Translation technology.",
     "groupId": 2,
-    "isDefault": true
+    "isDefault": true,
+    "steps": [
+      {
+        "id": 3,
+        "languages": [
+          "uk",
+          "de"
+        ],
+        "assignees": [
+          5
+        ],
+        "vendorId": 52760,
+        "config": {
+          "minRelevant": 60,
+          "autoSubstitution": true
+        },
+        "mtId": 12
+      }
+    ],
+    "webUrl": "https://example.crowdin.com/u/workflows/1/read"
   }
 }

@@ -6,6 +6,11 @@ import lombok.EqualsAndHashCode;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Crowdin Enterprise "Task Create Form" request, "Create By Source Ids Form" ({@code fileIds} / {@code directoryIds} / {@code branchIds}).
+ * <p>
+ * In string-based projects use {@code branchIds} (file and directory identifiers are not supported there).
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CreateTaskEnterpriseRequest extends AddEnterpriseTaskFilesBasedRequest {
@@ -13,6 +18,9 @@ public class CreateTaskEnterpriseRequest extends AddEnterpriseTaskFilesBasedRequ
     private Type type;
     private Long workflowStepId;
     private Status status;
+    /**
+     * @deprecated deprecated in the API, use {@code splitContent} instead
+     */
     @Deprecated
     private Boolean splitFiles;
     private Boolean splitContent;

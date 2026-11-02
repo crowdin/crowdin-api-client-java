@@ -11,4 +11,5 @@ public class Assignee {
     private String avatarUrl;
     private Integer wordsCount;
     private Integer wordsLeft;
+    private Long timeSpent;
 }

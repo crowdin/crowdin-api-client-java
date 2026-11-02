@@ -20,7 +20,7 @@ public class UploadStringsRequest {
 
     public void setUpdateStrings(Boolean updateStrings) {
         this.updateStrings = updateStrings;
-        if (updateStrings) {
+        if (Boolean.TRUE.equals(updateStrings)) {
             this.updateOption = UpdateOption.CLEAR_TRANSLATIONS_AND_APPROVALS;
         }
     }
