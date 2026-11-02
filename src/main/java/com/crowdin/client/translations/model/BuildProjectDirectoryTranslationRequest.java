@@ -11,6 +11,10 @@ public class BuildProjectDirectoryTranslationRequest {
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;
     private Boolean exportApprovedOnly;
+    /**
+     * Enterprise only
+     */
+    private Integer exportWithMinApprovalsCount;
     private Boolean exportStringsThatPassedWorkflow;
     private Boolean preserveFolderHierarchy;
 }

@@ -1,5 +1,6 @@
 package com.crowdin.client.core.http.impl.json;
 
+import com.crowdin.client.stringtranslations.model.AssetLanguageTranslations;
 import com.crowdin.client.stringtranslations.model.ICULanguageTranslations;
 import com.crowdin.client.stringtranslations.model.LanguageTranslations;
 import com.crowdin.client.stringtranslations.model.PlainLanguageTranslations;
@@ -37,10 +38,23 @@ public class LanguageTranslationsDeserializer extends JsonDeserializer<LanguageT
                 case "\"text/plain\"": return this.objectMapper.readValue(treeNode.toString(), PlainLanguageTranslations.class);
                 case "\"application/vnd.crowdin.text+plural\"": return this.objectMapper.readValue(treeNode.toString(), PluralLanguageTranslations.class);
                 case "\"application/vnd.crowdin.text+icu\"": return this.objectMapper.readValue(treeNode.toString(), ICULanguageTranslations.class);
-                default: throw new RuntimeException("Wrong type: " + contentType);
+                default:
+                    if (isAsset(fields)) {
+                        return this.objectMapper.readValue(treeNode.toString(), AssetLanguageTranslations.class);
+                    }
+                    throw new RuntimeException("Wrong type: " + contentType);
             }
         } else {
             throw new RuntimeException("Couldn't get class");
         }
+    }
+
+    /**
+     * Asset translations report the MIME type of the asset (e.g. {@code image/jpeg}) as {@code contentType}, so they
+     * are recognized by their shape: a {@code url} and neither {@code text} nor {@code plurals}.
+     * Any other unknown content type is rejected rather than read as one of the known text types.
+     */
+    private static boolean isAsset(List<String> fields) {
+        return fields.contains("url") && !fields.contains("text") && !fields.contains("plurals");
     }
 }

@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "data": {
+        "contentType": "image/jpeg",
+        "url": "https://example.com/file.jpg",
+        "qaIssuesStatus": "passed"
+      }
+    },
+    {
+      "data": {
+        "stringId": 35435,
+        "translationId": 190695,
+        "contentType": "image/png",
+        "url": "https://example.com/file.png",
+        "user": {
+          "id": 19,
+          "username": "john_doe",
+          "fullName": "John Smith",
+          "avatarUrl": ""
+        },
+        "createdAt": "2019-09-23T11:26:54+00:00",
+        "qaIssuesStatus": "inProgress"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

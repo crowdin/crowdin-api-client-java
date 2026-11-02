@@ -11,6 +11,18 @@ public class Approval {
     private User user;
     private Long translationId;
     private Long stringId;
+    /**
+     * Asset approvals only
+     */
+    private Long fileId;
+    /**
+     * Enterprise only
+     */
+    private Long workflowStepId;
+    /**
+     * Enterprise only, correction approvals
+     */
+    private Long correctionId;
     private String languageId;
     private Date createdAt;
 }

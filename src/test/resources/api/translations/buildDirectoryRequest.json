@@ -1,0 +1,10 @@
+{
+  "targetLanguageIds": [
+    "uk"
+  ],
+  "skipUntranslatedStrings": false,
+  "skipUntranslatedFiles": false,
+  "exportWithMinApprovalsCount": 1,
+  "exportStringsThatPassedWorkflow": false,
+  "preserveFolderHierarchy": true
+}

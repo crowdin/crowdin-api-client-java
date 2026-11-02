@@ -7,8 +7,10 @@ public class BuildProjectFileTranslationRequest {
 
     private String targetLanguageId;
     /**
-     * @deprecated
+     * @deprecated deprecated by the API; use
+     * {@link com.crowdin.client.translations.TranslationsApi#exportProjectTranslation(Long, ExportProjectTranslationRequest)} instead.
      */
+    @Deprecated
     private Boolean exportAsXliff;
     private Boolean skipUntranslatedStrings;
     private Boolean skipUntranslatedFiles;

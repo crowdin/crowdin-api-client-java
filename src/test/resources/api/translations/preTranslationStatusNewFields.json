@@ -1,0 +1,36 @@
+{
+  "data": {
+    "identifier": "9e7de270-4f83-41cb-b606-2f90631f26e2",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "languageIds": [
+        "uk"
+      ],
+      "fileIds": [
+        2
+      ],
+      "directoryIds": [],
+      "branchIds": [],
+      "taskId": 7,
+      "method": "ai",
+      "autoApproveOption": "perfectMatchApprovedOnly",
+      "duplicateTranslations": false,
+      "skipApprovedTranslations": false,
+      "translateUntranslatedOnly": false,
+      "scope": "translated",
+      "translationModifiedBefore": "2026-01-01T00:00:00+00:00",
+      "translationModifiedAfter": "2025-01-01T00:00:00+00:00",
+      "replaceTranslationsOption": "autoTranslated",
+      "resetApprovalStatus": true,
+      "translateWithPerfectMatchOnly": false,
+      "priority": "high",
+      "notifyOnCompletion": true,
+      "minimumMatchRatio": 80
+    },
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00",
+    "startedAt": null,
+    "finishedAt": null
+  }
+}

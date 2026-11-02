@@ -1,0 +1,31 @@
+{
+  "languageIds": [
+    "uk"
+  ],
+  "fileIds": [
+    2
+  ],
+  "method": "ai",
+  "priority": "high",
+  "aiPromptId": 5,
+  "autoApproveOption": "perfectMatchApprovedOnly",
+  "scope": "translated",
+  "translationModifiedBefore": "2026-01-01T00:00:00+00:00",
+  "translationModifiedAfter": "2025-01-01T00:00:00+00:00",
+  "notifyOnCompletion": true,
+  "fallbackLanguages": {
+    "uk": [
+      "pl"
+    ]
+  },
+  "sourceLanguageId": "en",
+  "customInstruction": "Be concise",
+  "labelIds": [
+    10000
+  ],
+  "labelMatchRule": "any",
+  "excludeLabelIds": [
+    20000
+  ],
+  "excludeLabelMatchRule": "all"
+}

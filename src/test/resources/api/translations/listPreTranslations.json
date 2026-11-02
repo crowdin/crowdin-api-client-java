@@ -18,7 +18,22 @@
           "duplicateTranslations": false,
           "skipApprovedTranslations": false,
           "translateUntranslatedOnly": true,
-          "translateWithPerfectMatchOnly": false
+          "translateWithPerfectMatchOnly": false,
+          "directoryIds": [
+            3
+          ],
+          "branchIds": [
+            211
+          ],
+          "taskId": 7,
+          "scope": "all",
+          "translationModifiedBefore": "2026-01-01T00:00:00+00:00",
+          "translationModifiedAfter": null,
+          "replaceTranslationsOption": "none",
+          "resetApprovalStatus": false,
+          "priority": "normal",
+          "notifyOnCompletion": true,
+          "minimumMatchRatio": 70
         },
         "createdAt": "2024-01-01T01:00:00+00:00",
         "updatedAt": "2024-01-01T01:01:00+00:00",

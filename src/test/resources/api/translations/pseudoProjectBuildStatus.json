@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": 2,
+    "projectId": 13,
+    "status": "finished",
+    "progress": 100,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00",
+    "finishedAt": "2026-01-01T00:01:00+00:00",
+    "attributes": {
+      "pseudo": true,
+      "prefix": "pre",
+      "suffix": "ion",
+      "lengthTransformation": 0,
+      "charTransformation": "asian"
+    }
+  }
+}

@@ -10,7 +10,7 @@
             "targetWord": "Пароль",
             "targetLemma": "пароль",
             "match": 2,
-            "probability": 2
+            "probability": 2.75
           }
         ]
       }

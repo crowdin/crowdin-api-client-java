@@ -32,5 +32,29 @@ public class ProjectBuild {
         private boolean exportApprovedOnly;
         private Integer exportWithMinApprovalsCount;
         private boolean exportStringsThatPassedWorkflow;
+        /**
+         * Directory builds only
+         */
+        private Boolean preserveFolderHierarchy;
+        /**
+         * Pseudo builds only
+         */
+        private Boolean pseudo;
+        /**
+         * Pseudo builds only
+         */
+        private String prefix;
+        /**
+         * Pseudo builds only
+         */
+        private String suffix;
+        /**
+         * Pseudo builds only
+         */
+        private Integer lengthTransformation;
+        /**
+         * Pseudo builds only
+         */
+        private CharTransformation charTransformation;
     }
 }

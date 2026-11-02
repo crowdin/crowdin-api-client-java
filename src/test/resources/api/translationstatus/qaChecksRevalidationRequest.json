@@ -6,5 +6,8 @@
     "uk",
     "fr"
   ],
-  "failedOnly": true
+  "failedOnly": true,
+  "externalQaCheckIds": [
+    11
+  ]
 }

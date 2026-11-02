@@ -10,4 +10,8 @@ public class QaCheckRevalidationRequest {
     private List<String> qaCheckCategories;
     private List<String> languageIds;
     private Boolean failedOnly;
+    /**
+     * Enterprise only
+     */
+    private List<Long> externalQaCheckIds;
 }

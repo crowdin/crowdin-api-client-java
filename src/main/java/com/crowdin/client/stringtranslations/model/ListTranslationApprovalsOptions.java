@@ -18,5 +18,9 @@ public class ListTranslationApprovalsOptions extends Pagination {
     private Long stringId;
     private String languageId;
     private Long translationId;
+    /**
+     * Enterprise only
+     */
+    private Long correctionId;
     private List<OrderByField> orderByList;
 }

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "data": {
+        "stringId": 35435,
+        "languageId": "uk",
+        "category": "spellcheck",
+        "categoryDescription": "Spelling",
+        "validation": "spellcheck",
+        "validationDescription": "Spelling mistake",
+        "pluralId": 0,
+        "pluralCategoryName": "few",
+        "text": "files",
+        "translation": "файли"
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

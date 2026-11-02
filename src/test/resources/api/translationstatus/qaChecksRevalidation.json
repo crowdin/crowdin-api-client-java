@@ -11,7 +11,10 @@
       "qaCheckCategories": [
         "ai"
       ],
-      "failedOnly": false
+      "failedOnly": false,
+      "externalQaCheckIds": [
+        11
+      ]
     },
     "createdAt": "2025-09-23T11:51:08+00:00",
     "updatedAt": "2025-09-23T11:51:08+00:00",

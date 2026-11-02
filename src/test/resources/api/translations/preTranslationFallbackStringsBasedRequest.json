@@ -1,0 +1,15 @@
+{
+  "languageIds": [
+    "uk"
+  ],
+  "branchIds": [
+    211
+  ],
+  "method": "tm",
+  "fallbackLanguages": {
+    "uk": [
+      "ru",
+      "pl"
+    ]
+  }
+}

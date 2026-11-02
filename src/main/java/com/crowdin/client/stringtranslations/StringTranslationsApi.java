@@ -94,6 +94,15 @@ public class StringTranslationsApi extends CrowdinApi {
         return listTranslationApprovals(projectId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param options filtering, sorting and pagination options
+     * @return list of approvals
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.approvals.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<Approval> listTranslationApprovals(Long projectId, ListTranslationApprovalsOptions options) throws HttpException, HttpBadRequestException {
         ListTranslationApprovalsOptions query = Optional.ofNullable(options).orElse(new ListTranslationApprovalsOptions());
 
@@ -108,6 +117,7 @@ public class StringTranslationsApi extends CrowdinApi {
                 "stringId", Optional.ofNullable(query.getStringId()),
                 "languageId", Optional.ofNullable(query.getLanguageId()),
                 "translationId", Optional.ofNullable(query.getTranslationId()),
+                "correctionId", Optional.ofNullable(query.getCorrectionId()),
                 "limit", Optional.ofNullable(query.getLimit()),
                 "offset", Optional.ofNullable(query.getOffset()),
                 "orderBy", Optional.ofNullable(orderBy)
@@ -155,6 +165,25 @@ public class StringTranslationsApi extends CrowdinApi {
     public void removeStringApprovals(Long projectId, Long stringId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.of(stringId)
+        );
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), Void.class);
+    }
+
+    /**
+     * Remove String Approvals by string or by file
+     *
+     * @param projectId project identifier
+     * @param stringId string identifier (can't be used together with {@code fileId})
+     * @param fileId file identifier, file-based projects only (can't be used together with {@code stringId})
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.approvals.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.approvals.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void removeStringApprovals(Long projectId, Long stringId, Long fileId) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "stringId", Optional.ofNullable(stringId),
+                "fileId", Optional.ofNullable(fileId)
         );
         this.httpClient.delete(this.url + "/projects/" + projectId + "/approvals", new HttpRequestConfig(queryParams), Void.class);
     }
@@ -263,6 +292,16 @@ public class StringTranslationsApi extends CrowdinApi {
         return listLanguageTranslations(projectId, languageId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param options filtering, sorting and pagination options
+     * @return list of language translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.languages.translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.languages.translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<LanguageTranslations> listLanguageTranslations(Long projectId, String languageId, ListLanguageTranslationsOptions options) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/languages/%s/translations", this.url, projectId, languageId);
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
@@ -273,6 +312,7 @@ public class StringTranslationsApi extends CrowdinApi {
             "directoryId", Optional.ofNullable(options.getDirectoryId()),
             "passedWorkflow", Optional.ofNullable(options.getPassedWorkflow()),
             "minApprovalCount", Optional.ofNullable(options.getMinApprovalCount()),
+            "approvedOnly", Optional.ofNullable(options.getApprovedOnly()),
             "croql", Optional.ofNullable(options.getCroql()),
             "denormalizePlaceholders", Optional.ofNullable(options.getDenormalizePlaceholders()),
             "limit", Optional.ofNullable(options.getLimit()),
@@ -327,6 +367,15 @@ public class StringTranslationsApi extends CrowdinApi {
         return listStringTranslations(projectId, options);
     }
 
+    /**
+     * @param projectId project identifier
+     * @param options filtering, sorting and pagination options
+     * @return list of string translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<StringTranslation> listStringTranslations(Long projectId, ListStringTranslationsOptions options) throws HttpException, HttpBadRequestException {
         ListStringTranslationsOptions query = Optional.ofNullable(options).orElse(new ListStringTranslationsOptions());
 
@@ -337,6 +386,7 @@ public class StringTranslationsApi extends CrowdinApi {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.ofNullable(query.getStringId()),
                 "languageId", Optional.ofNullable(query.getLanguageId()),
+                "fileId", Optional.ofNullable(query.getFileId()),
                 "denormalizePlaceholders", Optional.ofNullable(query.getDenormalizePlaceholders()),
                 "limit", Optional.ofNullable(query.getLimit()),
                 "offset", Optional.ofNullable(query.getOffset()),
@@ -361,17 +411,56 @@ public class StringTranslationsApi extends CrowdinApi {
     }
 
     /**
+     * Add Translation for an asset file (file-based projects only).
+     * Uses the same endpoint as {@link #addTranslation(Long, AddStringTranslationRequest)} with the asset request body;
+     * it has a separate name so that {@code addTranslation(projectId, null)} stays unambiguous.
+     *
+     * @param projectId project identifier
+     * @param request request body
+     * @return newly created asset translation (only {@code url} is returned)
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<StringTranslation> addAssetTranslation(Long projectId, AddAssetTranslationRequest request) throws HttpException, HttpBadRequestException {
+        StringTranslationResponseObject stringTranslationResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/translations", request, new HttpRequestConfig(), StringTranslationResponseObject.class);
+        return ResponseObject.of(stringTranslationResponseObject.getData());
+    }
+
+    /**
      * @param projectId project identifier
      * @param stringId string identifier
      * @param languageId language identifier
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public void deleteStringTranslations(Long projectId, Long stringId, String languageId) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "stringId", Optional.of(stringId),
+                "languageId", Optional.ofNullable(languageId)
+        );
+        this.httpClient.delete(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
+    }
+
+    /**
+     * Delete Translations by string or by file
+     *
+     * @param projectId project identifier
+     * @param stringId string identifier (can't be used together with {@code fileId})
+     * @param languageId language identifier
+     * @param fileId file identifier, file-based projects only (can't be used together with {@code stringId})
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.deleteMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public void deleteStringTranslations(Long projectId, Long stringId, String languageId, Long fileId) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "stringId", Optional.ofNullable(stringId),
+                "fileId", Optional.ofNullable(fileId),
                 "languageId", Optional.ofNullable(languageId)
         );
         this.httpClient.delete(this.url + "/projects/" + projectId + "/translations", new HttpRequestConfig(queryParams), Void.class);
@@ -388,6 +477,24 @@ public class StringTranslationsApi extends CrowdinApi {
      */
     public ResponseObject<StringTranslation> getStringTranslation(Long projectId, Long translationId) throws HttpException, HttpBadRequestException {
         StringTranslationResponseObject stringTranslationResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/" + translationId, new HttpRequestConfig(), StringTranslationResponseObject.class);
+        return ResponseObject.of(stringTranslationResponseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param translationId translation identifier
+     * @param denormalizePlaceholders enable denormalize placeholders
+     * @return string translation
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<StringTranslation> getStringTranslation(Long projectId, Long translationId, BooleanInt denormalizePlaceholders) throws HttpException, HttpBadRequestException {
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "denormalizePlaceholders", Optional.ofNullable(denormalizePlaceholders)
+        );
+        StringTranslationResponseObject stringTranslationResponseObject = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/" + translationId, new HttpRequestConfig(queryParams), StringTranslationResponseObject.class);
         return ResponseObject.of(stringTranslationResponseObject.getData());
     }
 
