@@ -9,7 +9,9 @@ public class AddApplicationKvRecordRequest {
     private String key;
     /**
      * Any JSON value except {@code null}: a string, number, boolean, array (List) or object (Map).
-     * Masked in {@code toString()} when the record is {@code secret}
+     * Masked in {@code toString()} when the record is {@code secret}.
+     * <p>
+     * Note: the client omits {@code null}-valued entries inside maps when serializing the request, e.g. {@code {"a": null, "b": 1}} is sent as {@code {"b": 1}}; {@code null} elements inside lists are kept
      */
     @ToString.Exclude
     private Object value;

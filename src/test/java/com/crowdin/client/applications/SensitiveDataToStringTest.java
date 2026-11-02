@@ -7,6 +7,7 @@ import com.crowdin.client.applications.storage.model.ApplicationKvRecord;
 import com.crowdin.client.applications.storage.model.ApplicationKvRecordPatchRequest;
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
 import com.crowdin.client.core.model.PatchOperation;
+import com.crowdin.client.core.model.PatchRequest;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -73,6 +74,60 @@ class SensitiveDataToStringTest {
         ttl.setPath("/ttl");
         assertEquals("ApplicationKvRecordPatchRequest(op=REPLACE, path=/ttl, value=null)", ttl.toString());
         assertEquals("{\"value\":null,\"path\":\"/ttl\",\"op\":\"replace\"}", jsonTransformer.convert(ttl));
+
+        ttl.setValue(3600);
+        assertEquals("ApplicationKvRecordPatchRequest(op=REPLACE, path=/ttl, value=3600)", ttl.toString());
+        assertEquals("{\"value\":3600,\"path\":\"/ttl\",\"op\":\"replace\"}", jsonTransformer.convert(ttl));
+    }
+
+    @Test
+    void kvRecordPatchUnexpectedPathsAreMaskedTest() {
+        for (String path : new String[]{"value", "/value/", "/VALUE", "/TTL", "/ttl/", "/secret", "/key", "", null}) {
+            ApplicationKvRecordPatchRequest patch = new ApplicationKvRecordPatchRequest();
+            patch.setOp(PatchOperation.REPLACE);
+            patch.setPath(path);
+            patch.setValue(SECRET);
+            assertEquals("ApplicationKvRecordPatchRequest(op=REPLACE, path=" + path + ", value=****)", patch.toString(), path);
+            assertEquals(SECRET, patch.getValue());
+            assertTrue(jsonTransformer.convert(patch).contains("\"value\":\"" + SECRET + "\""), path);
+        }
+    }
+
+    @Test
+    void kvRecordPatchNestedToStringTest() {
+        ApplicationKvRecordPatchRequest value = new ApplicationKvRecordPatchRequest();
+        value.setOp(PatchOperation.REPLACE);
+        value.setPath("/value");
+        value.setValue(Collections.singletonMap("auth", Arrays.asList("x", Collections.singletonMap("token", SECRET))));
+        ApplicationKvRecordPatchRequest ttl = new ApplicationKvRecordPatchRequest();
+        ttl.setOp(PatchOperation.REPLACE);
+        ttl.setPath("/ttl");
+        ttl.setValue(60);
+        List<PatchRequest> request = Arrays.asList(value, ttl);
+
+        String nested = request + " " + Collections.singletonMap("patch", request);
+        assertFalse(nested.contains(SECRET), nested);
+        assertEquals("[ApplicationKvRecordPatchRequest(op=REPLACE, path=/value, value=****), "
+                + "ApplicationKvRecordPatchRequest(op=REPLACE, path=/ttl, value=60)]", request.toString());
+        assertTrue(jsonTransformer.convert(request).contains(SECRET));
+    }
+
+    @Test
+    void nullMapEntriesAreOmittedFromKvValuesTest() {
+        Map<String, Object> value = new LinkedHashMap<>();
+        value.put("a", null);
+        value.put("b", 1);
+        value.put("list", Arrays.asList(1, null));
+        AddApplicationKvRecordRequest request = new AddApplicationKvRecordRequest();
+        request.setKey("k");
+        request.setValue(value);
+        assertEquals("{\"key\":\"k\",\"value\":{\"b\":1,\"list\":[1,null]}}", jsonTransformer.convert(request));
+
+        ApplicationKvRecordPatchRequest patch = new ApplicationKvRecordPatchRequest();
+        patch.setOp(PatchOperation.REPLACE);
+        patch.setPath("/value");
+        patch.setValue(value);
+        assertEquals("{\"value\":{\"b\":1,\"list\":[1,null]},\"path\":\"/value\",\"op\":\"replace\"}", jsonTransformer.convert(patch));
     }
 
     @Test

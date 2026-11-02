@@ -451,7 +451,9 @@ public class ApplicationsApi extends CrowdinApi {
     }
 
     /**
-     * Requires the application's own access token - personal access tokens are not supported
+     * Requires the application's own access token - personal access tokens are not supported.
+     * <p>
+     * Note: the client omits {@code null}-valued entries inside maps when serializing the request, e.g. {@code {"a": null, "b": 1}} is sent as {@code {"b": 1}}; {@code null} elements inside lists are kept.
      *
      * @param applicationIdentifier identifier of the application
      * @param request request object
@@ -488,8 +490,12 @@ public class ApplicationsApi extends CrowdinApi {
      * Requires the application's own access token - personal access tokens are not supported.
      * Supported paths: {@code /value}, {@code /ttl}. To remove the TTL send {@code null} for {@code /ttl} using
      * {@link com.crowdin.client.applications.storage.model.ApplicationKvRecordPatchRequest}
-     * (a plain {@link PatchRequest} omits {@code null} values). {@code ApplicationKvRecordPatchRequest} also masks
-     * the {@code /value} value in {@code toString()}, so prefer it for records that may be {@code secret}.
+     * (a plain {@link PatchRequest} omits {@code null} values).
+     * <p>
+     * Use {@code ApplicationKvRecordPatchRequest} for records that may be {@code secret}: its {@code toString()}
+     * masks every value except the {@code /ttl} one, while a plain {@link PatchRequest} prints the value as is.
+     * <p>
+     * Note: the client omits {@code null}-valued entries inside maps when serializing the request, e.g. {@code {"a": null, "b": 1}} is sent as {@code {"b": 1}}; {@code null} elements inside lists are kept.
      *
      * @param applicationIdentifier identifier of the application
      * @param key key of the record (reserved characters are URL-encoded by the client)
