@@ -10,6 +10,7 @@ public class Module {
     private String key;
     private String type;
     private Map<String, Object> data;
+    private ModulePermissions permissions;
     private String authenticationType;
 
 }

@@ -1,0 +1,13 @@
+{
+  "data": {
+    "key": "user:1:settings.theme",
+    "value": {
+      "theme": "dark",
+      "size": 12
+    },
+    "secret": false,
+    "createdAt": "2026-08-17T10:00:00+00:00",
+    "updatedAt": "2026-08-17T10:00:00+00:00",
+    "expiresAt": "2026-09-17T10:00:00+00:00"
+  }
+}

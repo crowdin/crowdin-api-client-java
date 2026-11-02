@@ -1,0 +1,19 @@
+{
+  "projectId": 12,
+  "files": [
+    {
+      "id": "1",
+      "name": "Landing pages",
+      "parent_id": "0",
+      "node_type": "0"
+    },
+    {
+      "name": "Intro",
+      "id": "73291251883",
+      "parentId": "Landing pages",
+      "type": "json",
+      "node_type": "1"
+    }
+  ],
+  "uploadTranslations": true
+}

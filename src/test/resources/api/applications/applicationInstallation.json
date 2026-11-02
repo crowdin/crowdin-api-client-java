@@ -2,16 +2,50 @@
   "data": {
     "identifier": "example-application",
     "name": "Application name",
+    "installedBy": {
+      "id": 12,
+      "username": "john_smith",
+      "fullName": "John Smith",
+      "avatarUrl": ""
+    },
     "description": "Application description",
     "logo": "/resources/images/logo.png",
+    "logoUrl": "https://localhost.dev/resources/images/logo.png",
+    "agent": {
+      "id": 13,
+      "username": "app_agent",
+      "fullName": "App Agent",
+      "avatarUrl": ""
+    },
     "baseUrl": "https://localhost.dev",
     "manifestUrl": "https://localhost.dev",
+    "manifest": {
+      "name": "My App",
+      "modules": {
+        "modal": [
+          {
+            "key": "my-module",
+            "name": "My Module"
+          }
+        ]
+      }
+    },
     "createdAt": "2019-09-20T11:34:40+00:00",
+    "manifestUpdatedAt": "2019-09-21T11:34:40+00:00",
+    "isManifestOutdated": true,
     "modules": [
       {
         "key": "example-application",
         "type": "module-type",
         "data": {},
+        "permissions": {
+          "user": {
+            "value": "restricted",
+            "ids": [
+              1
+            ]
+          }
+        },
         "authenticationType": "none"
       }
     ],
@@ -36,6 +70,11 @@
       "user": "owner",
       "project": "own"
     },
-    "limitReached": true
+    "limitReached": true,
+    "stringBasedAvailable": true,
+    "bundle": {
+      "mode": "external",
+      "url": "http://localhost:8080/"
+    }
   }
 }

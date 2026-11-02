@@ -1,0 +1,35 @@
+{
+  "manifest": {
+    "name": "My App",
+    "description": "Serverless app",
+    "logo": "/logo.png",
+    "scopes": [
+      "project"
+    ],
+    "stringBasedAvailable": true,
+    "modules": {
+      "modal": [
+        {
+          "key": "my-module",
+          "name": "My Module",
+          "environments": [
+            "crowdin",
+            "crowdin-enterprise"
+          ],
+          "permissions": {
+            "user": {
+              "value": "all"
+            }
+          }
+        }
+      ]
+    },
+    "default_permissions": {
+      "user": "managers",
+      "project": "restricted"
+    },
+    "bundle": {
+      "mode": "internal"
+    }
+  }
+}
