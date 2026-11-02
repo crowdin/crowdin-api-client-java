@@ -1,6 +1,7 @@
 package com.crowdin.client.translations.model;
 
 import com.crowdin.client.core.model.EnumConverter;
+import com.crowdin.client.core.model.Priority;
 import lombok.Data;
 
 import java.util.Date;
@@ -21,12 +22,33 @@ public class PreTranslation {
     public static class Attributes {
         private List<String> languageIds;
         private List<Long> fileIds;
+        private List<Long> directoryIds;
+        private List<Long> branchIds;
+        /**
+         * Present only when the auto-translation was requested by {@code taskId}
+         */
+        private Long taskId;
         private String method;
         private String autoApproveOption;
         private Boolean duplicateTranslations;
         private Boolean skipApprovedTranslations;
+        /**
+         * @deprecated reflects the legacy request value; use {@link #scope} instead.
+         */
+        @Deprecated
         private Boolean translateUntranslatedOnly;
+        private Scope scope;
+        private String translationModifiedBefore;
+        private String translationModifiedAfter;
+        private ReplaceTranslationsOption replaceTranslationsOption;
+        private Boolean resetApprovalStatus;
         private Boolean translateWithPerfectMatchOnly;
+        private Priority priority;
+        private Boolean notifyOnCompletion;
+        /**
+         * Enterprise only
+         */
+        private Integer minimumMatchRatio;
     }
 
     public enum Status implements EnumConverter<Status> {

@@ -6,6 +6,8 @@ import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.model.*;
 import com.crowdin.client.translations.model.*;
+import com.crowdin.client.translationstatus.model.QaCheck;
+import com.crowdin.client.translationstatus.model.QaCheckResponseList;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,6 +38,17 @@ public class TranslationsApi extends CrowdinApi {
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
     }
 
+    /**
+     * Apply Pre-Translation (string-based projects)
+     *
+     * @param projectId project identifier
+     * @param request request body
+     * @return pre-translation status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseObject<PreTranslationStatus> applyPreTranslationStringsBased(Long projectId, ApplyPreTranslationStringsBasedRequest request) throws HttpException, HttpBadRequestException {
         PreTranslationStatusResponseObject preTranslationStatusResponseObject = this.httpClient.post(this.url + "/projects/" + projectId + "/pre-translations", request, new HttpRequestConfig(), PreTranslationStatusResponseObject.class);
         return ResponseObject.of(preTranslationStatusResponseObject.getData());
@@ -46,8 +59,8 @@ public class TranslationsApi extends CrowdinApi {
      * @param jobIdentifier pre-translation job identifier
      * @return pre-translation status
      * @see <ul>
-     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>API Documentation</b></a></li>
-     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.get" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.get" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
     public ResponseObject<PreTranslationStatus> preTranslationStatus(Long projectId, String jobIdentifier) throws HttpException, HttpBadRequestException {
@@ -56,6 +69,9 @@ public class TranslationsApi extends CrowdinApi {
     }
 
     /**
+     * @deprecated the API responds with a directory build object, not a download link; use
+     * {@link #buildDirectoryTranslation(Long, Long, BuildProjectDirectoryTranslationRequest)} instead.
+     *
      * @param projectId project identifier
      * @param directoryId directory identifier
      * @param request request body
@@ -65,10 +81,29 @@ public class TranslationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.builds.directories.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
+    @Deprecated
     public ResponseObject<DownloadLink> buildProjectDirectoryTranslation(Long projectId, Long directoryId, BuildProjectDirectoryTranslationRequest request) throws HttpException, HttpBadRequestException {
         String builtUrl = String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId);
         DownloadLinkResponseObject downloadLinkResponseObject = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), DownloadLinkResponseObject.class);
         return ResponseObject.of(downloadLinkResponseObject.getData());
+    }
+
+    /**
+     * Build Project Directory Translation
+     *
+     * @param projectId project identifier
+     * @param directoryId directory identifier
+     * @param request request body
+     * @return directory build status
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.directories.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.builds.directories.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseObject<ProjectBuild> buildDirectoryTranslation(Long projectId, Long directoryId, BuildProjectDirectoryTranslationRequest request) throws HttpException, HttpBadRequestException {
+        String builtUrl = String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId);
+        ProjectBuildResponseObject projectBuildResponseObject = this.httpClient.post(builtUrl, request, new HttpRequestConfig(), ProjectBuildResponseObject.class);
+        return ResponseObject.of(projectBuildResponseObject.getData());
     }
 
     /**
@@ -137,7 +172,7 @@ public class TranslationsApi extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated deprecated by the API; use {@link #importTranslations(Long, ImportTranslationsRequest)} instead.
      *
      * @param projectId project identifier
      * @param languageId language identifier
@@ -148,6 +183,7 @@ public class TranslationsApi extends CrowdinApi {
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.postOnLanguage" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
+    @Deprecated
     public ResponseObject<UploadTranslationsResponse> uploadTranslations(Long projectId, String languageId, UploadTranslationsRequest request) throws HttpException, HttpBadRequestException {
         UploadTranslationsResponseObject projectBuildResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/" + languageId,
@@ -159,8 +195,18 @@ public class TranslationsApi extends CrowdinApi {
     }
 
     /**
-     * @deprecated
+     * @deprecated deprecated by the API; use {@link #importTranslations(Long, ImportTranslationsStringsBasedRequest)} instead.
+     *
+     * @param projectId project identifier
+     * @param languageId language identifier
+     * @param request request body
+     * @return upload translations response
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.postOnLanguage" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.postOnLanguage" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
      */
+    @Deprecated
     public ResponseObject<UploadTranslationsStringsResponse> uploadTranslationStringsBased(Long projectId, String languageId, UploadTranslationsStringsRequest request) throws HttpException, HttpBadRequestException {
         UploadTranslationsStringsResponseObject projectBuildResponseObject = this.httpClient.post(
                 this.url + "/projects/" + projectId + "/translations/" + languageId,
@@ -246,10 +292,47 @@ public class TranslationsApi extends CrowdinApi {
         return listPreTranslations(projectId, pagination);
     }
 
+    /**
+     * List Pre-Translations
+     *
+     * @param projectId project identifier
+     * @param limit maximum number of items to retrieve (default 25)
+     * @param offset starting offset in the collection (default 0)
+     * @param orderBy list of OrderByField
+     * @return list of pre-translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<PreTranslation> listPreTranslations(Long projectId, Integer limit, Integer offset, List<OrderByField> orderBy) throws HttpException, HttpBadRequestException {
+        ListPreTranslationsOptions options = new ListPreTranslationsOptions();
+        options.setLimit(limit);
+        options.setOffset(offset);
+        options.setOrderByList(orderBy);
+        return listPreTranslations(projectId, options);
+    }
+
+    /**
+     * List Pre-Translations
+     *
+     * @param projectId project identifier
+     * @param options pagination options; pass {@link ListPreTranslationsOptions} to also sort the results
+     * @return list of pre-translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.pre-translations.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<PreTranslation> listPreTranslations(Long projectId, Pagination options) throws HttpException, HttpBadRequestException {
+        Pagination query = Optional.ofNullable(options).orElse(new Pagination());
+        String orderBy = query instanceof ListPreTranslationsOptions
+                ? OrderByField.generateSortParam(((ListPreTranslationsOptions) query).getOrderByList())
+                : null;
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
-                "limit", Optional.ofNullable(options.getLimit()),
-                "offset", Optional.ofNullable(options.getOffset())
+                "orderBy", Optional.ofNullable(orderBy),
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset())
         );
         PreTranslationResponseList preTranslationResponseList = this.httpClient.get(this.url + "/projects/" + projectId + "/pre-translations", new HttpRequestConfig(queryParams), PreTranslationResponseList.class);
         return PreTranslationResponseList.to(preTranslationResponseList);
@@ -398,5 +481,26 @@ public class TranslationsApi extends CrowdinApi {
     public ResponseObject<ImportTranslationsStringsBasedReportResponse> importTranslationsStringsBasedReport(Long projectId, String importId) throws HttpException, HttpBadRequestException {
         ImportTranslationsStringsBasedReportResponseObject resp = this.httpClient.get(this.url + "/projects/" + projectId + "/translations/imports/" + importId + "/report", new HttpRequestConfig(), ImportTranslationsStringsBasedReportResponseObject.class);
         return ResponseObject.of(resp.getData());
+    }
+
+    /**
+     * Validate QA Checks
+     *
+     * @param projectId project identifier
+     * @param request list of translations to validate
+     * @return list of QA check issues found for the passed translations
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.translations.validate-qa-checks.post" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.translations.validate-qa-checks.post" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<QaCheck> validateQaChecks(Long projectId, List<ValidateQaChecksRequest> request) throws HttpException, HttpBadRequestException {
+        QaCheckResponseList qaCheckResponseList = this.httpClient.post(
+                this.url + "/projects/" + projectId + "/translations/validate-qa-checks",
+                request,
+                new HttpRequestConfig(),
+                QaCheckResponseList.class
+        );
+        return QaCheckResponseList.to(qaCheckResponseList);
     }
 }

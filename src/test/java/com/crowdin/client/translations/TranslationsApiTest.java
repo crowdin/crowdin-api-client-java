@@ -4,6 +4,8 @@ import com.crowdin.client.core.model.*;
 import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.translations.model.*;
+import com.crowdin.client.translationstatus.model.Category;
+import com.crowdin.client.translationstatus.model.QaCheck;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPatch;
@@ -11,12 +13,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TranslationsApiTest extends TestClient {
 
@@ -41,12 +48,21 @@ public class TranslationsApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationScopeRequest.json", "api/translations/preTranslationStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationScopeStringsBasedRequest.json", "api/translations/preTranslationStatusStringsBased.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationDirectoryBranchRequest.json", "api/translations/preTranslationStatusWithDirectoryBranch.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationNewFieldsRequest.json", "api/translations/preTranslationStatusNewFields.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationByTaskRequest.json", "api/translations/preTranslationStatusNewFields.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpPost.METHOD_NAME, "api/translations/preTranslationFallbackStringsBasedRequest.json", "api/translations/preTranslationStatusStringsBased.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations/" + preTranslationId, HttpGet.METHOD_NAME, "api/translations/preTranslationStatus.json"),
                 RequestMock.build(String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId), HttpPost.METHOD_NAME, "api/translations/buildProjectDirectoryRequest.json", "api/translations/downloadLink.json"),
+                RequestMock.build(String.format("%s/projects/%d/translations/builds/directories/%d", this.url, projectId, directoryId), HttpPost.METHOD_NAME, "api/translations/buildDirectoryRequest.json", "api/translations/directoryBuildStatus.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/translations/validate-qa-checks", HttpPost.METHOD_NAME, "api/translations/validateQaChecksRequest.json", "api/translations/validateQaChecksResponse.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/pre-translations", HttpGet.METHOD_NAME, "api/translations/listPreTranslations.json", new HashMap<String, Object>() {{
+                    put("orderBy", "createdAt%20desc");
+                    put("limit", 10);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/files/" + fileId, HttpPost.METHOD_NAME, "api/translations/buildFileRequest.json", "api/translations/downloadLink.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpGet.METHOD_NAME, "api/translations/listProjectBuilds.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/buildProjectRequest.json", "api/translations/projectBuildStatus.json"),
-                RequestMock.build(this.url + "/projects/" + parallelProjectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/pseudoBuildProjectRequest.json", "api/translations/projectBuildStatus.json"),
+                RequestMock.build(this.url + "/projects/" + parallelProjectId + "/translations/builds", HttpPost.METHOD_NAME, "api/translations/pseudoBuildProjectRequest.json", "api/translations/pseudoProjectBuildStatus.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + language, HttpPost.METHOD_NAME, "api/translations/uploadTranslationRequest.json", "api/translations/uploadTranslationResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/" + language, HttpPost.METHOD_NAME, "api/translations/uploadTranslationsStringsRequest.json", "api/translations/uploadTranslationsStringsResponse.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/translations/builds/" + buildId + "/download", HttpGet.METHOD_NAME, "api/translations/downloadLink.json"),
@@ -141,6 +157,68 @@ public class TranslationsApiTest extends TestClient {
     }
 
     @Test
+    public void applyPreTranslationNewFieldsTest() {
+        ApplyPreTranslationRequest request = new ApplyPreTranslationRequest();
+        request.setLanguageIds(singletonList(language));
+        request.setFileIds(singletonList(fileId));
+        request.setMethod(Method.AI);
+        request.setPriority(Priority.HIGH);
+        request.setAiPromptId(5L);
+        request.setAutoApproveOption(AutoApproveOption.PERFECT_MATCH_APPROVED_ONLY);
+        request.setScope(Scope.TRANSLATED);
+        request.setTranslationModifiedBefore("2026-01-01T00:00:00+00:00");
+        request.setTranslationModifiedAfter("2025-01-01T00:00:00+00:00");
+        request.setNotifyOnCompletion(true);
+        request.setFallbackLanguages(Collections.singletonMap(language, singletonList("pl")));
+        request.setSourceLanguageId("en");
+        request.setCustomInstruction("Be concise");
+        request.setLabelIds(singletonList(10000L));
+        request.setLabelMatchRule(LabelMatchRule.ANY);
+        request.setExcludeLabelIds(singletonList(20000L));
+        request.setExcludeLabelMatchRule(LabelMatchRule.ALL);
+        PreTranslationStatus status = this.getTranslationsApi().applyPreTranslation(projectId, request).getData();
+        assertEquals(preTranslationId, status.getIdentifier());
+
+        PreTranslationStatus.Attributes attributes = status.getAttributes();
+        assertEquals(7L, attributes.getTaskId());
+        assertEquals(Method.AI, attributes.getMethod());
+        assertEquals(AutoApproveOption.PERFECT_MATCH_APPROVED_ONLY, attributes.getAutoApproveOption());
+        assertEquals(Scope.TRANSLATED, attributes.getScope());
+        assertEquals("2026-01-01T00:00:00+00:00", attributes.getTranslationModifiedBefore());
+        assertEquals("2025-01-01T00:00:00+00:00", attributes.getTranslationModifiedAfter());
+        assertEquals(ReplaceTranslationsOption.AUTO_TRANSLATED, attributes.getReplaceTranslationsOption());
+        assertTrue(attributes.getResetApprovalStatus());
+        assertEquals(Priority.HIGH, attributes.getPriority());
+        assertTrue(attributes.getNotifyOnCompletion());
+        assertEquals(80, attributes.getMinimumMatchRatio());
+    }
+
+    @Test
+    public void applyPreTranslationByTaskTest() {
+        ApplyPreTranslationRequest request = new ApplyPreTranslationRequest();
+        request.setTaskId(7L);
+        request.setMethod(Method.TM);
+        request.setAutoApproveOption(AutoApproveOption.NONE);
+        PreTranslationStatus status = this.getTranslationsApi().applyPreTranslation(projectId, request).getData();
+        assertEquals(7L, status.getAttributes().getTaskId());
+    }
+
+    @Test
+    public void applyPreTranslationStringsBasedFallbackLanguagesTest() {
+        ApplyPreTranslationStringsBasedRequest request = new ApplyPreTranslationStringsBasedRequest();
+        request.setLanguageIds(singletonList(language));
+        request.setBranchIds(singletonList(branchId));
+        request.setMethod(Method.TM);
+        request.setFallbackLanguagesMap(Collections.singletonMap(language, Arrays.asList("ru", "pl")));
+        // the deprecated list is not part of the wire format
+        ApplyPreTranslationStringsBasedRequest.FallbackLanguage legacy = new ApplyPreTranslationStringsBasedRequest.FallbackLanguage();
+        legacy.setLanguageId("de");
+        request.setFallbackLanguages(singletonList(legacy));
+        ResponseObject<PreTranslationStatus> response = this.getTranslationsApi().applyPreTranslationStringsBased(projectId, request);
+        assertEquals(preTranslationId, response.getData().getIdentifier());
+    }
+
+    @Test
     public void preTranslationStatusTest() {
         ResponseObject<PreTranslationStatus> preTranslationStatusResponseObject = this.getTranslationsApi().preTranslationStatus(projectId, preTranslationId);
         assertEquals(preTranslationStatusResponseObject.getData().getIdentifier(), preTranslationId);
@@ -163,11 +241,31 @@ public class TranslationsApiTest extends TestClient {
     }
 
     @Test
+    public void buildDirectoryTranslationTest() {
+        BuildProjectDirectoryTranslationRequest request = new BuildProjectDirectoryTranslationRequest();
+        request.setTargetLanguageIds(singletonList("uk"));
+        request.setSkipUntranslatedStrings(false);
+        request.setSkipUntranslatedFiles(false);
+        request.setExportWithMinApprovalsCount(1);
+        request.setExportStringsThatPassedWorkflow(false);
+        request.setPreserveFolderHierarchy(true);
+        ResponseObject<ProjectBuild> response = this.getTranslationsApi().buildDirectoryTranslation(projectId, directoryId, request);
+        ProjectBuild build = response.getData();
+        assertEquals(buildId, build.getId());
+        assertEquals(projectId, build.getProjectId());
+        assertEquals("created", build.getStatus());
+        assertEquals(directoryId, build.getAttributes().getDirectoryId());
+        assertEquals(1, build.getAttributes().getExportWithMinApprovalsCount());
+        assertTrue(build.getAttributes().getPreserveFolderHierarchy());
+    }
+
+    @Test
     public void buildProjectFileTranslationTest() {
         BuildProjectFileTranslationRequest request = new BuildProjectFileTranslationRequest();
         request.setTargetLanguageId(language);
         ResponseObject<DownloadLink> downloadLinkResponseObject = this.getTranslationsApi().buildProjectFileTranslation(projectId, fileId, null, request);
         assertEquals(downloadLinkResponseObject.getData().getUrl(), link);
+        assertEquals("ebd69a1b7e4c23e6d17891a491c94f832e0c82e4692dedb35a6cd1e624b62", downloadLinkResponseObject.getData().getEtag());
     }
 
     @Test
@@ -196,6 +294,13 @@ public class TranslationsApiTest extends TestClient {
         request.setCharTransformation(CharTransformation.ASIAN);
         ResponseObject<ProjectBuild> projectBuildResponseObject = this.getTranslationsApi().buildProjectTranslation(parallelProjectId, request);
         assertEquals(projectBuildResponseObject.getData().getId(), buildId);
+
+        ProjectBuild.Attributes attributes = projectBuildResponseObject.getData().getAttributes();
+        assertTrue(attributes.getPseudo());
+        assertEquals("pre", attributes.getPrefix());
+        assertEquals("ion", attributes.getSuffix());
+        assertEquals(0, attributes.getLengthTransformation());
+        assertEquals(CharTransformation.ASIAN, attributes.getCharTransformation());
     }
 
     @Test
@@ -286,6 +391,52 @@ public class TranslationsApiTest extends TestClient {
 
         assertEquals(language, preTranslation.getAttributes().getLanguageIds().get(0));
         assertEquals(fileId, preTranslation.getAttributes().getFileIds().get(0));
+        assertEquals(directoryId, preTranslation.getAttributes().getDirectoryIds().get(0));
+        assertEquals(branchId, preTranslation.getAttributes().getBranchIds().get(0));
+        assertEquals(7L, preTranslation.getAttributes().getTaskId());
+        assertEquals(Scope.ALL, preTranslation.getAttributes().getScope());
+        assertEquals("2026-01-01T00:00:00+00:00", preTranslation.getAttributes().getTranslationModifiedBefore());
+        assertNull(preTranslation.getAttributes().getTranslationModifiedAfter());
+        assertEquals(ReplaceTranslationsOption.NONE, preTranslation.getAttributes().getReplaceTranslationsOption());
+        assertFalse(preTranslation.getAttributes().getResetApprovalStatus());
+        assertEquals(Priority.NORMAL, preTranslation.getAttributes().getPriority());
+        assertTrue(preTranslation.getAttributes().getNotifyOnCompletion());
+        assertEquals(70, preTranslation.getAttributes().getMinimumMatchRatio());
+    }
+
+    @Test
+    public void listPreTranslationsOrderByTest() {
+        OrderByField orderByField = new OrderByField();
+        orderByField.setFieldName("createdAt");
+        orderByField.setOrderBy(SortOrder.DESC);
+        ResponseList<PreTranslation> response = this.getTranslationsApi().listPreTranslations(projectId, 10, null, singletonList(orderByField));
+        assertEquals(1, response.getData().size());
+        assertEquals(preTranslationId, response.getData().get(0).getData().getIdentifier());
+    }
+
+    @Test
+    public void validateQaChecksTest() {
+        ValidateQaChecksRequest first = new ValidateQaChecksRequest();
+        first.setStringId(35434L);
+        first.setLanguageId(language);
+        first.setText("Цю стрічку перекладено");
+        ValidateQaChecksRequest second = new ValidateQaChecksRequest();
+        second.setStringId(35435L);
+        second.setLanguageId(language);
+        second.setText("файли");
+        second.setPluralCategoryName("few");
+
+        ResponseList<QaCheck> response = this.getTranslationsApi().validateQaChecks(projectId, Arrays.asList(first, second));
+        assertEquals(1, response.getData().size());
+        QaCheck qaCheck = response.getData().get(0).getData();
+        assertEquals(35435L, qaCheck.getStringId());
+        assertEquals(language, qaCheck.getLanguageId());
+        assertEquals(Category.SPELLCHECK, qaCheck.getCategory());
+        assertEquals("Spelling", qaCheck.getCategoryDescription());
+        assertEquals(0L, qaCheck.getPluralId());
+        assertEquals("few", qaCheck.getPluralCategoryName());
+        assertEquals("files", qaCheck.getText());
+        assertEquals("файли", qaCheck.getTranslation());
     }
 
     @Test

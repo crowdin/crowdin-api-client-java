@@ -9,4 +9,8 @@ public class DownloadLink {
 
     private String url;
     private Date expireIn;
+    /**
+     * Returned by some endpoints only (e.g. Build Project File Translation)
+     */
+    private String etag;
 }

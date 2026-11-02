@@ -10,6 +10,15 @@ public class Progress {
     private Integer translationProgress;
     private Integer approvalProgress;
     private String eTag;
+    private QaChecksStatus qaChecksStatus;
+
+    @Data
+    public static class QaChecksStatus {
+        private Integer total;
+        private Integer inProgress;
+        private Integer passed;
+        private Integer failed;
+    }
 
     @Data
     public static class Words {

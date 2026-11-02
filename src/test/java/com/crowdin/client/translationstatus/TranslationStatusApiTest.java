@@ -6,6 +6,8 @@ import com.crowdin.client.framework.RequestMock;
 import com.crowdin.client.framework.TestClient;
 import com.crowdin.client.translationstatus.model.FileBranchProgress;
 import com.crowdin.client.translationstatus.model.LanguageProgress;
+import com.crowdin.client.translationstatus.model.ListQaCheckIssuesOptions;
+import com.crowdin.client.translationstatus.model.Progress;
 import com.crowdin.client.translationstatus.model.QaCheck;
 import com.crowdin.client.translationstatus.model.QaCheckRevalidation;
 import com.crowdin.client.translationstatus.model.QaCheckRevalidationRequest;
@@ -18,6 +20,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,6 +33,7 @@ public class TranslationStatusApiTest extends TestClient {
     private final Long directoryId = 4L;
     private final Long fileId = 5L;
     private final String languageId = "uk";
+    private final Long taskId = 6L;
 
     @Override
     public List<RequestMock> getMocks() {
@@ -40,6 +44,14 @@ public class TranslationStatusApiTest extends TestClient {
                 RequestMock.build(this.url + "/projects/" + projectId + "/languages/" + languageId + "/progress", HttpGet.METHOD_NAME, "api/translationstatus/languageProgress.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/languages/progress", HttpGet.METHOD_NAME, "api/translationstatus/projectProgress.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks", HttpGet.METHOD_NAME, "api/translationstatus/listQaChecks.json"),
+                RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks", HttpGet.METHOD_NAME, "api/translationstatus/listQaChecks.json", new HashMap<String, Object>() {{
+                    put("category", "empty,spellcheck");
+                    put("languageIds", languageId);
+                    put("taskId", taskId);
+                    put("fileId", fileId);
+                    put("branchId", branchId);
+                    put("limit", 10);
+                }}),
                 RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks/revalidate/" + revalidationId, HttpGet.METHOD_NAME, "api/translationstatus/qaChecksRevalidation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks/revalidate", HttpPost.METHOD_NAME, "api/translationstatus/qaChecksRevalidationRequest.json","api/translationstatus/qaChecksRevalidation.json"),
                 RequestMock.build(this.url + "/projects/" + projectId + "/qa-checks/revalidate/" + revalidationId, HttpDelete.METHOD_NAME)
@@ -84,6 +96,12 @@ public class TranslationStatusApiTest extends TestClient {
         assertEquals(projectProgress.getData().size(), 1);
         assertEquals(projectProgress.getData().get(0).getData().getPhrases().getTotal(), (Integer) 6000);
         assertEquals(projectProgress.getData().get(0).getData().getPhrases().getPreTranslateAppliedTo(), (Integer) 1254);
+
+        Progress.QaChecksStatus qaChecksStatus = projectProgress.getData().get(0).getData().getQaChecksStatus();
+        assertEquals(10, qaChecksStatus.getTotal());
+        assertEquals(1, qaChecksStatus.getInProgress());
+        assertEquals(7, qaChecksStatus.getPassed());
+        assertEquals(2, qaChecksStatus.getFailed());
     }
 
     @Test
@@ -91,6 +109,20 @@ public class TranslationStatusApiTest extends TestClient {
         ResponseList<QaCheck> qaCheckResponseList = this.getTranslationStatusApi().listQaCheckIssues(projectId, null, null, null, null);
         assertEquals(qaCheckResponseList.getData().size(), 1);
         assertEquals(qaCheckResponseList.getData().get(0).getData().getLanguageId(), languageId);
+    }
+
+    @Test
+    public void listQaCheckIssuesWithOptionsTest() {
+        ListQaCheckIssuesOptions options = new ListQaCheckIssuesOptions();
+        options.setCategory("empty,spellcheck");
+        options.setLanguageIds(languageId);
+        options.setTaskId(taskId);
+        options.setFileId(fileId);
+        options.setBranchId(branchId);
+        options.setLimit(10);
+        ResponseList<QaCheck> qaCheckResponseList = this.getTranslationStatusApi().listQaCheckIssues(projectId, options);
+        assertEquals(1, qaCheckResponseList.getData().size());
+        assertEquals(languageId, qaCheckResponseList.getData().get(0).getData().getLanguageId());
     }
 
     @Test
@@ -110,7 +142,9 @@ public class TranslationStatusApiTest extends TestClient {
         request.setLanguageIds(Arrays.asList("uk", "fr"));
         request.setQaCheckCategories(Collections.singletonList("ai"));
         request.setFailedOnly(true);
+        request.setExternalQaCheckIds(Collections.singletonList(11L));
         ResponseObject<QaCheckRevalidation> qaCheckRevalidationResponseObject = this.getTranslationStatusApi().revalidateQaChecks(projectId, request);
+        assertEquals(Collections.singletonList(11L), qaCheckRevalidationResponseObject.getData().getAttributes().getExternalQaCheckIds());
         assertEquals(qaCheckRevalidationResponseObject.getData().getIdentifier(), revalidationId);
         assertEquals(qaCheckRevalidationResponseObject.getData().getStatus(), "created");
         assertEquals(qaCheckRevalidationResponseObject.getData().getProgress(), 0L);

@@ -16,6 +16,12 @@
         },
         "translationProgress": 86,
         "approvalProgress": 86,
+        "qaChecksStatus": {
+          "total": 10,
+          "inProgress": 1,
+          "passed": 7,
+          "failed": 2
+        },
         "languageId": "af"
       }
     }

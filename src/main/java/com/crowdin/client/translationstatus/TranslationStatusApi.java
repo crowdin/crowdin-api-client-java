@@ -13,6 +13,7 @@ import com.crowdin.client.translationstatus.model.FileBranchProgress;
 import com.crowdin.client.translationstatus.model.FileProgressResponseList;
 import com.crowdin.client.translationstatus.model.LanguageProgress;
 import com.crowdin.client.translationstatus.model.LanguageProgressResponseList;
+import com.crowdin.client.translationstatus.model.ListQaCheckIssuesOptions;
 import com.crowdin.client.translationstatus.model.QaCheck;
 import com.crowdin.client.translationstatus.model.QaCheckResponseList;
 import com.crowdin.client.translationstatus.model.QaCheckRevalidation;
@@ -151,6 +152,32 @@ public class TranslationStatusApi extends CrowdinApi {
                 "offset", Optional.ofNullable(offset),
                 "category", Optional.ofNullable(category),
                 "validation", Optional.ofNullable(validation)
+        );
+        String builtUrl = String.format("%s/projects/%d/qa-checks", this.url, projectId);
+        QaCheckResponseList qaCheckResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), QaCheckResponseList.class);
+        return QaCheckResponseList.to(qaCheckResponseList);
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param options filtering and pagination options
+     * @return list of qa check issues
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.qa-checks.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.qa-checks.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    public ResponseList<QaCheck> listQaCheckIssues(Long projectId, ListQaCheckIssuesOptions options) throws HttpException, HttpBadRequestException {
+        ListQaCheckIssuesOptions query = Optional.ofNullable(options).orElse(new ListQaCheckIssuesOptions());
+        Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
+                "limit", Optional.ofNullable(query.getLimit()),
+                "offset", Optional.ofNullable(query.getOffset()),
+                "category", Optional.ofNullable(query.getCategory()),
+                "validation", Optional.ofNullable(query.getValidation()),
+                "languageIds", Optional.ofNullable(query.getLanguageIds()),
+                "taskId", Optional.ofNullable(query.getTaskId()),
+                "fileId", Optional.ofNullable(query.getFileId()),
+                "branchId", Optional.ofNullable(query.getBranchId())
         );
         String builtUrl = String.format("%s/projects/%d/qa-checks", this.url, projectId);
         QaCheckResponseList qaCheckResponseList = this.httpClient.get(builtUrl, new HttpRequestConfig(queryParams), QaCheckResponseList.class);

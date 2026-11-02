@@ -8,6 +8,12 @@
       "login": "john_doe"
     },
     "rating": 10,
+    "provider": "ai",
+    "providerId": 3,
+    "isPreTranslated": true,
+    "matchRate": 90,
+    "matchType": "fuzzy",
+    "workflowStepId": 122,
     "createdAt": "2019-09-23T11:26:54+00:00"
   }
 }

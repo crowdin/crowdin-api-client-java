@@ -1,0 +1,22 @@
+{
+  "data": {
+    "id": 2,
+    "projectId": 12,
+    "status": "created",
+    "progress": 0,
+    "createdAt": "2026-01-01T00:00:00+00:00",
+    "updatedAt": "2026-01-01T00:00:00+00:00",
+    "finishedAt": null,
+    "attributes": {
+      "directoryId": 3,
+      "targetLanguageIds": [
+        "uk"
+      ],
+      "skipUntranslatedStrings": false,
+      "skipUntranslatedFiles": false,
+      "exportWithMinApprovalsCount": 1,
+      "exportStringsThatPassedWorkflow": false,
+      "preserveFolderHierarchy": true
+    }
+  }
+}

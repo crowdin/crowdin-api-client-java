@@ -21,5 +21,9 @@ public class QaCheckRevalidation {
         private List<String> languageIds;
         private List<String> qaCheckCategories;
         private Boolean failedOnly;
+        /**
+         * Enterprise only
+         */
+        private List<Long> externalQaCheckIds;
     }
 }

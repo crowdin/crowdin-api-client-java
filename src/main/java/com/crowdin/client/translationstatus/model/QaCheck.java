@@ -12,5 +12,13 @@ public class QaCheck {
     private Validation validation;
     private String validationDescription;
     private Long pluralId;
+    /**
+     * Returned by Validate QA Checks only
+     */
+    private String pluralCategoryName;
     private String text;
+    /**
+     * Returned by Validate QA Checks only
+     */
+    private String translation;
 }

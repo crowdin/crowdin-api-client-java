@@ -14,6 +14,10 @@ public class ListStringTranslationsOptions extends Pagination {
 
     private Long stringId;
     private String languageId;
+    /**
+     * File-based projects only
+     */
+    private Long fileId;
     private String orderBy;
     private BooleanInt denormalizePlaceholders;
     private List<OrderByField> orderByList;

@@ -19,6 +19,10 @@ public class ListLanguageTranslationsOptions extends Pagination {
     private Long directoryId;
     private BooleanInt passedWorkflow;
     private Integer minApprovalCount;
+    /**
+     * Crowdin only
+     */
+    private BooleanInt approvedOnly;
     private String croql;
     private BooleanInt denormalizePlaceholders;
     private List<OrderByField> orderByList;

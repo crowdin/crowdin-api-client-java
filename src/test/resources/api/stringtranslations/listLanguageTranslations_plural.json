@@ -4,6 +4,7 @@
       "data": {
         "stringId": 35434,
         "contentType": "application/vnd.crowdin.text+plural",
+        "qaIssuesStatus": "failed",
         "plurals": [
           {
             "translationId": 190694,
