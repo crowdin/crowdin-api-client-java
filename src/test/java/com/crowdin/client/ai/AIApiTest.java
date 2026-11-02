@@ -595,6 +595,7 @@ public class AIApiTest extends TestClient {
         ResponseObject<AiPromptCompletionResponse.AiPromptCompletionData> response = this.getAiApi().getPromptCompletionStatus(userId, aiPromptId, completionId);
         assertEquals(response.getData().getIdentifier(), completionId);
         assertEquals(new Date(year, month, date, hour, minutes, seconds), response.getData().getFinishedAt());
+        assertEquals("1 second", response.getData().getEta());
     }
 
     @Test
@@ -823,6 +824,7 @@ public class AIApiTest extends TestClient {
     public void getProjectAiSettingsTest() {
         ResponseObject<ProjectAiSettings> response = this.getAiApi().getProjectAiSettings(projectId);
         ProjectAiSettings settings = response.getData();
+        assertEquals(2L, settings.getPreTranslationAiPromptId());
         assertEquals(5L, settings.getEditorSuggestionAiPromptId());
         assertEquals(3L, settings.getAlignmentActionAiPromptId());
         assertEquals(8L, settings.getQaCheckActionAiPromptId());
@@ -859,46 +861,58 @@ public class AIApiTest extends TestClient {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void aiGatewayGetRawTest() {
-        Map<String, Object> response = (Map<String, Object>) this.getAiApi().aiGatewayGetRaw(userId, 1L, rawGatewayPath);
+        Map<String, Object> response = this.getAiApi().aiGatewayGetRaw(userId, 1L, rawGatewayPath);
         assertEquals("chatcmpl-123", response.get("id"));
         assertEquals("chat.completion", response.get("object"));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void aiGatewayPostRawTest() {
         Map<String, Object> req = new HashMap<>();
         req.put("model", "string");
-        Map<String, Object> response = (Map<String, Object>) this.getAiApi().aiGatewayPostRaw(userId, 1L, rawGatewayPath, req);
+        Map<String, Object> response = this.getAiApi().aiGatewayPostRaw(userId, 1L, rawGatewayPath, req);
         assertEquals("chatcmpl-123", response.get("id"));
         assertEquals(1, ((List<?>) response.get("choices")).size());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void aiGatewayPutRawTest() {
         Map<String, Object> req = new HashMap<>();
         req.put("model", "string");
-        Map<String, Object> response = (Map<String, Object>) this.getAiApi().aiGatewayPutRaw(userId, 1L, rawGatewayPath, req);
+        Map<String, Object> response = this.getAiApi().aiGatewayPutRaw(userId, 1L, rawGatewayPath, req);
         assertEquals("gpt-5.4", response.get("model"));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void aiGatewayPatchRawTest() {
         Map<String, Object> req = new HashMap<>();
         req.put("model", "string");
-        Map<String, Object> response = (Map<String, Object>) this.getAiApi().aiGatewayPatchRaw(userId, 1L, rawGatewayPath, req);
+        Map<String, Object> response = this.getAiApi().aiGatewayPatchRaw(userId, 1L, rawGatewayPath, req);
         assertEquals("gpt-5.4", response.get("model"));
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void aiGatewayDeleteRawTest() {
-        Map<String, Object> response = (Map<String, Object>) this.getAiApi().aiGatewayDeleteRaw(userId, 1L, rawGatewayPath);
+        Map<String, Object> response = this.getAiApi().aiGatewayDeleteRaw(userId, 1L, rawGatewayPath);
         assertEquals("chatcmpl-123", response.get("id"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void aiGatewayJsonMethodsTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        Map<String, Object> get = (Map<String, Object>) this.getAiApi().aiGatewayGetJson(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", get.get("id"));
+        Map<String, Object> post = (Map<String, Object>) this.getAiApi().aiGatewayPostJson(userId, 1L, rawGatewayPath, req);
+        assertEquals(1, ((List<?>) post.get("choices")).size());
+        Map<String, Object> put = (Map<String, Object>) this.getAiApi().aiGatewayPutJson(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", put.get("model"));
+        Map<String, Object> patch = (Map<String, Object>) this.getAiApi().aiGatewayPatchJson(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", patch.get("model"));
+        Map<String, Object> delete = (Map<String, Object>) this.getAiApi().aiGatewayDeleteJson(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", delete.get("id"));
     }
 
     @Test

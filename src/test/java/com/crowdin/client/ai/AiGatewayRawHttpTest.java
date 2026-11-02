@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Exercises the AI gateway methods through the real {@code ApacheHttpClient} and {@code JacksonJsonTransformer}
+ * Exercises the AI gateway methods (the Map-returning {@code aiGateway*Raw} and the {@code aiGateway*Json}) through the real {@code ApacheHttpClient} and {@code JacksonJsonTransformer}
  * against a local HTTP server.
  */
 class AiGatewayRawHttpTest {
@@ -88,39 +88,56 @@ class AiGatewayRawHttpTest {
     @Test
     @SuppressWarnings("unchecked")
     void jsonResponseTypesTest() {
-        Map<String, Object> object = (Map<String, Object>) api.aiGatewayGetRaw(7L, 3L, "v1/object");
+        Map<String, Object> object = (Map<String, Object>) api.aiGatewayGetJson(7L, 3L, "v1/object");
         assertEquals("chatcmpl-1", object.get("id"));
         assertEquals(1, ((List<Object>) object.get("choices")).size());
 
-        List<Object> array = (List<Object>) api.aiGatewayGetRaw(7L, 3L, "v1/array");
+        List<Object> array = (List<Object>) api.aiGatewayGetJson(7L, 3L, "v1/array");
         assertEquals(2, array.size());
         assertEquals("model-b", ((Map<String, Object>) array.get(1)).get("id"));
 
-        assertEquals("plain", api.aiGatewayGetRaw(7L, 3L, "v1/string"));
-        assertEquals(42, ((Number) api.aiGatewayGetRaw(7L, 3L, "v1/integer")).intValue());
-        assertEquals(0.75, ((Number) api.aiGatewayGetRaw(7L, 3L, "v1/decimal")).doubleValue());
-        assertEquals(Boolean.TRUE, api.aiGatewayGetRaw(7L, 3L, "v1/boolean"));
-        assertNull(api.aiGatewayGetRaw(7L, 3L, "v1/jsonnull"));
+        assertEquals("plain", api.aiGatewayGetJson(7L, 3L, "v1/string"));
+        assertEquals(42, ((Number) api.aiGatewayGetJson(7L, 3L, "v1/integer")).intValue());
+        assertEquals(0.75, ((Number) api.aiGatewayGetJson(7L, 3L, "v1/decimal")).doubleValue());
+        assertEquals(Boolean.TRUE, api.aiGatewayGetJson(7L, 3L, "v1/boolean"));
+        assertNull(api.aiGatewayGetJson(7L, 3L, "v1/jsonnull"));
     }
 
     @Test
     void emptyBodyIsNullTest() {
-        assertNull(api.aiGatewayGetRaw(7L, 3L, "v1/empty"));
-        assertNull(api.aiGatewayDeleteRaw(null, 3L, "v1/empty"));
-        assertNull(api.aiGatewayPostRaw(7L, 3L, "v1/blank", Collections.singletonMap("model", "m")));
+        assertNull(api.aiGatewayGetJson(7L, 3L, "v1/empty"));
+        assertNull(api.aiGatewayDeleteJson(null, 3L, "v1/empty"));
+        assertNull(api.aiGatewayPostJson(7L, 3L, "v1/blank", Collections.singletonMap("model", "m")));
     }
 
     @Test
     void nonJsonBodyFailsWithHttpExceptionTest() {
-        HttpException e = assertThrows(HttpException.class, () -> api.aiGatewayGetRaw(7L, 3L, "v1/text"));
+        HttpException e = assertThrows(HttpException.class, () -> api.aiGatewayGetJson(7L, 3L, "v1/text"));
         assertEquals("not json", e.getHttpResponse());
         assertTrue(e.getError().getMessage().startsWith("AI gateway response is not valid JSON"), e.getError().getMessage());
     }
 
     @Test
     void errorStatusFailsWithHttpExceptionTest() {
-        HttpException e = assertThrows(HttpException.class, () -> api.aiGatewayPostRaw(7L, 3L, "v1/error", Collections.singletonMap("model", "m")));
+        HttpException e = assertThrows(HttpException.class, () -> api.aiGatewayPostJson(7L, 3L, "v1/error", Collections.singletonMap("model", "m")));
         assertEquals("provider rejected the request", e.getError().getMessage());
+    }
+
+    @Test
+    void mapReturningRawMethodsKeepReleasedBehaviourTest() {
+        Map<String, Object> object = api.aiGatewayGetRaw(7L, 3L, "v1/object");
+        assertEquals("chatcmpl-1", object.get("id"));
+        assertEquals("chatcmpl-1", api.aiGatewayPostRaw(7L, 3L, "v1/object", Collections.singletonMap("model", "m")).get("id"));
+        assertEquals("chatcmpl-1", api.aiGatewayPutRaw(7L, 3L, "v1/object", Collections.singletonMap("model", "m")).get("id"));
+        assertEquals("chatcmpl-1", api.aiGatewayPatchRaw(null, 3L, "v1/object", Collections.singletonMap("model", "m")).get("id"));
+        assertEquals("chatcmpl-1", api.aiGatewayDeleteRaw(null, 3L, "v1/object").get("id"));
+        assertNull(api.aiGatewayGetRaw(7L, 3L, "v1/jsonnull"));
+        // 1.37.0 behaviour: only JSON objects can be returned as a Map; use the *Json methods for other formats
+        for (String mode : new String[]{"array", "string", "integer", "boolean", "empty", "text"}) {
+            assertThrows(HttpException.class, () -> api.aiGatewayGetRaw(7L, 3L, "v1/" + mode), mode);
+        }
+        HttpException error = assertThrows(HttpException.class, () -> api.aiGatewayPostRaw(7L, 3L, "v1/error", Collections.singletonMap("model", "m")));
+        assertEquals("provider rejected the request", error.getError().getMessage());
     }
 
     /**
@@ -129,6 +146,7 @@ class AiGatewayRawHttpTest {
      */
     @Test
     void noContentResponseIsNotSupportedTest() {
+        assertThrows(RuntimeException.class, () -> api.aiGatewayDeleteJson(7L, 3L, "v1/nocontent"));
         assertThrows(RuntimeException.class, () -> api.aiGatewayDeleteRaw(7L, 3L, "v1/nocontent"));
     }
 
@@ -139,10 +157,10 @@ class AiGatewayRawHttpTest {
         body.put("model", "gpt");
         body.put("messages", Collections.singletonList(Collections.singletonMap("role", "user")));
 
-        api.aiGatewayGetRaw(7L, 3L, "v1/object");
-        api.aiGatewayPostRaw(7L, 3L, "v1/object", body);
+        api.aiGatewayGetJson(7L, 3L, "v1/object");
+        api.aiGatewayPostJson(7L, 3L, "v1/object", body);
         api.aiGatewayPutRaw(7L, 3L, "v1/object", body);
-        api.aiGatewayPatchRaw(null, 3L, "v1/object", body);
+        api.aiGatewayPatchJson(null, 3L, "v1/object", body);
         api.aiGatewayDeleteRaw(null, 3L, "v1/object");
 
         List<String> expected = Arrays.asList(
