@@ -11,12 +11,15 @@ public enum BooleanInt implements EnumConverter<BooleanInt> {
 
     /**
      * Accepts both numeric ({@code "1"} / {@code "0"}) and boolean ({@code "true"} / {@code "false"}) representations.
-     * Any other value is treated as {@link #FALSE}.
+     * Any other non-null value is treated as {@link #FALSE}.
      *
      * @param value raw value
-     * @return converted value
+     * @return converted value, or {@code null} if {@code value} is {@code null}
      */
     public static BooleanInt from(String value) {
+        if (value == null) {
+            return null;
+        }
         return "1".equals(value) || "true".equalsIgnoreCase(value) ? BooleanInt.TRUE : BooleanInt.FALSE;
     }
 
