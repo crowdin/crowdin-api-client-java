@@ -73,16 +73,6 @@ public class GenerateGroupReportRequest {
         private List<Long> taskIds;
         private Boolean useCategoryBasedProofreadRates;
         private Boolean useTmEditDistance;
-        /**
-         * @deprecated deprecated in the API
-         */
-        @Deprecated
-        private Boolean excludeApprovalsForEditedTranslations;
-        /**
-         * @deprecated deprecated in the API
-         */
-        @Deprecated
-        private Boolean preTranslatedStringsCategorizationAdjustment;
         private Boolean skipArchiving;
     }
 
@@ -252,11 +242,6 @@ public class GenerateGroupReportRequest {
         private Date dateFrom;
         private Date dateTo;
         /**
-         * @deprecated deprecated in the API, use {@link #matchScoreCategories} instead
-         */
-        @Deprecated
-        private List<String> postEditingCategories;
-        /**
          * Split into categories by match score. Ranges should be in descending order (e.g. 100-90, 89-80)
          */
         private List<String> matchScoreCategories;
@@ -284,11 +269,6 @@ public class GenerateGroupReportRequest {
         private ReportsFormat format;
         private Date dateFrom;
         private Date dateTo;
-        /**
-         * @deprecated deprecated in the API, use {@link #matchScoreCategories} instead
-         */
-        @Deprecated
-        private List<String> postEditingCategories;
         /**
          * Split into categories by match score. Ranges should be in descending order (e.g. 100-90, 89-80)
          */

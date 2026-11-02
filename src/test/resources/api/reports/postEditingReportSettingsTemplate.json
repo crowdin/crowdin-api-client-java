@@ -49,8 +49,6 @@
       },
       "calculateInternalMatches": true,
       "includePreTranslatedStrings": false,
-      "excludeApprovalsForEditedTranslations": false,
-      "preTranslatedStringsCategorizationAdjustment": false,
       "useCategoryBasedProofreadRates": true,
       "useTmEditDistance": false
     },
