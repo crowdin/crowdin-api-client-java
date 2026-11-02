@@ -8,4 +8,5 @@ import lombok.EqualsAndHashCode;
 public class FmMdFileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
     private Long srxStorageId;
+    private Boolean customSegmentation;
 }

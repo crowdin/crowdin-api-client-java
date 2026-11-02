@@ -8,4 +8,6 @@ import lombok.EqualsAndHashCode;
 public class IdmlFileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
     private Long srxStorageId;
+    private Boolean inlineHyperlinkText;
+    private Boolean customSegmentation;
 }

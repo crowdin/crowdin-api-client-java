@@ -1,0 +1,70 @@
+{
+  "data": {
+    "id": 11,
+    "groupId": 4,
+    "userId": 6,
+    "type": 0,
+    "sourceLanguageId": "en",
+    "targetLanguageIds": [
+      "uk"
+    ],
+    "name": "Knowledge Base",
+    "identifier": "1f198a4e907688bc65834a6d5a6000c3",
+    "description": "Vault of all terms and their explanation",
+    "logo": "",
+    "background": "bg",
+    "isExternal": true,
+    "externalType": "proofread",
+    "workflowId": 3,
+    "hasCrowdsourcing": true,
+    "webUrl": "https://example.crowdin.com/u/projects/11",
+    "publicUrl": null,
+    "savingsReportSettingsTemplateId": 1,
+    "fields": {
+      "some-field-1": "some value 1",
+      "some-field-3": true
+    },
+    "translateDuplicates": 1,
+    "tagsDetection": 2,
+    "glossaryAccess": false,
+    "glossaryAccessOption": "readOnly",
+    "isMtAllowed": true,
+    "inContext": true,
+    "inContextPseudoLanguageId": "uk",
+    "qaCheckIsActive": true,
+    "qaCheckCategories": {
+      "empty": true,
+      "numbers": true,
+      "ai": false,
+      "outdated": true,
+      "mdx": false,
+      "unifiedPlaceholders": true
+    },
+    "qaChecksIgnorableCategories": {
+      "numbers": false
+    },
+    "customQaCheckIds": [
+      1
+    ],
+    "externalQaCheckIds": [
+      2
+    ],
+    "externalQaChecksIgnorable": {
+      "2": false
+    },
+    "languageMapping": {},
+    "assignedGlossaries": [
+      3
+    ],
+    "assignedStyleGuides": [
+      4,
+      5
+    ],
+    "editorSuggestionAiPromptId": 7,
+    "qaCheckActionAiPromptId": 8,
+    "contextReviewAiPromptId": 9,
+    "alignmentActionAiPromptId": 10,
+    "exportStringsThatPassedWorkflow": true,
+    "delayedWorkflowStart": false
+  }
+}

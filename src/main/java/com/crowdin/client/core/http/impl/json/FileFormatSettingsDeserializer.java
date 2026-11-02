@@ -24,7 +24,7 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
         FileFormatSettingsResource resource = this.objectMapper.readValue(parentNode.toString(), FileFormatSettingsResource.class);
 
         Class<? extends FileFormatSettings> classToUse;
-        String format = parentNode.get("format").asText();
+        String format = parentNode.path("format").asText();
 
         switch (format) {
             case "properties":
@@ -101,6 +101,22 @@ public class FileFormatSettingsDeserializer extends JsonDeserializer<FileFormatS
                 break;
             case "txt":
                 classToUse = TxtFileFormatSettings.class;
+                break;
+            // the classes below extend OtherFileFormatSettings, so code relying on the previous fallback keeps working
+            case "csv":
+                classToUse = CsvFileFormatSettings.class;
+                break;
+            case "xlsx":
+                classToUse = XlsxFileFormatSettings.class;
+                break;
+            case "xliff":
+                classToUse = XliffFileFormatSettings.class;
+                break;
+            case "vdf":
+                classToUse = VdfFileFormatSettings.class;
+                break;
+            case "vsdx":
+                classToUse = VsdxFileFormatSettings.class;
                 break;
             default:
                 classToUse = OtherFileFormatSettings.class;

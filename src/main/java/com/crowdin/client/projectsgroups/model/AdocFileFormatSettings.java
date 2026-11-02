@@ -8,4 +8,6 @@ import lombok.EqualsAndHashCode;
 public class AdocFileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
     private Long srxStorageId;
+    private Boolean excludeIncludeDirectives;
+    private Boolean customSegmentation;
 }

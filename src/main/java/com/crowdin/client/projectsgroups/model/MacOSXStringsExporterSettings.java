@@ -7,4 +7,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MacOSXStringsExporterSettings extends StringsExporterSettings {
     private Boolean convertPlaceholders;
+    private Boolean convertLineBreaks;
+    private Boolean exportContext;
 }

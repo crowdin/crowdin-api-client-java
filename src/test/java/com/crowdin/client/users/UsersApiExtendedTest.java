@@ -141,6 +141,7 @@ public class UsersApiExtendedTest extends TestClient {
         Project project = permissions.getProject();
         assertEquals(projectId, project.getId());
         assertEquals(4L, project.getGroupId());
+        assertEquals("some value 1", project.getFields().get("some-field-1"));
         assertEquals(1, permissions.getTeams().size());
         assertEquals(2L, permissions.getTeams().get(0).getId());
         assertEquals("https://example.crowdin.com/u/teams/2", permissions.getTeams().get(0).getWebUrl());

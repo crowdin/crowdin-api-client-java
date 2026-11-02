@@ -10,4 +10,5 @@ public class JsonFileFormatSettings extends FileFormatSettings {
     private Boolean contentSegmentation;
     private Long srxStorageId;
     private JsonFileType type;
+    private Boolean customSegmentation;
 }

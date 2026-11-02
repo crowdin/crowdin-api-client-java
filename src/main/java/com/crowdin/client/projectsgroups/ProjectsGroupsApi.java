@@ -38,11 +38,19 @@ public class ProjectsGroupsApi extends CrowdinApi {
         return listGroups(options);
     }
 
+    /**
+     * @param options query parameters (parentId, userId, orderBy, filter, limit, offset)
+     * @return list of groups
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.groups.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<Group> listGroups(ListGroupOptions options) throws HttpException, HttpBadRequestException {
         Map<String, Optional<Object>> queryParams = HttpRequestConfig.buildUrlParams(
                 "parentId", Optional.ofNullable(options.getParentId()),
                 "userId", Optional.ofNullable(options.getUserId()),
                 "orderBy", Optional.ofNullable(options.getOrderBy()),
+                "filter", Optional.ofNullable(options.getFilter()),
                 "limit", Optional.ofNullable(options.getLimit()),
                 "offset", Optional.ofNullable(options.getOffset())
         );
@@ -139,6 +147,15 @@ public class ProjectsGroupsApi extends CrowdinApi {
         return listProjects(options);
     }
 
+    /**
+     * @param options query parameters (groupId, hasManagerAccess, orderBy, type, filter, userId, limit, offset).
+     *                {@code type} and {@code userId} are supported by Crowdin only
+     * @return list of projects
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.getMany" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.getMany" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
     public ResponseList<? extends Project> listProjects(ListProjectOptions options) throws HttpException, HttpBadRequestException {
         String orderBy = options.getOrderByList() != null
                 ? OrderByField.generateSortParam(options.getOrderByList())
@@ -149,6 +166,8 @@ public class ProjectsGroupsApi extends CrowdinApi {
                 "hasManagerAccess", Optional.ofNullable(options.getHasManagerAccess()),
                 "orderBy", Optional.ofNullable(orderBy),
                 "type", Optional.ofNullable(options.getType()),
+                "filter", Optional.ofNullable(options.getFilter()),
+                "userId", Optional.ofNullable(options.getUserId()),
                 "limit", Optional.ofNullable(options.getLimit()),
                 "offset", Optional.ofNullable(options.getOffset())
         );
@@ -394,16 +413,39 @@ public class ProjectsGroupsApi extends CrowdinApi {
     /**
      * @param projectId project identifier
      * @param systemStringsExporterSettingsId strings exporter settings identifier
+     * @param request request object
+     * @return updated strings exporter settings resource
+     * @deprecated the API expects a JSON Patch document, use {@link #editProjectStringsExporterSettingsWithPatch(Long, Long, List)} instead
+     * @see <ul>
+     * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>API Documentation</b></a></li>
+     * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
+     * </ul>
+     */
+    @Deprecated
+    public ResponseObject<StringsExporterSettingsResource> editProjectStringsExporterSettings(
+            Long projectId,
+            Long systemStringsExporterSettingsId,
+            StringsExporterSettingsRequest request
+    ) throws HttpException, HttpBadRequestException {
+        String url = formUrl_projectStringsExporterSettingsId(projectId, systemStringsExporterSettingsId);
+        StringsExporterSettingsResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), StringsExporterSettingsResponseObject.class);
+        return ResponseObject.of(responseObject.getData());
+    }
+
+    /**
+     * @param projectId project identifier
+     * @param systemStringsExporterSettingsId strings exporter settings identifier
+     * @param request JSON Patch request (supported paths: /format, /settings)
      * @return updated strings exporter settings resource
      * @see <ul>
      * <li><a href="https://developer.crowdin.com/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>API Documentation</b></a></li>
      * <li><a href="https://developer.crowdin.com/enterprise/api/v2/#operation/api.projects.strings-exporter-settings.patch" target="_blank"><b>Enterprise API Documentation</b></a></li>
      * </ul>
      */
-    public ResponseObject<StringsExporterSettingsResource> editProjectStringsExporterSettings(
+    public ResponseObject<StringsExporterSettingsResource> editProjectStringsExporterSettingsWithPatch(
             Long projectId,
             Long systemStringsExporterSettingsId,
-            StringsExporterSettingsRequest request
+            List<PatchRequest> request
     ) throws HttpException, HttpBadRequestException {
         String url = formUrl_projectStringsExporterSettingsId(projectId, systemStringsExporterSettingsId);
         StringsExporterSettingsResponseObject responseObject = this.httpClient.patch(url, request, new HttpRequestConfig(), StringsExporterSettingsResponseObject.class);

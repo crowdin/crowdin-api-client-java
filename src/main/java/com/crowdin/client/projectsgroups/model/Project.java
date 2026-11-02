@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 public class Project {
@@ -32,6 +33,10 @@ public class Project {
     private String cname;
     //enterprise
     private Long groupId;
+    /**
+     * @deprecated deprecated in the API
+     */
+    @Deprecated
     private String background;
     private boolean isExternal;
     private String externalType;
@@ -40,4 +45,8 @@ public class Project {
     private Long workflowId;
     private boolean hasCrowdsourcing;
     private String publicUrl;
+    /**
+     * Enterprise only. Keys are field slugs
+     */
+    private Map<String, Object> fields;
 }

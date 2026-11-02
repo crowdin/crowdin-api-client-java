@@ -15,6 +15,8 @@ public class Group {
     private Long userId;
     private Integer subgroupsCount;
     private Integer projectsCount;
+    private String webUrl;
+    private Long savingsReportSettingsTemplateId;
     private Date createdAt;
     private Date updatedAt;
 }

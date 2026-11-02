@@ -1,0 +1,18 @@
+{
+  "data": {
+    "id": 6,
+    "name": "MDX v1",
+    "format": "mdxV1",
+    "extensions": [
+      "mdx"
+    ],
+    "settings": {
+      "type": "mdx_v2",
+      "excludeCodeBlocks": true,
+      "strongMarker": "underscore",
+      "customSegmentation": true
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

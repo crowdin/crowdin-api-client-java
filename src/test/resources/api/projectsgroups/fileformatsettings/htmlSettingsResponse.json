@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": 2,
+    "name": "HTML",
+    "format": "html",
+    "extensions": [
+      "html"
+    ],
+    "settings": {
+      "exportPattern": null,
+      "contentSegmentation": true,
+      "customSegmentation": false,
+      "hideAttributeValues": true,
+      "inlineTags": [
+        "b",
+        "i"
+      ],
+      "excludedElements": [
+        ".no-translate",
+        "#footer"
+      ]
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

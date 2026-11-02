@@ -1,0 +1,14 @@
+{
+  "format": "html",
+  "settings": {
+    "contentSegmentation": true,
+    "inlineTags": [
+      "b",
+      "i"
+    ],
+    "excludedElements": [
+      ".no-translate",
+      "#footer"
+    ]
+  }
+}

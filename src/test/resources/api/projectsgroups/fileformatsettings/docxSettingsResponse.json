@@ -1,0 +1,38 @@
+{
+  "data": {
+    "id": 5,
+    "name": "DOCX",
+    "format": "docx",
+    "extensions": [
+      "docx"
+    ],
+    "settings": {
+      "cleanTagsAggressively": true,
+      "customSegmentation": false,
+      "translateDocProperties": true,
+      "translateComments": false,
+      "lineSeparatorReplacement": "\n",
+      "complexFieldDefinitionsToExtract": [
+        "HYPERLINK"
+      ],
+      "wordFontColorsMinIgnoranceThreshold": "#000000",
+      "wordFontColorsMaxIgnoranceThreshold": "#FFFFFF",
+      "excludeWordStyles": [
+        "Code"
+      ],
+      "wordHighlightColors": [
+        "yellow"
+      ],
+      "wordExcludedColors": [
+        "red"
+      ],
+      "excelExcludedColors": [
+        "blue"
+      ],
+      "translateExcelExcludeColors": true,
+      "allowWordStyleOptimization": true
+    },
+    "createdAt": "2019-09-19T15:10:43+00:00",
+    "updatedAt": "2019-09-19T15:10:46+00:00"
+  }
+}

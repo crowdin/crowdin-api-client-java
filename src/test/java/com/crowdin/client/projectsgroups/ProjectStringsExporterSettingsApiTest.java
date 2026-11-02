@@ -122,6 +122,18 @@ public class ProjectStringsExporterSettingsApiTest extends TestClient {
         assertStringsExporterSettingsResource(response.getData());
     }
 
+    /**
+     * Source compatibility: {@code editProjectStringsExporterSettings(id, id, null)} must keep compiling
+     * (no ambiguous overload) and still call the PATCH endpoint.
+     */
+    @Test
+    @SuppressWarnings("deprecation")
+    public void editProjectStringsExporterSettingsWithNullRequestCompatibilityTest() {
+        ResponseObject<StringsExporterSettingsResource> response =
+                this.getProjectsGroupsApi().editProjectStringsExporterSettings(projectId, settingsId, null);
+        assertStringsExporterSettingsResource(response.getData());
+    }
+
     @SneakyThrows
     private static void assertStringsExporterSettingsResource(StringsExporterSettingsResource resource) {
         assertNotNull(resource);

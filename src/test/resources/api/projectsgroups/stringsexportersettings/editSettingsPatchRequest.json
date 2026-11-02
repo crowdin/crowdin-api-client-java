@@ -1,0 +1,11 @@
+[
+  {
+    "op": "replace",
+    "path": "/settings",
+    "value": {
+      "convertPlaceholders": true,
+      "convertLineBreaks": true,
+      "useCdataForStringsWithTags": false
+    }
+  }
+]

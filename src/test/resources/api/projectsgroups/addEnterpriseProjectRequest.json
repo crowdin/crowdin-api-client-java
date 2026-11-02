@@ -1,0 +1,60 @@
+{
+  "name": "Knowledge Base",
+  "sourceLanguageId": "en",
+  "templateId": 4,
+  "steps": [
+    {
+      "id": 1,
+      "languages": [
+        "uk"
+      ],
+      "config": {
+        "assignees": {
+          "uk": [
+            20,
+            21
+          ]
+        },
+        "assignedTeams": {
+          "uk": [
+            5
+          ]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "languages": [
+        "uk"
+      ],
+      "config": {
+        "minRelevant": 60,
+        "autoSubstitution": true,
+        "autoApproveOption": "perfectMatchOnly"
+      }
+    },
+    {
+      "id": 3,
+      "languages": [
+        "uk"
+      ],
+      "promptId": 11
+    }
+  ],
+  "exportStringsThatPassedWorkflow": true,
+  "externalQaCheckIds": [
+    2
+  ],
+  "externalQaChecksIgnorable": {
+    "2": false
+  },
+  "fields": {
+    "some-field-1": "some value 1"
+  },
+  "qaCheckActionAiPromptId": 8,
+  "contextReviewAiPromptId": 9,
+  "assignedStyleGuides": [
+    4
+  ],
+  "inContextPseudoLanguageId": "uk"
+}

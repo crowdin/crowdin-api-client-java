@@ -30,7 +30,7 @@ public class StringsExporterSettingsDeserializer extends JsonDeserializer<String
                 this.objectMapper.readValue(parentNode.toString(), StringsExporterSettingsResource.class);
 
         Class<? extends StringsExporterSettings> classToUse;
-        String format = parentNode.get("format").asText();
+        String format = parentNode.path("format").asText();
 
         switch (format) {
             case "android":
@@ -43,7 +43,9 @@ public class StringsExporterSettingsDeserializer extends JsonDeserializer<String
                 classToUse = XliffStringsExporterSettings.class;
                 break;
             default:
-                throw new IllegalArgumentException("Format not supported by API client: " + format);
+                // unknown (newly added) formats fall back to the base settings class instead of failing
+                classToUse = StringsExporterSettings.class;
+                break;
         }
 
         JsonNode settingsNode = parentNode.get("settings");
