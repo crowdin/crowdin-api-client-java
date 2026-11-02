@@ -11,6 +11,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -38,8 +39,22 @@ class ExcludedElementsSerializationTest {
 
         assertBothNull(html("null"));
         assertBothNull(html(null));
-        assertBothNull(html("\"div.x\""));
-        assertBothNull(html("{\"selector\":\"div\"}"));
+
+        HtmlFileFormatSettings withNullSelector = html("[\"div.x\",null]");
+        assertEquals(Arrays.asList("div.x", null), withNullSelector.getExcludedElementList());
+    }
+
+    @Test
+    void unexpectedRepresentationsAreRejectedTest() {
+        String[] invalid = {"\"div.x\"", "1", "1.5", "{\"selector\":\"div\"}", "[\"div.x\",{\"selector\":\"p\"}]",
+                "[[\"div.x\"]]", "[\"div.x\",5]", "[true]"};
+        for (String value : invalid) {
+            Exception html = assertThrows(Exception.class, () -> html(value), value);
+            assertTrue(String.valueOf(rootMessage(html)).contains("excludedElements"), value + " -> " + rootMessage(html));
+            assertThrows(Exception.class, () -> fmHtml(value), value);
+            assertThrows(Exception.class, () -> resource("html", value), value);
+            assertThrows(Exception.class, () -> resource("fmHtml", value), value);
+        }
     }
 
     @Test
@@ -130,5 +145,13 @@ class ExcludedElementsSerializationTest {
         assertNull(settings.getExcludedElements());
         assertNull(settings.getExcludedElementList());
         assertEquals(Boolean.TRUE, settings.getContentSegmentation());
+    }
+
+    private static String rootMessage(Throwable e) {
+        Throwable root = e;
+        while (root.getCause() != null && root.getCause() != root) {
+            root = root.getCause();
+        }
+        return root.getMessage();
     }
 }

@@ -44,23 +44,36 @@ public class HtmlFileFormatSettings extends FileFormatSettings {
 
     /**
      * Reads {@code excludedElements} returned either as an array of CSS selectors or as a legacy boolean.
-     * Other (undocumented) representations are ignored instead of failing the whole response.
+     *
+     * @throws IllegalArgumentException for any other representation (e.g. a single string, a number, an object, or
+     * an array containing non-string elements), so that unexpected data is reported instead of silently dropped
      */
     @JsonSetter("excludedElements")
     private void readExcludedElements(JsonNode value) {
-        this.excludedElements = null;
-        this.excludedElementList = null;
         if (value == null || value.isNull()) {
+            this.excludedElements = null;
+            this.excludedElementList = null;
             return;
         }
         if (value.isBoolean()) {
             this.excludedElements = value.booleanValue();
-        } else if (value.isArray()) {
-            List<String> selectors = new ArrayList<>();
-            for (JsonNode selector : value) {
-                selectors.add(selector.isNull() ? null : selector.asText());
-            }
-            this.excludedElementList = selectors;
+            this.excludedElementList = null;
+            return;
         }
+        if (!value.isArray()) {
+            throw new IllegalArgumentException("excludedElements must be an array of CSS selectors or a boolean, got: " + value);
+        }
+        List<String> selectors = new ArrayList<>();
+        for (JsonNode selector : value) {
+            if (selector.isNull()) {
+                selectors.add(null);
+            } else if (selector.isTextual()) {
+                selectors.add(selector.textValue());
+            } else {
+                throw new IllegalArgumentException("excludedElements must contain only strings, got: " + value);
+            }
+        }
+        this.excludedElements = null;
+        this.excludedElementList = selectors;
     }
 }
