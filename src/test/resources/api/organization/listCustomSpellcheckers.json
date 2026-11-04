@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "data": {
+      "id": 2,
+      "name": "Custom Spellchecker",
+      "config": {
+        "identifier": "app-identifier",
+        "key": "app-module-key",
+        "realTimeCheckEnabled": true,
+        "enabledLanguageIds": [
+          "en",
+          "es"
+        ]
+      },
+      "createdAt": "2019-09-23T07:19:47+00:00",
+      "updatedAt": null
+    }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

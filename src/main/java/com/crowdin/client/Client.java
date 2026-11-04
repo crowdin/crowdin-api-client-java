@@ -1,5 +1,6 @@
 package com.crowdin.client;
 
+import com.crowdin.client.advisors.AdvisorsApi;
 import com.crowdin.client.ai.AIApi;
 import com.crowdin.client.applications.ApplicationsApi;
 import com.crowdin.client.branches.BranchesApi;
@@ -17,6 +18,8 @@ import com.crowdin.client.labels.LabelsApi;
 import com.crowdin.client.languages.LanguagesApi;
 import com.crowdin.client.machinetranslationengines.MachineTranslationEnginesApi;
 import com.crowdin.client.notifications.NotificationsApi;
+import com.crowdin.client.organization.OrganizationApi;
+import com.crowdin.client.placeholders.PlaceholdersApi;
 import com.crowdin.client.projectsgroups.ProjectsGroupsApi;
 import com.crowdin.client.reports.ReportsApi;
 import com.crowdin.client.screenshots.ScreenshotsApi;
@@ -78,6 +81,9 @@ public class Client extends CrowdinApi {
     private final AIApi aiApi;
     private final StringCorrectionsApi stringCorrectionsApi;
     private final StyleGuidesApi styleGuidesApi;
+    private final AdvisorsApi advisorsApi;
+    private final PlaceholdersApi placeholdersApi;
+    private final OrganizationApi organizationApi;
 
     public Client(Credentials credentials) {
         super(credentials);
@@ -116,6 +122,9 @@ public class Client extends CrowdinApi {
         this.aiApi = new AIApi(credentials);
         this.stringCorrectionsApi = new StringCorrectionsApi(credentials);
         this.styleGuidesApi = new StyleGuidesApi(credentials);
+        this.advisorsApi = new AdvisorsApi(credentials);
+        this.placeholdersApi = new PlaceholdersApi(credentials);
+        this.organizationApi = new OrganizationApi(credentials);
     }
 
     public Client(Credentials credentials, ClientConfig clientConfig) {
@@ -155,6 +164,9 @@ public class Client extends CrowdinApi {
         this.aiApi = new AIApi(credentials, clientConfig);
         this.stringCorrectionsApi = new StringCorrectionsApi(credentials, clientConfig);
         this.styleGuidesApi = new StyleGuidesApi(credentials, clientConfig);
+        this.advisorsApi = new AdvisorsApi(credentials, clientConfig);
+        this.placeholdersApi = new PlaceholdersApi(credentials, clientConfig);
+        this.organizationApi = new OrganizationApi(credentials, clientConfig);
     }
 
 }

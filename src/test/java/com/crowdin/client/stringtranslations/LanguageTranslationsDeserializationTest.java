@@ -108,6 +108,78 @@ class LanguageTranslationsDeserializationTest {
         assertEquals("Couldn't get class", rootMessage(missing));
     }
 
+    @Test
+    void imageAssetsAreRecognizedTest() {
+        for (String mime : new String[]{"image/jpeg", "image/png", "image/svg+xml"}) {
+            AssetLanguageTranslations asset = assertInstanceOf(AssetLanguageTranslations.class,
+                    parse("{\"stringId\":1,\"contentType\":\"" + mime + "\",\"url\":\"https://example.com/a\"}"), mime);
+            assertEquals(mime, asset.getContentType());
+        }
+    }
+
+    @Test
+    void assetFallbackRequiresNonEmptyStringContentTypeTest() {
+        String[] rejected = {
+                "{\"stringId\":1,\"contentType\":\"\",\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":\"   \",\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":null,\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":5,\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":true,\"url\":\"u\"}",
+        };
+        for (String json : rejected) {
+            Exception e = assertThrows(Exception.class, () -> parse(json), json);
+            assertTrue(rootMessage(e).startsWith("Wrong type: "), json + " -> " + rootMessage(e));
+        }
+        for (String json : new String[]{"{\"stringId\":1,\"url\":\"u\"}", "{\"stringId\":1,\"contentType\":{\"x\":1},\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":[\"image/png\"],\"url\":\"u\"}"}) {
+            Exception e = assertThrows(Exception.class, () -> parse(json), json);
+            assertEquals("Couldn't get class", rootMessage(e), json);
+        }
+    }
+
+    @Test
+    void crowdinTextTypesAreNeverAssetsTest() {
+        for (String type : new String[]{"application/vnd.crowdin.text+new", "application/vnd.crowdin.text+markdown",
+                "application/vnd.crowdin.anything"}) {
+            String json = "{\"stringId\":1,\"contentType\":\"" + type + "\",\"url\":\"u\"}";
+            Exception e = assertThrows(Exception.class, () -> parse(json), json);
+            assertTrue(rootMessage(e).startsWith("Wrong type: "), json + " -> " + rootMessage(e));
+        }
+    }
+
+    @Test
+    void knownTypesAreUnchangedTest() {
+        assertInstanceOf(PlainLanguageTranslations.class, parse("{\"stringId\":1,\"contentType\":\"text/plain\",\"url\":\"u\"}"));
+        assertInstanceOf(PluralLanguageTranslations.class, parse("{\"stringId\":1,\"contentType\":\"application/vnd.crowdin.text+plural\",\"url\":\"u\"}"));
+        assertInstanceOf(ICULanguageTranslations.class, parse("{\"stringId\":1,\"contentType\":\"application/vnd.crowdin.text+icu\",\"url\":\"u\"}"));
+    }
+
+    @Test
+    void unknownTypesWithTextOrPluralsAreRejectedTest() {
+        String[] rejected = {
+                "{\"stringId\":1,\"contentType\":\"text/html\",\"text\":\"<b>x</b>\",\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":\"text/markdown\",\"text\":null,\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":\"image/png\",\"plurals\":[],\"url\":\"u\"}",
+                "{\"stringId\":1,\"contentType\":\"application/x-new\",\"plurals\":[]}",
+        };
+        for (String json : rejected) {
+            Exception e = assertThrows(Exception.class, () -> parse(json), json);
+            assertTrue(rootMessage(e).startsWith("Wrong type: "), json + " -> " + rootMessage(e));
+        }
+    }
+
+    /**
+     * Remaining ambiguity: the documented asset shape cannot distinguish an unknown {@code text/*} type that has a
+     * {@code url} but no {@code text}. {@code text/*} is not excluded because the API does not state that assets can
+     * never use a {@code text/*} MIME type.
+     */
+    @Test
+    void textMarkdownWithUrlAndNoTextIsReadAsAssetTest() {
+        AssetLanguageTranslations asset = assertInstanceOf(AssetLanguageTranslations.class,
+                parse("{\"stringId\":1,\"contentType\":\"text/markdown\",\"url\":\"u\"}"));
+        assertEquals("text/markdown", asset.getContentType());
+    }
+
     private LanguageTranslations parse(String translation) {
         return jsonTransformer.parse("{\"data\":" + translation + "}", LanguageTranslationsResponseObject.class).getData();
     }

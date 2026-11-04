@@ -1,0 +1,10 @@
+{
+  "customPlaceholderId": 1,
+  "type": "high",
+  "index": 1,
+  "isBlocking": false,
+  "formats": [
+    "docbook",
+    "adoc"
+  ]
+}

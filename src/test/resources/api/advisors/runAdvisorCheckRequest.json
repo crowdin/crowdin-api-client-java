@@ -1,0 +1,11 @@
+{
+  "inspectors": [
+    {
+      "key": "string_context_relevance",
+      "options": {
+        "mode": "auto",
+        "promptId": 42
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "data": {
+      "id": 1,
+      "definition": "start, then \"http\", maybe \"s\", then \"://\", end",
+      "description": "URL validation",
+      "argumentDelimiter": "\""
+    }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

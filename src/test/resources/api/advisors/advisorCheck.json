@@ -1,0 +1,19 @@
+{
+  "data": {
+    "identifier": "550e8400-e29b-41d4-a716-446655440000",
+    "status": "created",
+    "progress": 0,
+    "attributes": {
+      "category": null,
+      "inspectors": [
+        {
+          "key": "string_context_relevance"
+        }
+      ]
+    },
+    "createdAt": "2026-04-16T12:00:00+00:00",
+    "updatedAt": "2026-04-16T12:00:00+00:00",
+    "startedAt": null,
+    "finishedAt": null
+  }
+}
