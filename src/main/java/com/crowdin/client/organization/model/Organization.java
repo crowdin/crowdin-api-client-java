@@ -36,23 +36,47 @@ public class Organization {
     private List<OrganizationDefault> defaults;
 
     /**
+     * Sets {@code isVendor} and keeps {@link #isVendorRaw} in sync ({@code "true"} / {@code "false"});
+     * {@code null} clears both fields
+     *
+     * @param isVendor whether the organization is a vendor
+     */
+    public void setIsVendor(Boolean isVendor) {
+        this.isVendor = isVendor;
+        this.isVendorRaw = isVendor == null ? null : isVendor.toString();
+    }
+
+    /**
+     * Sets the raw {@code isVendor} value exactly as given and recomputes {@link #isVendor} with the same rules as
+     * the JSON reader: {@code "true"} / {@code "false"} (case-insensitive) become a boolean, any other value leaves
+     * it {@code null}; {@code null} clears both fields
+     *
+     * @param isVendorRaw raw {@code isVendor} value
+     */
+    public void setIsVendorRaw(String isVendorRaw) {
+        this.isVendorRaw = isVendorRaw;
+        this.isVendor = parseBoolean(isVendorRaw);
+    }
+
+    /**
      * Reads {@code isVendor} returned either as a JSON boolean or as a string
      */
     @JsonSetter("isVendor")
     private void readIsVendor(JsonNode value) {
         if (value == null || value.isNull()) {
-            this.isVendor = null;
-            this.isVendorRaw = null;
-            return;
-        }
-        this.isVendorRaw = value.isTextual() ? value.textValue() : value.toString();
-        if (value.isBoolean()) {
-            this.isVendor = value.booleanValue();
-        } else if ("true".equalsIgnoreCase(this.isVendorRaw) || "false".equalsIgnoreCase(this.isVendorRaw)) {
-            this.isVendor = Boolean.valueOf(this.isVendorRaw);
+            this.setIsVendorRaw(null);
+        } else if (value.isBoolean()) {
+            this.setIsVendor(value.booleanValue());
         } else {
-            this.isVendor = null;
+            this.setIsVendorRaw(value.isTextual() ? value.textValue() : value.toString());
         }
+    }
+
+    private static Boolean parseBoolean(String value) {
+        if ("true".equalsIgnoreCase(value) || "false".equalsIgnoreCase(value)) {
+            return Boolean.valueOf(value);
+        }
+        return null;
     }
 
     /**
