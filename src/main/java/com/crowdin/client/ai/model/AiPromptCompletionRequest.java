@@ -12,12 +12,19 @@ public class AiPromptCompletionRequest {
     private AiPromptResource resources;
 
     /**
-     * @deprecated the API expects an array of tools; use {@link #aiTools} instead. This field is not sent to the API.
+     * Legacy tools map. Values set through {@code setTools(Map)} are only stored and returned by {@code getTools()};
+     * they are <b>not sent to the API</b>.
+     *
+     * @deprecated the API expects an array of tools; use {@code setAiTools(List)} ({@link #aiTools}) instead
      */
     @Deprecated
     @JsonIgnore
     private Map<String, Object> tools;
 
+    /**
+     * Tools available to the model (JSON key {@code tools}); each entry is
+     * {@code {"tool": {"type": "function", "function": {"name": ..., "description": ..., "parameters": {...}}}}}
+     */
     @JsonProperty("tools")
     private List<AiTool> aiTools;
 
@@ -35,7 +42,8 @@ public class AiPromptCompletionRequest {
     private Object toolChoice;
 
     /**
-     * @deprecated use {@link #toolChoice} instead
+     * @param tool_choice tool choice object
+     * @deprecated use {@code setToolChoice(Object)} ({@link #toolChoice}) instead
      */
     @Deprecated
     public void setTool_choice(Map<String, Object> tool_choice) {
@@ -44,7 +52,8 @@ public class AiPromptCompletionRequest {
     }
 
     /**
-     * @deprecated use {@link #toolChoice} instead
+     * @return {@link #toolChoice} if it is an object, otherwise {@code null}
+     * @deprecated use {@code getToolChoice()} ({@link #toolChoice}) instead
      */
     @Deprecated
     @SuppressWarnings("unchecked")

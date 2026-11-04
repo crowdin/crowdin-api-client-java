@@ -46,7 +46,8 @@ public class FineTuningJob {
         private Long nEpochs;
 
         /**
-         * @deprecated use {@link #learningRateMultiplierValue} instead
+         * @param learningRateMultiplier learning rate multiplier as a whole number
+         * @deprecated use {@code setLearningRateMultiplierValue(Double)} ({@link #learningRateMultiplierValue}) instead
          */
         @Deprecated
         public void setLearningRateMultiplier(Long learningRateMultiplier) {
@@ -55,11 +56,20 @@ public class FineTuningJob {
         }
 
         /**
-         * @deprecated use {@link #learningRateMultiplierValue} instead
+         * Legacy whole-number view of {@link #learningRateMultiplierValue}. A finite value within the {@link Long}
+         * range is truncated towards zero (e.g. {@code 1.8} &rarr; {@code 1}, {@code -0.5} &rarr; {@code 0}); a value
+         * outside the {@link Long} range, {@code NaN} or an infinite value is returned as {@code null}.
+         *
+         * @return learning rate multiplier truncated to a whole number, or {@code null}
+         * @deprecated use {@code getLearningRateMultiplierValue()} ({@link #learningRateMultiplierValue}) instead
          */
         @Deprecated
         public Long getLearningRateMultiplier() {
-            return this.learningRateMultiplierValue != null ? this.learningRateMultiplierValue.longValue() : null;
+            Double value = this.learningRateMultiplierValue;
+            if (value == null || value.isNaN() || value.isInfinite() || value < -0x1p63 || value >= 0x1p63) {
+                return null;
+            }
+            return value.longValue();
         }
     }
 

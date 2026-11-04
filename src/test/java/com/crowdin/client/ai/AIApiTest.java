@@ -899,6 +899,23 @@ public class AIApiTest extends TestClient {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
+    public void aiGatewayJsonMethodsTest() {
+        Map<String, Object> req = new HashMap<>();
+        req.put("model", "string");
+        Map<String, Object> get = (Map<String, Object>) this.getAiApi().aiGatewayGetJson(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", get.get("id"));
+        Map<String, Object> post = (Map<String, Object>) this.getAiApi().aiGatewayPostJson(userId, 1L, rawGatewayPath, req);
+        assertEquals(1, ((List<?>) post.get("choices")).size());
+        Map<String, Object> put = (Map<String, Object>) this.getAiApi().aiGatewayPutJson(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", put.get("model"));
+        Map<String, Object> patch = (Map<String, Object>) this.getAiApi().aiGatewayPatchJson(userId, 1L, rawGatewayPath, req);
+        assertEquals("gpt-5.4", patch.get("model"));
+        Map<String, Object> delete = (Map<String, Object>) this.getAiApi().aiGatewayDeleteJson(userId, 1L, rawGatewayPath);
+        assertEquals("chatcmpl-123", delete.get("id"));
+    }
+
+    @Test
     public void cancelAiPromptCompletionTest() {
         this.getAiApi().cancelPromptCompletion(userId, aiPromptId, completionId);
     }
