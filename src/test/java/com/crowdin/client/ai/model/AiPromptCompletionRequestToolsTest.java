@@ -1,22 +1,26 @@
 package com.crowdin.client.ai.model;
 
 import com.crowdin.client.core.http.impl.json.JacksonJsonTransformer;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * {@code setTools(Map)} keeps its SDK 1.37.0 behavior: the map is only stored and is never sent. The documented
+ * {@code tools} array is sent through {@code setAiTools(List)}.
+ */
 @SuppressWarnings("deprecation")
 class AiPromptCompletionRequestToolsTest {
 
@@ -24,105 +28,86 @@ class AiPromptCompletionRequestToolsTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void legacyToolsArrayEntryIsConvertedTest() {
-        Map<String, Object> legacy = map("tool", map("type", "function",
-                "function", map("name", "lookup", "description", "Looks up a term", "parameters", map("type", "object"))));
-
+    void legacyToolsMapIsStoredButNotSentTest() {
+        Map<String, Object> legacy = new LinkedHashMap<>();
+        legacy.put("tool", Collections.singletonMap("type", "function"));
         AiPromptCompletionRequest request = new AiPromptCompletionRequest();
         request.setTools(legacy);
 
         assertSame(legacy, request.getTools());
-        assertEquals(1, request.getAiTools().size());
-        AiPromptCompletionRequest.ToolFunction function = request.getAiTools().get(0).getTool().getFunction();
-        assertEquals("function", request.getAiTools().get(0).getTool().getType());
-        assertEquals("lookup", function.getName());
-        assertEquals("Looks up a term", function.getDescription());
-        assertEquals(map("type", "object"), function.getParameters());
-        assertJsonEquals("{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"lookup\","
-                + "\"description\":\"Looks up a term\",\"parameters\":{\"type\":\"object\"}}}}]}", jsonTransformer.convert(request));
-    }
+        assertNull(request.getAiTools());
+        assertEquals("{}", jsonTransformer.convert(request));
 
-    @Test
-    void legacyToolObjectIsConvertedTest() {
-        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
-        request.setTools(map("type", "function", "function", map("name", "lookup")));
-
-        assertJsonEquals("{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"lookup\"}}}]}",
-                jsonTransformer.convert(request));
-    }
-
-    @Test
-    void legacyNullAndEmptyToolsTest() {
-        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
         request.setTools(Collections.emptyMap());
-        assertTrue(request.getAiTools().isEmpty());
-        assertEquals("{\"tools\":[]}", jsonTransformer.convert(request));
+        assertTrue(request.getTools().isEmpty());
+        assertEquals("{}", jsonTransformer.convert(request));
 
         request.setTools(null);
         assertNull(request.getTools());
-        assertNull(request.getAiTools());
         assertEquals("{}", jsonTransformer.convert(request));
     }
 
     @Test
-    void invalidLegacyToolsAreRejectedTest() {
-        List<Map<String, Object>> invalid = Arrays.asList(
-                map("name", "lookup"),
-                map("tool", "lookup"),
-                map("tool", map("type", "function", "function", map("name", "a")), "extra", 1),
-                map("tool", map("type", "retrieval", "function", map("name", "a"))),
-                map("tool", map("type", "function")),
-                map("tool", map("type", "function", "function", "lookup")),
-                map("tool", map("type", "function", "function", map("description", "no name"))),
-                map("tool", map("type", "function", "function", map("name", ""))),
-                map("tool", map("type", "function", "function", map("name", 5))),
-                map("tool", map("type", "function", "function", map("name", "a", "description", 1))),
-                map("tool", map("type", "function", "function", map("name", "a", "parameters", "{}"))),
-                map("tool", map("type", "function", "function", map("name", "a", "strict", true))),
-                map("tool", map("type", "function", "function", map("name", "a"), "id", "x")),
-                map("type", "function", "function", map("name", "a"), "tool", map())
-        );
-        for (Map<String, Object> tools : invalid) {
-            AiPromptCompletionRequest request = new AiPromptCompletionRequest();
-            AiPromptCompletionRequest.AiTool existing = new AiPromptCompletionRequest.AiTool();
-            List<AiPromptCompletionRequest.AiTool> existingTools = Collections.singletonList(existing);
-            request.setAiTools(existingTools);
-
-            IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> request.setTools(tools), tools.toString());
-            assertTrue(e.getMessage().contains("setAiTools"), e.getMessage());
-            assertSame(existingTools, request.getAiTools(), "state must not change: " + tools);
-            assertNull(request.getTools());
-        }
+    void anyLegacyMapShapeIsAcceptedWithoutValidationTest() {
+        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
+        Map<String, Object> unexpected = Collections.singletonMap("ignored", "value");
+        request.setTools(unexpected);
+        assertSame(unexpected, request.getTools());
+        assertEquals("{}", jsonTransformer.convert(request));
     }
 
     @Test
-    void newToolsApiIsUnaffectedTest() {
+    void aiToolsAreSentAsTheDocumentedArrayTest() {
+        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
+        request.setAiTools(Collections.singletonList(tool("get_weather", "Weather", Collections.singletonMap("type", "object"))));
+
+        assertJsonEquals("{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"get_weather\","
+                + "\"description\":\"Weather\",\"parameters\":{\"type\":\"object\"}}}}]}", jsonTransformer.convert(request));
+
+        request.setAiTools(Collections.emptyList());
+        assertEquals("{\"tools\":[]}", jsonTransformer.convert(request));
+    }
+
+    @Test
+    void legacyMapAndAiToolsProduceOneToolsPropertyTest() {
+        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
+        request.setTools(Collections.singletonMap("tool", Collections.singletonMap("type", "function")));
+        request.setAiTools(Collections.singletonList(tool("f", null, null)));
+        String json = jsonTransformer.convert(request);
+
+        assertEquals(1, json.split("\"tools\"", -1).length - 1, json);
+        assertJsonEquals("{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"f\"}}}]}", json);
+        assertEquals(1, request.getAiTools().size());
+        assertEquals(1, request.getTools().size());
+    }
+
+    @Test
+    void parsedRequestUsesAiToolsOnlyTest() {
+        AiPromptCompletionRequest parsed = jsonTransformer.parse(
+                "{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"f\"}}}]}", AiPromptCompletionRequest.class);
+        List<AiPromptCompletionRequest.AiTool> tools = parsed.getAiTools();
+        assertEquals("f", tools.get(0).getTool().getFunction().getName());
+        assertNull(parsed.getTools());
+        assertFalse(jsonTransformer.convert(parsed).contains("ignored"));
+    }
+
+    private static AiPromptCompletionRequest.AiTool tool(String name, String description, Map<String, Object> parameters) {
         AiPromptCompletionRequest.ToolFunction function = new AiPromptCompletionRequest.ToolFunction();
-        function.setName("lookup");
+        function.setName(name);
+        function.setDescription(description);
+        function.setParameters(parameters);
         AiPromptCompletionRequest.Tool tool = new AiPromptCompletionRequest.Tool();
         tool.setType("function");
         tool.setFunction(function);
         AiPromptCompletionRequest.AiTool aiTool = new AiPromptCompletionRequest.AiTool();
         aiTool.setTool(tool);
-        AiPromptCompletionRequest request = new AiPromptCompletionRequest();
-        request.setAiTools(Collections.singletonList(aiTool));
-        request.setToolChoice("auto");
-
-        assertNull(request.getTools());
-        assertJsonEquals("{\"tools\":[{\"tool\":{\"type\":\"function\",\"function\":{\"name\":\"lookup\"}}}],\"tool_choice\":\"auto\"}",
-                jsonTransformer.convert(request));
-    }
-
-    private static Map<String, Object> map(Object... keyValues) {
-        Map<String, Object> map = new LinkedHashMap<>();
-        for (int i = 0; i < keyValues.length; i += 2) {
-            map.put((String) keyValues[i], keyValues[i + 1]);
-        }
-        return map;
+        return aiTool;
     }
 
     @SneakyThrows
     private void assertJsonEquals(String expected, String actual) {
-        assertEquals(objectMapper.readTree(expected), objectMapper.readTree(actual), actual);
+        JsonNode e = objectMapper.readTree(expected);
+        JsonNode a = objectMapper.readTree(actual);
+        assertEquals(e, a, actual);
     }
 }

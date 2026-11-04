@@ -632,7 +632,7 @@ public class AIApiTest extends TestClient {
         Map<String, Object> choice = new HashMap<>();
         choice.put("type", "function");
         request.setTool_choice(choice);
-        assertThrows(IllegalArgumentException.class, () -> request.setTools(Collections.singletonMap("ignored", "value")));
+        request.setTools(Collections.singletonMap("ignored", "value"));
 
         com.fasterxml.jackson.databind.JsonNode json = mapper.readTree(mapper.writeValueAsString(request));
         assertEquals("function", json.get("tool_choice").get("type").asText());
