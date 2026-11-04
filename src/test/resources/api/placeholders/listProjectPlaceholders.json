@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "data": {
+      "id": 2,
+      "customPlaceholderId": 1,
+      "type": "high",
+      "index": 1,
+      "isBlocking": false,
+      "formats": [
+        "docbook",
+        "adoc"
+      ]
+    }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

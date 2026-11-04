@@ -1,0 +1,73 @@
+{
+  "data": [
+    {
+      "data": {
+      "id": 10,
+      "inspectorKey": "string_context_relevance",
+      "category": "context",
+      "isDismissed": false,
+      "status": "done",
+      "outcome": "not_applicable",
+      "severity": "high",
+      "refreshPolicy": "hourly",
+      "metrics": [
+        {
+          "key": "quality_score",
+          "value": 12.5,
+          "unit": "percent",
+          "threshold": 50,
+          "tone": "danger",
+          "source": "deterministic",
+          "checkedAt": "2026-04-06T10:30:00+00:00"
+        }
+      ],
+      "recommendations": [
+        {
+          "id": "run_ai_context_validation",
+          "primary": true,
+          "params": {
+            "projectId": 8
+          }
+        }
+      ],
+      "checkedAt": "2026-04-06T10:30:00+00:00",
+      "lastAiRun": {
+        "mode": "auto",
+        "promptId": 42,
+        "at": "2026-04-06T10:30:00+00:00"
+      },
+      "payload": {
+        "stringIds": [1, 2]
+      }
+    }
+    },
+    {
+      "data": {
+        "id": 11,
+        "inspectorKey": "removed_inspector",
+        "category": null,
+        "isDismissed": true,
+        "status": "some_future_status",
+        "outcome": null,
+        "severity": null,
+        "refreshPolicy": null,
+        "metrics": null,
+        "recommendations": [
+          {
+            "id": "no_params",
+            "primary": false,
+            "params": []
+          }
+        ],
+        "checkedAt": null,
+        "lastAiRun": null,
+        "payload": []
+      }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25,
+    "total": 2
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "data": {
+    "allowSignUp": true,
+    "twoFactorAuthentication": false,
+    "authMethods": [
+      {
+        "name": "Password",
+        "isEnabled": true,
+        "isDefault": true
+      }
+    ]
+  }
+}

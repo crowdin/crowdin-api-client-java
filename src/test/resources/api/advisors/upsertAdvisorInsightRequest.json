@@ -1,0 +1,26 @@
+{
+  "outcome": "flagged",
+  "checkedAt": "2026-05-21T14:30:00.000+00:00",
+  "metrics": [
+    {
+      "key": "quality_score",
+      "value": 12.0,
+      "unit": "count",
+      "threshold": 50.0,
+      "tone": "default",
+      "source": "app"
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "fix_strings",
+      "primary": true,
+      "params": {
+        "projectId": 8
+      }
+    }
+  ],
+  "payload": {
+    "foo": "bar"
+  }
+}

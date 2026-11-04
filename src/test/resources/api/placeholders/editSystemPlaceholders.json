@@ -1,0 +1,15 @@
+{
+  "data": [
+    {
+      "data": {
+        "id": "printfSpecifier",
+        "isEnabled": false,
+        "label": "C-style format specifiers",
+        "examples": [
+          "%s"
+        ],
+        "description": "C, PHP, Java, Objective-C, Android, and Qt"
+      }
+    }
+  ]
+}

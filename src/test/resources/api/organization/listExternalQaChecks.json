@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "data": {
+      "id": 1,
+      "name": "Test QA check",
+      "description": "Do some QA checks",
+      "config": {
+        "identifier": "app-identifier",
+        "enabled": true
+      },
+      "createdAt": "2024-09-19T14:14:00+00:00",
+      "updatedAt": "2024-09-19T14:14:00+00:00"
+    }
+    }
+  ],
+  "pagination": {
+    "offset": 0,
+    "limit": 25
+  }
+}

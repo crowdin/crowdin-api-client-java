@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": 1,
+    "domain": "crowdin",
+    "name": "Crowdin",
+    "logo": null,
+    "defaultLogo": "",
+    "description": null,
+    "internalDescription": "Internal",
+    "cname": null,
+    "isVendor": false,
+    "defaultPublicProjectsView": "grid",
+    "plan": {
+      "name": "Team+",
+      "wordsLimit": 7500000,
+      "managersLimit": 25
+    },
+    "defaults": [
+      {
+        "name": "editorView",
+        "isLocked": true,
+        "defaultValue": "side-by-side"
+      }
+    ]
+  }
+}
