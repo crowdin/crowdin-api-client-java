@@ -1,5 +1,7 @@
 package com.crowdin.client.sourcefiles.model;
 
+import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.Map;
@@ -20,5 +22,6 @@ public class FileInfo {
     /**
      * Custom fields (Enterprise only)
      */
+    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private Map<String, Object> fields;
 }

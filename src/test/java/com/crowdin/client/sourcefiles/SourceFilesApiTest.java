@@ -510,6 +510,7 @@ public class SourceFilesApiTest extends TestClient {
         ResponseList<? extends FileInfo> response = this.getSourceFilesApi().listFiles(project2Id, null, null, null, null, null, null);
         assertEquals(response.getData().size(), 1);
         assertTrue(response.getData().get(0).getData() instanceof FileInfo);
+        assertNull(response.getData().get(0).getData().getFields());
     }
 
     @Test
