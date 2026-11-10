@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileOptionsDeserializationTest {
@@ -170,6 +171,30 @@ public class FileOptionsDeserializationTest {
         assertEquals(
                 "{\"exportPattern\":\"/a\",\"strongMarker\":\"asterisk\",\"unorderedListBullet\":\"dash\",\"tableColumnWidth\":\"evenly_distribute_cells\",\"frontMatterQuotes\":\"auto\"}",
                 jsonTransformer.convert(md));
+    }
+
+    @Test
+    public void fieldsEmptyArrayDeserializesToNullForFile() {
+        // Enterprise API returns an empty array instead of an object when a file has no custom fields
+        FileResponseObject response = jsonTransformer.parse(
+                "{\"data\":{\"id\":1,\"revisionId\":1,\"fields\":[]}}", FileResponseObject.class);
+        assertInstanceOf(File.class, response.getData());
+        assertNull(response.getData().getFields());
+    }
+
+    @Test
+    public void fieldsEmptyArrayDeserializesToNullForFileInfo() {
+        FileResponseObject response = jsonTransformer.parse(
+                "{\"data\":{\"id\":1,\"fields\":[]}}", FileResponseObject.class);
+        assertInstanceOf(FileInfo.class, response.getData());
+        assertNull(response.getData().getFields());
+    }
+
+    @Test
+    public void fieldsObjectIsStillDeserialized() {
+        FileResponseObject response = jsonTransformer.parse(
+                "{\"data\":{\"id\":1,\"revisionId\":1,\"fields\":{\"some-field\":\"value\"}}}", FileResponseObject.class);
+        assertEquals("value", response.getData().getFields().get("some-field"));
     }
 
     private void assertImportRoundTrip(String fileType, ImportOptions options) {
