@@ -14,7 +14,21 @@ task myJavadocs(type: Javadoc) {
     source = sourceSets.main.allJava
 }
 
-sourceCompatibility = 8
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Gradle 9 runs on JDK 17+; compile the library against the Java 8 API, not just Java 8 bytecode
+compileJava {
+    options.release = 8
+}
+
+// lombok.var is rejected by javadoc newer than 9 unless the source level is 8
+tasks.withType(Javadoc).configureEach {
+    options.source = '8'
+}
+
 version '1.38.0'
 
 repositories {
@@ -49,20 +63,20 @@ jar {
 }
 
 wrapper {
-    gradleVersion = '7.6.4'
+    gradleVersion = '9.8.2'
 }
 
 jacoco {
-    toolVersion = "0.8.5"
-    reportsDir = file("$buildDir/reports")
+    toolVersion = "0.8.16"
+    reportsDirectory = layout.buildDirectory.dir("reports")
 }
 
 jacocoTestReport {
     reports {
-        xml.enabled true
-        csv.enabled false
-        xml.destination file("${buildDir}/coverage.xml")
+        xml.required = true
+        csv.required = false
+        xml.outputLocation = layout.buildDirectory.file("coverage.xml")
     }
 
-    getExecutionData().setFrom("$buildDir/jacoco/test.exec")
+    getExecutionData().setFrom(layout.buildDirectory.file("jacoco/test.exec"))
 }
