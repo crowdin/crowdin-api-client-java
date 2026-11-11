@@ -2,7 +2,7 @@
 
 Java client for the Crowdin API v2 and Crowdin Enterprise API v2, distributed via JitPack (`com.github.crowdin:crowdin-api-client-java`).
 
-Two pins are load-bearing: write Java 8 code (`sourceCompatibility = 8` — no `var`, no `List.of`, no streams-`toList()`), and leave the Gradle wrapper at 7.6.4 (the build uses Gradle-7-only Jacoco APIs; CI validates the wrapper).
+Two pins are load-bearing: write Java 8 code (`options.release = 8` — no `var`, no `List.of`, no streams-`toList()`), and build with JDK 17+ (Gradle 9 requires it to run; CI and `jitpack.yml` use 17). Keep `version 'x.y.z'` in `build.gradle` in that exact form — the release bump matches it by regex.
 
 ## Layout
 
