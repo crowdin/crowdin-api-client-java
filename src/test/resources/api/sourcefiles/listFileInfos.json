@@ -12,7 +12,8 @@
         "type": "xliff",
         "parserVersion": 1,
         "path": "/directory1/directory2/filename.extension",
-        "status": "active"
+        "status": "active",
+        "fields": []
       }
     }
   ],
