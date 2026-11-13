@@ -22,7 +22,10 @@ jobs:
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 8
+          # JDK 8 is only for the smoke test below; the last one listed (17) runs Gradle
+          java-version: |
+            8
+            17
           cache: 'gradle'
 
       - name: Setup Gradle
@@ -36,6 +39,9 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
+
+      - name: Run Java 8 compatibility smoke test
+        run: ./gradlew java8SmokeTest -Porg.gradle.java.installations.fromEnv=JAVA_HOME_8_X64
 
       - name: Generate code coverage report
         run: ./gradlew jacocoTestReport
