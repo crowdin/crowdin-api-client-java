@@ -55,6 +55,33 @@ test {
     useJUnitPlatform()
 }
 
+// Runs the built jar on a real Java 8 runtime (Gradle itself needs JDK 17+); needs a JDK 8 installed
+sourceSets {
+    java8Smoke
+}
+
+configurations {
+    java8SmokeImplementation.extendsFrom implementation
+}
+
+dependencies {
+    java8SmokeImplementation files(tasks.named('jar'))
+}
+
+compileJava8SmokeJava {
+    options.release = 8
+}
+
+tasks.register('java8SmokeTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs the built library on a Java 8 runtime.'
+    classpath = sourceSets.java8Smoke.runtimeClasspath
+    mainClass = 'com.crowdin.client.smoke.Java8SmokeTest'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+
 jar {
     manifest {
         attributes('Implementation-Title': project.name,

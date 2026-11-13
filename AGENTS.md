@@ -17,6 +17,7 @@ Two pins are load-bearing: write Java 8 code (`options.release = 8` — no `var`
 - Build + test (what CI runs): `./gradlew build`
 - Tests only: `./gradlew test`; one class: `./gradlew test --tests "com.crowdin.client.labels.LabelsApiTest"`
 - Coverage: `./gradlew jacocoTestReport`
+- Java 8 smoke test (runs the built jar on a JDK 8, which must be installed): `./gradlew java8SmokeTest`
 
 There is no linter or formatter — match the style of neighboring files by hand.
 
