@@ -12,7 +12,6 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 
@@ -21,6 +20,9 @@ import java.nio.charset.StandardCharsets;
  * or JDK API that needs a newer Java fails here instead of in users' applications.
  */
 public class Java8SmokeTest {
+
+    // an IPv4 literal for both the server and the client, so java.net.preferIPv6Addresses cannot split them
+    private static final String HOST = "127.0.0.1";
 
     private static final String PROJECT_JSON = "{\"data\":{"
             + "\"id\":9,\"type\":0,\"name\":\"Knowledge Base\",\"identifier\":\"knowledge-base\","
@@ -33,11 +35,11 @@ public class Java8SmokeTest {
         String javaVersion = System.getProperty("java.specification.version");
         check("1.8".equals(javaVersion), "expected a Java 8 runtime, got " + javaVersion);
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
+        HttpServer server = HttpServer.create(new InetSocketAddress(HOST, 0), 0);
         server.createContext("/api/v2/projects/", Java8SmokeTest::handle);
         server.start();
         try {
-            String baseUrl = "http://127.0.0.1:" + server.getAddress().getPort();
+            String baseUrl = "http://" + HOST + ":" + server.getAddress().getPort();
             Client client = new Client(new Credentials("smoke-token", null, baseUrl));
 
             ResponseObject<? extends Project> response = client.getProjectsGroupsApi().getProject(9L);
