@@ -61,8 +61,8 @@ Unsure where to begin contributing to Crowdin Java Client? You can start by look
 
 To contribute to the Crowdin Java Client, please ensure you have the following installed:
 
-1. **Java Development Kit (JDK)**: This project requires JDK 8 or higher.
-2. **Build Tool**: To build the project, use Gradle version 6 or higher.
+1. **Java Development Kit (JDK)**: Building the project requires JDK 17 or higher. The published library still runs on Java 8 and higher.
+2. **Build Tool**: Use the included Gradle Wrapper (`./gradlew`); there is no need to install Gradle separately.
 3. **Dependencies**: The project includes the Apache HTTP client for handling requests and the Jackson library for JSON parsing.
 
 Follow these steps to get started:
@@ -73,6 +73,11 @@ Follow these steps to get started:
    ```bash
    ./gradlew build
    ./gradlew test
+   ```
+4. Optionally, run the Java 8 compatibility smoke test. It runs the built library on Java 8, so it needs a JDK 8 installed in addition to JDK 17:
+   ```bash
+   ./gradlew java8SmokeTest
+   ```
 
 Once your setup is complete, you're ready to start working on the project.
 
