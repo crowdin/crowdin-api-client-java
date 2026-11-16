@@ -9,6 +9,11 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * @deprecated no longer needed: {@link JacksonJsonTransformer} reads an empty array as {@code null}
+ * for every Map and POJO field
+ */
+@Deprecated
 public class EmptyArrayToNullDeserializer extends StdDeserializer<Object> implements ContextualDeserializer {
     private JavaType type;
 

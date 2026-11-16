@@ -1,7 +1,5 @@
 package com.crowdin.client.advisors.model;
 
-import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.Date;
@@ -23,6 +21,5 @@ public class AdvisorInsight {
     private List<AdvisorInsightRecommendation> recommendations;
     private Date checkedAt;
     private AdvisorAiRun lastAiRun;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private Map<String, Object> payload;
 }

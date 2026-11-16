@@ -1,8 +1,6 @@
 package com.crowdin.client.sourcestrings.model;
 
-import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
 import com.crowdin.client.sourcefiles.model.UpdateOption;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 
 import java.util.Date;
@@ -28,7 +26,6 @@ public class UploadStringsProgress {
         private String fileType;
         private Integer parserVersion;
         private List<Long> labelIds;
-        @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
         private ImportOptions importOptions;
         private Boolean updateStrings;
         private Boolean cleanupMode;

@@ -1,7 +1,5 @@
 package com.crowdin.client.translations.model;
 
-import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +15,7 @@ public class PreTranslationReportResponse {
     public static class TargetLanguage {
         private String id;
         private List<File> files;
-        @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
         private Map<String, Integer> skipped;
-        @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
         private Map<String, Integer> skippedQaCheckCategories;
     }
 

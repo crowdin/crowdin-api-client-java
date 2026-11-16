@@ -16,7 +16,10 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.cfg.CoercionAction;
+import com.fasterxml.jackson.databind.cfg.CoercionInputShape;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.type.LogicalType;
 import com.fasterxml.jackson.databind.util.StdDateFormat;
 import lombok.SneakyThrows;
 
@@ -30,6 +33,13 @@ public class JacksonJsonTransformer implements JsonTransformer {
     public JacksonJsonTransformer() {
         ObjectMapper cleanObjectMapper = new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // the API sends some empty objects as []; read them as null (set before copy() so derived mappers inherit it)
+        cleanObjectMapper.coercionConfigFor(LogicalType.Map)
+            .setCoercion(CoercionInputShape.EmptyArray, CoercionAction.AsNull);
+        cleanObjectMapper.coercionConfigFor(LogicalType.POJO)
+            .setCoercion(CoercionInputShape.EmptyArray, CoercionAction.AsNull);
+
         SimpleModule enumModule = new SimpleModule()
             .addDeserializer(Enum.class, new EnumDeserializer());
 
