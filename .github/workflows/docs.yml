@@ -19,15 +19,14 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Build with Gradle
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
-        with:
-          arguments: build
+
+      - name: Build with Gradle
+        run: ./gradlew build
 
       - name: Generate javadoc with Gradle
-        uses: gradle/actions/setup-gradle@v6
-        with:
-          arguments: javadoc
+        run: ./gradlew javadoc
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
