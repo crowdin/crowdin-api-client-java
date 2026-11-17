@@ -7,6 +7,8 @@ import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public class DateDeserializer extends JsonDeserializer<Date> {
@@ -24,6 +26,11 @@ public class DateDeserializer extends JsonDeserializer<Date> {
 
     @SneakyThrows
     public static Date deserializeDate(String date) {
+        try {
+            return Date.from(OffsetDateTime.parse(date).toInstant());
+        } catch (DateTimeParseException e) {
+            // Preserve support for legacy timestamps without an offset.
+        }
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             return format.parse(date);
