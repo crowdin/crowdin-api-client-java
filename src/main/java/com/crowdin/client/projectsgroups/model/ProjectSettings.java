@@ -1,8 +1,6 @@
 package com.crowdin.client.projectsgroups.model;
 
-import com.crowdin.client.core.http.impl.json.EmptyArrayToNullDeserializer;
 import com.crowdin.client.languages.model.Language;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -42,18 +40,13 @@ public class ProjectSettings extends Project {
     private NotificationSettings notificationSettings;
     private Long defaultTmId;
     private Long defaultGlossaryId;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private Map<String, AssignedTm> assignedTms;
     private List<Long> assignedGlossaries;
     private List<Long> assignedStyleGuides;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private TmPenalties tmPenalties;
     private Boolean normalizePlaceholder;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private TmPreTranslate tmPreTranslate;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private MtPreTranslate mtPreTranslate;
-    @JsonDeserialize(using = EmptyArrayToNullDeserializer.class)
     private AiPreTranslate aiPreTranslate;
     /**
      * @deprecated no longer part of the documented API
