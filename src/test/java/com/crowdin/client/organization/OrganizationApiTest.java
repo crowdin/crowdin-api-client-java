@@ -120,10 +120,10 @@ public class OrganizationApiTest extends TestClient {
     }
 
     /**
-     * The core DateDeserializer parses timestamps in the JVM default time zone (offset ignored).
+     * The fixtures use an explicit +00:00 offset, which DateDeserializer honors, so expected dates are in UTC.
      */
     private static Date localDate(String dateTime) {
-        return Date.from(LocalDateTime.parse(dateTime).atZone(ZoneId.systemDefault()).toInstant());
+        return Date.from(LocalDateTime.parse(dateTime).atZone(ZoneId.of("UTC")).toInstant());
     }
 
     private void assertCustomSpellchecker(CustomSpellchecker spellchecker) {
