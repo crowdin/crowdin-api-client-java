@@ -8,6 +8,8 @@ import com.crowdin.client.core.model.EnumConverter;
 import com.crowdin.client.translations.model.ProjectBuildResponseList;
 
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,6 +57,8 @@ public interface HttpClient {
                     Object value;
                     if (entry.getValue().get() instanceof EnumConverter) {
                         value = ((EnumConverter) entry.getValue().get()).to((Enum) entry.getValue().get());
+                    } else if (entry.getValue().get() instanceof Date) {
+                        value = DateTimeFormatter.ISO_INSTANT.format(((Date) entry.getValue().get()).toInstant());
                     } else {
                         value = entry.getValue().get().toString();
                     }
