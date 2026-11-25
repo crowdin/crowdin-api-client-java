@@ -3,6 +3,7 @@ package com.crowdin.client.core.http;
 import com.crowdin.client.framework.TestHttpClient;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,5 +31,15 @@ public class HttpClientTest {
         HttpClient client = new TestHttpClient();
         String urlWithParams = client.appendUrlParams(url, urlParams);
         assertEquals(urlWithParams, url);
+    }
+
+    @Test
+    public void appendUrlParamsTest_dateIsFormattedAsIso8601() {
+        String url = "test.com";
+        Map<String, Optional<Object>> urlParams = new LinkedHashMap<>();
+        urlParams.put("lastSeenFrom", Optional.of(new Date(1571831042000L)));
+        HttpClient client = new TestHttpClient();
+        String urlWithParams = client.appendUrlParams(url, urlParams);
+        assertEquals(url + "?lastSeenFrom=2019-10-23T11:44:02Z", urlWithParams);
     }
 }
