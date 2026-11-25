@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorMetricTone implements EnumConverter<AdvisorMetricTone> {
     DEFAULT, SUCCESS, DANGER;
 
@@ -16,6 +18,6 @@ public enum AdvisorMetricTone implements EnumConverter<AdvisorMetricTone> {
 
     @Override
     public String to(AdvisorMetricTone value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

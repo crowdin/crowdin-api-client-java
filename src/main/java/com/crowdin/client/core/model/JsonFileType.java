@@ -1,5 +1,7 @@
 package com.crowdin.client.core.model;
 
+import java.util.Locale;
+
 public enum JsonFileType implements EnumConverter<JsonFileType> {
     I18NEXT_JSON("i18next_json"),
     NESTJS_I18N("nestjs_i18n");
@@ -11,7 +13,7 @@ public enum JsonFileType implements EnumConverter<JsonFileType> {
     }
 
     public static JsonFileType from(String value) {
-        return JsonFileType.valueOf(value.toUpperCase());
+        return JsonFileType.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.crowdin.client.placeholders.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum ProjectPlaceholderType implements EnumConverter<ProjectPlaceholderType> {
     HIGH, LOW;
 
@@ -16,6 +18,6 @@ public enum ProjectPlaceholderType implements EnumConverter<ProjectPlaceholderTy
 
     @Override
     public String to(ProjectPlaceholderType value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

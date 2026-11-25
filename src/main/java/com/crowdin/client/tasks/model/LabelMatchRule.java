@@ -2,6 +2,8 @@ package com.crowdin.client.tasks.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 /**
  * Defines how labels are matched: strings must have all of the specified labels ({@link #ALL})
  * or at least one of them ({@link #ANY}).
@@ -20,6 +22,6 @@ public enum LabelMatchRule implements EnumConverter<LabelMatchRule> {
 
     @Override
     public String to(LabelMatchRule v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

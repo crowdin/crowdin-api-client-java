@@ -2,15 +2,17 @@ package com.crowdin.client.translations.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum Scope implements EnumConverter<Scope> {
     UNTRANSLATED, TRANSLATED, ALL;
 
     public static Scope from(String value) {
-        return Scope.valueOf(value.toUpperCase());
+        return Scope.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public String to(Scope v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

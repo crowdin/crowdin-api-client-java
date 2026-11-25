@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorInsightOutcome implements EnumConverter<AdvisorInsightOutcome> {
     FLAGGED, CLEAR, NOT_APPLICABLE;
 
@@ -16,6 +18,6 @@ public enum AdvisorInsightOutcome implements EnumConverter<AdvisorInsightOutcome
 
     @Override
     public String to(AdvisorInsightOutcome value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

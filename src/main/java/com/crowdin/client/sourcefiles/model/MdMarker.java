@@ -4,6 +4,8 @@ import com.crowdin.client.core.model.EnumConverter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+import java.util.Locale;
+
 /**
  * Marker used for strong and emphasis text in exported Markdown/MDX files.
  */
@@ -13,12 +15,12 @@ public enum MdMarker implements EnumConverter<MdMarker> {
 
     @JsonCreator
     public static MdMarker from(String value) {
-        return MdMarker.valueOf(value.toUpperCase());
+        return MdMarker.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @JsonValue
     @Override
     public String to(MdMarker v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

@@ -2,6 +2,8 @@ package com.crowdin.client.organization.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum PublicProjectsView implements EnumConverter<PublicProjectsView> {
     GRID, LIST;
 
@@ -16,6 +18,6 @@ public enum PublicProjectsView implements EnumConverter<PublicProjectsView> {
 
     @Override
     public String to(PublicProjectsView value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

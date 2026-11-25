@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Data
 public class ReportSettingsTemplate {
@@ -80,12 +81,12 @@ public class ReportSettingsTemplate {
         NO_MATCH, TM_MATCH;
 
         public static Mode from(String value) {
-            return Mode.valueOf(value.toUpperCase());
+            return Mode.valueOf(value.toUpperCase(Locale.ROOT));
         }
 
         @Override
         public String to(Mode v) {
-            return v.name().toLowerCase();
+            return v.name().toLowerCase(Locale.ROOT);
         }
     }
 }

@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorInsightSeverity implements EnumConverter<AdvisorInsightSeverity> {
     HIGH, MEDIUM, LOW;
 
@@ -16,6 +18,6 @@ public enum AdvisorInsightSeverity implements EnumConverter<AdvisorInsightSeveri
 
     @Override
     public String to(AdvisorInsightSeverity value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

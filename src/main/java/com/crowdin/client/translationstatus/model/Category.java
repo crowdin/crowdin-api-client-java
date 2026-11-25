@@ -2,6 +2,8 @@ package com.crowdin.client.translationstatus.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum Category implements EnumConverter<Category> {
 
     EMPTY,
@@ -22,11 +24,11 @@ public enum Category implements EnumConverter<Category> {
     TERMS;
 
     public static Category from(String value) {
-        return Category.valueOf(value.toUpperCase());
+        return Category.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public String to(Category v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

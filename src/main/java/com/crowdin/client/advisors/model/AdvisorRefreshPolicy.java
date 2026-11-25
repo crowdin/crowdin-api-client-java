@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorRefreshPolicy implements EnumConverter<AdvisorRefreshPolicy> {
     HOURLY, DAILY;
 
@@ -16,6 +18,6 @@ public enum AdvisorRefreshPolicy implements EnumConverter<AdvisorRefreshPolicy> 
 
     @Override
     public String to(AdvisorRefreshPolicy value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

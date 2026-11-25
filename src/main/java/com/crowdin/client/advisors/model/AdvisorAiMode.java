@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorAiMode implements EnumConverter<AdvisorAiMode> {
     AUTO, ALL;
 
@@ -16,6 +18,6 @@ public enum AdvisorAiMode implements EnumConverter<AdvisorAiMode> {
 
     @Override
     public String to(AdvisorAiMode value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

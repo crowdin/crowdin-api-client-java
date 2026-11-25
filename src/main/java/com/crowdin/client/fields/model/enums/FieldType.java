@@ -2,6 +2,8 @@ package com.crowdin.client.fields.model.enums;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum FieldType implements EnumConverter<FieldType> {
 
     CHECKBOX,
@@ -17,11 +19,11 @@ public enum FieldType implements EnumConverter<FieldType> {
     URL;
 
     public static FieldType from(String value) {
-        return FieldType.valueOf(value.toUpperCase());
+        return FieldType.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public Object to(FieldType v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

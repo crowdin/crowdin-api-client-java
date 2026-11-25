@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorInsightStatus implements EnumConverter<AdvisorInsightStatus> {
     PENDING, CHECKING, OUTDATED, DONE;
 
@@ -16,6 +18,6 @@ public enum AdvisorInsightStatus implements EnumConverter<AdvisorInsightStatus> 
 
     @Override
     public String to(AdvisorInsightStatus value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

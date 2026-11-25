@@ -2,6 +2,8 @@ package com.crowdin.client.translationstatus.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum Validation implements EnumConverter<Validation> {
 
     EMPTY_STRING_CHECK,
@@ -47,11 +49,11 @@ public enum Validation implements EnumConverter<Validation> {
     TERMS_CHECK;
 
     public static Validation from(String value) {
-        return Validation.valueOf(value.toUpperCase());
+        return Validation.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public String to(Validation v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
     }

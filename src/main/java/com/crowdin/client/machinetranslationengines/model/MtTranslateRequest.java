@@ -4,6 +4,7 @@ import com.crowdin.client.core.model.EnumConverter;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Locale;
 
 @Data
 public class MtTranslateRequest {
@@ -18,12 +19,12 @@ public class MtTranslateRequest {
         CROWDIN, ENGINE;
 
         public static LanguageRecognitionProvider from(String value) {
-            return LanguageRecognitionProvider.valueOf(value.toUpperCase());
+            return LanguageRecognitionProvider.valueOf(value.toUpperCase(Locale.ROOT));
         }
 
         @Override
         public String to(LanguageRecognitionProvider v) {
-            return v.name().toLowerCase();
+            return v.name().toLowerCase(Locale.ROOT);
         }
     }
 }
