@@ -42,4 +42,17 @@ public class HttpClientTest {
         String urlWithParams = client.appendUrlParams(url, urlParams);
         assertEquals(url + "?lastSeenFrom=2019-10-23T11:44:02Z", urlWithParams);
     }
+
+    @Test
+    public void appendUrlParamsTest_freeTextParamsAreEncoded() {
+        String url = "test.com";
+        Map<String, Optional<Object>> urlParams = new LinkedHashMap<>();
+        urlParams.put("search", Optional.of("Q&A #1"));
+        urlParams.put("filter", Optional.of("a+b=100%"));
+        urlParams.put("croql", Optional.of("text contains \"x\""));
+        urlParams.put("orderBy", Optional.of("id%20desc"));
+        HttpClient client = new TestHttpClient();
+        String urlWithParams = client.appendUrlParams(url, urlParams);
+        assertEquals(url + "?search=Q%26A%20%231&filter=a%2Bb%3D100%25&croql=text%20contains%20%22x%22&orderBy=id%20desc", urlWithParams);
+    }
 }

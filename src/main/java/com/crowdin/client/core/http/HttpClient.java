@@ -3,6 +3,7 @@ package com.crowdin.client.core.http;
 import com.crowdin.client.core.http.exceptions.HttpBadRequestException;
 import com.crowdin.client.core.http.exceptions.HttpException;
 import com.crowdin.client.core.http.impl.http.ApacheHttpClient;
+import com.crowdin.client.core.http.impl.util.RequestEncoder;
 import com.crowdin.client.core.model.ClientConfig;
 import com.crowdin.client.core.model.EnumConverter;
 import com.crowdin.client.translations.model.ProjectBuildResponseList;
@@ -61,6 +62,10 @@ public interface HttpClient {
                         value = DateTimeFormatter.ISO_INSTANT.format(((Date) entry.getValue().get()).toInstant());
                     } else {
                         value = entry.getValue().get().toString();
+                        // free-text values may contain spaces or reserved characters
+                        if (entry.getKey().equals("search") || entry.getKey().equals("filter") || entry.getKey().equals("croql")) {
+                            value = RequestEncoder.encodeSpaces((String) value);
+                        }
                     }
                     return entry.getKey() + "=" + value.toString();
                 })
