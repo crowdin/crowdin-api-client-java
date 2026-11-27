@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorMetricUnit implements EnumConverter<AdvisorMetricUnit> {
     PERCENT, COUNT;
 
@@ -16,6 +18,6 @@ public enum AdvisorMetricUnit implements EnumConverter<AdvisorMetricUnit> {
 
     @Override
     public String to(AdvisorMetricUnit value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

@@ -2,6 +2,8 @@ package com.crowdin.client.webhooks.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum Event implements EnumConverter<Event> {
     FILE_TRANSLATED, FILE_APPROVED, PROJECT_TRANSLATED, PROJECT_APPROVED, TRANSLATION_UPDATED,
     SUGGESTION_ADDED, SUGGESTION_UPDATED, SUGGESTION_DELETED, SUGGESTION_APPROVED, SUGGESTION_DISAPPROVED,
@@ -15,7 +17,7 @@ public enum Event implements EnumConverter<Event> {
     final String rawName;
 
     Event() {
-        rawName = name().toLowerCase().replace("_", ".");
+        rawName = name().toLowerCase(Locale.ROOT).replace("_", ".");
     }
 
     Event(String rawName) {
@@ -23,7 +25,7 @@ public enum Event implements EnumConverter<Event> {
     }
 
     public static Event from(String value) {
-        return Event.valueOf(value.toUpperCase().replace(".", "_"));
+        return Event.valueOf(value.toUpperCase(Locale.ROOT).replace(".", "_"));
     }
 
     @Override

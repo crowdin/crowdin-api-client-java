@@ -2,15 +2,17 @@ package com.crowdin.client.users.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum TranslatorRoleName implements EnumConverter<TranslatorRoleName> {
     TRANSLATOR, PROOFREADER, LANGUAGE_COORDINATOR, DEVELOPER, MANAGER, OWNER;
 
     public static TranslatorRoleName from(String value){
-        return TranslatorRoleName.valueOf(value.toUpperCase());
+        return TranslatorRoleName.valueOf(value.toUpperCase(Locale.ROOT));
     }
 
     @Override
     public Object to(TranslatorRoleName v) {
-        return v.name().toLowerCase();
+        return v.name().toLowerCase(Locale.ROOT);
     }
 }

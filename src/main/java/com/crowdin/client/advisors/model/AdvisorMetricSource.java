@@ -2,6 +2,8 @@ package com.crowdin.client.advisors.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum AdvisorMetricSource implements EnumConverter<AdvisorMetricSource> {
     DETERMINISTIC, AI, APP;
 
@@ -16,6 +18,6 @@ public enum AdvisorMetricSource implements EnumConverter<AdvisorMetricSource> {
 
     @Override
     public String to(AdvisorMetricSource value) {
-        return value.name().toLowerCase();
+        return value.name().toLowerCase(Locale.ROOT);
     }
 }

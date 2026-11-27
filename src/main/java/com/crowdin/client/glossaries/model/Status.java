@@ -2,15 +2,17 @@ package com.crowdin.client.glossaries.model;
 
 import com.crowdin.client.core.model.EnumConverter;
 
+import java.util.Locale;
+
 public enum Status implements EnumConverter<Status> {
     PREFERRED, ADMITTED, NOT_RECOMMENDED, OBSOLETE, DRAFT;
 
     public static Status from(String value) {
-        return Status.valueOf(value.toUpperCase().replaceAll(" ", "_"));
+        return Status.valueOf(value.toUpperCase(Locale.ROOT).replaceAll(" ", "_"));
     }
 
     @Override
     public String to(Status v) {
-        return v.name().toLowerCase().replaceAll("_", " ");
+        return v.name().toLowerCase(Locale.ROOT).replaceAll("_", " ");
     }
 }
