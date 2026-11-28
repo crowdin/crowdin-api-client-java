@@ -116,6 +116,42 @@ public class ApacheHttpClientTest {
     }
 
     @Test
+    public void testErrorWithNonJsonBodyKeepsStatusAndBody() throws IOException {
+        String body = "<html><body>502 Bad Gateway</body></html>";
+        when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
+        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_GATEWAY, "Bad Gateway"));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(body));
+
+        HttpException exception = assertThrows(HttpException.class, () -> httpClient.get(organizationUrl, new HttpRequestConfig(), String.class));
+
+        assertEquals("502", exception.getError().getCode());
+        assertEquals(body, exception.getHttpResponse());
+    }
+
+    @Test
+    public void testErrorWithEmptyBodyKeepsStatus() throws IOException {
+        when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
+        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_UNAUTHORIZED, "Unauthorized"));
+        when(mockedResponse.getEntity()).thenReturn(new StringEntity(""));
+
+        HttpException exception = assertThrows(HttpException.class, () -> httpClient.get(organizationUrl, new HttpRequestConfig(), String.class));
+
+        assertEquals("401", exception.getError().getCode());
+        assertEquals("", exception.getHttpResponse());
+    }
+
+    @Test
+    public void testErrorWithoutEntityKeepsStatus() throws IOException {
+        when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);
+        when(mockedResponse.getStatusLine()).thenReturn(new BasicStatusLine(HttpVersion.HTTP_1_1, HttpStatus.SC_NOT_FOUND, "Not Found"));
+
+        HttpException exception = assertThrows(HttpException.class, () -> httpClient.head(organizationUrl, new HttpRequestConfig(), Void.class));
+
+        assertEquals("404", exception.getError().getCode());
+        assertNull(exception.getHttpResponse());
+    }
+
+    @Test
     public void testDeleteRequest() throws IOException {
         // Mock the behavior of client.execute to return mockedResponse
         when(client.execute(any(HttpUriRequest.class))).thenReturn(mockedResponse);

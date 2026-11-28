@@ -124,8 +124,9 @@ public class ApacheHttpClient implements HttpClient {
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode < 200 || statusCode >= 300) {
-                String error = this.toString(response.getEntity());
-                throw this.jsonTransformer.parse(error, CrowdinApiException.class);
+                HttpEntity entity = response.getEntity();
+                httpResponse = entity == null ? null : this.toString(entity);
+                throw this.toException(statusCode, httpResponse);
             }
             //plain response
             if (String.class.equals(clazz)) {
@@ -139,6 +140,17 @@ public class ApacheHttpClient implements HttpClient {
             return this.jsonTransformer.parse(httpResponse, clazz);
         } catch (IOException e) {
             throw HttpException.fromMessage(e.getMessage(), httpResponse);
+        }
+    }
+
+    private CrowdinApiException toException(int statusCode, String body) {
+        try {
+            return this.jsonTransformer.parse(body, CrowdinApiException.class);
+        } catch (Exception e) {
+            // the body is missing or is not JSON, e.g. an HTML page from a gateway
+            HttpException exception = HttpException.fromMessage("HTTP error " + statusCode, body);
+            exception.getError().setCode(String.valueOf(statusCode));
+            return exception;
         }
     }
 
